@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/fatefall.iml" filepath="$PROJECT_DIR$/fatefall.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fatefall-javafx/fatefall-javafx.iml" filepath="$PROJECT_DIR$/fatefall-javafx/fatefall-javafx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scryfall-api-client/scryfall-api-client.iml" filepath="$PROJECT_DIR$/scryfall-api-client/scryfall-api-client.iml" />
+    </modules>
+  </component>
+</project>

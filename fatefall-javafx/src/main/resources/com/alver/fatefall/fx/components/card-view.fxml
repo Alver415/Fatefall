@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
+
+<fx:root type="StackPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+    <ImageView fx:id="imageView" fitHeight="400" fitWidth="400" preserveRatio="true">
+        <Image url="@card_back.png" />
+    </ImageView>
+
+    <ProgressIndicator fx:id="progressIndicator" minHeight="-Infinity" minWidth="-Infinity" visible="false" />
+
+    <Button fx:id="spinRightButton" StackPane.alignment="BOTTOM_RIGHT" visible="false">
+        <graphic>
+            <ImageView fitHeight="16.0" fitWidth="16.0">
+                <Image url="@spin_right.png" />
+            </ImageView>
+        </graphic>
+    </Button>
+
+    <Button fx:id="flipButton" StackPane.alignment="BOTTOM_CENTER" visible="false" >
+        <graphic>
+            <ImageView fitHeight="16.0" fitWidth="16.0">
+                <Image url="@flip_front.png" />
+            </ImageView>
+        </graphic>
+    </Button>
+
+    <Button fx:id="spinLeftButton" StackPane.alignment="BOTTOM_LEFT" visible="false" >
+        <graphic>
+            <ImageView fitHeight="16.0" fitWidth="16.0">
+                <Image url="@spin_left.png" />
+            </ImageView>
+        </graphic>
+    </Button>
+
+</fx:root>

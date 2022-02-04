@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.*?>
+<?import com.alver.fatefall.fx.components.CardView?>
+<?import com.alver.fatefall.fx.components.CardInfo?>
+<BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+            maxHeight="1000">
+    <top>
+        <TextField fx:id="searchInput" promptText="Search for Magic cards..." BorderPane.alignment="CENTER"/>
+    </top>
+    <center>
+        <ScrollPane>
+            <GridPane fx:id="gridPane" hgap="5.0" vgap="5.0">
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </padding>
+                <columnConstraints>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints vgrow="ALWAYS"/>
+                    <RowConstraints vgrow="ALWAYS"/>
+                    <RowConstraints vgrow="ALWAYS"/>
+                    <RowConstraints vgrow="ALWAYS"/>
+                </rowConstraints>
+                <children>
+                    <CardView GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <CardView GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                    <CardView GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                    <CardView GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+                    <CardView GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <CardView GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                    <CardView GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                    <CardView GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+                </children>
+            </GridPane>
+        </ScrollPane>
+    </center>
+    <right>
+        <CardInfo fx:id="cardInfo"/>
+    </right>
+</BorderPane>
