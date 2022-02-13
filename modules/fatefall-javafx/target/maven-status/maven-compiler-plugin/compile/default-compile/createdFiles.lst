@@ -1,0 +1,16 @@
+com\alver\fatefall\FXMLLoaderWrapper.class
+com\alver\fatefall\fx\components\cardview\CardView$Spin.class
+com\alver\fatefall\database\DatabaseAccess.class
+com\alver\fatefall\CardSearchController$1.class
+com\alver\fatefall\CardSearchController$SelectedCardViewAnimator.class
+com\alver\fatefall\fx\components\CardInfo.class
+com\alver\fatefall\FatefallApplication.class
+com\alver\fatefall\fx\components\cardview\CardView$1.class
+com\alver\fatefall\database\CardCollection.class
+com\alver\fatefall\database\ImageRepository.class
+com\alver\fatefall\ApplicationUtil.class
+com\alver\fatefall\fx\components\cardview\CardView.class
+com\alver\fatefall\CardRepository.class
+com\alver\fatefall\CardSearchController.class
+com\alver\fatefall\fx\components\cardview\CardView$Side.class
+com\alver\fatefall\database\ImageData.class

@@ -4,15 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.alver.magic</groupId>
-    <artifactId>ScryfallClient</artifactId>
+    <artifactId>fatefall</artifactId>
+    <groupId>com.alver</groupId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>scryfall-api-client</module>
-        <module>fatefall-javafx</module>
+        <module>modules/scryfall-api-client</module>
+        <module>modules/fatefall-javafx</module>
+        <module>modules/mse-interface</module>
     </modules>
-    <name>ScryfallClient</name>
+    <name>Fatefall</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -100,7 +101,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.alver.magic.scryfallclient/com.alver.magic.scryfallclient.com.alver.fatefall.FatefallApplication
+                            <mainClass>com.alver.fatefall/com.alver.fatefall.FatefallApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

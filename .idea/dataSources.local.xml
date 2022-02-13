@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal" created-in="DB-213.6777.22">
-    <data-source name="HSQLDB (Local) - Scryclient" uuid="182ff2e4-a603-4296-8e44-c7bd8aa34dc0">
+    <data-source name="Fatefall" uuid="182ff2e4-a603-4296-8e44-c7bd8aa34dc0">
       <database-info product="HSQL Database Engine" version="2.6.0" jdbc-version="4.2" driver-name="HSQL Database Engine Driver" driver-version="2.6.0" dbms="HSQLDB" exact-version="2.6.0" exact-driver-version="2.6">
         <identifier-quote-string>&quot;</identifier-quote-string>
       </database-info>

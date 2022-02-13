@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="mse-interface" />
         <module name="fatefall-javafx" />
         <module name="scryfall-api-client" />
       </profile>
@@ -14,6 +15,7 @@
     <bytecodeTargetLevel>
       <module name="fatefall" target="16" />
       <module name="fatefall-javafx" target="16" />
+      <module name="mse-interface" target="16" />
       <module name="scryfall-api-client" target="16" />
       <module name="scryfall-api-implementation" target="16" />
     </bytecodeTargetLevel>
