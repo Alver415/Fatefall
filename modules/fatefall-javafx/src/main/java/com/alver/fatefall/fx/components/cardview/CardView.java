@@ -1,9 +1,9 @@
 package com.alver.fatefall.fx.components.cardview;
 
-import com.alver.fatefall.FatefallApplication;
-import com.alver.fatefall.database.CardCollection;
-import com.alver.fatefall.database.DatabaseManager;
-import com.alver.fatefall.database.ImageRepository;
+import com.alver.fatefall.FxComponent;
+import com.alver.fatefall.fx.components.mainstage.MainStage;
+import com.alver.fatefall.repositories.ImageRepository;
+import com.alver.fatefall.repositories.models.CardCollection;
 import com.alver.fatefall.services.CardService;
 import com.scryfall.api.models.Card;
 import com.scryfall.api.models.Layouts;
@@ -14,31 +14,23 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 
-import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 
-import static com.alver.fatefall.ApplicationUtil.runFx;
-
-public class CardView extends StackPane {
-    public static final URL FXML = CardView.class.getResource("card-view.fxml");
+public class CardView extends StackPane implements FxComponent {
 
     @Autowired
     private ImageRepository imageRepository;
-
-    @Autowired
-    private DatabaseManager databaseManager;
 
     @Autowired
     private CardService cardService;
@@ -143,13 +135,13 @@ public class CardView extends StackPane {
         return backFaceProperty;
     }
 
-    public CardView(){
-        FatefallApplication.load(FXML, this);
+    public CardView() {
+        initFxml();
     }
 
     @FXML
     public void initialize() {
-        super.setPickOnBounds(true);
+        setPickOnBounds(true);
         imageView.imageProperty().bind(frontFaceProperty);
 
         //Whenever side changes, update the imageView binding.
@@ -162,9 +154,7 @@ public class CardView extends StackPane {
         });
 
         //On right click, build and show context menu.
-        setOnContextMenuRequested(e -> {
-            buildContextMenu().show(this, e.getScreenX(), e.getScreenY());
-        });
+        setOnContextMenuRequested(e -> showContextMenu(e.getScreenX(), e.getScreenY()));
 
         //Whenever card property changes, update the images.
         cardProperty().addListener((observable, oldValue, newValue) -> {
@@ -173,42 +163,47 @@ public class CardView extends StackPane {
     }
 
     private void loadCardImages(Card card) {
+        setFrontFace(CARD_BACK_INVERTED_GRAY);
+        setBackFace(CARD_BACK_INVERTED_GRAY);
+
         if (card == null) {
-            setFrontFace(CARD_BACK_INVERTED_GRAY);
-            setBackFace(CARD_BACK_INVERTED_GRAY);
             return;
         }
 
-        runFx(() -> progressIndicator.setVisible(true));
+        progressIndicator.setVisible(true);
+        runAsync(() -> {
+            Image frontFaceImage;
+            Image backFaceImage;
+            switch (card.layout()) {
+                case TRANSFORM, MODAL_DFC, DOUBLE_FACED_TOKEN, ART_SERIES, REVERSIBLE_CARD -> {
+                    frontFaceImage = imageRepository.get(card.cardFaces().get(0).imageUris().png(), true);
+                    backFaceImage = imageRepository.get(card.cardFaces().get(1).imageUris().png(), true);
+                }
+                default -> {
+                    frontFaceImage = imageRepository.get(card.imageUris().png(), true);
+                    backFaceImage = CARD_BACK;
+                }
+            }
 
-        switch (card.layout()) {
-            case TRANSFORM, MODAL_DFC, DOUBLE_FACED_TOKEN, ART_SERIES, REVERSIBLE_CARD -> {
-                setFrontFace(imageRepository.get(card.cardFaces().get(0).imageUris().png(), true));
-                setBackFace(imageRepository.get(card.cardFaces().get(1).imageUris().png(), true));
-            }
-            default -> {
-                setFrontFace(imageRepository.get(card.imageUris().png(), true));
-                setBackFace(CARD_BACK);
-            }
-        }
-
-        runFx(() -> {
-            progressIndicator.progressProperty().bind(getFrontFace().progressProperty());
-            if (Objects.equals(frontFaceProperty.get().getProgress(), 1.0)) {
-                onImageLoaded();
-            } else {
-                getFrontFace().progressProperty().addListener((observable, oldValue, newValue) -> {
-                    if (newValue.equals(1.0)) {
-                        onImageLoaded();
-                    }
-                });
-            }
+            runFx(() -> {
+                progressIndicator.progressProperty().bind(frontFaceImage.progressProperty());
+                if (Objects.equals(frontFaceImage.getProgress(), 1.0)) {
+                    setFrontFace(frontFaceImage);
+                    setBackFace(backFaceImage);
+                    setupControls();
+                    progressIndicator.setVisible(false);
+                } else {
+                    frontFaceImage.progressProperty().addListener((observable, oldValue, newValue) -> {
+                        if (newValue.equals(1.0)) {
+                            setFrontFace(frontFaceImage);
+                            setBackFace(backFaceImage);
+                            setupControls();
+                            progressIndicator.setVisible(false);
+                        }
+                    });
+                }
+            });
         });
-    }
-
-    private void onImageLoaded() {
-        setupControls();
-        progressIndicator.setVisible(false);
     }
 
     private void setupControls() {
@@ -225,12 +220,12 @@ public class CardView extends StackPane {
         spinRightButton.setVisible(isRotated);
         spinRightButton.setOnMouseClicked((event) -> spinRight());
 
-        this.setOnMouseEntered(e -> {
+        setOnMouseEntered(e -> {
             flipButton.setVisible(true);
             spinLeftButton.setVisible(true);
             spinRightButton.setVisible(true);
         });
-        this.setOnMouseExited(e -> {
+        setOnMouseExited(e -> {
             flipButton.setVisible(isDoubleFaced);
             spinLeftButton.setVisible(isRotated);
             spinRightButton.setVisible(isRotated);
@@ -240,21 +235,36 @@ public class CardView extends StackPane {
     /**
      * Context Menu
      */
-
-    public ContextMenu buildContextMenu(){
+    public void showContextMenu(double x, double y) {
         List<CardCollection> cardCollections = cardService.getAllCardCollections();
         ContextMenu contextMenu = new ContextMenu();
+
+        //Save
+        MenuItem save = new MenuItem("Save");
+        save.setOnAction(a -> cardService.save(getCard()));
+        contextMenu.getItems().add(save);
+
+        //Delete
+        MenuItem delete = new MenuItem("Delete");
+        save.setOnAction(a -> cardService.delete(getCard()));
+        contextMenu.getItems().add(delete);
+
+        //Add to Collection
+        Menu collectionsMenu = new Menu("Add to...");
         for (CardCollection cardCollection : cardCollections) {
             MenuItem item = new MenuItem(cardCollection.getName());
             item.setOnAction(a -> cardCollection.addCards(getCard()));
-            contextMenu.getItems().add(item);
+            collectionsMenu.getItems().add(item);
         }
-        return contextMenu;
+        contextMenu.getItems().add(collectionsMenu);
+
+        //Show the context menu.
+        contextMenu.show(this, x, y);
     }
+
     /**
      * Card Flip/Spin Animation
      */
-
     private static final Duration end = Duration.seconds(0.2);
     private static final Duration half = end.divide(2);
     private static final Duration start = Duration.ZERO;

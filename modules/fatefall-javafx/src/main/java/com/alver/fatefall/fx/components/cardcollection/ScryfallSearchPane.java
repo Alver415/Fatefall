@@ -1,6 +1,6 @@
 package com.alver.fatefall.fx.components.cardcollection;
 
-import com.alver.fatefall.database.CardCollection;
+import com.alver.fatefall.repositories.models.CardCollection;
 import com.alver.fatefall.fx.components.cardview.CardView;
 import com.scryfall.api.models.Card;
 import com.scryfall.api.models.CardList;
@@ -15,31 +15,20 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.alver.fatefall.ApplicationUtil.runAsync;
-import static com.alver.fatefall.ApplicationUtil.runFx;
-
-public class ScryfallSearchPane extends CardCollectionPane {
+public class ScryfallSearchPane extends CardGridPane {
 
     public ScryfallSearchPane() {
-        super();
+        //Override fxml loading to use CardCollectionPane's fxml.
+        super(CardGridPane.class);
     }
 
-    public void setCardCollection(CardCollection cardCollection) {
-        throw new UnsupportedOperationException();
-    }
-
-    private void search(String query) {
+    public void search(String query) {
         runAsync(() -> {
             CardList cards = client.cards().search(query);
             if (cards == null) {
                 throw new RuntimeException("No results");
             }
-            Set<String> names = collection.getCards().stream().map(Card::name).collect(Collectors.toSet());
-            List<Card> cardList = cards.data().stream().filter(c -> {
-                return names.contains(c.name());
-            }).toList();
-
-            runFx(() -> redraw(cardList));
+            runFx(() -> redraw(cards.data()));
         });
     }
 

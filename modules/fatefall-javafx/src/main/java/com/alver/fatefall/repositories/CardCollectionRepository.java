@@ -1,27 +1,25 @@
 package com.alver.fatefall.repositories;
 
-import com.alver.fatefall.database.CardCollection;
-import com.alver.fatefall.database.DatabaseManager;
+import com.alver.fatefall.repositories.models.CardCollection;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import static javafx.collections.FXCollections.observableList;
-import static javafx.collections.FXCollections.synchronizedObservableList;
 
 @Repository
-public class CardCollectionRepository {
-
-    protected DatabaseManager databaseManager;
+public class CardCollectionRepository extends EntityRepository<CardCollection>{
 
     protected ObservableList<CardCollection> cardCollections;
 
-    @Autowired
-    public CardCollectionRepository(DatabaseManager databaseManager) {
-        this.cardCollections = synchronizedObservableList(observableList(databaseManager.loadAll(CardCollection.class)));
+    public CardCollectionRepository(){
+        super(CardCollection.class);
     }
 
     public ObservableList<CardCollection> getCardCollections() {
+        if (cardCollections == null) {
+            cardCollections = FXCollections.observableList(getAll());
+        }
         return cardCollections;
     }
 
