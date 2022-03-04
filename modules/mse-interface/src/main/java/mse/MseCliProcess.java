@@ -7,17 +7,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class MagicSetEditorProcess implements Closeable {
+public class MseCliProcess implements Closeable {
 
     private static final String NEW_LINE = System.lineSeparator();
     private final Process process;
 
-    public MagicSetEditorProcess() throws IOException {
+    public MseCliProcess() throws IOException {
         /* Requires that 'mse.exe' be on path */
         this(Path.of("mse"));
     }
 
-    public MagicSetEditorProcess(Path mseExe) throws IOException {
+    public MseCliProcess(Path mseExe) throws IOException {
         List<String> startCommand = List.of(
                 mseExe.toString(),
                 "--cli",

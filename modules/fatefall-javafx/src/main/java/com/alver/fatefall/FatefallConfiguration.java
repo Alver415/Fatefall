@@ -1,12 +1,8 @@
 package com.alver.fatefall;
 
-import com.alver.fatefall.repositories.DatabaseManager;
-import com.alver.fatefall.repositories.ImageRepository;
 import com.scryfall.api.ScryfallClient;
 import com.scryfall.api.implementation.ScryfallClientImpl;
-import mse.MagicSetEditorProcess;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import mse.MseCliProcess;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -26,7 +22,7 @@ public class FatefallConfiguration {
 
     @Bean
     @Scope(SCOPE_PROTOTYPE)
-    public MagicSetEditorProcess getMagicSetEditorProcess() throws IOException {
-        return new MagicSetEditorProcess();
+    public MseCliProcess getMagicSetEditorProcess() throws IOException {
+        return new MseCliProcess();
     }
 }

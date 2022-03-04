@@ -1,9 +1,9 @@
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import org.hsqldb.Server;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Test {
@@ -14,9 +14,7 @@ public class Test {
     public static void main(String... args) {
         list = new ArrayList<>();
         observable = FXCollections.observableList(list);
-        observable.addListener((ListChangeListener<? super String>) c -> {
-            System.out.println("CHANGE!: " + c);
-        });
+        observable.addListener((ListChangeListener<? super String>) c -> System.out.println("CHANGE!: " + c));
 
         print();
 

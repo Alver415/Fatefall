@@ -6,13 +6,12 @@ import com.alver.fatefall.fx.components.cardview.CardView;
 import com.scryfall.api.models.Card;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import mse.MagicSetEditorProcess;
+import mse.MseCliProcess;
 import org.alver415.javafx.scene.control.input.InputTextField;
 
 import java.io.IOException;
@@ -98,7 +97,7 @@ public class CardInfo extends VBox implements FxComponent {
             Card card = getCardWithEdits();
             String fileName = card.name()
                     .replace(" ", "_").toLowerCase() + ".png";
-            try (MagicSetEditorProcess mse = new MagicSetEditorProcess()) {
+            try (MseCliProcess mse = new MseCliProcess()) {
                 mse.load(Path.of("mse_sets/empty.mse-set"));
                 Map<String, String> fieldMap = new HashMap<>();
                 fieldMap.put("name", card.name());

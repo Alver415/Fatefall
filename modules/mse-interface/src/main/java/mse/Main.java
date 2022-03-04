@@ -11,7 +11,7 @@ public class Main {
     public static void main(String... args) throws InterruptedException {
 
         String fileName = "generated.png";
-        try(MagicSetEditorProcess mse = new MagicSetEditorProcess()){
+        try(MseCliProcess mse = new MseCliProcess()){
             Files.deleteIfExists(Path.of(fileName));
             mse.load(Path.of("empty.mse-set"));
             Map<String, String> fieldMap = new HashMap<>();
