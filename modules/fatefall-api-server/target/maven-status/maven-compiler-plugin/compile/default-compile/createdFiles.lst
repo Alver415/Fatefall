@@ -1,0 +1,13 @@
+com\alver\fatefall\api\FatefallConfiguration.class
+com\alver\fatefall\api\repositories\models\ImageData.class
+com\alver\fatefall\api\ApplicationExceptionHandler.class
+com\alver\fatefall\api\HibernateConfiguration.class
+com\alver\fatefall\api\FatefallApiServer.class
+com\alver\fatefall\api\services\CardService.class
+com\alver\fatefall\api\services\CardCollectionService.class
+com\alver\fatefall\api\controllers\CardCollectionController.class
+com\alver\fatefall\api\repositories\CardCollectionRepository.class
+com\alver\fatefall\api\services\AsyncService.class
+com\alver\fatefall\api\controllers\CardController.class
+com\alver\fatefall\api\repositories\CardRepository.class
+com\alver\fatefall\api\repositories\models\CardCollection.class

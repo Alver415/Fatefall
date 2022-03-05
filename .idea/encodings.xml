@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/modules/fatefall-javafx/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/modules/fatefall-javafx/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/fatefall-api-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/fatefall-api-client/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/fatefall-api-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/fatefall-api-server/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/fatefall-app-javafx/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/fatefall-app-javafx/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/modules/mse-interface/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/modules/mse-interface/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/modules/scryfall-api-client/scryfall-api-client/src/main/java" charset="UTF-8" />

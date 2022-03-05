@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/fatefall.iml" filepath="$PROJECT_DIR$/fatefall.iml" />
-      <module fileurl="file://$PROJECT_DIR$/modules/fatefall-javafx/fatefall-javafx.iml" filepath="$PROJECT_DIR$/modules/fatefall-javafx/fatefall-javafx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/modules/fatefall-api-client/fatefall-api-client.iml" filepath="$PROJECT_DIR$/modules/fatefall-api-client/fatefall-api-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/modules/fatefall-api-server/fatefall-api-server.iml" filepath="$PROJECT_DIR$/modules/fatefall-api-server/fatefall-api-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/modules/fatefall-app-javafx/fatefall-app-javafx.iml" filepath="$PROJECT_DIR$/modules/fatefall-app-javafx/fatefall-app-javafx.iml" />
       <module fileurl="file://$PROJECT_DIR$/modules/mse-interface/mse-interface.iml" filepath="$PROJECT_DIR$/modules/mse-interface/mse-interface.iml" />
       <module fileurl="file://$PROJECT_DIR$/modules/scryfall-api-client/scryfall-api-client.iml" filepath="$PROJECT_DIR$/modules/scryfall-api-client/scryfall-api-client.iml" />
     </modules>

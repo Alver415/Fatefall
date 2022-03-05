@@ -1,0 +1,85 @@
+package com.alver.fatefall;
+
+import com.alver.fatefall.api.client.FatefallApiClient;
+import com.alver.fatefall.fx.components.mainstage.MainStage;
+import com.alver.fatefall.fx.components.settings.Settings;
+import com.alver.scryfall.api.ScryfallClient;
+import com.alver.scryfall.api.implementation.ScryfallClientImpl;
+import javafx.application.Application;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
+import mse.MseCliProcess;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
+
+import java.io.IOException;
+import java.util.Objects;
+
+import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
+
+@SpringBootApplication
+public class FatefallApplication extends Application {
+
+    public static FatefallApplication INSTANCE;
+    public static final Image APP_ICON = new Image(Objects.requireNonNull(
+            FatefallApplication.class.getResource("icon.png")).toExternalForm());
+
+    private ApplicationContext applicationContext;
+    public ApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
+
+    @Autowired
+    private FxApplicationExceptionHandler applicationExceptionHandler;
+
+    @Autowired
+    private Settings settings;
+
+    @Override
+    public void init() throws IOException {
+        INSTANCE = this;
+    }
+
+    @Override
+    public void start(Stage stage) throws IOException {
+        //Start Spring application.
+        applicationContext = SpringApplication.run(this.getClass());
+
+        //Inject Spring dependencies.
+        applicationContext.getAutowireCapableBeanFactory().autowireBean(this);
+
+        //Initialize Settings after Spring setup is complete.
+        settings.initFxml();
+
+        //Setup global FX Thread exception handling.
+        Thread.currentThread().setUncaughtExceptionHandler(applicationExceptionHandler);
+
+        //Disregard the original stage, create our own.
+        stage = new MainStage();
+        stage.setTitle("Fatefall - Magic: the Gathering Card Designer Powered by the Scryfall API");
+        stage.getScene().getStylesheets().add(settings.getSelectedStylesheet().getValue());
+        stage.getIcons().add(APP_ICON);
+        stage.show();
+    }
+
+    @Bean
+    public FatefallApiClient getFatefallApiClient() {
+        return new FatefallApiClient();
+    }
+
+    @Bean
+    public ScryfallClient getScryfallClient() {
+        return new ScryfallClientImpl();
+    }
+
+    @Bean
+    @Scope(SCOPE_PROTOTYPE)
+    public MseCliProcess getMagicSetEditorProcess() throws IOException {
+        return new MseCliProcess();
+    }
+
+}

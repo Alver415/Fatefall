@@ -8,12 +8,18 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="mse-interface" />
-        <module name="fatefall-javafx" />
         <module name="scryfall-api-client" />
+        <module name="fatefall-api-server" />
+        <module name="fatefall-app-javafx" />
+        <module name="fatefall-api-client" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="fatefall" target="16" />
+      <module name="fatefall-api" target="16" />
+      <module name="fatefall-api-client" target="16" />
+      <module name="fatefall-api-server" target="16" />
+      <module name="fatefall-app-javafx" target="16" />
       <module name="fatefall-javafx" target="16" />
       <module name="mse-interface" target="16" />
       <module name="scryfall-api-client" target="16" />
