@@ -1,7 +1,6 @@
 package com.alver.fatefall.fx.components.cardview;
 
 import com.alver.fatefall.FxComponent;
-import com.alver.fatefall.fx.components.mainstage.MainStage;
 import com.alver.fatefall.repositories.ImageRepository;
 import com.alver.fatefall.repositories.models.CardCollection;
 import com.alver.fatefall.services.CardService;
@@ -10,6 +9,7 @@ import com.scryfall.api.models.Layouts;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
@@ -18,14 +18,15 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
+
+import static com.alver.fatefall.fx.components.cardview.CardDimensions.*;
 
 public class CardView extends StackPane implements FxComponent {
 
@@ -141,6 +142,7 @@ public class CardView extends StackPane implements FxComponent {
 
     @FXML
     public void initialize() {
+        setupClip();
         setPickOnBounds(true);
         imageView.imageProperty().bind(frontFaceProperty);
 
@@ -160,6 +162,20 @@ public class CardView extends StackPane implements FxComponent {
         cardProperty().addListener((observable, oldValue, newValue) -> {
             loadCardImages(newValue);
         });
+    }
+
+    //TODO: Figure out why the doubling is necessary. Math is off somehow...
+    private static final double ARC_WIDTH_MULTIPLIER = 2 * CORNER_RADIUS / WIDTH;
+    private static final double ARC_HEIGHT_MULTIPLIER = 2 * CORNER_RADIUS / HEIGHT;
+
+    private void setupClip() {
+
+        Rectangle clip = new Rectangle();
+        clip.widthProperty().bind(imageView.fitWidthProperty());
+        clip.heightProperty().bind(imageView.fitHeightProperty());
+        clip.arcWidthProperty().bind(Bindings.multiply(imageView.fitWidthProperty(), ARC_WIDTH_MULTIPLIER));
+        clip.arcHeightProperty().bind(Bindings.multiply(imageView.fitHeightProperty(), ARC_HEIGHT_MULTIPLIER));
+        imageView.setClip(clip);
     }
 
     private void loadCardImages(Card card) {

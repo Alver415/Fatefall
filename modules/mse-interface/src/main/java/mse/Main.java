@@ -1,33 +1,36 @@
 package mse;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Main {
 
-    public static void main(String... args) throws InterruptedException {
+    public static void main(String... args) throws IOException {
+        Path sourceSet = Path.of("mse_sets/champions.mse-set");
 
-        String fileName = "generated.png";
-        try(MseCliProcess mse = new MseCliProcess()){
-            Files.deleteIfExists(Path.of(fileName));
-            mse.load(Path.of("empty.mse-set"));
-            Map<String, String> fieldMap = new HashMap<>();
-            fieldMap.put("name", "Name");
-            fieldMap.put("type", "Type");
-            fieldMap.put("rule_text", "Oracle");
-            fieldMap.put("power", "P");
-            fieldMap.put("toughness", "T");
-            fieldMap.put("casting_cost", "1WUBRG");
+        String setName = "TestImport";
+        SetManager setManager = SetManager.importMseSet(setName, sourceSet);
 
-            mse.command("source := set.cards[0]");
-            mse.new_card("my_card", fieldMap);
-            mse.write_image_file("my_card", fileName);
-            mse.quit();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SetManager.Set set = setManager.getSet();
+//        set.cards.clear();
+        SetManager.Card card = new SetManager.Card();
+        card.fields.put("has_styling", "false");
+        card.fields.put("name", "Palitacita, Best Pal");
+        card.fields.put("casting_cost", "GWU");
+        card.fields.put("card_color", "green, white, blue, horizontal");
+        card.fields.put("super_type", "Legendary Creature");
+        card.fields.put("sub_type", "Human Cleric");
+        card.fields.put("rarity", "mythic rare");
+        card.fields.put("rule_text", "Palitacita is the most loved.");
+        card.fields.put("power", "3");
+        card.fields.put("toughness", "3");
+        card.fields.put("notes", "Loved the most.");
+        set.cards.add(card);
+
+        setManager.save();
+        setManager.exportSet();
+        setManager.generateImages();
+
     }
+
 }

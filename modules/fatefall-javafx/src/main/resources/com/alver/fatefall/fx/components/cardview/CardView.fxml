@@ -7,7 +7,8 @@
 <fx:root type="StackPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
          fx:controller="com.alver.fatefall.fx.components.cardview.CardView">
 
-    <ImageView fx:id="imageView" fitHeight="400" fitWidth="400" preserveRatio="true">
+<!--    <ImageView fx:id="imageView" fitHeight="1040" fitWidth="745" preserveRatio="true">-->
+    <ImageView fx:id="imageView" fitHeight="416" fitWidth="300" preserveRatio="true">
         <Image url="@card_back.png"/>
     </ImageView>
 

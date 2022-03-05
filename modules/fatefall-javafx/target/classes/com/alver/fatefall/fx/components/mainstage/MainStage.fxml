@@ -14,8 +14,10 @@
                 <top>
                     <MenuBar>
                         <Menu text="File">
-                            <MenuItem text="New " fx:id="newCollection"/>
+                            <MenuItem text="New" fx:id="newCollection"/>
                             <MenuItem text="Save" fx:id="saveCollection"/>
+                            <SeparatorMenuItem/>
+                            <MenuItem text="Import from MSE" fx:id="importFromMse"/>
                         </Menu>
                         <Menu text="Help">
                             <MenuItem text="Settings" fx:id="openSettings" onAction="#openSettings"/>

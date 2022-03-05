@@ -5,12 +5,24 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class MseCliProcess implements Closeable {
 
     private static final String NEW_LINE = System.lineSeparator();
     private final Process process;
+
+    public static void main(String... args) throws IOException {
+        Scanner scanner = new Scanner(System.in);
+        try(MseCliProcess process = new MseCliProcess()){
+            String input;
+            while (scanner.hasNext()){
+                input = scanner.next();
+                process.command(input);
+            }
+        }
+    }
 
     public MseCliProcess() throws IOException {
         /* Requires that 'mse.exe' be on path */
@@ -126,6 +138,7 @@ public class MseCliProcess implements Closeable {
 
     private String escape(String command) {
         return command
+                .replace("\\", "/")
                 .replace("\n", "\\n")
                 .replace("\r", "\\r")
                 .replace("\t", "\\t")

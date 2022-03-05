@@ -12,20 +12,28 @@ import com.alver.fatefall.services.CardCollectionService;
 import com.alver.fatefall.services.DialogService;
 import com.scryfall.api.ScryfallClient;
 import com.scryfall.api.models.Card;
+import com.scryfall.api.models.ImageUri;
+import com.scryfall.api.models.Layouts;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.web.WebView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import mse.SetManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Component;
 
-import java.beans.EventHandler;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class MainStage extends Stage implements FxComponent {
+
+    private static final Logger LOGGER = LogManager.getLogger(MainStage.class);
 
     /**
      * Spring Dependency Injection
@@ -55,6 +63,8 @@ public class MainStage extends Stage implements FxComponent {
     protected MenuItem newCollection;
     @FXML
     protected MenuItem saveCollection;
+    @FXML
+    protected MenuItem importFromMse;
 
     @FXML
     protected MenuItem openSettings;
@@ -74,13 +84,55 @@ public class MainStage extends Stage implements FxComponent {
         tabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null) {
                 addScryfallTab();
-            } else if (newValue.getContent() instanceof CardGridPane){
+            } else if (newValue.getContent() instanceof CardGridPane) {
                 cardInfo.cardProperty().bind(((CardGridPane) newValue.getContent()).selectedCardProperty());
             }
         });
 
         newCollection.setOnAction(a -> newCollection());
         saveCollection.setOnAction(a -> saveCollection());
+        importFromMse.setOnAction(a -> importFromMse());
+    }
+    private void importFromMse() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Import from Magic Set Editor");
+        File file = fileChooser.showOpenDialog(this);
+
+        String name = dialogService.textInput(
+                        "Import from Magic Set Editor",
+                        "Enter a name for the new collection.")
+                .orElse(file.getName());
+
+        try {
+            if (!file.getName().endsWith(".mse-set")) {
+                return;
+            }
+            SetManager setManager = SetManager.importMseSet(name, file.toPath());
+            List<Card> convertedCards = setManager.getSet().cards.stream().map(c -> {
+                String cardName = c.fields.get("name");
+                String fileName = cardName
+                        .replace("\"", "")
+                        .replace(",", "")
+                        .replace(" ", "_");
+                String image = setManager.getImagesPath()
+                        .resolve(fileName + ".png")
+                        .toFile().toURI().toString();
+                return new Card()
+                        .withLayout(Layouts.NORMAL)
+                        .withName(cardName)
+                        .withManaCost(c.fields.get("casting_cost"))
+                        .withImageUris(new ImageUri()
+                                .withNormal(image)
+                                .withPng(image)
+                        );
+            }).toList();
+
+            CardCollection collection = createCollection(name);
+            collection.getCards().addAll(convertedCards);
+        } catch (IOException e) {
+            LOGGER.error("Failed to import from MSE.", e);
+            dialogService.error("Must have extension .mse-set");
+        }
     }
 
     private void addScryfallTab() {
@@ -107,18 +159,21 @@ public class MainStage extends Stage implements FxComponent {
     }
 
     public void newCollection() {
-        dialogService.textInput("New Collection", "Enter a name for the new collection.")
-                .ifPresent(name -> {
-                    boolean nameAlreadyExists = collectionsList.getItems().stream()
-                            .map(CardCollection::getName)
-                            .anyMatch(n -> Objects.equals(n, name));
-                    if (nameAlreadyExists) {
-                        throw new RuntimeException("A collection with that name already exists.");
-                    }
-                    CardCollection cardCollection = new CardCollection();
-                    cardCollection.setName(name);
-                    collectionsList.getItems().add(cardCollection);
-                });
+        Optional<String> response = dialogService
+                .textInput("New Collection", "Enter a name for the new collection.");
+        response.ifPresent(this::createCollection);
+    }
+    private CardCollection createCollection(String name) {
+        boolean nameAlreadyExists = collectionsList.getItems().stream()
+                .map(CardCollection::getName)
+                .anyMatch(n -> Objects.equals(n, name));
+        if (nameAlreadyExists) {
+            throw new RuntimeException("A collection with that name already exists.");
+        }
+        CardCollection cardCollection = new CardCollection();
+        cardCollection.setName(name);
+        collectionsList.getItems().add(cardCollection);
+        return cardCollection;
     }
 
     public void saveCollection() {

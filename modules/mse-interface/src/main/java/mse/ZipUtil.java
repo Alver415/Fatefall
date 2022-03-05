@@ -61,51 +61,27 @@ public class ZipUtil {
         return destFile;
     }
 
-    public static void zip(Path source) throws IOException {
-        zip(source, source.resolveSibling(source.getFileName() + ".zip"));
-    }
-
-    public static void zip(File source) throws IOException {
-        zip(source, new File(source.getPath() + ".zip"));
-    }
-
     public static void zip(Path source, Path destination) throws IOException {
         zip(source.toFile(), destination.toFile());
     }
 
     public static void zip(File source, File destination) throws IOException {
+        File[] files = Objects.requireNonNull(source.listFiles());
         FileOutputStream fos = new FileOutputStream(destination);
         ZipOutputStream zipOut = new ZipOutputStream(fos);
-        zip(source, source.getName(), zipOut);
+        for (File srcFile : files) {
+            FileInputStream fis = new FileInputStream(srcFile);
+            ZipEntry zipEntry = new ZipEntry(srcFile.getName());
+            zipOut.putNextEntry(zipEntry);
 
-    }
-
-    private static void zip(File source, String fileName, ZipOutputStream zipOut) throws IOException {
-        if (source.isHidden()) {
-            return;
-        }
-        if (source.isDirectory()) {
-            if (fileName.endsWith("/")) {
-                zipOut.putNextEntry(new ZipEntry(fileName));
-                zipOut.closeEntry();
-            } else {
-                zipOut.putNextEntry(new ZipEntry(fileName + "/"));
-                zipOut.closeEntry();
+            byte[] bytes = new byte[1024];
+            int length;
+            while ((length = fis.read(bytes)) >= 0) {
+                zipOut.write(bytes, 0, length);
             }
-            File[] children = source.listFiles();
-            for (File childFile : children) {
-                zip(childFile, fileName + "/" + childFile.getName(), zipOut);
-            }
-            return;
+            fis.close();
         }
-        FileInputStream fis = new FileInputStream(source);
-        ZipEntry zipEntry = new ZipEntry(fileName);
-        zipOut.putNextEntry(zipEntry);
-        byte[] bytes = new byte[1024];
-        int length;
-        while ((length = fis.read(bytes)) >= 0) {
-            zipOut.write(bytes, 0, length);
-        }
-        fis.close();
+        zipOut.close();
+        fos.close();
     }
 }
