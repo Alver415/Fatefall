@@ -1,5 +1,6 @@
 package com.alver.fatefall.api.controllers;
 
+import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.repositories.CardCollectionRepository;
 import com.alver.fatefall.api.services.CardCollectionService;
 import com.alver.fatefall.api.models.CardCollection;
@@ -23,14 +24,18 @@ public class CardCollectionController {
         this.cardCollectionService = cardCollectionService;
     }
 
-    @GetMapping(produces = "application/json")
-    @ResponseBody
+    @PutMapping()
+    public CardCollection save(@RequestBody CardCollection cardCollection) {
+        return cardCollectionRepository.save(cardCollection);
+    }
+
+
+    @GetMapping()
     public List<CardCollection> findAll() {
         return cardCollectionRepository.findAll();
     }
 
-    @GetMapping(value = "/{id}", produces = "application/json")
-    @ResponseBody
+    @GetMapping("/{id}")
     public CardCollection findById(@PathVariable Long id) {
         return cardCollectionRepository.findById(id).get();
     }

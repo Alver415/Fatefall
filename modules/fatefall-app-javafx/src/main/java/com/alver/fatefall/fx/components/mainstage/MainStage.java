@@ -83,7 +83,7 @@ public class MainStage extends Stage implements FxComponent {
             if (newValue == null) {
                 addScryfallTab();
             } else if (newValue.getContent() instanceof CardGridPane) {
-                cardInfo.cardProperty().bind(((CardGridPane) newValue.getContent()).selectedCardProperty());
+                cardInfo.cardProperty().bindBidirectional(((CardGridPane) newValue.getContent()).selectedCardProperty());
             }
         });
 
@@ -177,19 +177,19 @@ public class MainStage extends Stage implements FxComponent {
 
     public void saveCollection() {
         CardCollection selectedItem = collectionsList.getSelectionModel().getSelectedItem();
-//        cardCollectionService.save(selectedItem);
+        fatefallApiClient.getCardCollectionApi().save(selectedItem);
     }
 
     public void addCard() {
         CardCollection selectedCollection = collectionsList.getSelectionModel().getSelectedItem();
         Card selectedCard = cardInfo.getCard();
-//        selectedCollection.addCards(selectedCard);
+        selectedCollection.getCards().add(selectedCard);
     }
 
     public void removeCard() {
         CardCollection selectedCollection = collectionsList.getSelectionModel().getSelectedItem();
         Card selectedCard = cardInfo.getCard();
-//        selectedCollection.removeCards(selectedCard);
+        selectedCollection.getCards().remove(selectedCard);
     }
 
     private Callback<ListView<CardCollection>, ListCell<CardCollection>> cardCollectionCellFactory = (z) -> {
@@ -213,7 +213,7 @@ public class MainStage extends Stage implements FxComponent {
         });
         ContextMenu contextMenu = new ContextMenu();
         MenuItem save = new MenuItem("Save");
-//        save.setOnAction(a -> cardCollectionService.save(cell.getItem()));
+        save.setOnAction(a -> fatefallApiClient.getCardCollectionApi().save(cell.getItem()));
         contextMenu.getItems().add(save);
 
         cell.setContextMenu(contextMenu);

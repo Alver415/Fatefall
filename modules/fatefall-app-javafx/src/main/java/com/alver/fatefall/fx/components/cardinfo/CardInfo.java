@@ -1,6 +1,7 @@
 package com.alver.fatefall.fx.components.cardinfo;
 
 import com.alver.fatefall.FxComponent;
+import com.alver.fatefall.api.client.FatefallApiClient;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.fx.components.cardview.CardView;
 import javafx.beans.property.ObjectProperty;
@@ -12,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import mse.MseCliProcess;
 import org.alver415.javafx.scene.control.input.InputTextField;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,6 +22,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CardInfo extends VBox implements FxComponent {
+
+    @Autowired
+    protected FatefallApiClient fatefallApiClient;
 
     @FXML
     protected CardView cardView;
@@ -68,7 +73,8 @@ public class CardInfo extends VBox implements FxComponent {
 
     protected void save(MouseEvent event) {
         Card cardWithEdits = getCardWithEdits();
-//        setCard(new CardRepository().merge(cardWithEdits));
+        Card saved = fatefallApiClient.getCardApi().save(cardWithEdits);
+        setCard(saved);
     }
 
     private Card getCardWithEdits() {

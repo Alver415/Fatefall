@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("card")
+@ResponseBody
 public class CardController {
 
     protected CardRepository cardRepository;
@@ -23,16 +24,24 @@ public class CardController {
         this.cardService = cardService;
     }
 
-    @GetMapping(produces = "application/json")
-    @ResponseBody
+    @PutMapping()
+    public Card save(@RequestBody Card card) {
+        return cardRepository.save(card);
+    }
+
+    @GetMapping()
     public List<Card> findAll() {
         return cardRepository.findAll();
     }
 
-    @GetMapping(value = "/{id}", produces = "application/json")
-    @ResponseBody
-    public Card findById(@PathVariable Long id) {
-        return cardRepository.findById(id).get();
+    @GetMapping("/{pk}")
+    public Card findById(@PathVariable Long pk) {
+        return cardRepository.findById(pk).get();
+    }
+
+    @DeleteMapping("/{pk}")
+    public void delete(@PathVariable Long pk) {
+        cardRepository.deleteById(pk);
     }
 
 }

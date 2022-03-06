@@ -8,6 +8,7 @@ import com.alver.fatefall.api.models.CardList;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import java.util.List;
@@ -35,9 +36,6 @@ public class CardCollectionPane extends CardGridPane implements FxComponent {
     protected CardCollectionPane(Class<?> clazz) {
         initFxml(clazz);
         cardCollectionProperty.addListener((observable, oldValue, newValue) -> {
-//            newValue.getCards().addListener((ListChangeListener<? super Card>) c ->{
-//                redraw(newValue.getCards());
-//            });
             redraw(newValue.getCards());
         });
     }

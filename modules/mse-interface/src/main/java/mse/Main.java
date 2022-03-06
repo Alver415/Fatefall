@@ -12,7 +12,7 @@ public class Main {
         SetManager setManager = SetManager.importMseSet(setName, sourceSet);
 
         SetManager.Set set = setManager.getSet();
-//        set.cards.clear();
+        set.cards.clear();
         SetManager.Card card = new SetManager.Card();
         card.fields.put("has_styling", "false");
         card.fields.put("name", "Palitacita, Best Pal");

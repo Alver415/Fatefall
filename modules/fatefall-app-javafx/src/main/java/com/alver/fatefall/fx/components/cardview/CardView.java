@@ -254,19 +254,19 @@ public class CardView extends StackPane implements FxComponent {
 
         //Save
         MenuItem save = new MenuItem("Save");
-//        save.setOnAction(a -> cardService.save(getCard()));
+        save.setOnAction(a -> fatefallApiClient.getCardApi().save(getCard()));
         contextMenu.getItems().add(save);
 
-        //Delete
-        MenuItem delete = new MenuItem("Delete");
-//        save.setOnAction(a -> cardService.delete(getCard()));
+        //Remove
+        MenuItem delete = new MenuItem("Remove");
+        delete.setOnAction(a -> fatefallApiClient.getCardApi().delete(getCard().getPk()));
         contextMenu.getItems().add(delete);
 
         //Add to Collection
         Menu collectionsMenu = new Menu("Add to...");
         for (CardCollection cardCollection : cardCollections) {
             MenuItem item = new MenuItem(cardCollection.getName());
-//            item.setOnAction(a -> cardCollection.addCards(getCard()));
+            item.setOnAction(a -> cardCollection.getCards().add(getCard()));
             collectionsMenu.getItems().add(item);
         }
         contextMenu.getItems().add(collectionsMenu);
