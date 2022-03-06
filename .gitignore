@@ -13,7 +13,11 @@
 *.tar.gz
 *.rar
 
-# Database #
+# IDE #
+*.classpath
+*.project
+*.settings/
+*.idea/*
+*/target/**
 database/*
-.idea/*
 jmse_sets/*
