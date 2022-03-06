@@ -17,7 +17,7 @@ public class HibernateConfiguration {
     public LocalSessionFactoryBean entityManagerFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan("com.alver");
+        sessionFactory.setPackagesToScan("com.alver.fatefall.api.models");
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }

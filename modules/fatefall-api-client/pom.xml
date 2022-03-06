@@ -17,9 +17,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.alver.fatefall</groupId>
-            <artifactId>scryfall-api-client</artifactId>
+            <artifactId>fatefall-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

@@ -12,11 +12,6 @@
     <artifactId>mse-interface</artifactId>
     <name>Magic Set Editor Interface</name>
 
-    <properties>
-        <maven.compiler.source>16</maven.compiler.source>
-        <maven.compiler.target>16</maven.compiler.target>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>commons-io</groupId>
