@@ -1,10 +1,10 @@
 package com.alver.fatefall.fx.components.cardview;
 
 import com.alver.fatefall.FxComponent;
+import com.alver.fatefall.api.base.Card;
 import com.alver.fatefall.api.client.FatefallApiClient;
-import com.alver.scryfall.api.models.Card;
-import com.alver.scryfall.api.models.CardCollection;
-import com.alver.scryfall.api.models.Layouts;
+import com.alver.fatefall.api.models.CardCollection;
+import com.alver.fatefall.api.models.Layouts;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -186,13 +186,13 @@ public class CardView extends StackPane implements FxComponent {
         runAsync(() -> {
             Image frontFaceImage;
             Image backFaceImage;
-            switch (card.layout()) {
+            switch (card.getLayout()) {
                 case TRANSFORM, MODAL_DFC, DOUBLE_FACED_TOKEN, ART_SERIES, REVERSIBLE_CARD -> {
-                    frontFaceImage = new Image(card.cardFaces().get(0).imageUris().png(), true);
-                    backFaceImage = new Image(card.cardFaces().get(1).imageUris().png(), true);
+                    frontFaceImage = new Image(card.getCardFaces().get(0).imageUris().png(), true);
+                    backFaceImage = new Image(card.getCardFaces().get(1).imageUris().png(), true);
                 }
                 default -> {
-                    frontFaceImage = new Image(card.imageUris().png(), true);
+                    frontFaceImage = new Image(card.getImageUris().png(), true);
                     backFaceImage = CARD_BACK;
                 }
             }

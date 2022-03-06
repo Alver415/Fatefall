@@ -1,7 +1,12 @@
 package com.alver.fatefall.fx.components.mainstage;
 
 import com.alver.fatefall.FxComponent;
+import com.alver.fatefall.api.base.Card;
+import com.alver.fatefall.api.base.implementation.ImmutableCard;
 import com.alver.fatefall.api.client.FatefallApiClient;
+import com.alver.fatefall.api.models.CardCollection;
+import com.alver.fatefall.api.models.ImageUri;
+import com.alver.fatefall.api.models.Layouts;
 import com.alver.fatefall.fx.components.cardcollection.CardCollectionPane;
 import com.alver.fatefall.fx.components.cardcollection.CardGridPane;
 import com.alver.fatefall.fx.components.cardcollection.ScryfallSearchPane;
@@ -9,12 +14,7 @@ import com.alver.fatefall.fx.components.cardinfo.CardInfo;
 import com.alver.fatefall.fx.components.settings.Settings;
 import com.alver.fatefall.services.DialogService;
 import com.alver.scryfall.api.ScryfallClient;
-import com.alver.scryfall.api.models.Card;
-import com.alver.scryfall.api.models.CardCollection;
-import com.alver.scryfall.api.models.ImageUri;
-import com.alver.scryfall.api.models.Layouts;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -108,23 +108,25 @@ public class MainStage extends Stage implements FxComponent {
             }
             SetManager setManager = SetManager.importMseSet(name, file.toPath());
             List<Card> convertedCards = setManager.getSet().cards.stream().map(c -> {
-                String cardName = c.fields.get("name");
-                String fileName = cardName
-                        .replace("\"", "")
-                        .replace(",", "")
-                        .replace(" ", "_");
-                String image = setManager.getImagesPath()
-                        .resolve(fileName + ".png")
-                        .toFile().toURI().toString();
-                return new Card()
-                        .withLayout(Layouts.NORMAL)
-                        .withName(cardName)
-                        .withManaCost(c.fields.get("casting_cost"))
-                        .withImageUris(new ImageUri()
-                                .withNormal(image)
-                                .withPng(image)
-                        );
-            }).toList();
+                        String cardName = c.fields.get("name");
+                        String fileName = cardName
+                                .replace("\"", "")
+                                .replace(",", "")
+                                .replace(" ", "_");
+                        String image = setManager.getImagesPath()
+                                .resolve(fileName + ".png")
+                                .toFile().toURI().toString();
+                        return ImmutableCard.builder()
+                                .layout(Layouts.NORMAL)
+                                .name(cardName)
+                                .manaCost(c.fields.get("casting_cost"))
+                                .imageUris(new ImageUri()
+                                        .withNormal(image)
+                                        .withPng(image)
+                                ).build();
+                    })
+                    .map(c -> (Card) c)
+                    .toList();
 
             CardCollection collection = createCollection(name);
             collection.getCards().addAll(convertedCards);

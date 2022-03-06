@@ -4,33 +4,29 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>fatefall</artifactId>
-    <groupId>com.alver</groupId>
-    <packaging>pom</packaging>
+    <groupId>com.alver.fatefall</groupId>
+    <artifactId>base</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <modules>
+        <!--    Back End Server/Client    -->
         <module>modules/fatefall-api-server</module>
         <module>modules/fatefall-api-client</module>
+
+        <!--    Front End Application    -->
         <module>modules/fatefall-app-javafx</module>
 
+        <!--    Tools    -->
         <module>modules/scryfall-api-client</module>
-
         <module>modules/mse-interface</module>
     </modules>
     <name>Fatefall</name>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>16</java.version>
         <junit.version>5.8.2</junit.version>
-
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
-        <version.swagger.codegen>2.2.1</version.swagger.codegen>
-        <yaml.file>${project.basedir}/src/main/resources/scryfall-api.yaml</yaml.file>
-        <generated-sources-path>${project.build.directory}/generated-sources</generated-sources-path>
-        <generated-sources-java-path>main/java</generated-sources-java-path>
-
+        <jackson.version>2.13.1</jackson.version>
+        <immutables.version>2.9.0</immutables.version>
     </properties>
 
     <dependencies>
@@ -49,44 +45,33 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.13.1</version>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jdk8</artifactId>
-            <version>2.13.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>5.6.5.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>2.6.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>jakarta.xml.bind</groupId>
-            <artifactId>jakarta.xml.bind-api</artifactId>
-            <version>2.3.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-            <version>2.3.3</version>
-            <scope>runtime</scope>
+            <version>${jackson.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.immutables</groupId>
             <artifactId>value</artifactId>
-            <version>2.9.0</version>
+            <version>${immutables.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.6.4</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>
@@ -97,28 +82,14 @@
                 <configuration>
                     <source>16</source>
                     <target>16</target>
+                    <annotationProcessorPaths>
+                        <dependency>
+                            <groupId>org.immutables</groupId>
+                            <artifactId>value</artifactId>
+                            <version>${immutables.version}</version>
+                        </dependency>
+                    </annotationProcessorPaths>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.8</version>
-                <executions>
-                    <execution>
-                        <!-- Default configuration for running with: mvn clean javafx:run -->
-                        <id>default-cli</id>
-                        <configuration>
-                            <mainClass>com.alver.fatefall/com.alver.fatefall.api.FatefallApiServer
-                            </mainClass>
-                            <launcher>app</launcher>
-                            <jlinkZipName>app</jlinkZipName>
-                            <jlinkImageName>app</jlinkImageName>
-                            <noManPages>true</noManPages>
-                            <stripDebug>true</stripDebug>
-                            <noHeaderFiles>true</noHeaderFiles>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

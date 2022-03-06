@@ -1,10 +1,10 @@
 package com.alver.fatefall.fx.components.cardcollection;
 
 import com.alver.fatefall.FxComponent;
+import com.alver.fatefall.api.base.Card;
 import com.alver.fatefall.fx.components.cardview.CardView;
 import com.alver.fatefall.services.DialogService;
 import com.alver.scryfall.api.ScryfallClient;
-import com.alver.scryfall.api.models.Card;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;

@@ -6,12 +6,13 @@
 
 package com.alver.scryfall.api;
 
-import com.alver.scryfall.api.models.*;
+import com.alver.fatefall.api.base.Card;
+import com.alver.fatefall.api.models.*;
+import com.alver.fatefall.api.models.SortOrder;
+import com.alver.scryfall.api.models.ErrorException;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
-import com.alver.scryfall.api.models.*;
-import com.alver.scryfall.api.models.Card;
 
 import java.util.UUID;
 import rx.Observable;

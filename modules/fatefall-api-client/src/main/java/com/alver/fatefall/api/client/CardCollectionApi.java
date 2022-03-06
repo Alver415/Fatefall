@@ -1,6 +1,6 @@
 package com.alver.fatefall.api.client;
 
-import com.alver.scryfall.api.models.CardCollection;
+import com.alver.fatefall.api.models.CardCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;

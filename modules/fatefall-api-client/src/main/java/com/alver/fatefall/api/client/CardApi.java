@@ -1,6 +1,6 @@
 package com.alver.fatefall.api.client;
 
-import com.alver.scryfall.api.models.Card;
+import com.alver.fatefall.api.base.Card;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.reactive.function.client.WebClient;

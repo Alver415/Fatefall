@@ -1,13 +1,12 @@
 package com.alver.fatefall.fx.components.cardcollection;
 
 import com.alver.fatefall.FxComponent;
-import com.alver.scryfall.api.models.Card;
-import com.alver.scryfall.api.models.CardCollection;
-import com.alver.scryfall.api.models.CardList;
+import com.alver.fatefall.api.base.Card;
+import com.alver.fatefall.api.models.CardCollection;
+import com.alver.fatefall.api.models.CardList;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import java.util.List;
@@ -60,10 +59,10 @@ public class CardCollectionPane extends CardGridPane implements FxComponent {
                             query);
                     return;
                 }
-                Set<String> resultNames = cards.data().stream().map(Card::name).collect(Collectors.toSet());
+                Set<String> resultNames = cards.data().stream().map(Card::getName).collect(Collectors.toSet());
                 List<Card> filtered = getCards().stream()
                         .filter(c -> {
-                            return resultNames.contains(c.name());
+                            return resultNames.contains(c.getName());
                         }).toList();
 
                 runFx(() -> redraw(filtered));

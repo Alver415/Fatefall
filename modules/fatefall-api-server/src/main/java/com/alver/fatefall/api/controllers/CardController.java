@@ -1,8 +1,8 @@
 package com.alver.fatefall.api.controllers;
 
+import com.alver.fatefall.api.base.Card;
 import com.alver.fatefall.api.repositories.CardRepository;
 import com.alver.fatefall.api.services.CardService;
-import com.alver.scryfall.api.models.Card;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

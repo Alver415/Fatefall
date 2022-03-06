@@ -7,8 +7,8 @@
 package com.alver.scryfall.api.implementation;
 
 import com.alver.scryfall.api.Rulings;
+import com.alver.fatefall.api.models.RulingList;
 import com.alver.scryfall.api.models.ErrorException;
-import com.alver.scryfall.api.models.RulingList;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.rest.ServiceCallback;

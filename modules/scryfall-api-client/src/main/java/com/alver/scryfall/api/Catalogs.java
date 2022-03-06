@@ -6,12 +6,13 @@
 
 package com.alver.scryfall.api;
 
-import com.alver.scryfall.api.models.Catalog;
+import com.alver.fatefall.api.models.Catalog;
 import com.alver.scryfall.api.models.ErrorException;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
 import rx.Observable;
+
 
 /**
  * An instance of this class provides access to all the operations defined

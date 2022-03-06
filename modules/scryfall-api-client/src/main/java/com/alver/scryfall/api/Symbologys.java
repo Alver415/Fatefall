@@ -6,9 +6,9 @@
 
 package com.alver.scryfall.api;
 
-import com.alver.scryfall.api.models.CardSymbolList;
+import com.alver.fatefall.api.models.CardSymbolList;
+import com.alver.fatefall.api.models.ManaCost;
 import com.alver.scryfall.api.models.ErrorException;
-import com.alver.scryfall.api.models.ManaCost;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;

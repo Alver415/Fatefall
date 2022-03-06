@@ -2,7 +2,7 @@ package com.alver.fatefall.api.controllers;
 
 import com.alver.fatefall.api.repositories.CardCollectionRepository;
 import com.alver.fatefall.api.services.CardCollectionService;
-import com.alver.scryfall.api.models.CardCollection;
+import com.alver.fatefall.api.models.CardCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

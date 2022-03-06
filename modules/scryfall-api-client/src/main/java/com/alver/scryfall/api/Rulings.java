@@ -10,7 +10,7 @@ import com.alver.scryfall.api.models.ErrorException;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
-import com.alver.scryfall.api.models.RulingList;
+import com.alver.fatefall.api.models.RulingList;
 
 import java.util.UUID;
 import rx.Observable;

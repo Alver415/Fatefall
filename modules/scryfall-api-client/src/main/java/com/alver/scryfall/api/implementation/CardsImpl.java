@@ -6,15 +6,15 @@
 
 package com.alver.scryfall.api.implementation;
 
+import com.alver.fatefall.api.base.Card;
 import com.alver.scryfall.api.Cards;
-import com.alver.scryfall.api.models.*;
-import com.alver.scryfall.api.models.*;
+import com.alver.fatefall.api.models.*;
+import com.alver.scryfall.api.models.ErrorException;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
-import com.alver.scryfall.api.models.Card;
 
 import java.io.IOException;
 import java.util.UUID;

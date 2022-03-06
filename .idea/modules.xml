@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/fatefall.iml" filepath="$PROJECT_DIR$/fatefall.iml" />
+      <module fileurl="file://$PROJECT_DIR$/modules/fatefall-api/fatefall-api.iml" filepath="$PROJECT_DIR$/modules/fatefall-api/fatefall-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/modules/fatefall-api-client/fatefall-api-client.iml" filepath="$PROJECT_DIR$/modules/fatefall-api-client/fatefall-api-client.iml" />
       <module fileurl="file://$PROJECT_DIR$/modules/fatefall-api-server/fatefall-api-server.iml" filepath="$PROJECT_DIR$/modules/fatefall-api-server/fatefall-api-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/modules/fatefall-app-javafx/fatefall-app-javafx.iml" filepath="$PROJECT_DIR$/modules/fatefall-app-javafx/fatefall-app-javafx.iml" />

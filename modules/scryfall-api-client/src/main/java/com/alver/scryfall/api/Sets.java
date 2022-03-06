@@ -6,12 +6,12 @@
 
 package com.alver.scryfall.api;
 
+import com.alver.fatefall.api.models.Set;
 import com.alver.scryfall.api.models.ErrorException;
-import com.alver.scryfall.api.models.Set;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
-import com.alver.scryfall.api.models.SetList;
+import com.alver.fatefall.api.models.SetList;
 import rx.Observable;
 
 /**

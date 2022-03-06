@@ -7,9 +7,9 @@
 package com.alver.scryfall.api.implementation;
 
 import com.alver.scryfall.api.Sets;
+import com.alver.fatefall.api.models.Set;
+import com.alver.fatefall.api.models.SetList;
 import com.alver.scryfall.api.models.ErrorException;
-import com.alver.scryfall.api.models.Set;
-import com.alver.scryfall.api.models.SetList;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.rest.ServiceCallback;
