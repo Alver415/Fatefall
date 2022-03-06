@@ -1,8 +1,7 @@
 package com.alver.fatefall.fx.components.mainstage;
 
 import com.alver.fatefall.FxComponent;
-import com.alver.fatefall.api.base.Card;
-import com.alver.fatefall.api.base.implementation.ImmutableCard;
+import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.client.FatefallApiClient;
 import com.alver.fatefall.api.models.CardCollection;
 import com.alver.fatefall.api.models.ImageUri;
@@ -116,16 +115,15 @@ public class MainStage extends Stage implements FxComponent {
                         String image = setManager.getImagesPath()
                                 .resolve(fileName + ".png")
                                 .toFile().toURI().toString();
-                        return ImmutableCard.builder()
-                                .layout(Layouts.NORMAL)
-                                .name(cardName)
-                                .manaCost(c.fields.get("casting_cost"))
-                                .imageUris(new ImageUri()
+                        return new Card()
+                                .withLayout(Layouts.NORMAL)
+                                .withName(cardName)
+                                .withManaCost(c.fields.get("casting_cost"))
+                                .withImageUris(new ImageUri()
                                         .withNormal(image)
                                         .withPng(image)
-                                ).build();
+                                );
                     })
-                    .map(c -> (Card) c)
                     .toList();
 
             CardCollection collection = createCollection(name);

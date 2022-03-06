@@ -18,7 +18,6 @@ public class HibernateConfiguration {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setPackagesToScan("com.alver");
-        sessionFactory.setMappingResources("hibernate/card.hbm.xml");
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }

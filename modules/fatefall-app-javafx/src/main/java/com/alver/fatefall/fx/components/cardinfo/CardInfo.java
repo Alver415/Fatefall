@@ -1,8 +1,7 @@
 package com.alver.fatefall.fx.components.cardinfo;
 
 import com.alver.fatefall.FxComponent;
-import com.alver.fatefall.api.base.Card;
-import com.alver.fatefall.api.base.implementation.ImmutableCard;
+import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.fx.components.cardview.CardView;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -73,7 +72,7 @@ public class CardInfo extends VBox implements FxComponent {
     }
 
     private Card getCardWithEdits() {
-        return ImmutableCard.copyOf(cardProperty.get())
+        return cardProperty.get()
                 .withName(name.getValue())
                 .withManaCost(manaCost.getValue())
                 .withTypeLine(typeLine.getValue())
@@ -83,27 +82,27 @@ public class CardInfo extends VBox implements FxComponent {
 
     private void refresh() {
         Card card = cardProperty.get();
-        name.setValue(card == null ? null : card.getName());
-        manaCost.setValue(card == null ? null : card.getManaCost());
-        typeLine.setValue(card == null ? null : card.getTypeLine());
-        power.setValue(card == null ? null : card.getPower());
-        toughness.setValue(card == null ? null : card.getToughness());
+        name.setValue(card == null ? null : card.name());
+        manaCost.setValue(card == null ? null : card.manaCost());
+        typeLine.setValue(card == null ? null : card.typeLine());
+        power.setValue(card == null ? null : card.power());
+        toughness.setValue(card == null ? null : card.toughness());
 
     }
 
     public void generateImage() {
         runAsync(() -> {
             Card card = getCardWithEdits();
-            String fileName = card.getName()
+            String fileName = card.name()
                     .replace(" ", "_").toLowerCase() + ".png";
             try (MseCliProcess mse = new MseCliProcess()) {
                 mse.load(Path.of("mse_sets/empty.mse-set"));
                 Map<String, String> fieldMap = new HashMap<>();
-                fieldMap.put("name", card.getName());
-                fieldMap.put("type", card.getTypeLine());
-                fieldMap.put("rule_text", card.getOracleText());
-                fieldMap.put("power", card.getPower());
-                fieldMap.put("toughness", card.getToughness());
+                fieldMap.put("name", card.name());
+                fieldMap.put("type", card.typeLine());
+                fieldMap.put("rule_text", card.oracleText());
+                fieldMap.put("power", card.power());
+                fieldMap.put("toughness", card.toughness());
 
                 mse.command("source := set.cards[0]");
                 mse.new_card("my_card", fieldMap);

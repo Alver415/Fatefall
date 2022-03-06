@@ -1,7 +1,8 @@
 package com.alver.fatefall.fx.components.cardcollection;
 
 import com.alver.fatefall.FxComponent;
-import com.alver.fatefall.api.base.Card;
+import com.alver.fatefall.api.models.Card;
+import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.fx.components.cardview.CardView;
 import com.alver.fatefall.services.DialogService;
 import com.alver.scryfall.api.ScryfallClient;
@@ -77,7 +78,7 @@ public abstract class CardGridPane extends BorderPane implements FxComponent {
         });
     }
 
-    protected void redraw(List<? extends Card> cards) {
+    protected void redraw(List<Card> cards) {
         gridPane.getChildren().clear();
         //TODO: Remove limit and implement pagination.
         for (int i = 0; i < Math.min(cards.size(), 20); i++) {

@@ -6,7 +6,6 @@
 
 package com.alver.fatefall.api.models;
 
-import com.alver.fatefall.api.base.Card;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -125,13 +124,13 @@ public enum Layouts {
     private static final EnumSet<Layouts> DOUBLE_FACED = EnumSet.of(TRANSFORM, MODAL_DFC, DOUBLE_FACED_TOKEN, ART_SERIES, REVERSIBLE_CARD);
 
     public static boolean isDoubleFaced(Card card) {
-        return DOUBLE_FACED.contains(card.getLayout());
+        return DOUBLE_FACED.contains(card.layout());
     }
 
     private static final EnumSet<Layouts> ROTATED = EnumSet.of(SPLIT, FLIP);
 
     public static boolean isRotated(Card card) {
-        return ROTATED.contains(card.getLayout());
+        return ROTATED.contains(card.layout());
     }
 
     @JsonValue

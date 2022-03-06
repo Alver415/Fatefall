@@ -6,7 +6,7 @@
 
 package com.alver.scryfall.api.implementation;
 
-import com.alver.fatefall.api.base.Card;
+import com.alver.fatefall.api.models.Card;
 import com.alver.scryfall.api.Cards;
 import com.alver.fatefall.api.models.*;
 import com.alver.scryfall.api.models.ErrorException;
