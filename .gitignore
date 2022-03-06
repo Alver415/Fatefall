@@ -17,9 +17,7 @@
 *.classpath
 *.project
 *.settings/
+*.idea/*
 */target/**
 database/*
-.idea/*
 jmse_sets/*
-modules/fatefall-app-javafx/target/classes/application.yml
-modules/scryfall-api-client/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst

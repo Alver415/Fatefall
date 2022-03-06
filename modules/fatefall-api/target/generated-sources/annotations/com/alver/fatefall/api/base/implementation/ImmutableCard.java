@@ -1,11 +1,21 @@
-package com.alver.scryfall.api.models;
+package com.alver.fatefall.api.base.implementation;
 
+import com.alver.fatefall.api.base.Card;
+import com.alver.fatefall.api.models.BorderColors;
+import com.alver.fatefall.api.models.CardFace;
+import com.alver.fatefall.api.models.Colors;
+import com.alver.fatefall.api.models.ImageUri;
+import com.alver.fatefall.api.models.Layouts;
+import com.alver.fatefall.api.models.Legality;
+import com.alver.fatefall.api.models.Rarity;
+import com.alver.fatefall.api.models.RelatedCards;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.MoreObjects;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.primitives.Ints;
 import com.sun.istack.Nullable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -13,19 +23,19 @@ import java.util.UUID;
 import org.immutables.value.Generated;
 
 /**
- * Immutable implementation of {@link AbstractCard}.
+ * Immutable implementation of {@link com.alver.fatefall.api.base.Card}.
  * <p>
  * Use the builder to create immutable instances:
  * {@code ImmutableCard.builder()}.
  */
-@Generated(from = "AbstractCard", generator = "Immutables")
+@Generated(from = "com.alver.fatefall.api.base.Card", generator = "Immutables")
 @SuppressWarnings({"all"})
 @javax.annotation.processing.Generated("org.immutables.processor.ProxyProcessor")
-public final class ImmutableCard extends AbstractCard {
+public final class ImmutableCard extends Card {
   private final @Nullable UUID id;
   private final @Nullable String name;
   private final @Nullable UUID oracleId;
-  private final @Nullable ImmutableList<Integer> multiverseIds;
+  private final @Nullable List<Integer> multiverseIds;
   private final @Nullable Integer mtgoId;
   private final @Nullable Integer arenaId;
   private final @Nullable Integer mtgoFoilId;
@@ -43,11 +53,11 @@ public final class ImmutableCard extends AbstractCard {
   private final @Nullable String loyalty;
   private final @Nullable String lifeModifier;
   private final @Nullable String handModifier;
-  private final @Nullable ImmutableList<Colors> colors;
-  private final @Nullable ImmutableList<Colors> colorIndicator;
-  private final @Nullable ImmutableList<Colors> colorIdentity;
-  private final @Nullable ImmutableList<RelatedCards> allParts;
-  private final @Nullable ImmutableList<CardFace> cardFaces;
+  private final @Nullable List<Colors> colors;
+  private final @Nullable List<Colors> colorIndicator;
+  private final @Nullable List<Colors> colorIdentity;
+  private final @Nullable List<RelatedCards> allParts;
+  private final @Nullable List<CardFace> cardFaces;
   private final @Nullable Legality legalities;
   private final @Nullable Boolean reserved;
   private final @Nullable Integer edhrecRank;
@@ -73,8 +83,8 @@ public final class ImmutableCard extends AbstractCard {
   private final @Nullable Boolean timeshifted;
   private final @Nullable Boolean colorshifted;
   private final @Nullable Boolean futureshifted;
-  private final @Nullable ImmutableMap<String, String> purchaseUris;
-  private final @Nullable ImmutableMap<String, String> relatedUris;
+  private final @Nullable Map<String, String> purchaseUris;
+  private final @Nullable Map<String, String> relatedUris;
 
   private ImmutableCard() {
     this.id = null;
@@ -136,7 +146,7 @@ public final class ImmutableCard extends AbstractCard {
       @Nullable UUID id,
       @Nullable String name,
       @Nullable UUID oracleId,
-      @Nullable ImmutableList<Integer> multiverseIds,
+      @Nullable List<Integer> multiverseIds,
       @Nullable Integer mtgoId,
       @Nullable Integer arenaId,
       @Nullable Integer mtgoFoilId,
@@ -154,11 +164,11 @@ public final class ImmutableCard extends AbstractCard {
       @Nullable String loyalty,
       @Nullable String lifeModifier,
       @Nullable String handModifier,
-      @Nullable ImmutableList<Colors> colors,
-      @Nullable ImmutableList<Colors> colorIndicator,
-      @Nullable ImmutableList<Colors> colorIdentity,
-      @Nullable ImmutableList<RelatedCards> allParts,
-      @Nullable ImmutableList<CardFace> cardFaces,
+      @Nullable List<Colors> colors,
+      @Nullable List<Colors> colorIndicator,
+      @Nullable List<Colors> colorIdentity,
+      @Nullable List<RelatedCards> allParts,
+      @Nullable List<CardFace> cardFaces,
       @Nullable Legality legalities,
       @Nullable Boolean reserved,
       @Nullable Integer edhrecRank,
@@ -184,8 +194,8 @@ public final class ImmutableCard extends AbstractCard {
       @Nullable Boolean timeshifted,
       @Nullable Boolean colorshifted,
       @Nullable Boolean futureshifted,
-      @Nullable ImmutableMap<String, String> purchaseUris,
-      @Nullable ImmutableMap<String, String> relatedUris) {
+      @Nullable Map<String, String> purchaseUris,
+      @Nullable Map<String, String> relatedUris) {
     this.id = id;
     this.name = name;
     this.oracleId = oracleId;
@@ -242,487 +252,484 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * The id property.
+   * @return The value of the {@code id} attribute
    */
   @JsonProperty("id")
   @Override
-  public @Nullable UUID id() {
+  public @Nullable UUID getId() {
     return id;
   }
 
   /**
-   * The name property.
+   * @return The value of the {@code name} attribute
    */
   @JsonProperty("name")
   @Override
-  public @Nullable String name() {
+  public @Nullable String getName() {
     return name;
   }
 
   /**
-   * The oracleId property.
+   * @return The value of the {@code oracleId} attribute
    */
-  @JsonProperty("oracle_id")
+  @JsonProperty("oracleId")
   @Override
-  public @Nullable UUID oracleId() {
+  public @Nullable UUID getOracleId() {
     return oracleId;
   }
 
   /**
-   * The multiverseIds property.
+   * @return The value of the {@code multiverseIds} attribute
    */
-  @JsonProperty("multiverse_ids")
+  @JsonProperty("multiverseIds")
   @Override
-  public @Nullable ImmutableList<Integer> multiverseIds() {
+  public @Nullable List<Integer> getMultiverseIds() {
     return multiverseIds;
   }
 
   /**
-   * The mtgoId property.
+   * @return The value of the {@code mtgoId} attribute
    */
-  @JsonProperty("mtgo_id")
+  @JsonProperty("mtgoId")
   @Override
-  public @Nullable Integer mtgoId() {
+  public @Nullable Integer getMtgoId() {
     return mtgoId;
   }
 
   /**
-   * The arenaId property.
+   * @return The value of the {@code arenaId} attribute
    */
-  @JsonProperty("arena_id")
+  @JsonProperty("arenaId")
   @Override
-  public @Nullable Integer arenaId() {
+  public @Nullable Integer getArenaId() {
     return arenaId;
   }
 
   /**
-   * The mtgoFoilId property.
+   * @return The value of the {@code mtgoFoilId} attribute
    */
-  @JsonProperty("mtgo_foil_id")
+  @JsonProperty("mtgoFoilId")
   @Override
-  public @Nullable Integer mtgoFoilId() {
+  public @Nullable Integer getMtgoFoilId() {
     return mtgoFoilId;
   }
 
   /**
-   * The uri property.
+   * @return The value of the {@code uri} attribute
    */
   @JsonProperty("uri")
   @Override
-  public @Nullable String uri() {
+  public @Nullable String getUri() {
     return uri;
   }
 
   /**
-   * The scryfallUri property.
+   * @return The value of the {@code scryfallUri} attribute
    */
-  @JsonProperty("scryfall_uri")
+  @JsonProperty("scryfallUri")
   @Override
-  public @Nullable String scryfallUri() {
+  public @Nullable String getScryfallUri() {
     return scryfallUri;
   }
 
   /**
-   * The printsSearchUri property.
+   * @return The value of the {@code printsSearchUri} attribute
    */
-  @JsonProperty("prints_search_uri")
+  @JsonProperty("printsSearchUri")
   @Override
-  public @Nullable String printsSearchUri() {
+  public @Nullable String getPrintsSearchUri() {
     return printsSearchUri;
   }
 
   /**
-   * The rulingsUri property.
+   * @return The value of the {@code rulingsUri} attribute
    */
-  @JsonProperty("rulings_uri")
+  @JsonProperty("rulingsUri")
   @Override
-  public @Nullable String rulingsUri() {
+  public @Nullable String getRulingsUri() {
     return rulingsUri;
   }
 
   /**
-   * Possible values include: 'normal', 'split', 'flip', 'transform', 'meld',
-   * 'leveler', 'saga', 'planar', 'scheme', 'vanguard', 'token',
-   * 'double_faced_token', 'emblem', 'augment', 'host'.
+   * @return The value of the {@code layout} attribute
    */
   @JsonProperty("layout")
   @Override
-  public @Nullable Layouts layout() {
+  public @Nullable Layouts getLayout() {
     return layout;
   }
 
   /**
-   * The cmc property.
+   * @return The value of the {@code cmc} attribute
    */
   @JsonProperty("cmc")
   @Override
-  public @Nullable Double cmc() {
+  public @Nullable Double getCmc() {
     return cmc;
   }
 
   /**
-   * The typeLine property.
+   * @return The value of the {@code typeLine} attribute
    */
-  @JsonProperty("type_line")
+  @JsonProperty("typeLine")
   @Override
-  public @Nullable String typeLine() {
+  public @Nullable String getTypeLine() {
     return typeLine;
   }
 
   /**
-   * The oracleText property.
+   * @return The value of the {@code oracleText} attribute
    */
-  @JsonProperty("oracle_text")
+  @JsonProperty("oracleText")
   @Override
-  public @Nullable String oracleText() {
+  public @Nullable String getOracleText() {
     return oracleText;
   }
 
   /**
-   * The manaCost property.
+   * @return The value of the {@code manaCost} attribute
    */
-  @JsonProperty("mana_cost")
+  @JsonProperty("manaCost")
   @Override
-  public @Nullable String manaCost() {
+  public @Nullable String getManaCost() {
     return manaCost;
   }
 
   /**
-   * The power property.
+   * @return The value of the {@code power} attribute
    */
   @JsonProperty("power")
   @Override
-  public @Nullable String power() {
+  public @Nullable String getPower() {
     return power;
   }
 
   /**
-   * The toughness property.
+   * @return The value of the {@code toughness} attribute
    */
   @JsonProperty("toughness")
   @Override
-  public @Nullable String toughness() {
+  public @Nullable String getToughness() {
     return toughness;
   }
 
   /**
-   * The loyalty property.
+   * @return The value of the {@code loyalty} attribute
    */
   @JsonProperty("loyalty")
   @Override
-  public @Nullable String loyalty() {
+  public @Nullable String getLoyalty() {
     return loyalty;
   }
 
   /**
-   * The lifeModifier property.
+   * @return The value of the {@code lifeModifier} attribute
    */
-  @JsonProperty("life_modifier")
+  @JsonProperty("lifeModifier")
   @Override
-  public @Nullable String lifeModifier() {
+  public @Nullable String getLifeModifier() {
     return lifeModifier;
   }
 
   /**
-   * The handModifier property.
+   * @return The value of the {@code handModifier} attribute
    */
-  @JsonProperty("hand_modifier")
+  @JsonProperty("handModifier")
   @Override
-  public @Nullable String handModifier() {
+  public @Nullable String getHandModifier() {
     return handModifier;
   }
 
   /**
-   * The colors property.
+   * @return The value of the {@code colors} attribute
    */
   @JsonProperty("colors")
   @Override
-  public @Nullable ImmutableList<Colors> colors() {
+  public @Nullable List<Colors> getColors() {
     return colors;
   }
 
   /**
-   * The colorIndicator property.
+   * @return The value of the {@code colorIndicator} attribute
    */
-  @JsonProperty("color_indicator")
+  @JsonProperty("colorIndicator")
   @Override
-  public @Nullable ImmutableList<Colors> colorIndicator() {
+  public @Nullable List<Colors> getColorIndicator() {
     return colorIndicator;
   }
 
   /**
-   * The colorIdentity property.
+   * @return The value of the {@code colorIdentity} attribute
    */
-  @JsonProperty("color_identity")
+  @JsonProperty("colorIdentity")
   @Override
-  public @Nullable ImmutableList<Colors> colorIdentity() {
+  public @Nullable List<Colors> getColorIdentity() {
     return colorIdentity;
   }
 
   /**
-   * The allParts property.
+   * @return The value of the {@code allParts} attribute
    */
-  @JsonProperty("all_parts")
+  @JsonProperty("allParts")
   @Override
-  public @Nullable ImmutableList<RelatedCards> allParts() {
+  public @Nullable List<RelatedCards> getAllParts() {
     return allParts;
   }
 
   /**
-   * The cardFaces property.
+   * @return The value of the {@code cardFaces} attribute
    */
   @JsonProperty("card_faces")
   @Override
-  public @Nullable ImmutableList<CardFace> cardFaces() {
+  public @Nullable List<CardFace> getCardFaces() {
     return cardFaces;
   }
 
   /**
-   * The legalities property.
+   * @return The value of the {@code legalities} attribute
    */
   @JsonProperty("legalities")
   @Override
-  public @Nullable Legality legalities() {
+  public @Nullable Legality getLegalities() {
     return legalities;
   }
 
   /**
-   * The reserved property.
+   * @return The value of the {@code reserved} attribute
    */
   @JsonProperty("reserved")
   @Override
-  public @Nullable Boolean reserved() {
+  public @Nullable Boolean getReserved() {
     return reserved;
   }
 
   /**
-   * The edhrecRank property.
+   * @return The value of the {@code edhrecRank} attribute
    */
-  @JsonProperty("edhrec_rank")
+  @JsonProperty("edhrecRank")
   @Override
-  public @Nullable Integer edhrecRank() {
+  public @Nullable Integer getEdhrecRank() {
     return edhrecRank;
   }
 
   /**
-   * The set property.
+   * @return The value of the {@code setCode} attribute
    */
-  @JsonProperty("set")
+  @JsonProperty("setCode")
   @Override
-  public @Nullable String setCode() {
+  public @Nullable String getSetCode() {
     return setCode;
   }
 
   /**
-   * The setName property.
+   * @return The value of the {@code setName} attribute
    */
-  @JsonProperty("set_name")
+  @JsonProperty("setName")
   @Override
-  public @Nullable String setName() {
+  public @Nullable String getSetName() {
     return setName;
   }
 
   /**
-   * The collectorNumber property.
+   * @return The value of the {@code collectorNumber} attribute
    */
-  @JsonProperty("collector_number")
+  @JsonProperty("collectorNumber")
   @Override
-  public @Nullable String collectorNumber() {
+  public @Nullable String getCollectorNumber() {
     return collectorNumber;
   }
 
   /**
-   * The setSearchUri property.
+   * @return The value of the {@code setSearchUri} attribute
    */
-  @JsonProperty("set_search_uri")
+  @JsonProperty("setSearchUri")
   @Override
-  public @Nullable String setSearchUri() {
+  public @Nullable String getSetSearchUri() {
     return setSearchUri;
   }
 
   /**
-   * The scryfallSetUri property.
+   * @return The value of the {@code scryfallSetUri} attribute
    */
-  @JsonProperty("scryfall_set_uri")
+  @JsonProperty("scryfallSetUri")
   @Override
-  public @Nullable String scryfallSetUri() {
+  public @Nullable String getScryfallSetUri() {
     return scryfallSetUri;
   }
 
   /**
-   * The imageUris property.
+   * @return The value of the {@code imageUris} attribute
    */
   @JsonProperty("image_uris")
   @Override
-  public @Nullable ImageUri imageUris() {
+  public @Nullable ImageUri getImageUris() {
     return imageUris;
   }
 
   /**
-   * The highresImage property.
+   * @return The value of the {@code highresImage} attribute
    */
-  @JsonProperty("highres_image")
+  @JsonProperty("highresImage")
   @Override
-  public @Nullable Boolean highresImage() {
+  public @Nullable Boolean getHighresImage() {
     return highresImage;
   }
 
   /**
-   * The reprint property.
+   * @return The value of the {@code reprint} attribute
    */
   @JsonProperty("reprint")
   @Override
-  public @Nullable Boolean reprint() {
+  public @Nullable Boolean getReprint() {
     return reprint;
   }
 
   /**
-   * The digital property.
+   * @return The value of the {@code digital} attribute
    */
   @JsonProperty("digital")
   @Override
-  public @Nullable Boolean digital() {
+  public @Nullable Boolean getDigital() {
     return digital;
   }
 
   /**
-   * Possible values include: 'common', 'uncommon', 'rare', 'mythic'.
+   * @return The value of the {@code rarity} attribute
    */
   @JsonProperty("rarity")
   @Override
-  public @Nullable Rarity rarity() {
+  public @Nullable Rarity getRarity() {
     return rarity;
   }
 
   /**
-   * The flavorText property.
+   * @return The value of the {@code flavorText} attribute
    */
-  @JsonProperty("flavor_text")
+  @JsonProperty("flavorText")
   @Override
-  public @Nullable String flavorText() {
+  public @Nullable String getFlavorText() {
     return flavorText;
   }
 
   /**
-   * The artist property.
+   * @return The value of the {@code artist} attribute
    */
   @JsonProperty("artist")
   @Override
-  public @Nullable String artist() {
+  public @Nullable String getArtist() {
     return artist;
   }
 
   /**
-   * The illustrationId property.
+   * @return The value of the {@code illustrationId} attribute
    */
-  @JsonProperty("illustration_id")
+  @JsonProperty("illustrationId")
   @Override
-  public @Nullable UUID illustrationId() {
+  public @Nullable UUID getIllustrationId() {
     return illustrationId;
   }
 
   /**
-   * The frame property.
+   * @return The value of the {@code frame} attribute
    */
   @JsonProperty("frame")
   @Override
-  public @Nullable String frame() {
+  public @Nullable String getFrame() {
     return frame;
   }
 
   /**
-   * The fullArt property.
+   * @return The value of the {@code fullArt} attribute
    */
-  @JsonProperty("full_art")
+  @JsonProperty("fullArt")
   @Override
-  public @Nullable Boolean fullArt() {
+  public @Nullable Boolean getFullArt() {
     return fullArt;
   }
 
   /**
-   * The watermark property.
+   * @return The value of the {@code watermark} attribute
    */
   @JsonProperty("watermark")
   @Override
-  public @Nullable String watermark() {
+  public @Nullable String getWatermark() {
     return watermark;
   }
 
   /**
-   * Possible values include: 'black', 'borderless', 'gold', 'silver',
-   * 'white'.
+   * @return The value of the {@code borderColor} attribute
    */
-  @JsonProperty("border_color")
+  @JsonProperty("borderColor")
   @Override
-  public @Nullable BorderColors borderColor() {
+  public @Nullable BorderColors getBorderColor() {
     return borderColor;
   }
 
   /**
-   * The storySpotlightNumber property.
+   * @return The value of the {@code storySpotlightNumber} attribute
    */
-  @JsonProperty("story_spotlight_number")
+  @JsonProperty("storySpotlightNumber")
   @Override
-  public @Nullable Integer storySpotlightNumber() {
+  public @Nullable Integer getStorySpotlightNumber() {
     return storySpotlightNumber;
   }
 
   /**
-   * The storySpotlightUri property.
+   * @return The value of the {@code storySpotlightUri} attribute
    */
-  @JsonProperty("story_spotlight_uri")
+  @JsonProperty("storySpotlightUri")
   @Override
-  public @Nullable String storySpotlightUri() {
+  public @Nullable String getStorySpotlightUri() {
     return storySpotlightUri;
   }
 
   /**
-   * The timeshifted property.
+   * @return The value of the {@code timeshifted} attribute
    */
   @JsonProperty("timeshifted")
   @Override
-  public @Nullable Boolean timeshifted() {
+  public @Nullable Boolean getTimeshifted() {
     return timeshifted;
   }
 
   /**
-   * The colorshifted property.
+   * @return The value of the {@code colorshifted} attribute
    */
   @JsonProperty("colorshifted")
   @Override
-  public @Nullable Boolean colorshifted() {
+  public @Nullable Boolean getColorshifted() {
     return colorshifted;
   }
 
   /**
-   * The futureshifted property.
+   * @return The value of the {@code futureshifted} attribute
    */
   @JsonProperty("futureshifted")
   @Override
-  public @Nullable Boolean futureshifted() {
+  public @Nullable Boolean getFutureshifted() {
     return futureshifted;
   }
 
   /**
-   * The purchaseUris property.
+   * @return The value of the {@code purchaseUris} attribute
    */
-  @JsonProperty("purchase_uris")
+  @JsonProperty("purchaseUris")
   @Override
-  public @Nullable ImmutableMap<String, String> purchaseUris() {
+  public @Nullable Map<String, String> getPurchaseUris() {
     return purchaseUris;
   }
 
   /**
-   * The relatedUris property.
+   * @return The value of the {@code relatedUris} attribute
    */
-  @JsonProperty("related_uris")
+  @JsonProperty("relatedUris")
   @Override
-  public @Nullable ImmutableMap<String, String> relatedUris() {
+  public @Nullable Map<String, String> getRelatedUris() {
     return relatedUris;
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#id() id} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getId() id} attribute.
    * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for id (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -786,7 +793,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#name() name} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getName() name} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for name (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -850,7 +857,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#oracleId() oracleId} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getOracleId() oracleId} attribute.
    * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for oracleId (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -914,7 +921,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object with elements that replace the content of {@link AbstractCard#multiverseIds() multiverseIds}.
+   * Copy the current immutable object with elements that replace the content of {@link com.alver.fatefall.api.base.Card#getMultiverseIds() multiverseIds}.
    * @param elements The elements to set
    * @return A modified copy of {@code this} object
    */
@@ -975,7 +982,11 @@ public final class ImmutableCard extends AbstractCard {
           this.purchaseUris,
           this.relatedUris);
     }
-    @Nullable ImmutableList<Integer> newValue = Ints.asList(elements) == null ? null : ImmutableList.copyOf(Ints.asList(elements));
+    ArrayList<Integer> wrappedList = new ArrayList<>(elements.length);
+    for (int element : elements) {
+      wrappedList.add(element);
+    }
+    List<Integer> newValue = createUnmodifiableList(false, wrappedList);
     return new ImmutableCard(
         this.id,
         this.name,
@@ -1033,14 +1044,14 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object with elements that replace the content of {@link AbstractCard#multiverseIds() multiverseIds}.
+   * Copy the current immutable object with elements that replace the content of {@link com.alver.fatefall.api.base.Card#getMultiverseIds() multiverseIds}.
    * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
    * @param elements An iterable of multiverseIds elements to set
    * @return A modified copy of {@code this} object
    */
   public final ImmutableCard withMultiverseIds(@Nullable Iterable<Integer> elements) {
     if (this.multiverseIds == elements) return this;
-    @Nullable ImmutableList<Integer> newValue = elements == null ? null : ImmutableList.copyOf(elements);
+    @Nullable List<Integer> newValue = elements == null ? null : createUnmodifiableList(false, createSafeList(elements, true, false));
     return new ImmutableCard(
         this.id,
         this.name,
@@ -1098,7 +1109,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#mtgoId() mtgoId} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getMtgoId() mtgoId} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for mtgoId (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -1162,7 +1173,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#arenaId() arenaId} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getArenaId() arenaId} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for arenaId (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -1226,7 +1237,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#mtgoFoilId() mtgoFoilId} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getMtgoFoilId() mtgoFoilId} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for mtgoFoilId (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -1290,7 +1301,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#uri() uri} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getUri() uri} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for uri (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -1354,7 +1365,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#scryfallUri() scryfallUri} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getScryfallUri() scryfallUri} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for scryfallUri (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -1418,7 +1429,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#printsSearchUri() printsSearchUri} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getPrintsSearchUri() printsSearchUri} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for printsSearchUri (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -1482,7 +1493,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#rulingsUri() rulingsUri} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getRulingsUri() rulingsUri} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for rulingsUri (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -1546,7 +1557,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#layout() layout} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getLayout() layout} attribute.
    * A value equality check is used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for layout (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -1610,7 +1621,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#cmc() cmc} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getCmc() cmc} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for cmc (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -1674,7 +1685,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#typeLine() typeLine} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getTypeLine() typeLine} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for typeLine (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -1738,7 +1749,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#oracleText() oracleText} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getOracleText() oracleText} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for oracleText (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -1802,7 +1813,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#manaCost() manaCost} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getManaCost() manaCost} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for manaCost (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -1866,7 +1877,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#power() power} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getPower() power} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for power (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -1930,7 +1941,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#toughness() toughness} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getToughness() toughness} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for toughness (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -1994,7 +2005,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#loyalty() loyalty} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getLoyalty() loyalty} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for loyalty (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -2058,7 +2069,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#lifeModifier() lifeModifier} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getLifeModifier() lifeModifier} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for lifeModifier (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -2122,7 +2133,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#handModifier() handModifier} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getHandModifier() handModifier} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for handModifier (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -2186,7 +2197,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object with elements that replace the content of {@link AbstractCard#colors() colors}.
+   * Copy the current immutable object with elements that replace the content of {@link com.alver.fatefall.api.base.Card#getColors() colors}.
    * @param elements The elements to set
    * @return A modified copy of {@code this} object
    */
@@ -2247,7 +2258,7 @@ public final class ImmutableCard extends AbstractCard {
           this.purchaseUris,
           this.relatedUris);
     }
-    @Nullable ImmutableList<Colors> newValue = elements == null ? null : ImmutableList.copyOf(elements);
+    @Nullable List<Colors> newValue = Arrays.asList(elements) == null ? null : createUnmodifiableList(false, createSafeList(Arrays.asList(elements), true, false));
     return new ImmutableCard(
         this.id,
         this.name,
@@ -2305,14 +2316,14 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object with elements that replace the content of {@link AbstractCard#colors() colors}.
+   * Copy the current immutable object with elements that replace the content of {@link com.alver.fatefall.api.base.Card#getColors() colors}.
    * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
    * @param elements An iterable of colors elements to set
    * @return A modified copy of {@code this} object
    */
   public final ImmutableCard withColors(@Nullable Iterable<? extends Colors> elements) {
     if (this.colors == elements) return this;
-    @Nullable ImmutableList<Colors> newValue = elements == null ? null : ImmutableList.copyOf(elements);
+    @Nullable List<Colors> newValue = elements == null ? null : createUnmodifiableList(false, createSafeList(elements, true, false));
     return new ImmutableCard(
         this.id,
         this.name,
@@ -2370,7 +2381,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object with elements that replace the content of {@link AbstractCard#colorIndicator() colorIndicator}.
+   * Copy the current immutable object with elements that replace the content of {@link com.alver.fatefall.api.base.Card#getColorIndicator() colorIndicator}.
    * @param elements The elements to set
    * @return A modified copy of {@code this} object
    */
@@ -2431,7 +2442,7 @@ public final class ImmutableCard extends AbstractCard {
           this.purchaseUris,
           this.relatedUris);
     }
-    @Nullable ImmutableList<Colors> newValue = elements == null ? null : ImmutableList.copyOf(elements);
+    @Nullable List<Colors> newValue = Arrays.asList(elements) == null ? null : createUnmodifiableList(false, createSafeList(Arrays.asList(elements), true, false));
     return new ImmutableCard(
         this.id,
         this.name,
@@ -2489,14 +2500,14 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object with elements that replace the content of {@link AbstractCard#colorIndicator() colorIndicator}.
+   * Copy the current immutable object with elements that replace the content of {@link com.alver.fatefall.api.base.Card#getColorIndicator() colorIndicator}.
    * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
    * @param elements An iterable of colorIndicator elements to set
    * @return A modified copy of {@code this} object
    */
   public final ImmutableCard withColorIndicator(@Nullable Iterable<? extends Colors> elements) {
     if (this.colorIndicator == elements) return this;
-    @Nullable ImmutableList<Colors> newValue = elements == null ? null : ImmutableList.copyOf(elements);
+    @Nullable List<Colors> newValue = elements == null ? null : createUnmodifiableList(false, createSafeList(elements, true, false));
     return new ImmutableCard(
         this.id,
         this.name,
@@ -2554,7 +2565,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object with elements that replace the content of {@link AbstractCard#colorIdentity() colorIdentity}.
+   * Copy the current immutable object with elements that replace the content of {@link com.alver.fatefall.api.base.Card#getColorIdentity() colorIdentity}.
    * @param elements The elements to set
    * @return A modified copy of {@code this} object
    */
@@ -2615,7 +2626,7 @@ public final class ImmutableCard extends AbstractCard {
           this.purchaseUris,
           this.relatedUris);
     }
-    @Nullable ImmutableList<Colors> newValue = elements == null ? null : ImmutableList.copyOf(elements);
+    @Nullable List<Colors> newValue = Arrays.asList(elements) == null ? null : createUnmodifiableList(false, createSafeList(Arrays.asList(elements), true, false));
     return new ImmutableCard(
         this.id,
         this.name,
@@ -2673,14 +2684,14 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object with elements that replace the content of {@link AbstractCard#colorIdentity() colorIdentity}.
+   * Copy the current immutable object with elements that replace the content of {@link com.alver.fatefall.api.base.Card#getColorIdentity() colorIdentity}.
    * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
    * @param elements An iterable of colorIdentity elements to set
    * @return A modified copy of {@code this} object
    */
   public final ImmutableCard withColorIdentity(@Nullable Iterable<? extends Colors> elements) {
     if (this.colorIdentity == elements) return this;
-    @Nullable ImmutableList<Colors> newValue = elements == null ? null : ImmutableList.copyOf(elements);
+    @Nullable List<Colors> newValue = elements == null ? null : createUnmodifiableList(false, createSafeList(elements, true, false));
     return new ImmutableCard(
         this.id,
         this.name,
@@ -2738,7 +2749,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object with elements that replace the content of {@link AbstractCard#allParts() allParts}.
+   * Copy the current immutable object with elements that replace the content of {@link com.alver.fatefall.api.base.Card#getAllParts() allParts}.
    * @param elements The elements to set
    * @return A modified copy of {@code this} object
    */
@@ -2799,7 +2810,7 @@ public final class ImmutableCard extends AbstractCard {
           this.purchaseUris,
           this.relatedUris);
     }
-    @Nullable ImmutableList<RelatedCards> newValue = elements == null ? null : ImmutableList.copyOf(elements);
+    @Nullable List<RelatedCards> newValue = Arrays.asList(elements) == null ? null : createUnmodifiableList(false, createSafeList(Arrays.asList(elements), true, false));
     return new ImmutableCard(
         this.id,
         this.name,
@@ -2857,14 +2868,14 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object with elements that replace the content of {@link AbstractCard#allParts() allParts}.
+   * Copy the current immutable object with elements that replace the content of {@link com.alver.fatefall.api.base.Card#getAllParts() allParts}.
    * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
    * @param elements An iterable of allParts elements to set
    * @return A modified copy of {@code this} object
    */
   public final ImmutableCard withAllParts(@Nullable Iterable<? extends RelatedCards> elements) {
     if (this.allParts == elements) return this;
-    @Nullable ImmutableList<RelatedCards> newValue = elements == null ? null : ImmutableList.copyOf(elements);
+    @Nullable List<RelatedCards> newValue = elements == null ? null : createUnmodifiableList(false, createSafeList(elements, true, false));
     return new ImmutableCard(
         this.id,
         this.name,
@@ -2922,7 +2933,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object with elements that replace the content of {@link AbstractCard#cardFaces() cardFaces}.
+   * Copy the current immutable object with elements that replace the content of {@link com.alver.fatefall.api.base.Card#getCardFaces() cardFaces}.
    * @param elements The elements to set
    * @return A modified copy of {@code this} object
    */
@@ -2983,7 +2994,7 @@ public final class ImmutableCard extends AbstractCard {
           this.purchaseUris,
           this.relatedUris);
     }
-    @Nullable ImmutableList<CardFace> newValue = elements == null ? null : ImmutableList.copyOf(elements);
+    @Nullable List<CardFace> newValue = Arrays.asList(elements) == null ? null : createUnmodifiableList(false, createSafeList(Arrays.asList(elements), true, false));
     return new ImmutableCard(
         this.id,
         this.name,
@@ -3041,14 +3052,14 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object with elements that replace the content of {@link AbstractCard#cardFaces() cardFaces}.
+   * Copy the current immutable object with elements that replace the content of {@link com.alver.fatefall.api.base.Card#getCardFaces() cardFaces}.
    * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
    * @param elements An iterable of cardFaces elements to set
    * @return A modified copy of {@code this} object
    */
   public final ImmutableCard withCardFaces(@Nullable Iterable<? extends CardFace> elements) {
     if (this.cardFaces == elements) return this;
-    @Nullable ImmutableList<CardFace> newValue = elements == null ? null : ImmutableList.copyOf(elements);
+    @Nullable List<CardFace> newValue = elements == null ? null : createUnmodifiableList(false, createSafeList(elements, true, false));
     return new ImmutableCard(
         this.id,
         this.name,
@@ -3106,7 +3117,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#legalities() legalities} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getLegalities() legalities} attribute.
    * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for legalities (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -3170,7 +3181,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#reserved() reserved} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getReserved() reserved} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for reserved (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -3234,7 +3245,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#edhrecRank() edhrecRank} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getEdhrecRank() edhrecRank} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for edhrecRank (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -3298,7 +3309,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#setCode() setCode} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getSetCode() setCode} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for setCode (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -3362,7 +3373,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#setName() setName} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getSetName() setName} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for setName (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -3426,7 +3437,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#collectorNumber() collectorNumber} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getCollectorNumber() collectorNumber} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for collectorNumber (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -3490,7 +3501,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#setSearchUri() setSearchUri} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getSetSearchUri() setSearchUri} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for setSearchUri (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -3554,7 +3565,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#scryfallSetUri() scryfallSetUri} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getScryfallSetUri() scryfallSetUri} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for scryfallSetUri (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -3618,7 +3629,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#imageUris() imageUris} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getImageUris() imageUris} attribute.
    * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for imageUris (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -3682,7 +3693,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#highresImage() highresImage} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getHighresImage() highresImage} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for highresImage (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -3746,7 +3757,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#reprint() reprint} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getReprint() reprint} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for reprint (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -3810,7 +3821,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#digital() digital} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getDigital() digital} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for digital (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -3874,7 +3885,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#rarity() rarity} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getRarity() rarity} attribute.
    * A value equality check is used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for rarity (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -3938,7 +3949,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#flavorText() flavorText} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getFlavorText() flavorText} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for flavorText (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -4002,7 +4013,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#artist() artist} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getArtist() artist} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for artist (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -4066,7 +4077,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#illustrationId() illustrationId} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getIllustrationId() illustrationId} attribute.
    * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for illustrationId (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -4130,7 +4141,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#frame() frame} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getFrame() frame} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for frame (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -4194,7 +4205,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#fullArt() fullArt} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getFullArt() fullArt} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for fullArt (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -4258,7 +4269,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#watermark() watermark} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getWatermark() watermark} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for watermark (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -4322,7 +4333,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#borderColor() borderColor} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getBorderColor() borderColor} attribute.
    * A value equality check is used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for borderColor (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -4386,7 +4397,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#storySpotlightNumber() storySpotlightNumber} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getStorySpotlightNumber() storySpotlightNumber} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for storySpotlightNumber (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -4450,7 +4461,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#storySpotlightUri() storySpotlightUri} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getStorySpotlightUri() storySpotlightUri} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for storySpotlightUri (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -4514,7 +4525,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#timeshifted() timeshifted} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getTimeshifted() timeshifted} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for timeshifted (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -4578,7 +4589,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#colorshifted() colorshifted} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getColorshifted() colorshifted} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for colorshifted (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -4642,7 +4653,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by setting a value for the {@link AbstractCard#futureshifted() futureshifted} attribute.
+   * Copy the current immutable object by setting a value for the {@link com.alver.fatefall.api.base.Card#getFutureshifted() futureshifted} attribute.
    * An equals check used to prevent copying of the same value by returning {@code this}.
    * @param value A new value for futureshifted (can be {@code null})
    * @return A modified copy of the {@code this} object
@@ -4706,7 +4717,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by replacing the {@link AbstractCard#purchaseUris() purchaseUris} map with the specified map.
+   * Copy the current immutable object by replacing the {@link com.alver.fatefall.api.base.Card#getPurchaseUris() purchaseUris} map with the specified map.
    * Nulls are not permitted as keys or values.
    * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
    * @param entries The entries to be added to the purchaseUris map
@@ -4714,7 +4725,7 @@ public final class ImmutableCard extends AbstractCard {
    */
   public final ImmutableCard withPurchaseUris(@Nullable Map<String, ? extends String> entries) {
     if (this.purchaseUris == entries) return this;
-    @Nullable ImmutableMap<String, String> newValue = entries == null ? null : ImmutableMap.copyOf(entries);
+    @Nullable Map<String, String> newValue = entries == null ? null : createUnmodifiableMap(true, false, entries);
     return new ImmutableCard(
         this.id,
         this.name,
@@ -4772,7 +4783,7 @@ public final class ImmutableCard extends AbstractCard {
   }
 
   /**
-   * Copy the current immutable object by replacing the {@link AbstractCard#relatedUris() relatedUris} map with the specified map.
+   * Copy the current immutable object by replacing the {@link com.alver.fatefall.api.base.Card#getRelatedUris() relatedUris} map with the specified map.
    * Nulls are not permitted as keys or values.
    * A shallow reference equality check is used to prevent copying of the same value by returning {@code this}.
    * @param entries The entries to be added to the relatedUris map
@@ -4780,7 +4791,7 @@ public final class ImmutableCard extends AbstractCard {
    */
   public final ImmutableCard withRelatedUris(@Nullable Map<String, ? extends String> entries) {
     if (this.relatedUris == entries) return this;
-    @Nullable ImmutableMap<String, String> newValue = entries == null ? null : ImmutableMap.copyOf(entries);
+    @Nullable Map<String, String> newValue = entries == null ? null : createUnmodifiableMap(true, false, entries);
     return new ImmutableCard(
         this.id,
         this.name,
@@ -4973,72 +4984,71 @@ public final class ImmutableCard extends AbstractCard {
    */
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper("Card")
-        .omitNullValues()
-        .add("id", id)
-        .add("name", name)
-        .add("oracleId", oracleId)
-        .add("multiverseIds", multiverseIds)
-        .add("mtgoId", mtgoId)
-        .add("arenaId", arenaId)
-        .add("mtgoFoilId", mtgoFoilId)
-        .add("uri", uri)
-        .add("scryfallUri", scryfallUri)
-        .add("printsSearchUri", printsSearchUri)
-        .add("rulingsUri", rulingsUri)
-        .add("layout", layout)
-        .add("cmc", cmc)
-        .add("typeLine", typeLine)
-        .add("oracleText", oracleText)
-        .add("manaCost", manaCost)
-        .add("power", power)
-        .add("toughness", toughness)
-        .add("loyalty", loyalty)
-        .add("lifeModifier", lifeModifier)
-        .add("handModifier", handModifier)
-        .add("colors", colors)
-        .add("colorIndicator", colorIndicator)
-        .add("colorIdentity", colorIdentity)
-        .add("allParts", allParts)
-        .add("cardFaces", cardFaces)
-        .add("legalities", legalities)
-        .add("reserved", reserved)
-        .add("edhrecRank", edhrecRank)
-        .add("setCode", setCode)
-        .add("setName", setName)
-        .add("collectorNumber", collectorNumber)
-        .add("setSearchUri", setSearchUri)
-        .add("scryfallSetUri", scryfallSetUri)
-        .add("imageUris", imageUris)
-        .add("highresImage", highresImage)
-        .add("reprint", reprint)
-        .add("digital", digital)
-        .add("rarity", rarity)
-        .add("flavorText", flavorText)
-        .add("artist", artist)
-        .add("illustrationId", illustrationId)
-        .add("frame", frame)
-        .add("fullArt", fullArt)
-        .add("watermark", watermark)
-        .add("borderColor", borderColor)
-        .add("storySpotlightNumber", storySpotlightNumber)
-        .add("storySpotlightUri", storySpotlightUri)
-        .add("timeshifted", timeshifted)
-        .add("colorshifted", colorshifted)
-        .add("futureshifted", futureshifted)
-        .add("purchaseUris", purchaseUris)
-        .add("relatedUris", relatedUris)
-        .toString();
+    return "Card{"
+        + "id=" + id
+        + ", name=" + name
+        + ", oracleId=" + oracleId
+        + ", multiverseIds=" + multiverseIds
+        + ", mtgoId=" + mtgoId
+        + ", arenaId=" + arenaId
+        + ", mtgoFoilId=" + mtgoFoilId
+        + ", uri=" + uri
+        + ", scryfallUri=" + scryfallUri
+        + ", printsSearchUri=" + printsSearchUri
+        + ", rulingsUri=" + rulingsUri
+        + ", layout=" + layout
+        + ", cmc=" + cmc
+        + ", typeLine=" + typeLine
+        + ", oracleText=" + oracleText
+        + ", manaCost=" + manaCost
+        + ", power=" + power
+        + ", toughness=" + toughness
+        + ", loyalty=" + loyalty
+        + ", lifeModifier=" + lifeModifier
+        + ", handModifier=" + handModifier
+        + ", colors=" + colors
+        + ", colorIndicator=" + colorIndicator
+        + ", colorIdentity=" + colorIdentity
+        + ", allParts=" + allParts
+        + ", cardFaces=" + cardFaces
+        + ", legalities=" + legalities
+        + ", reserved=" + reserved
+        + ", edhrecRank=" + edhrecRank
+        + ", setCode=" + setCode
+        + ", setName=" + setName
+        + ", collectorNumber=" + collectorNumber
+        + ", setSearchUri=" + setSearchUri
+        + ", scryfallSetUri=" + scryfallSetUri
+        + ", imageUris=" + imageUris
+        + ", highresImage=" + highresImage
+        + ", reprint=" + reprint
+        + ", digital=" + digital
+        + ", rarity=" + rarity
+        + ", flavorText=" + flavorText
+        + ", artist=" + artist
+        + ", illustrationId=" + illustrationId
+        + ", frame=" + frame
+        + ", fullArt=" + fullArt
+        + ", watermark=" + watermark
+        + ", borderColor=" + borderColor
+        + ", storySpotlightNumber=" + storySpotlightNumber
+        + ", storySpotlightUri=" + storySpotlightUri
+        + ", timeshifted=" + timeshifted
+        + ", colorshifted=" + colorshifted
+        + ", futureshifted=" + futureshifted
+        + ", purchaseUris=" + purchaseUris
+        + ", relatedUris=" + relatedUris
+        + "}";
   }
 
   /**
-   * Creates an immutable copy of a {@link AbstractCard} value.
+   * Creates an immutable copy of a {@link com.alver.fatefall.api.base.Card} value.
    * Uses accessors to get values to initialize the new immutable instance.
    * If an instance is already immutable, it is returned as is.
    * @param instance The instance to copy
    * @return A copied immutable Card instance
    */
-  public static ImmutableCard copyOf(AbstractCard instance) {
+  public static ImmutableCard copyOf(Card instance) {
     if (instance instanceof ImmutableCard) {
       return (ImmutableCard) instance;
     }
@@ -5051,59 +5061,59 @@ public final class ImmutableCard extends AbstractCard {
    * Creates a builder for {@link ImmutableCard ImmutableCard}.
    * <pre>
    * ImmutableCard.builder()
-   *    .id(UUID | null) // nullable {@link AbstractCard#id() id}
-   *    .name(String | null) // nullable {@link AbstractCard#name() name}
-   *    .oracleId(UUID | null) // nullable {@link AbstractCard#oracleId() oracleId}
-   *    .multiverseIds(List&amp;lt;Integer&amp;gt; | null) // nullable {@link AbstractCard#multiverseIds() multiverseIds}
-   *    .mtgoId(Integer | null) // nullable {@link AbstractCard#mtgoId() mtgoId}
-   *    .arenaId(Integer | null) // nullable {@link AbstractCard#arenaId() arenaId}
-   *    .mtgoFoilId(Integer | null) // nullable {@link AbstractCard#mtgoFoilId() mtgoFoilId}
-   *    .uri(String | null) // nullable {@link AbstractCard#uri() uri}
-   *    .scryfallUri(String | null) // nullable {@link AbstractCard#scryfallUri() scryfallUri}
-   *    .printsSearchUri(String | null) // nullable {@link AbstractCard#printsSearchUri() printsSearchUri}
-   *    .rulingsUri(String | null) // nullable {@link AbstractCard#rulingsUri() rulingsUri}
-   *    .layout(com.alver.scryfall.api.models.Layouts | null) // nullable {@link AbstractCard#layout() layout}
-   *    .cmc(Double | null) // nullable {@link AbstractCard#cmc() cmc}
-   *    .typeLine(String | null) // nullable {@link AbstractCard#typeLine() typeLine}
-   *    .oracleText(String | null) // nullable {@link AbstractCard#oracleText() oracleText}
-   *    .manaCost(String | null) // nullable {@link AbstractCard#manaCost() manaCost}
-   *    .power(String | null) // nullable {@link AbstractCard#power() power}
-   *    .toughness(String | null) // nullable {@link AbstractCard#toughness() toughness}
-   *    .loyalty(String | null) // nullable {@link AbstractCard#loyalty() loyalty}
-   *    .lifeModifier(String | null) // nullable {@link AbstractCard#lifeModifier() lifeModifier}
-   *    .handModifier(String | null) // nullable {@link AbstractCard#handModifier() handModifier}
-   *    .colors(List&amp;lt;com.alver.scryfall.api.models.Colors&amp;gt; | null) // nullable {@link AbstractCard#colors() colors}
-   *    .colorIndicator(List&amp;lt;com.alver.scryfall.api.models.Colors&amp;gt; | null) // nullable {@link AbstractCard#colorIndicator() colorIndicator}
-   *    .colorIdentity(List&amp;lt;com.alver.scryfall.api.models.Colors&amp;gt; | null) // nullable {@link AbstractCard#colorIdentity() colorIdentity}
-   *    .allParts(List&amp;lt;com.alver.scryfall.api.models.RelatedCards&amp;gt; | null) // nullable {@link AbstractCard#allParts() allParts}
-   *    .cardFaces(List&amp;lt;com.alver.scryfall.api.models.CardFace&amp;gt; | null) // nullable {@link AbstractCard#cardFaces() cardFaces}
-   *    .legalities(com.alver.scryfall.api.models.Legality | null) // nullable {@link AbstractCard#legalities() legalities}
-   *    .reserved(Boolean | null) // nullable {@link AbstractCard#reserved() reserved}
-   *    .edhrecRank(Integer | null) // nullable {@link AbstractCard#edhrecRank() edhrecRank}
-   *    .setCode(String | null) // nullable {@link AbstractCard#setCode() setCode}
-   *    .setName(String | null) // nullable {@link AbstractCard#setName() setName}
-   *    .collectorNumber(String | null) // nullable {@link AbstractCard#collectorNumber() collectorNumber}
-   *    .setSearchUri(String | null) // nullable {@link AbstractCard#setSearchUri() setSearchUri}
-   *    .scryfallSetUri(String | null) // nullable {@link AbstractCard#scryfallSetUri() scryfallSetUri}
-   *    .imageUris(com.alver.scryfall.api.models.ImageUri | null) // nullable {@link AbstractCard#imageUris() imageUris}
-   *    .highresImage(Boolean | null) // nullable {@link AbstractCard#highresImage() highresImage}
-   *    .reprint(Boolean | null) // nullable {@link AbstractCard#reprint() reprint}
-   *    .digital(Boolean | null) // nullable {@link AbstractCard#digital() digital}
-   *    .rarity(com.alver.scryfall.api.models.Rarity | null) // nullable {@link AbstractCard#rarity() rarity}
-   *    .flavorText(String | null) // nullable {@link AbstractCard#flavorText() flavorText}
-   *    .artist(String | null) // nullable {@link AbstractCard#artist() artist}
-   *    .illustrationId(UUID | null) // nullable {@link AbstractCard#illustrationId() illustrationId}
-   *    .frame(String | null) // nullable {@link AbstractCard#frame() frame}
-   *    .fullArt(Boolean | null) // nullable {@link AbstractCard#fullArt() fullArt}
-   *    .watermark(String | null) // nullable {@link AbstractCard#watermark() watermark}
-   *    .borderColor(com.alver.scryfall.api.models.BorderColors | null) // nullable {@link AbstractCard#borderColor() borderColor}
-   *    .storySpotlightNumber(Integer | null) // nullable {@link AbstractCard#storySpotlightNumber() storySpotlightNumber}
-   *    .storySpotlightUri(String | null) // nullable {@link AbstractCard#storySpotlightUri() storySpotlightUri}
-   *    .timeshifted(Boolean | null) // nullable {@link AbstractCard#timeshifted() timeshifted}
-   *    .colorshifted(Boolean | null) // nullable {@link AbstractCard#colorshifted() colorshifted}
-   *    .futureshifted(Boolean | null) // nullable {@link AbstractCard#futureshifted() futureshifted}
-   *    .purchaseUris(Map&amp;lt;String, String&amp;gt; | null) // nullable {@link AbstractCard#purchaseUris() purchaseUris}
-   *    .relatedUris(Map&amp;lt;String, String&amp;gt; | null) // nullable {@link AbstractCard#relatedUris() relatedUris}
+   *    .id(UUID | null) // nullable {@link com.alver.fatefall.api.base.Card#getId() id}
+   *    .name(String | null) // nullable {@link com.alver.fatefall.api.base.Card#getName() name}
+   *    .oracleId(UUID | null) // nullable {@link com.alver.fatefall.api.base.Card#getOracleId() oracleId}
+   *    .multiverseIds(List&amp;lt;Integer&amp;gt; | null) // nullable {@link com.alver.fatefall.api.base.Card#getMultiverseIds() multiverseIds}
+   *    .mtgoId(Integer | null) // nullable {@link com.alver.fatefall.api.base.Card#getMtgoId() mtgoId}
+   *    .arenaId(Integer | null) // nullable {@link com.alver.fatefall.api.base.Card#getArenaId() arenaId}
+   *    .mtgoFoilId(Integer | null) // nullable {@link com.alver.fatefall.api.base.Card#getMtgoFoilId() mtgoFoilId}
+   *    .uri(String | null) // nullable {@link com.alver.fatefall.api.base.Card#getUri() uri}
+   *    .scryfallUri(String | null) // nullable {@link com.alver.fatefall.api.base.Card#getScryfallUri() scryfallUri}
+   *    .printsSearchUri(String | null) // nullable {@link com.alver.fatefall.api.base.Card#getPrintsSearchUri() printsSearchUri}
+   *    .rulingsUri(String | null) // nullable {@link com.alver.fatefall.api.base.Card#getRulingsUri() rulingsUri}
+   *    .layout(com.alver.fatefall.api.models.Layouts | null) // nullable {@link com.alver.fatefall.api.base.Card#getLayout() layout}
+   *    .cmc(Double | null) // nullable {@link com.alver.fatefall.api.base.Card#getCmc() cmc}
+   *    .typeLine(String | null) // nullable {@link com.alver.fatefall.api.base.Card#getTypeLine() typeLine}
+   *    .oracleText(String | null) // nullable {@link com.alver.fatefall.api.base.Card#getOracleText() oracleText}
+   *    .manaCost(String | null) // nullable {@link com.alver.fatefall.api.base.Card#getManaCost() manaCost}
+   *    .power(String | null) // nullable {@link com.alver.fatefall.api.base.Card#getPower() power}
+   *    .toughness(String | null) // nullable {@link com.alver.fatefall.api.base.Card#getToughness() toughness}
+   *    .loyalty(String | null) // nullable {@link com.alver.fatefall.api.base.Card#getLoyalty() loyalty}
+   *    .lifeModifier(String | null) // nullable {@link com.alver.fatefall.api.base.Card#getLifeModifier() lifeModifier}
+   *    .handModifier(String | null) // nullable {@link com.alver.fatefall.api.base.Card#getHandModifier() handModifier}
+   *    .colors(List&amp;lt;com.alver.fatefall.api.models.Colors&amp;gt; | null) // nullable {@link com.alver.fatefall.api.base.Card#getColors() colors}
+   *    .colorIndicator(List&amp;lt;com.alver.fatefall.api.models.Colors&amp;gt; | null) // nullable {@link com.alver.fatefall.api.base.Card#getColorIndicator() colorIndicator}
+   *    .colorIdentity(List&amp;lt;com.alver.fatefall.api.models.Colors&amp;gt; | null) // nullable {@link com.alver.fatefall.api.base.Card#getColorIdentity() colorIdentity}
+   *    .allParts(List&amp;lt;com.alver.fatefall.api.models.RelatedCards&amp;gt; | null) // nullable {@link com.alver.fatefall.api.base.Card#getAllParts() allParts}
+   *    .cardFaces(List&amp;lt;com.alver.fatefall.api.models.CardFace&amp;gt; | null) // nullable {@link com.alver.fatefall.api.base.Card#getCardFaces() cardFaces}
+   *    .legalities(com.alver.fatefall.api.models.Legality | null) // nullable {@link com.alver.fatefall.api.base.Card#getLegalities() legalities}
+   *    .reserved(Boolean | null) // nullable {@link com.alver.fatefall.api.base.Card#getReserved() reserved}
+   *    .edhrecRank(Integer | null) // nullable {@link com.alver.fatefall.api.base.Card#getEdhrecRank() edhrecRank}
+   *    .setCode(String | null) // nullable {@link com.alver.fatefall.api.base.Card#getSetCode() setCode}
+   *    .setName(String | null) // nullable {@link com.alver.fatefall.api.base.Card#getSetName() setName}
+   *    .collectorNumber(String | null) // nullable {@link com.alver.fatefall.api.base.Card#getCollectorNumber() collectorNumber}
+   *    .setSearchUri(String | null) // nullable {@link com.alver.fatefall.api.base.Card#getSetSearchUri() setSearchUri}
+   *    .scryfallSetUri(String | null) // nullable {@link com.alver.fatefall.api.base.Card#getScryfallSetUri() scryfallSetUri}
+   *    .imageUris(com.alver.fatefall.api.models.ImageUri | null) // nullable {@link com.alver.fatefall.api.base.Card#getImageUris() imageUris}
+   *    .highresImage(Boolean | null) // nullable {@link com.alver.fatefall.api.base.Card#getHighresImage() highresImage}
+   *    .reprint(Boolean | null) // nullable {@link com.alver.fatefall.api.base.Card#getReprint() reprint}
+   *    .digital(Boolean | null) // nullable {@link com.alver.fatefall.api.base.Card#getDigital() digital}
+   *    .rarity(com.alver.fatefall.api.models.Rarity | null) // nullable {@link com.alver.fatefall.api.base.Card#getRarity() rarity}
+   *    .flavorText(String | null) // nullable {@link com.alver.fatefall.api.base.Card#getFlavorText() flavorText}
+   *    .artist(String | null) // nullable {@link com.alver.fatefall.api.base.Card#getArtist() artist}
+   *    .illustrationId(UUID | null) // nullable {@link com.alver.fatefall.api.base.Card#getIllustrationId() illustrationId}
+   *    .frame(String | null) // nullable {@link com.alver.fatefall.api.base.Card#getFrame() frame}
+   *    .fullArt(Boolean | null) // nullable {@link com.alver.fatefall.api.base.Card#getFullArt() fullArt}
+   *    .watermark(String | null) // nullable {@link com.alver.fatefall.api.base.Card#getWatermark() watermark}
+   *    .borderColor(com.alver.fatefall.api.models.BorderColors | null) // nullable {@link com.alver.fatefall.api.base.Card#getBorderColor() borderColor}
+   *    .storySpotlightNumber(Integer | null) // nullable {@link com.alver.fatefall.api.base.Card#getStorySpotlightNumber() storySpotlightNumber}
+   *    .storySpotlightUri(String | null) // nullable {@link com.alver.fatefall.api.base.Card#getStorySpotlightUri() storySpotlightUri}
+   *    .timeshifted(Boolean | null) // nullable {@link com.alver.fatefall.api.base.Card#getTimeshifted() timeshifted}
+   *    .colorshifted(Boolean | null) // nullable {@link com.alver.fatefall.api.base.Card#getColorshifted() colorshifted}
+   *    .futureshifted(Boolean | null) // nullable {@link com.alver.fatefall.api.base.Card#getFutureshifted() futureshifted}
+   *    .purchaseUris(Map&amp;lt;String, String&amp;gt; | null) // nullable {@link com.alver.fatefall.api.base.Card#getPurchaseUris() purchaseUris}
+   *    .relatedUris(Map&amp;lt;String, String&amp;gt; | null) // nullable {@link com.alver.fatefall.api.base.Card#getRelatedUris() relatedUris}
    *    .build();
    * </pre>
    * @return A new ImmutableCard builder
@@ -5119,12 +5129,12 @@ public final class ImmutableCard extends AbstractCard {
    * <p><em>{@code Builder} is not thread-safe and generally should not be stored in a field or collection,
    * but instead used immediately to create instances.</em>
    */
-  @Generated(from = "AbstractCard", generator = "Immutables")
+  @Generated(from = "com.alver.fatefall.api.base.Card", generator = "Immutables")
   public static final class Builder {
     private UUID id;
     private String name;
     private UUID oracleId;
-    private ImmutableList.Builder<Integer> multiverseIds = null;
+    private List<Integer> multiverseIds = null;
     private Integer mtgoId;
     private Integer arenaId;
     private Integer mtgoFoilId;
@@ -5142,11 +5152,11 @@ public final class ImmutableCard extends AbstractCard {
     private String loyalty;
     private String lifeModifier;
     private String handModifier;
-    private ImmutableList.Builder<Colors> colors = null;
-    private ImmutableList.Builder<Colors> colorIndicator = null;
-    private ImmutableList.Builder<Colors> colorIdentity = null;
-    private ImmutableList.Builder<RelatedCards> allParts = null;
-    private ImmutableList.Builder<CardFace> cardFaces = null;
+    private List<Colors> colors = null;
+    private List<Colors> colorIndicator = null;
+    private List<Colors> colorIdentity = null;
+    private List<RelatedCards> allParts = null;
+    private List<CardFace> cardFaces = null;
     private Legality legalities;
     private Boolean reserved;
     private Integer edhrecRank;
@@ -5172,231 +5182,228 @@ public final class ImmutableCard extends AbstractCard {
     private Boolean timeshifted;
     private Boolean colorshifted;
     private Boolean futureshifted;
-    private ImmutableMap.Builder<String, String> purchaseUris = null;
-    private ImmutableMap.Builder<String, String> relatedUris = null;
+    private Map<String, String> purchaseUris = null;
+    private Map<String, String> relatedUris = null;
 
     private Builder() {
     }
 
     /**
-     * Fill a builder with attribute values from the provided {@code AbstractCard} instance.
-     * Regular attribute values will be replaced with those from the given instance.
-     * Absent optional values will not replace present values.
-     * Collection elements and entries will be added, not replaced.
+     * Fill a builder with attribute values from the provided {@code ModifiableCard} instance.
      * @param instance The instance from which to copy values
      * @return {@code this} builder for use in a chained invocation
      */
-    public final Builder from(AbstractCard instance) {
+    public final Builder from(ModifiableCard instance) {
       Objects.requireNonNull(instance, "instance");
-      @Nullable UUID idValue = instance.id();
+      @Nullable UUID idValue = instance.getId();
       if (idValue != null) {
         id(idValue);
       }
-      @Nullable String nameValue = instance.name();
+      @Nullable String nameValue = instance.getName();
       if (nameValue != null) {
         name(nameValue);
       }
-      @Nullable UUID oracleIdValue = instance.oracleId();
+      @Nullable UUID oracleIdValue = instance.getOracleId();
       if (oracleIdValue != null) {
         oracleId(oracleIdValue);
       }
-      @Nullable List<Integer> multiverseIdsValue = instance.multiverseIds();
+      @Nullable List<Integer> multiverseIdsValue = instance.getMultiverseIds();
       if (multiverseIdsValue != null) {
         addAllMultiverseIds(multiverseIdsValue);
       }
-      @Nullable Integer mtgoIdValue = instance.mtgoId();
+      @Nullable Integer mtgoIdValue = instance.getMtgoId();
       if (mtgoIdValue != null) {
         mtgoId(mtgoIdValue);
       }
-      @Nullable Integer arenaIdValue = instance.arenaId();
+      @Nullable Integer arenaIdValue = instance.getArenaId();
       if (arenaIdValue != null) {
         arenaId(arenaIdValue);
       }
-      @Nullable Integer mtgoFoilIdValue = instance.mtgoFoilId();
+      @Nullable Integer mtgoFoilIdValue = instance.getMtgoFoilId();
       if (mtgoFoilIdValue != null) {
         mtgoFoilId(mtgoFoilIdValue);
       }
-      @Nullable String uriValue = instance.uri();
+      @Nullable String uriValue = instance.getUri();
       if (uriValue != null) {
         uri(uriValue);
       }
-      @Nullable String scryfallUriValue = instance.scryfallUri();
+      @Nullable String scryfallUriValue = instance.getScryfallUri();
       if (scryfallUriValue != null) {
         scryfallUri(scryfallUriValue);
       }
-      @Nullable String printsSearchUriValue = instance.printsSearchUri();
+      @Nullable String printsSearchUriValue = instance.getPrintsSearchUri();
       if (printsSearchUriValue != null) {
         printsSearchUri(printsSearchUriValue);
       }
-      @Nullable String rulingsUriValue = instance.rulingsUri();
+      @Nullable String rulingsUriValue = instance.getRulingsUri();
       if (rulingsUriValue != null) {
         rulingsUri(rulingsUriValue);
       }
-      @Nullable Layouts layoutValue = instance.layout();
+      @Nullable Layouts layoutValue = instance.getLayout();
       if (layoutValue != null) {
         layout(layoutValue);
       }
-      @Nullable Double cmcValue = instance.cmc();
+      @Nullable Double cmcValue = instance.getCmc();
       if (cmcValue != null) {
         cmc(cmcValue);
       }
-      @Nullable String typeLineValue = instance.typeLine();
+      @Nullable String typeLineValue = instance.getTypeLine();
       if (typeLineValue != null) {
         typeLine(typeLineValue);
       }
-      @Nullable String oracleTextValue = instance.oracleText();
+      @Nullable String oracleTextValue = instance.getOracleText();
       if (oracleTextValue != null) {
         oracleText(oracleTextValue);
       }
-      @Nullable String manaCostValue = instance.manaCost();
+      @Nullable String manaCostValue = instance.getManaCost();
       if (manaCostValue != null) {
         manaCost(manaCostValue);
       }
-      @Nullable String powerValue = instance.power();
+      @Nullable String powerValue = instance.getPower();
       if (powerValue != null) {
         power(powerValue);
       }
-      @Nullable String toughnessValue = instance.toughness();
+      @Nullable String toughnessValue = instance.getToughness();
       if (toughnessValue != null) {
         toughness(toughnessValue);
       }
-      @Nullable String loyaltyValue = instance.loyalty();
+      @Nullable String loyaltyValue = instance.getLoyalty();
       if (loyaltyValue != null) {
         loyalty(loyaltyValue);
       }
-      @Nullable String lifeModifierValue = instance.lifeModifier();
+      @Nullable String lifeModifierValue = instance.getLifeModifier();
       if (lifeModifierValue != null) {
         lifeModifier(lifeModifierValue);
       }
-      @Nullable String handModifierValue = instance.handModifier();
+      @Nullable String handModifierValue = instance.getHandModifier();
       if (handModifierValue != null) {
         handModifier(handModifierValue);
       }
-      @Nullable List<Colors> colorsValue = instance.colors();
+      @Nullable List<Colors> colorsValue = instance.getColors();
       if (colorsValue != null) {
         addAllColors(colorsValue);
       }
-      @Nullable List<Colors> colorIndicatorValue = instance.colorIndicator();
+      @Nullable List<Colors> colorIndicatorValue = instance.getColorIndicator();
       if (colorIndicatorValue != null) {
         addAllColorIndicator(colorIndicatorValue);
       }
-      @Nullable List<Colors> colorIdentityValue = instance.colorIdentity();
+      @Nullable List<Colors> colorIdentityValue = instance.getColorIdentity();
       if (colorIdentityValue != null) {
         addAllColorIdentity(colorIdentityValue);
       }
-      @Nullable List<RelatedCards> allPartsValue = instance.allParts();
+      @Nullable List<RelatedCards> allPartsValue = instance.getAllParts();
       if (allPartsValue != null) {
         addAllAllParts(allPartsValue);
       }
-      @Nullable List<CardFace> cardFacesValue = instance.cardFaces();
+      @Nullable List<CardFace> cardFacesValue = instance.getCardFaces();
       if (cardFacesValue != null) {
         addAllCardFaces(cardFacesValue);
       }
-      @Nullable Legality legalitiesValue = instance.legalities();
+      @Nullable Legality legalitiesValue = instance.getLegalities();
       if (legalitiesValue != null) {
         legalities(legalitiesValue);
       }
-      @Nullable Boolean reservedValue = instance.reserved();
+      @Nullable Boolean reservedValue = instance.getReserved();
       if (reservedValue != null) {
         reserved(reservedValue);
       }
-      @Nullable Integer edhrecRankValue = instance.edhrecRank();
+      @Nullable Integer edhrecRankValue = instance.getEdhrecRank();
       if (edhrecRankValue != null) {
         edhrecRank(edhrecRankValue);
       }
-      @Nullable String setCodeValue = instance.setCode();
+      @Nullable String setCodeValue = instance.getSetCode();
       if (setCodeValue != null) {
         setCode(setCodeValue);
       }
-      @Nullable String setNameValue = instance.setName();
+      @Nullable String setNameValue = instance.getSetName();
       if (setNameValue != null) {
         setName(setNameValue);
       }
-      @Nullable String collectorNumberValue = instance.collectorNumber();
+      @Nullable String collectorNumberValue = instance.getCollectorNumber();
       if (collectorNumberValue != null) {
         collectorNumber(collectorNumberValue);
       }
-      @Nullable String setSearchUriValue = instance.setSearchUri();
+      @Nullable String setSearchUriValue = instance.getSetSearchUri();
       if (setSearchUriValue != null) {
         setSearchUri(setSearchUriValue);
       }
-      @Nullable String scryfallSetUriValue = instance.scryfallSetUri();
+      @Nullable String scryfallSetUriValue = instance.getScryfallSetUri();
       if (scryfallSetUriValue != null) {
         scryfallSetUri(scryfallSetUriValue);
       }
-      @Nullable ImageUri imageUrisValue = instance.imageUris();
+      @Nullable ImageUri imageUrisValue = instance.getImageUris();
       if (imageUrisValue != null) {
         imageUris(imageUrisValue);
       }
-      @Nullable Boolean highresImageValue = instance.highresImage();
+      @Nullable Boolean highresImageValue = instance.getHighresImage();
       if (highresImageValue != null) {
         highresImage(highresImageValue);
       }
-      @Nullable Boolean reprintValue = instance.reprint();
+      @Nullable Boolean reprintValue = instance.getReprint();
       if (reprintValue != null) {
         reprint(reprintValue);
       }
-      @Nullable Boolean digitalValue = instance.digital();
+      @Nullable Boolean digitalValue = instance.getDigital();
       if (digitalValue != null) {
         digital(digitalValue);
       }
-      @Nullable Rarity rarityValue = instance.rarity();
+      @Nullable Rarity rarityValue = instance.getRarity();
       if (rarityValue != null) {
         rarity(rarityValue);
       }
-      @Nullable String flavorTextValue = instance.flavorText();
+      @Nullable String flavorTextValue = instance.getFlavorText();
       if (flavorTextValue != null) {
         flavorText(flavorTextValue);
       }
-      @Nullable String artistValue = instance.artist();
+      @Nullable String artistValue = instance.getArtist();
       if (artistValue != null) {
         artist(artistValue);
       }
-      @Nullable UUID illustrationIdValue = instance.illustrationId();
+      @Nullable UUID illustrationIdValue = instance.getIllustrationId();
       if (illustrationIdValue != null) {
         illustrationId(illustrationIdValue);
       }
-      @Nullable String frameValue = instance.frame();
+      @Nullable String frameValue = instance.getFrame();
       if (frameValue != null) {
         frame(frameValue);
       }
-      @Nullable Boolean fullArtValue = instance.fullArt();
+      @Nullable Boolean fullArtValue = instance.getFullArt();
       if (fullArtValue != null) {
         fullArt(fullArtValue);
       }
-      @Nullable String watermarkValue = instance.watermark();
+      @Nullable String watermarkValue = instance.getWatermark();
       if (watermarkValue != null) {
         watermark(watermarkValue);
       }
-      @Nullable BorderColors borderColorValue = instance.borderColor();
+      @Nullable BorderColors borderColorValue = instance.getBorderColor();
       if (borderColorValue != null) {
         borderColor(borderColorValue);
       }
-      @Nullable Integer storySpotlightNumberValue = instance.storySpotlightNumber();
+      @Nullable Integer storySpotlightNumberValue = instance.getStorySpotlightNumber();
       if (storySpotlightNumberValue != null) {
         storySpotlightNumber(storySpotlightNumberValue);
       }
-      @Nullable String storySpotlightUriValue = instance.storySpotlightUri();
+      @Nullable String storySpotlightUriValue = instance.getStorySpotlightUri();
       if (storySpotlightUriValue != null) {
         storySpotlightUri(storySpotlightUriValue);
       }
-      @Nullable Boolean timeshiftedValue = instance.timeshifted();
+      @Nullable Boolean timeshiftedValue = instance.getTimeshifted();
       if (timeshiftedValue != null) {
         timeshifted(timeshiftedValue);
       }
-      @Nullable Boolean colorshiftedValue = instance.colorshifted();
+      @Nullable Boolean colorshiftedValue = instance.getColorshifted();
       if (colorshiftedValue != null) {
         colorshifted(colorshiftedValue);
       }
-      @Nullable Boolean futureshiftedValue = instance.futureshifted();
+      @Nullable Boolean futureshiftedValue = instance.getFutureshifted();
       if (futureshiftedValue != null) {
         futureshifted(futureshiftedValue);
       }
-      @Nullable Map<String, String> purchaseUrisValue = instance.purchaseUris();
+      @Nullable Map<String, String> purchaseUrisValue = instance.getPurchaseUris();
       if (purchaseUrisValue != null) {
         putAllPurchaseUris(purchaseUrisValue);
       }
-      @Nullable Map<String, String> relatedUrisValue = instance.relatedUris();
+      @Nullable Map<String, String> relatedUrisValue = instance.getRelatedUris();
       if (relatedUrisValue != null) {
         putAllRelatedUris(relatedUrisValue);
       }
@@ -5404,7 +5411,235 @@ public final class ImmutableCard extends AbstractCard {
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#id() id} attribute.
+     * Fill a builder with attribute values from the provided {@code Card} instance.
+     * Regular attribute values will be replaced with those from the given instance.
+     * Absent optional values will not replace present values.
+     * Collection elements and entries will be added, not replaced.
+     * @param instance The instance from which to copy values
+     * @return {@code this} builder for use in a chained invocation
+     */
+    public final Builder from(Card instance) {
+      Objects.requireNonNull(instance, "instance");
+      if (instance instanceof ModifiableCard) {
+        return from((ModifiableCard) instance);
+      }
+      @Nullable UUID idValue = instance.getId();
+      if (idValue != null) {
+        id(idValue);
+      }
+      @Nullable String nameValue = instance.getName();
+      if (nameValue != null) {
+        name(nameValue);
+      }
+      @Nullable UUID oracleIdValue = instance.getOracleId();
+      if (oracleIdValue != null) {
+        oracleId(oracleIdValue);
+      }
+      @Nullable List<Integer> multiverseIdsValue = instance.getMultiverseIds();
+      if (multiverseIdsValue != null) {
+        addAllMultiverseIds(multiverseIdsValue);
+      }
+      @Nullable Integer mtgoIdValue = instance.getMtgoId();
+      if (mtgoIdValue != null) {
+        mtgoId(mtgoIdValue);
+      }
+      @Nullable Integer arenaIdValue = instance.getArenaId();
+      if (arenaIdValue != null) {
+        arenaId(arenaIdValue);
+      }
+      @Nullable Integer mtgoFoilIdValue = instance.getMtgoFoilId();
+      if (mtgoFoilIdValue != null) {
+        mtgoFoilId(mtgoFoilIdValue);
+      }
+      @Nullable String uriValue = instance.getUri();
+      if (uriValue != null) {
+        uri(uriValue);
+      }
+      @Nullable String scryfallUriValue = instance.getScryfallUri();
+      if (scryfallUriValue != null) {
+        scryfallUri(scryfallUriValue);
+      }
+      @Nullable String printsSearchUriValue = instance.getPrintsSearchUri();
+      if (printsSearchUriValue != null) {
+        printsSearchUri(printsSearchUriValue);
+      }
+      @Nullable String rulingsUriValue = instance.getRulingsUri();
+      if (rulingsUriValue != null) {
+        rulingsUri(rulingsUriValue);
+      }
+      @Nullable Layouts layoutValue = instance.getLayout();
+      if (layoutValue != null) {
+        layout(layoutValue);
+      }
+      @Nullable Double cmcValue = instance.getCmc();
+      if (cmcValue != null) {
+        cmc(cmcValue);
+      }
+      @Nullable String typeLineValue = instance.getTypeLine();
+      if (typeLineValue != null) {
+        typeLine(typeLineValue);
+      }
+      @Nullable String oracleTextValue = instance.getOracleText();
+      if (oracleTextValue != null) {
+        oracleText(oracleTextValue);
+      }
+      @Nullable String manaCostValue = instance.getManaCost();
+      if (manaCostValue != null) {
+        manaCost(manaCostValue);
+      }
+      @Nullable String powerValue = instance.getPower();
+      if (powerValue != null) {
+        power(powerValue);
+      }
+      @Nullable String toughnessValue = instance.getToughness();
+      if (toughnessValue != null) {
+        toughness(toughnessValue);
+      }
+      @Nullable String loyaltyValue = instance.getLoyalty();
+      if (loyaltyValue != null) {
+        loyalty(loyaltyValue);
+      }
+      @Nullable String lifeModifierValue = instance.getLifeModifier();
+      if (lifeModifierValue != null) {
+        lifeModifier(lifeModifierValue);
+      }
+      @Nullable String handModifierValue = instance.getHandModifier();
+      if (handModifierValue != null) {
+        handModifier(handModifierValue);
+      }
+      @Nullable List<Colors> colorsValue = instance.getColors();
+      if (colorsValue != null) {
+        addAllColors(colorsValue);
+      }
+      @Nullable List<Colors> colorIndicatorValue = instance.getColorIndicator();
+      if (colorIndicatorValue != null) {
+        addAllColorIndicator(colorIndicatorValue);
+      }
+      @Nullable List<Colors> colorIdentityValue = instance.getColorIdentity();
+      if (colorIdentityValue != null) {
+        addAllColorIdentity(colorIdentityValue);
+      }
+      @Nullable List<RelatedCards> allPartsValue = instance.getAllParts();
+      if (allPartsValue != null) {
+        addAllAllParts(allPartsValue);
+      }
+      @Nullable List<CardFace> cardFacesValue = instance.getCardFaces();
+      if (cardFacesValue != null) {
+        addAllCardFaces(cardFacesValue);
+      }
+      @Nullable Legality legalitiesValue = instance.getLegalities();
+      if (legalitiesValue != null) {
+        legalities(legalitiesValue);
+      }
+      @Nullable Boolean reservedValue = instance.getReserved();
+      if (reservedValue != null) {
+        reserved(reservedValue);
+      }
+      @Nullable Integer edhrecRankValue = instance.getEdhrecRank();
+      if (edhrecRankValue != null) {
+        edhrecRank(edhrecRankValue);
+      }
+      @Nullable String setCodeValue = instance.getSetCode();
+      if (setCodeValue != null) {
+        setCode(setCodeValue);
+      }
+      @Nullable String setNameValue = instance.getSetName();
+      if (setNameValue != null) {
+        setName(setNameValue);
+      }
+      @Nullable String collectorNumberValue = instance.getCollectorNumber();
+      if (collectorNumberValue != null) {
+        collectorNumber(collectorNumberValue);
+      }
+      @Nullable String setSearchUriValue = instance.getSetSearchUri();
+      if (setSearchUriValue != null) {
+        setSearchUri(setSearchUriValue);
+      }
+      @Nullable String scryfallSetUriValue = instance.getScryfallSetUri();
+      if (scryfallSetUriValue != null) {
+        scryfallSetUri(scryfallSetUriValue);
+      }
+      @Nullable ImageUri imageUrisValue = instance.getImageUris();
+      if (imageUrisValue != null) {
+        imageUris(imageUrisValue);
+      }
+      @Nullable Boolean highresImageValue = instance.getHighresImage();
+      if (highresImageValue != null) {
+        highresImage(highresImageValue);
+      }
+      @Nullable Boolean reprintValue = instance.getReprint();
+      if (reprintValue != null) {
+        reprint(reprintValue);
+      }
+      @Nullable Boolean digitalValue = instance.getDigital();
+      if (digitalValue != null) {
+        digital(digitalValue);
+      }
+      @Nullable Rarity rarityValue = instance.getRarity();
+      if (rarityValue != null) {
+        rarity(rarityValue);
+      }
+      @Nullable String flavorTextValue = instance.getFlavorText();
+      if (flavorTextValue != null) {
+        flavorText(flavorTextValue);
+      }
+      @Nullable String artistValue = instance.getArtist();
+      if (artistValue != null) {
+        artist(artistValue);
+      }
+      @Nullable UUID illustrationIdValue = instance.getIllustrationId();
+      if (illustrationIdValue != null) {
+        illustrationId(illustrationIdValue);
+      }
+      @Nullable String frameValue = instance.getFrame();
+      if (frameValue != null) {
+        frame(frameValue);
+      }
+      @Nullable Boolean fullArtValue = instance.getFullArt();
+      if (fullArtValue != null) {
+        fullArt(fullArtValue);
+      }
+      @Nullable String watermarkValue = instance.getWatermark();
+      if (watermarkValue != null) {
+        watermark(watermarkValue);
+      }
+      @Nullable BorderColors borderColorValue = instance.getBorderColor();
+      if (borderColorValue != null) {
+        borderColor(borderColorValue);
+      }
+      @Nullable Integer storySpotlightNumberValue = instance.getStorySpotlightNumber();
+      if (storySpotlightNumberValue != null) {
+        storySpotlightNumber(storySpotlightNumberValue);
+      }
+      @Nullable String storySpotlightUriValue = instance.getStorySpotlightUri();
+      if (storySpotlightUriValue != null) {
+        storySpotlightUri(storySpotlightUriValue);
+      }
+      @Nullable Boolean timeshiftedValue = instance.getTimeshifted();
+      if (timeshiftedValue != null) {
+        timeshifted(timeshiftedValue);
+      }
+      @Nullable Boolean colorshiftedValue = instance.getColorshifted();
+      if (colorshiftedValue != null) {
+        colorshifted(colorshiftedValue);
+      }
+      @Nullable Boolean futureshiftedValue = instance.getFutureshifted();
+      if (futureshiftedValue != null) {
+        futureshifted(futureshiftedValue);
+      }
+      @Nullable Map<String, String> purchaseUrisValue = instance.getPurchaseUris();
+      if (purchaseUrisValue != null) {
+        putAllPurchaseUris(purchaseUrisValue);
+      }
+      @Nullable Map<String, String> relatedUrisValue = instance.getRelatedUris();
+      if (relatedUrisValue != null) {
+        putAllRelatedUris(relatedUrisValue);
+      }
+      return this;
+    }
+
+    /**
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getId() id} attribute.
      * @param id The value for id (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
@@ -5415,7 +5650,7 @@ public final class ImmutableCard extends AbstractCard {
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#name() name} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getName() name} attribute.
      * @param name The value for name (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
@@ -5426,107 +5661,111 @@ public final class ImmutableCard extends AbstractCard {
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#oracleId() oracleId} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getOracleId() oracleId} attribute.
      * @param oracleId The value for oracleId (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("oracle_id")
+    @JsonProperty("oracleId")
     public final Builder oracleId(@Nullable UUID oracleId) {
       this.oracleId = oracleId;
       return this;
     }
 
     /**
-     * Adds one element to {@link AbstractCard#multiverseIds() multiverseIds} list.
+     * Adds one element to {@link com.alver.fatefall.api.base.Card#getMultiverseIds() multiverseIds} list.
      * @param element A multiverseIds element
      * @return {@code this} builder for use in a chained invocation
      */
     public final Builder addMultiverseIds(int element) {
       if (this.multiverseIds == null) {
-        this.multiverseIds = ImmutableList.builder();
+        this.multiverseIds = new ArrayList<Integer>();
       }
       this.multiverseIds.add(element);
       return this;
     }
 
     /**
-     * Adds elements to {@link AbstractCard#multiverseIds() multiverseIds} list.
+     * Adds elements to {@link com.alver.fatefall.api.base.Card#getMultiverseIds() multiverseIds} list.
      * @param elements An array of multiverseIds elements
      * @return {@code this} builder for use in a chained invocation
      */
     public final Builder addMultiverseIds(int... elements) {
       if (this.multiverseIds == null) {
-        this.multiverseIds = ImmutableList.builder();
+        this.multiverseIds = new ArrayList<Integer>();
       }
-      this.multiverseIds.addAll(Ints.asList(elements));
+      for (int element : elements) {
+        this.multiverseIds.add(element);
+      }
       return this;
     }
 
 
     /**
-     * Sets or replaces all elements for {@link AbstractCard#multiverseIds() multiverseIds} list.
+     * Sets or replaces all elements for {@link com.alver.fatefall.api.base.Card#getMultiverseIds() multiverseIds} list.
      * @param elements An iterable of multiverseIds elements
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("multiverse_ids")
+    @JsonProperty("multiverseIds")
     public final Builder multiverseIds(@Nullable Iterable<Integer> elements) {
       if (elements == null) {
         this.multiverseIds = null;
         return this;
       }
-      this.multiverseIds = ImmutableList.builder();
+      this.multiverseIds = new ArrayList<Integer>();
       return addAllMultiverseIds(elements);
     }
 
     /**
-     * Adds elements to {@link AbstractCard#multiverseIds() multiverseIds} list.
+     * Adds elements to {@link com.alver.fatefall.api.base.Card#getMultiverseIds() multiverseIds} list.
      * @param elements An iterable of multiverseIds elements
      * @return {@code this} builder for use in a chained invocation
      */
     public final Builder addAllMultiverseIds(Iterable<Integer> elements) {
       Objects.requireNonNull(elements, "multiverseIds element");
       if (this.multiverseIds == null) {
-        this.multiverseIds = ImmutableList.builder();
+        this.multiverseIds = new ArrayList<Integer>();
       }
-      this.multiverseIds.addAll(elements);
+      for (Integer element : elements) {
+        this.multiverseIds.add(Objects.requireNonNull(element, "multiverseIds element"));
+      }
       return this;
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#mtgoId() mtgoId} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getMtgoId() mtgoId} attribute.
      * @param mtgoId The value for mtgoId (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("mtgo_id")
+    @JsonProperty("mtgoId")
     public final Builder mtgoId(@Nullable Integer mtgoId) {
       this.mtgoId = mtgoId;
       return this;
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#arenaId() arenaId} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getArenaId() arenaId} attribute.
      * @param arenaId The value for arenaId (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("arena_id")
+    @JsonProperty("arenaId")
     public final Builder arenaId(@Nullable Integer arenaId) {
       this.arenaId = arenaId;
       return this;
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#mtgoFoilId() mtgoFoilId} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getMtgoFoilId() mtgoFoilId} attribute.
      * @param mtgoFoilId The value for mtgoFoilId (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("mtgo_foil_id")
+    @JsonProperty("mtgoFoilId")
     public final Builder mtgoFoilId(@Nullable Integer mtgoFoilId) {
       this.mtgoFoilId = mtgoFoilId;
       return this;
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#uri() uri} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getUri() uri} attribute.
      * @param uri The value for uri (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
@@ -5537,40 +5776,40 @@ public final class ImmutableCard extends AbstractCard {
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#scryfallUri() scryfallUri} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getScryfallUri() scryfallUri} attribute.
      * @param scryfallUri The value for scryfallUri (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("scryfall_uri")
+    @JsonProperty("scryfallUri")
     public final Builder scryfallUri(@Nullable String scryfallUri) {
       this.scryfallUri = scryfallUri;
       return this;
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#printsSearchUri() printsSearchUri} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getPrintsSearchUri() printsSearchUri} attribute.
      * @param printsSearchUri The value for printsSearchUri (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("prints_search_uri")
+    @JsonProperty("printsSearchUri")
     public final Builder printsSearchUri(@Nullable String printsSearchUri) {
       this.printsSearchUri = printsSearchUri;
       return this;
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#rulingsUri() rulingsUri} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getRulingsUri() rulingsUri} attribute.
      * @param rulingsUri The value for rulingsUri (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("rulings_uri")
+    @JsonProperty("rulingsUri")
     public final Builder rulingsUri(@Nullable String rulingsUri) {
       this.rulingsUri = rulingsUri;
       return this;
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#layout() layout} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getLayout() layout} attribute.
      * @param layout The value for layout (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
@@ -5581,7 +5820,7 @@ public final class ImmutableCard extends AbstractCard {
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#cmc() cmc} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getCmc() cmc} attribute.
      * @param cmc The value for cmc (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
@@ -5592,40 +5831,40 @@ public final class ImmutableCard extends AbstractCard {
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#typeLine() typeLine} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getTypeLine() typeLine} attribute.
      * @param typeLine The value for typeLine (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("type_line")
+    @JsonProperty("typeLine")
     public final Builder typeLine(@Nullable String typeLine) {
       this.typeLine = typeLine;
       return this;
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#oracleText() oracleText} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getOracleText() oracleText} attribute.
      * @param oracleText The value for oracleText (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("oracle_text")
+    @JsonProperty("oracleText")
     public final Builder oracleText(@Nullable String oracleText) {
       this.oracleText = oracleText;
       return this;
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#manaCost() manaCost} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getManaCost() manaCost} attribute.
      * @param manaCost The value for manaCost (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("mana_cost")
+    @JsonProperty("manaCost")
     public final Builder manaCost(@Nullable String manaCost) {
       this.manaCost = manaCost;
       return this;
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#power() power} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getPower() power} attribute.
      * @param power The value for power (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
@@ -5636,7 +5875,7 @@ public final class ImmutableCard extends AbstractCard {
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#toughness() toughness} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getToughness() toughness} attribute.
      * @param toughness The value for toughness (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
@@ -5647,7 +5886,7 @@ public final class ImmutableCard extends AbstractCard {
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#loyalty() loyalty} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getLoyalty() loyalty} attribute.
      * @param loyalty The value for loyalty (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
@@ -5658,56 +5897,58 @@ public final class ImmutableCard extends AbstractCard {
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#lifeModifier() lifeModifier} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getLifeModifier() lifeModifier} attribute.
      * @param lifeModifier The value for lifeModifier (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("life_modifier")
+    @JsonProperty("lifeModifier")
     public final Builder lifeModifier(@Nullable String lifeModifier) {
       this.lifeModifier = lifeModifier;
       return this;
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#handModifier() handModifier} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getHandModifier() handModifier} attribute.
      * @param handModifier The value for handModifier (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("hand_modifier")
+    @JsonProperty("handModifier")
     public final Builder handModifier(@Nullable String handModifier) {
       this.handModifier = handModifier;
       return this;
     }
 
     /**
-     * Adds one element to {@link AbstractCard#colors() colors} list.
+     * Adds one element to {@link com.alver.fatefall.api.base.Card#getColors() colors} list.
      * @param element A colors element
      * @return {@code this} builder for use in a chained invocation
      */
     public final Builder addColors(Colors element) {
       if (this.colors == null) {
-        this.colors = ImmutableList.builder();
+        this.colors = new ArrayList<Colors>();
       }
-      this.colors.add(element);
+      this.colors.add(Objects.requireNonNull(element, "colors element"));
       return this;
     }
 
     /**
-     * Adds elements to {@link AbstractCard#colors() colors} list.
+     * Adds elements to {@link com.alver.fatefall.api.base.Card#getColors() colors} list.
      * @param elements An array of colors elements
      * @return {@code this} builder for use in a chained invocation
      */
     public final Builder addColors(Colors... elements) {
       if (this.colors == null) {
-        this.colors = ImmutableList.builder();
+        this.colors = new ArrayList<Colors>();
       }
-      this.colors.add(elements);
+      for (Colors element : elements) {
+        this.colors.add(Objects.requireNonNull(element, "colors element"));
+      }
       return this;
     }
 
 
     /**
-     * Sets or replaces all elements for {@link AbstractCard#colors() colors} list.
+     * Sets or replaces all elements for {@link com.alver.fatefall.api.base.Card#getColors() colors} list.
      * @param elements An iterable of colors elements
      * @return {@code this} builder for use in a chained invocation
      */
@@ -5717,221 +5958,237 @@ public final class ImmutableCard extends AbstractCard {
         this.colors = null;
         return this;
       }
-      this.colors = ImmutableList.builder();
+      this.colors = new ArrayList<Colors>();
       return addAllColors(elements);
     }
 
     /**
-     * Adds elements to {@link AbstractCard#colors() colors} list.
+     * Adds elements to {@link com.alver.fatefall.api.base.Card#getColors() colors} list.
      * @param elements An iterable of colors elements
      * @return {@code this} builder for use in a chained invocation
      */
     public final Builder addAllColors(Iterable<? extends Colors> elements) {
       Objects.requireNonNull(elements, "colors element");
       if (this.colors == null) {
-        this.colors = ImmutableList.builder();
+        this.colors = new ArrayList<Colors>();
       }
-      this.colors.addAll(elements);
+      for (Colors element : elements) {
+        this.colors.add(Objects.requireNonNull(element, "colors element"));
+      }
       return this;
     }
 
     /**
-     * Adds one element to {@link AbstractCard#colorIndicator() colorIndicator} list.
+     * Adds one element to {@link com.alver.fatefall.api.base.Card#getColorIndicator() colorIndicator} list.
      * @param element A colorIndicator element
      * @return {@code this} builder for use in a chained invocation
      */
     public final Builder addColorIndicator(Colors element) {
       if (this.colorIndicator == null) {
-        this.colorIndicator = ImmutableList.builder();
+        this.colorIndicator = new ArrayList<Colors>();
       }
-      this.colorIndicator.add(element);
+      this.colorIndicator.add(Objects.requireNonNull(element, "colorIndicator element"));
       return this;
     }
 
     /**
-     * Adds elements to {@link AbstractCard#colorIndicator() colorIndicator} list.
+     * Adds elements to {@link com.alver.fatefall.api.base.Card#getColorIndicator() colorIndicator} list.
      * @param elements An array of colorIndicator elements
      * @return {@code this} builder for use in a chained invocation
      */
     public final Builder addColorIndicator(Colors... elements) {
       if (this.colorIndicator == null) {
-        this.colorIndicator = ImmutableList.builder();
+        this.colorIndicator = new ArrayList<Colors>();
       }
-      this.colorIndicator.add(elements);
+      for (Colors element : elements) {
+        this.colorIndicator.add(Objects.requireNonNull(element, "colorIndicator element"));
+      }
       return this;
     }
 
 
     /**
-     * Sets or replaces all elements for {@link AbstractCard#colorIndicator() colorIndicator} list.
+     * Sets or replaces all elements for {@link com.alver.fatefall.api.base.Card#getColorIndicator() colorIndicator} list.
      * @param elements An iterable of colorIndicator elements
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("color_indicator")
+    @JsonProperty("colorIndicator")
     public final Builder colorIndicator(@Nullable Iterable<? extends Colors> elements) {
       if (elements == null) {
         this.colorIndicator = null;
         return this;
       }
-      this.colorIndicator = ImmutableList.builder();
+      this.colorIndicator = new ArrayList<Colors>();
       return addAllColorIndicator(elements);
     }
 
     /**
-     * Adds elements to {@link AbstractCard#colorIndicator() colorIndicator} list.
+     * Adds elements to {@link com.alver.fatefall.api.base.Card#getColorIndicator() colorIndicator} list.
      * @param elements An iterable of colorIndicator elements
      * @return {@code this} builder for use in a chained invocation
      */
     public final Builder addAllColorIndicator(Iterable<? extends Colors> elements) {
       Objects.requireNonNull(elements, "colorIndicator element");
       if (this.colorIndicator == null) {
-        this.colorIndicator = ImmutableList.builder();
+        this.colorIndicator = new ArrayList<Colors>();
       }
-      this.colorIndicator.addAll(elements);
+      for (Colors element : elements) {
+        this.colorIndicator.add(Objects.requireNonNull(element, "colorIndicator element"));
+      }
       return this;
     }
 
     /**
-     * Adds one element to {@link AbstractCard#colorIdentity() colorIdentity} list.
+     * Adds one element to {@link com.alver.fatefall.api.base.Card#getColorIdentity() colorIdentity} list.
      * @param element A colorIdentity element
      * @return {@code this} builder for use in a chained invocation
      */
     public final Builder addColorIdentity(Colors element) {
       if (this.colorIdentity == null) {
-        this.colorIdentity = ImmutableList.builder();
+        this.colorIdentity = new ArrayList<Colors>();
       }
-      this.colorIdentity.add(element);
+      this.colorIdentity.add(Objects.requireNonNull(element, "colorIdentity element"));
       return this;
     }
 
     /**
-     * Adds elements to {@link AbstractCard#colorIdentity() colorIdentity} list.
+     * Adds elements to {@link com.alver.fatefall.api.base.Card#getColorIdentity() colorIdentity} list.
      * @param elements An array of colorIdentity elements
      * @return {@code this} builder for use in a chained invocation
      */
     public final Builder addColorIdentity(Colors... elements) {
       if (this.colorIdentity == null) {
-        this.colorIdentity = ImmutableList.builder();
+        this.colorIdentity = new ArrayList<Colors>();
       }
-      this.colorIdentity.add(elements);
+      for (Colors element : elements) {
+        this.colorIdentity.add(Objects.requireNonNull(element, "colorIdentity element"));
+      }
       return this;
     }
 
 
     /**
-     * Sets or replaces all elements for {@link AbstractCard#colorIdentity() colorIdentity} list.
+     * Sets or replaces all elements for {@link com.alver.fatefall.api.base.Card#getColorIdentity() colorIdentity} list.
      * @param elements An iterable of colorIdentity elements
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("color_identity")
+    @JsonProperty("colorIdentity")
     public final Builder colorIdentity(@Nullable Iterable<? extends Colors> elements) {
       if (elements == null) {
         this.colorIdentity = null;
         return this;
       }
-      this.colorIdentity = ImmutableList.builder();
+      this.colorIdentity = new ArrayList<Colors>();
       return addAllColorIdentity(elements);
     }
 
     /**
-     * Adds elements to {@link AbstractCard#colorIdentity() colorIdentity} list.
+     * Adds elements to {@link com.alver.fatefall.api.base.Card#getColorIdentity() colorIdentity} list.
      * @param elements An iterable of colorIdentity elements
      * @return {@code this} builder for use in a chained invocation
      */
     public final Builder addAllColorIdentity(Iterable<? extends Colors> elements) {
       Objects.requireNonNull(elements, "colorIdentity element");
       if (this.colorIdentity == null) {
-        this.colorIdentity = ImmutableList.builder();
+        this.colorIdentity = new ArrayList<Colors>();
       }
-      this.colorIdentity.addAll(elements);
+      for (Colors element : elements) {
+        this.colorIdentity.add(Objects.requireNonNull(element, "colorIdentity element"));
+      }
       return this;
     }
 
     /**
-     * Adds one element to {@link AbstractCard#allParts() allParts} list.
+     * Adds one element to {@link com.alver.fatefall.api.base.Card#getAllParts() allParts} list.
      * @param element A allParts element
      * @return {@code this} builder for use in a chained invocation
      */
     public final Builder addAllParts(RelatedCards element) {
       if (this.allParts == null) {
-        this.allParts = ImmutableList.builder();
+        this.allParts = new ArrayList<RelatedCards>();
       }
-      this.allParts.add(element);
+      this.allParts.add(Objects.requireNonNull(element, "allParts element"));
       return this;
     }
 
     /**
-     * Adds elements to {@link AbstractCard#allParts() allParts} list.
+     * Adds elements to {@link com.alver.fatefall.api.base.Card#getAllParts() allParts} list.
      * @param elements An array of allParts elements
      * @return {@code this} builder for use in a chained invocation
      */
     public final Builder addAllParts(RelatedCards... elements) {
       if (this.allParts == null) {
-        this.allParts = ImmutableList.builder();
+        this.allParts = new ArrayList<RelatedCards>();
       }
-      this.allParts.add(elements);
+      for (RelatedCards element : elements) {
+        this.allParts.add(Objects.requireNonNull(element, "allParts element"));
+      }
       return this;
     }
 
 
     /**
-     * Sets or replaces all elements for {@link AbstractCard#allParts() allParts} list.
+     * Sets or replaces all elements for {@link com.alver.fatefall.api.base.Card#getAllParts() allParts} list.
      * @param elements An iterable of allParts elements
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("all_parts")
+    @JsonProperty("allParts")
     public final Builder allParts(@Nullable Iterable<? extends RelatedCards> elements) {
       if (elements == null) {
         this.allParts = null;
         return this;
       }
-      this.allParts = ImmutableList.builder();
+      this.allParts = new ArrayList<RelatedCards>();
       return addAllAllParts(elements);
     }
 
     /**
-     * Adds elements to {@link AbstractCard#allParts() allParts} list.
+     * Adds elements to {@link com.alver.fatefall.api.base.Card#getAllParts() allParts} list.
      * @param elements An iterable of allParts elements
      * @return {@code this} builder for use in a chained invocation
      */
     public final Builder addAllAllParts(Iterable<? extends RelatedCards> elements) {
       Objects.requireNonNull(elements, "allParts element");
       if (this.allParts == null) {
-        this.allParts = ImmutableList.builder();
+        this.allParts = new ArrayList<RelatedCards>();
       }
-      this.allParts.addAll(elements);
+      for (RelatedCards element : elements) {
+        this.allParts.add(Objects.requireNonNull(element, "allParts element"));
+      }
       return this;
     }
 
     /**
-     * Adds one element to {@link AbstractCard#cardFaces() cardFaces} list.
+     * Adds one element to {@link com.alver.fatefall.api.base.Card#getCardFaces() cardFaces} list.
      * @param element A cardFaces element
      * @return {@code this} builder for use in a chained invocation
      */
     public final Builder addCardFaces(CardFace element) {
       if (this.cardFaces == null) {
-        this.cardFaces = ImmutableList.builder();
+        this.cardFaces = new ArrayList<CardFace>();
       }
-      this.cardFaces.add(element);
+      this.cardFaces.add(Objects.requireNonNull(element, "cardFaces element"));
       return this;
     }
 
     /**
-     * Adds elements to {@link AbstractCard#cardFaces() cardFaces} list.
+     * Adds elements to {@link com.alver.fatefall.api.base.Card#getCardFaces() cardFaces} list.
      * @param elements An array of cardFaces elements
      * @return {@code this} builder for use in a chained invocation
      */
     public final Builder addCardFaces(CardFace... elements) {
       if (this.cardFaces == null) {
-        this.cardFaces = ImmutableList.builder();
+        this.cardFaces = new ArrayList<CardFace>();
       }
-      this.cardFaces.add(elements);
+      for (CardFace element : elements) {
+        this.cardFaces.add(Objects.requireNonNull(element, "cardFaces element"));
+      }
       return this;
     }
 
 
     /**
-     * Sets or replaces all elements for {@link AbstractCard#cardFaces() cardFaces} list.
+     * Sets or replaces all elements for {@link com.alver.fatefall.api.base.Card#getCardFaces() cardFaces} list.
      * @param elements An iterable of cardFaces elements
      * @return {@code this} builder for use in a chained invocation
      */
@@ -5941,26 +6198,28 @@ public final class ImmutableCard extends AbstractCard {
         this.cardFaces = null;
         return this;
       }
-      this.cardFaces = ImmutableList.builder();
+      this.cardFaces = new ArrayList<CardFace>();
       return addAllCardFaces(elements);
     }
 
     /**
-     * Adds elements to {@link AbstractCard#cardFaces() cardFaces} list.
+     * Adds elements to {@link com.alver.fatefall.api.base.Card#getCardFaces() cardFaces} list.
      * @param elements An iterable of cardFaces elements
      * @return {@code this} builder for use in a chained invocation
      */
     public final Builder addAllCardFaces(Iterable<? extends CardFace> elements) {
       Objects.requireNonNull(elements, "cardFaces element");
       if (this.cardFaces == null) {
-        this.cardFaces = ImmutableList.builder();
+        this.cardFaces = new ArrayList<CardFace>();
       }
-      this.cardFaces.addAll(elements);
+      for (CardFace element : elements) {
+        this.cardFaces.add(Objects.requireNonNull(element, "cardFaces element"));
+      }
       return this;
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#legalities() legalities} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getLegalities() legalities} attribute.
      * @param legalities The value for legalities (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
@@ -5971,7 +6230,7 @@ public final class ImmutableCard extends AbstractCard {
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#reserved() reserved} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getReserved() reserved} attribute.
      * @param reserved The value for reserved (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
@@ -5982,73 +6241,73 @@ public final class ImmutableCard extends AbstractCard {
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#edhrecRank() edhrecRank} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getEdhrecRank() edhrecRank} attribute.
      * @param edhrecRank The value for edhrecRank (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("edhrec_rank")
+    @JsonProperty("edhrecRank")
     public final Builder edhrecRank(@Nullable Integer edhrecRank) {
       this.edhrecRank = edhrecRank;
       return this;
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#setCode() setCode} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getSetCode() setCode} attribute.
      * @param setCode The value for setCode (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("set")
+    @JsonProperty("setCode")
     public final Builder setCode(@Nullable String setCode) {
       this.setCode = setCode;
       return this;
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#setName() setName} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getSetName() setName} attribute.
      * @param setName The value for setName (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("set_name")
+    @JsonProperty("setName")
     public final Builder setName(@Nullable String setName) {
       this.setName = setName;
       return this;
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#collectorNumber() collectorNumber} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getCollectorNumber() collectorNumber} attribute.
      * @param collectorNumber The value for collectorNumber (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("collector_number")
+    @JsonProperty("collectorNumber")
     public final Builder collectorNumber(@Nullable String collectorNumber) {
       this.collectorNumber = collectorNumber;
       return this;
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#setSearchUri() setSearchUri} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getSetSearchUri() setSearchUri} attribute.
      * @param setSearchUri The value for setSearchUri (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("set_search_uri")
+    @JsonProperty("setSearchUri")
     public final Builder setSearchUri(@Nullable String setSearchUri) {
       this.setSearchUri = setSearchUri;
       return this;
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#scryfallSetUri() scryfallSetUri} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getScryfallSetUri() scryfallSetUri} attribute.
      * @param scryfallSetUri The value for scryfallSetUri (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("scryfall_set_uri")
+    @JsonProperty("scryfallSetUri")
     public final Builder scryfallSetUri(@Nullable String scryfallSetUri) {
       this.scryfallSetUri = scryfallSetUri;
       return this;
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#imageUris() imageUris} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getImageUris() imageUris} attribute.
      * @param imageUris The value for imageUris (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
@@ -6059,18 +6318,18 @@ public final class ImmutableCard extends AbstractCard {
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#highresImage() highresImage} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getHighresImage() highresImage} attribute.
      * @param highresImage The value for highresImage (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("highres_image")
+    @JsonProperty("highresImage")
     public final Builder highresImage(@Nullable Boolean highresImage) {
       this.highresImage = highresImage;
       return this;
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#reprint() reprint} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getReprint() reprint} attribute.
      * @param reprint The value for reprint (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
@@ -6081,7 +6340,7 @@ public final class ImmutableCard extends AbstractCard {
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#digital() digital} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getDigital() digital} attribute.
      * @param digital The value for digital (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
@@ -6092,7 +6351,7 @@ public final class ImmutableCard extends AbstractCard {
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#rarity() rarity} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getRarity() rarity} attribute.
      * @param rarity The value for rarity (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
@@ -6103,18 +6362,18 @@ public final class ImmutableCard extends AbstractCard {
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#flavorText() flavorText} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getFlavorText() flavorText} attribute.
      * @param flavorText The value for flavorText (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("flavor_text")
+    @JsonProperty("flavorText")
     public final Builder flavorText(@Nullable String flavorText) {
       this.flavorText = flavorText;
       return this;
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#artist() artist} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getArtist() artist} attribute.
      * @param artist The value for artist (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
@@ -6125,18 +6384,18 @@ public final class ImmutableCard extends AbstractCard {
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#illustrationId() illustrationId} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getIllustrationId() illustrationId} attribute.
      * @param illustrationId The value for illustrationId (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("illustration_id")
+    @JsonProperty("illustrationId")
     public final Builder illustrationId(@Nullable UUID illustrationId) {
       this.illustrationId = illustrationId;
       return this;
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#frame() frame} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getFrame() frame} attribute.
      * @param frame The value for frame (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
@@ -6147,18 +6406,18 @@ public final class ImmutableCard extends AbstractCard {
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#fullArt() fullArt} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getFullArt() fullArt} attribute.
      * @param fullArt The value for fullArt (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("full_art")
+    @JsonProperty("fullArt")
     public final Builder fullArt(@Nullable Boolean fullArt) {
       this.fullArt = fullArt;
       return this;
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#watermark() watermark} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getWatermark() watermark} attribute.
      * @param watermark The value for watermark (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
@@ -6169,40 +6428,40 @@ public final class ImmutableCard extends AbstractCard {
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#borderColor() borderColor} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getBorderColor() borderColor} attribute.
      * @param borderColor The value for borderColor (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("border_color")
+    @JsonProperty("borderColor")
     public final Builder borderColor(@Nullable BorderColors borderColor) {
       this.borderColor = borderColor;
       return this;
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#storySpotlightNumber() storySpotlightNumber} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getStorySpotlightNumber() storySpotlightNumber} attribute.
      * @param storySpotlightNumber The value for storySpotlightNumber (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("story_spotlight_number")
+    @JsonProperty("storySpotlightNumber")
     public final Builder storySpotlightNumber(@Nullable Integer storySpotlightNumber) {
       this.storySpotlightNumber = storySpotlightNumber;
       return this;
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#storySpotlightUri() storySpotlightUri} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getStorySpotlightUri() storySpotlightUri} attribute.
      * @param storySpotlightUri The value for storySpotlightUri (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("story_spotlight_uri")
+    @JsonProperty("storySpotlightUri")
     public final Builder storySpotlightUri(@Nullable String storySpotlightUri) {
       this.storySpotlightUri = storySpotlightUri;
       return this;
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#timeshifted() timeshifted} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getTimeshifted() timeshifted} attribute.
      * @param timeshifted The value for timeshifted (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
@@ -6213,7 +6472,7 @@ public final class ImmutableCard extends AbstractCard {
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#colorshifted() colorshifted} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getColorshifted() colorshifted} attribute.
      * @param colorshifted The value for colorshifted (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
@@ -6224,7 +6483,7 @@ public final class ImmutableCard extends AbstractCard {
     }
 
     /**
-     * Initializes the value for the {@link AbstractCard#futureshifted() futureshifted} attribute.
+     * Initializes the value for the {@link com.alver.fatefall.api.base.Card#getFutureshifted() futureshifted} attribute.
      * @param futureshifted The value for futureshifted (can be {@code null})
      * @return {@code this} builder for use in a chained invocation
      */
@@ -6235,112 +6494,136 @@ public final class ImmutableCard extends AbstractCard {
     }
 
     /**
-     * Put one entry to the {@link AbstractCard#purchaseUris() purchaseUris} map.
+     * Put one entry to the {@link com.alver.fatefall.api.base.Card#getPurchaseUris() purchaseUris} map.
      * @param key The key in the purchaseUris map
      * @param value The associated value in the purchaseUris map
      * @return {@code this} builder for use in a chained invocation
      */
     public final Builder putPurchaseUris(String key, String value) {
       if (this.purchaseUris == null) {
-        this.purchaseUris = ImmutableMap.builder();
+        this.purchaseUris = new LinkedHashMap<String, String>();
       }
-      this.purchaseUris.put(key, value);
+      this.purchaseUris.put(
+          Objects.requireNonNull(key, "purchaseUris key"),
+          Objects.requireNonNull(value, "purchaseUris value"));
       return this;
     }
 
     /**
-     * Put one entry to the {@link AbstractCard#purchaseUris() purchaseUris} map. Nulls are not permitted
+     * Put one entry to the {@link com.alver.fatefall.api.base.Card#getPurchaseUris() purchaseUris} map. Nulls are not permitted
      * @param entry The key and value entry
      * @return {@code this} builder for use in a chained invocation
      */
     public final Builder putPurchaseUris(Map.Entry<String, ? extends String> entry) {
       if (this.purchaseUris == null) {
-        this.purchaseUris = ImmutableMap.builder();
+        this.purchaseUris = new LinkedHashMap<String, String>();
       }
-      this.purchaseUris.put(entry);
+      String k = entry.getKey();
+      String v = entry.getValue();
+      this.purchaseUris.put(
+          Objects.requireNonNull(k, "purchaseUris key"),
+          Objects.requireNonNull(v, "purchaseUris value"));
       return this;
     }
 
     /**
-     * Sets or replaces all mappings from the specified map as entries for the {@link AbstractCard#purchaseUris() purchaseUris} map. Nulls are not permitted as keys or values, but parameter itself can be null
+     * Sets or replaces all mappings from the specified map as entries for the {@link com.alver.fatefall.api.base.Card#getPurchaseUris() purchaseUris} map. Nulls are not permitted as keys or values, but parameter itself can be null
      * @param entries The entries that will be added to the purchaseUris map
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("purchase_uris")
+    @JsonProperty("purchaseUris")
     public final Builder purchaseUris(@Nullable Map<String, ? extends String> entries) {
       if (entries == null) {
         this.purchaseUris = null;
         return this;
       }
-      this.purchaseUris = ImmutableMap.builder();
+      this.purchaseUris = new LinkedHashMap<String, String>();
       return putAllPurchaseUris(entries);
     }
 
     /**
-     * Put all mappings from the specified map as entries to {@link AbstractCard#purchaseUris() purchaseUris} map. Nulls are not permitted
+     * Put all mappings from the specified map as entries to {@link com.alver.fatefall.api.base.Card#getPurchaseUris() purchaseUris} map. Nulls are not permitted
      * @param entries The entries that will be added to the purchaseUris map
      * @return {@code this} builder for use in a chained invocation
      */
     public final Builder putAllPurchaseUris(Map<String, ? extends String> entries) {
       if (this.purchaseUris == null) {
-        this.purchaseUris = ImmutableMap.builder();
+        this.purchaseUris = new LinkedHashMap<String, String>();
       }
-      this.purchaseUris.putAll(entries);
+      for (Map.Entry<String, ? extends String> e : entries.entrySet()) {
+        String k = e.getKey();
+        String v = e.getValue();
+        this.purchaseUris.put(
+            Objects.requireNonNull(k, "purchaseUris key"),
+            Objects.requireNonNull(v, "purchaseUris value"));
+      }
       return this;
     }
 
     /**
-     * Put one entry to the {@link AbstractCard#relatedUris() relatedUris} map.
+     * Put one entry to the {@link com.alver.fatefall.api.base.Card#getRelatedUris() relatedUris} map.
      * @param key The key in the relatedUris map
      * @param value The associated value in the relatedUris map
      * @return {@code this} builder for use in a chained invocation
      */
     public final Builder putRelatedUris(String key, String value) {
       if (this.relatedUris == null) {
-        this.relatedUris = ImmutableMap.builder();
+        this.relatedUris = new LinkedHashMap<String, String>();
       }
-      this.relatedUris.put(key, value);
+      this.relatedUris.put(
+          Objects.requireNonNull(key, "relatedUris key"),
+          Objects.requireNonNull(value, "relatedUris value"));
       return this;
     }
 
     /**
-     * Put one entry to the {@link AbstractCard#relatedUris() relatedUris} map. Nulls are not permitted
+     * Put one entry to the {@link com.alver.fatefall.api.base.Card#getRelatedUris() relatedUris} map. Nulls are not permitted
      * @param entry The key and value entry
      * @return {@code this} builder for use in a chained invocation
      */
     public final Builder putRelatedUris(Map.Entry<String, ? extends String> entry) {
       if (this.relatedUris == null) {
-        this.relatedUris = ImmutableMap.builder();
+        this.relatedUris = new LinkedHashMap<String, String>();
       }
-      this.relatedUris.put(entry);
+      String k = entry.getKey();
+      String v = entry.getValue();
+      this.relatedUris.put(
+          Objects.requireNonNull(k, "relatedUris key"),
+          Objects.requireNonNull(v, "relatedUris value"));
       return this;
     }
 
     /**
-     * Sets or replaces all mappings from the specified map as entries for the {@link AbstractCard#relatedUris() relatedUris} map. Nulls are not permitted as keys or values, but parameter itself can be null
+     * Sets or replaces all mappings from the specified map as entries for the {@link com.alver.fatefall.api.base.Card#getRelatedUris() relatedUris} map. Nulls are not permitted as keys or values, but parameter itself can be null
      * @param entries The entries that will be added to the relatedUris map
      * @return {@code this} builder for use in a chained invocation
      */
-    @JsonProperty("related_uris")
+    @JsonProperty("relatedUris")
     public final Builder relatedUris(@Nullable Map<String, ? extends String> entries) {
       if (entries == null) {
         this.relatedUris = null;
         return this;
       }
-      this.relatedUris = ImmutableMap.builder();
+      this.relatedUris = new LinkedHashMap<String, String>();
       return putAllRelatedUris(entries);
     }
 
     /**
-     * Put all mappings from the specified map as entries to {@link AbstractCard#relatedUris() relatedUris} map. Nulls are not permitted
+     * Put all mappings from the specified map as entries to {@link com.alver.fatefall.api.base.Card#getRelatedUris() relatedUris} map. Nulls are not permitted
      * @param entries The entries that will be added to the relatedUris map
      * @return {@code this} builder for use in a chained invocation
      */
     public final Builder putAllRelatedUris(Map<String, ? extends String> entries) {
       if (this.relatedUris == null) {
-        this.relatedUris = ImmutableMap.builder();
+        this.relatedUris = new LinkedHashMap<String, String>();
       }
-      this.relatedUris.putAll(entries);
+      for (Map.Entry<String, ? extends String> e : entries.entrySet()) {
+        String k = e.getKey();
+        String v = e.getValue();
+        this.relatedUris.put(
+            Objects.requireNonNull(k, "relatedUris key"),
+            Objects.requireNonNull(v, "relatedUris value"));
+      }
       return this;
     }
 
@@ -6354,7 +6637,7 @@ public final class ImmutableCard extends AbstractCard {
           id,
           name,
           oracleId,
-          multiverseIds == null ? null : multiverseIds.build(),
+          multiverseIds == null ? null : createUnmodifiableList(true, multiverseIds),
           mtgoId,
           arenaId,
           mtgoFoilId,
@@ -6372,11 +6655,11 @@ public final class ImmutableCard extends AbstractCard {
           loyalty,
           lifeModifier,
           handModifier,
-          colors == null ? null : colors.build(),
-          colorIndicator == null ? null : colorIndicator.build(),
-          colorIdentity == null ? null : colorIdentity.build(),
-          allParts == null ? null : allParts.build(),
-          cardFaces == null ? null : cardFaces.build(),
+          colors == null ? null : createUnmodifiableList(true, colors),
+          colorIndicator == null ? null : createUnmodifiableList(true, colorIndicator),
+          colorIdentity == null ? null : createUnmodifiableList(true, colorIdentity),
+          allParts == null ? null : createUnmodifiableList(true, allParts),
+          cardFaces == null ? null : createUnmodifiableList(true, cardFaces),
           legalities,
           reserved,
           edhrecRank,
@@ -6402,8 +6685,79 @@ public final class ImmutableCard extends AbstractCard {
           timeshifted,
           colorshifted,
           futureshifted,
-          purchaseUris == null ? null : purchaseUris.build(),
-          relatedUris == null ? null : relatedUris.build());
+          purchaseUris == null ? null : createUnmodifiableMap(false, false, purchaseUris),
+          relatedUris == null ? null : createUnmodifiableMap(false, false, relatedUris));
+    }
+  }
+
+  private static <T> List<T> createSafeList(Iterable<? extends T> iterable, boolean checkNulls, boolean skipNulls) {
+    ArrayList<T> list;
+    if (iterable instanceof Collection<?>) {
+      int size = ((Collection<?>) iterable).size();
+      if (size == 0) return Collections.emptyList();
+      list = new ArrayList<>();
+    } else {
+      list = new ArrayList<>();
+    }
+    for (T element : iterable) {
+      if (skipNulls && element == null) continue;
+      if (checkNulls) Objects.requireNonNull(element, "element");
+      list.add(element);
+    }
+    return list;
+  }
+
+  private static <T> List<T> createUnmodifiableList(boolean clone, List<T> list) {
+    switch(list.size()) {
+    case 0: return Collections.emptyList();
+    case 1: return Collections.singletonList(list.get(0));
+    default:
+      if (clone) {
+        return Collections.unmodifiableList(new ArrayList<>(list));
+      } else {
+        if (list instanceof ArrayList<?>) {
+          ((ArrayList<?>) list).trimToSize();
+        }
+        return Collections.unmodifiableList(list);
+      }
+    }
+  }
+
+  private static <K, V> Map<K, V> createUnmodifiableMap(boolean checkNulls, boolean skipNulls, Map<? extends K, ? extends V> map) {
+    switch (map.size()) {
+    case 0: return Collections.emptyMap();
+    case 1: {
+      Map.Entry<? extends K, ? extends V> e = map.entrySet().iterator().next();
+      K k = e.getKey();
+      V v = e.getValue();
+      if (checkNulls) {
+        Objects.requireNonNull(k, "key");
+        Objects.requireNonNull(v, "value");
+      }
+      if (skipNulls && (k == null || v == null)) {
+        return Collections.emptyMap();
+      }
+      return Collections.singletonMap(k, v);
+    }
+    default: {
+      Map<K, V> linkedMap = new LinkedHashMap<>(map.size());
+      if (skipNulls || checkNulls) {
+        for (Map.Entry<? extends K, ? extends V> e : map.entrySet()) {
+          K k = e.getKey();
+          V v = e.getValue();
+          if (skipNulls) {
+            if (k == null || v == null) continue;
+          } else if (checkNulls) {
+            Objects.requireNonNull(k, "key");
+            Objects.requireNonNull(v, "value");
+          }
+          linkedMap.put(k, v);
+        }
+      } else {
+        linkedMap.putAll(map);
+      }
+      return Collections.unmodifiableMap(linkedMap);
+    }
     }
   }
 }
