@@ -66,9 +66,13 @@ public class FatefallApplication extends Application {
         stage.show();
     }
 
+    @Autowired
+    private FatefallApplicationConfiguration config;
+
     @Bean
     public FatefallApiClient getFatefallApiClient() {
-        return new FatefallApiClient();
+        String baseUrl = String.join(":", config.getHost(), Integer.toString(config.getPort()));
+        return new FatefallApiClient(baseUrl);
     }
 
     @Bean

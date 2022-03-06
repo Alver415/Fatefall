@@ -88,7 +88,6 @@ public class Settings extends Stage implements FxComponent {
         try (OutputStream output = new FileOutputStream("fatefall.properties")) {
             properties.setProperty("stylesheet", stylesheet.getSelectionModel().getSelectedItem().getName());
             properties.setProperty("db.url", "localhost");
-            properties.setProperty("db.user", "mkyong");
             properties.setProperty("db.password", "password");
             properties.store(output, "Fatefall Application Properties");
         } catch (IOException e) {

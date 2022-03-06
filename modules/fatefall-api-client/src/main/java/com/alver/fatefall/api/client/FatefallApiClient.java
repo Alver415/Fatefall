@@ -13,10 +13,9 @@ public class FatefallApiClient {
     private final CardApi cardApi;
     private final CardCollectionApi cardCollectionApi;
 
-    public FatefallApiClient() {
+    public FatefallApiClient(String baseUrl) {
         client = WebClient.builder()
-                .baseUrl("http://localhost:8080")
-                .defaultCookie("fatefall_cookie_key", "fatefall_cookie_value")
+                .baseUrl(baseUrl)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
 

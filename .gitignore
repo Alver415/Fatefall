@@ -13,7 +13,14 @@
 *.tar.gz
 *.rar
 
+# IDE #
+.classpath
+.project
+.settings/
+target/
+
 # Database #
 database/*
 .idea/*
 jmse_sets/*
+modules/fatefall-app-javafx/target/classes/application.yml
