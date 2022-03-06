@@ -41,7 +41,7 @@ public class CardCollectionPane extends CardGridPane implements FxComponent {
         });
     }
 
-    public ObservableList<Card> getCards() {
+    public ObservableList<? extends Card> getCards() {
         return FXCollections.observableList(getCardCollection().getCards());
     }
 
@@ -60,7 +60,7 @@ public class CardCollectionPane extends CardGridPane implements FxComponent {
                     return;
                 }
                 Set<String> resultNames = cards.data().stream().map(Card::getName).collect(Collectors.toSet());
-                List<Card> filtered = getCards().stream()
+                List<? extends Card> filtered = getCards().stream()
                         .filter(c -> {
                             return resultNames.contains(c.getName());
                         }).toList();

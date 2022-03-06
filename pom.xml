@@ -7,9 +7,12 @@
     <groupId>com.alver.fatefall</groupId>
     <artifactId>base</artifactId>
     <version>1.0-SNAPSHOT</version>
+
+    <name>Fatefall</name>
     <packaging>pom</packaging>
     <modules>
         <!--    Back End Server/Client    -->
+        <module>modules/fatefall-api</module>
         <module>modules/fatefall-api-server</module>
         <module>modules/fatefall-api-client</module>
 
@@ -20,7 +23,6 @@
         <module>modules/scryfall-api-client</module>
         <module>modules/mse-interface</module>
     </modules>
-    <name>Fatefall</name>
 
     <properties>
         <java.version>16</java.version>

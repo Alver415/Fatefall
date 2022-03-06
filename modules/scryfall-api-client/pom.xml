@@ -8,7 +8,6 @@
         <groupId>com.alver.fatefall</groupId>
         <artifactId>base</artifactId>
         <version>1.0-SNAPSHOT</version>
-
     </parent>
     <artifactId>scryfall-api-client</artifactId>
     <name>Scryfall API Client</name>
