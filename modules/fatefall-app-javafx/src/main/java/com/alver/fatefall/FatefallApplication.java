@@ -8,7 +8,6 @@ import com.alver.scryfall.api.implementation.ScryfallClientImpl;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import mse.MseCliProcess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -80,10 +79,5 @@ public class FatefallApplication extends Application {
         return new ScryfallClientImpl();
     }
 
-    @Bean
-    @Scope(SCOPE_PROTOTYPE)
-    public MseCliProcess getMagicSetEditorProcess() throws IOException {
-        return new MseCliProcess();
-    }
 
 }

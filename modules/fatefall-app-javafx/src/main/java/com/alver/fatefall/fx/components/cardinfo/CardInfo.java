@@ -11,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import mse.MseCliProcess;
 import org.alver415.javafx.scene.control.input.InputTextField;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -66,7 +65,7 @@ public class CardInfo extends VBox implements FxComponent {
     @FXML
     public void initialize() {
         saveButton.setOnMouseClicked(this::save);
-        generateButton.setOnMouseClicked(e -> generateImage());
+        generateButton.setOnMouseClicked(e -> setCard(fatefallApiClient.getCardApi().generateImage(getCard())));
         cardProperty.bindBidirectional(cardView.cardProperty());
         cardProperty.addListener((observable, oldValue, newValue) -> refresh());
     }
@@ -94,36 +93,6 @@ public class CardInfo extends VBox implements FxComponent {
         power.setValue(card == null ? null : card.power());
         toughness.setValue(card == null ? null : card.toughness());
 
-    }
-
-    public void generateImage() {
-        runAsync(() -> {
-            Card card = getCardWithEdits();
-            String fileName = card.name()
-                    .replace(" ", "_").toLowerCase() + ".png";
-            try (MseCliProcess mse = new MseCliProcess()) {
-                mse.load(Path.of("mse_sets/empty.mse-set"));
-                Map<String, String> fieldMap = new HashMap<>();
-                fieldMap.put("name", card.name());
-                fieldMap.put("type", card.typeLine());
-                fieldMap.put("rule_text", card.oracleText());
-                fieldMap.put("power", card.power());
-                fieldMap.put("toughness", card.toughness());
-
-                mse.command("source := set.cards[0]");
-                mse.new_card("my_card", fieldMap);
-                mse.write_image_file("set.cards[0]", fileName);
-                mse.quit();
-
-                Path path = Path.of(fileName);
-                Image image = new Image("file:" + path);
-                runFx(() -> this.cardView.frontFaceProperty().set(image));
-                Files.delete(path);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
     }
 
 }

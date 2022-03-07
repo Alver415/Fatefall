@@ -6,6 +6,7 @@ import com.alver.fatefall.api.services.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -42,6 +43,11 @@ public class CardController {
     @DeleteMapping("/{pk}")
     public void delete(@PathVariable Long pk) {
         cardRepository.deleteById(pk);
+    }
+
+    @PostMapping("generateImage")
+    public Card generateImage(@RequestBody Card card) throws IOException {
+        return cardService.generateImage(card);
     }
 
 }

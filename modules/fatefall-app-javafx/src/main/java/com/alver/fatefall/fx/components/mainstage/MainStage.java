@@ -1,11 +1,9 @@
 package com.alver.fatefall.fx.components.mainstage;
 
 import com.alver.fatefall.FxComponent;
-import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.client.FatefallApiClient;
+import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.CardCollection;
-import com.alver.fatefall.api.models.ImageUri;
-import com.alver.fatefall.api.models.Layouts;
 import com.alver.fatefall.fx.components.cardcollection.CardCollectionPane;
 import com.alver.fatefall.fx.components.cardcollection.CardGridPane;
 import com.alver.fatefall.fx.components.cardcollection.ScryfallSearchPane;
@@ -20,14 +18,11 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import mse.SetManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -101,37 +96,15 @@ public class MainStage extends Stage implements FxComponent {
                         "Enter a name for the new collection.")
                 .orElse(file.getName());
 
-        try {
-            if (!file.getName().endsWith(".mse-set")) {
-                return;
-            }
-            SetManager setManager = SetManager.importMseSet(name, file.toPath());
-            List<Card> convertedCards = setManager.getSet().cards.stream().map(c -> {
-                        String cardName = c.fields.get("name");
-                        String fileName = cardName
-                                .replace("\"", "")
-                                .replace(",", "")
-                                .replace(" ", "_");
-                        String image = setManager.getImagesPath()
-                                .resolve(fileName + ".png")
-                                .toFile().toURI().toString();
-                        return new Card()
-                                .withLayout(Layouts.NORMAL)
-                                .withName(cardName)
-                                .withManaCost(c.fields.get("casting_cost"))
-                                .withImageUris(new ImageUri()
-                                        .withNormal(image)
-                                        .withPng(image)
-                                );
-                    })
-                    .toList();
-
-            CardCollection collection = createCollection(name);
-            collection.getCards().addAll(convertedCards);
-        } catch (IOException e) {
-            LOGGER.error("Failed to import from MSE.", e);
-            dialogService.error("Must have extension .mse-set");
+        if (!file.getName().endsWith(".mse-set")) {
+            return;
         }
+
+        CardCollection cardCollection = fatefallApiClient.getCardCollectionApi().importFromMse(name, file);
+
+        CardCollection created = createCollection(cardCollection.getName());
+        created.getCards().addAll(cardCollection.getCards());
+
     }
 
     private void addScryfallTab() {

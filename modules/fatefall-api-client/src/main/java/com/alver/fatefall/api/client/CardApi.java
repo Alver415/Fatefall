@@ -37,4 +37,12 @@ public class CardApi extends AbstractApi {
                 .toBodilessEntity()
                 .block();
     }
+    public Card generateImage(Card card) {
+        return client.post()
+                .uri("card/generateImage/")
+                .body(Mono.just(card), Card.class)
+                .retrieve()
+                .bodyToMono(Card.class)
+                .block();
+    }
 }
