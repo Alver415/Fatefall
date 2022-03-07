@@ -14,10 +14,10 @@
 *.rar
 
 # IDE #
-*.classpath
-*.project
-*.settings/
-*.idea/*
-*/target/**
-database/*
-jmse_sets/*
+.classpath
+.project
+.settings/
+.idea/
+target/
+database/
+jmse_sets/
