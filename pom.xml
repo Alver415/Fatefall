@@ -18,7 +18,6 @@
 
         <!--    Front End Application    -->
         <module>modules/fatefall-app-javafx</module>
-        <module>modules/fatefall-app-bundle</module>
 
         <!--    Tools    -->
         <module>modules/scryfall-api-client</module>
@@ -77,11 +76,6 @@
             <dependency>
                 <groupId>com.alver.fatefall</groupId>
                 <artifactId>fatefall-app-javafx</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alver.fatefall</groupId>
-                <artifactId>fatefall-app-bundle</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
