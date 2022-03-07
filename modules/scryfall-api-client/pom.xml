@@ -17,7 +17,7 @@
         <dependency>
             <groupId>com.alver.fatefall</groupId>
             <artifactId>fatefall-api</artifactId>
-                    </dependency>
+        </dependency>
         <dependency>
             <groupId>com.microsoft.rest</groupId>
             <artifactId>client-runtime</artifactId>

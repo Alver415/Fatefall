@@ -12,7 +12,6 @@
     </parent>
     <artifactId>fatefall-app-bundle</artifactId>
     <name>Fatefall Application JavaFX (Standalone)</name>
-    <version>${revision}</version>
 
     <dependencies>
         <dependency>

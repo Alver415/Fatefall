@@ -22,7 +22,7 @@
         <dependency>
             <groupId>com.alver.fatefall</groupId>
             <artifactId>fatefall-api</artifactId>
-                    </dependency>
+        </dependency>
     </dependencies>
 
 </project>

@@ -14,8 +14,12 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.io.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Properties;
 
 import static com.alver.fatefall.FatefallApplication.APP_ICON;
@@ -72,16 +76,17 @@ public class Settings extends Stage implements FxComponent {
     }
 
     public void load() {
-        try (InputStream input = new FileInputStream("fatefall.properties")) {
+        try (InputStream input = getClass().getResourceAsStream("fatefall.settings")) {
             properties.load(input);
-            stylesheet.getSelectionModel().select(StandardStylesheet.valueOf(((String)properties.get("stylesheet")).toUpperCase()));
+            stylesheet.getSelectionModel().select(StandardStylesheet.valueOf(((String) properties.get("stylesheet")).toUpperCase()));
         } catch (IOException e) {
             LOGGER.error("Error saving Fatefall application settings.", e);
         }
     }
 
     public void save() {
-        try (OutputStream output = new FileOutputStream("fatefall.properties")) {
+        try (OutputStream output = new FileOutputStream(
+                Objects.requireNonNull(getClass().getResource("fatefall.settings")).getPath())) {
             properties.setProperty("stylesheet", stylesheet.getSelectionModel().getSelectedItem().getName());
             properties.setProperty("db.url", "localhost");
             properties.setProperty("db.password", "password");
