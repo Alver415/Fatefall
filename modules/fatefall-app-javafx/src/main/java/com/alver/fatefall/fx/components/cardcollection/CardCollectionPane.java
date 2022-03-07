@@ -2,13 +2,11 @@ package com.alver.fatefall.fx.components.cardcollection;
 
 import com.alver.fatefall.FxComponent;
 import com.alver.fatefall.api.models.Card;
-import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.CardCollection;
 import com.alver.fatefall.api.models.CardList;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import java.util.List;
@@ -20,16 +18,6 @@ import static javafx.scene.control.Alert.AlertType.INFORMATION;
 public class CardCollectionPane extends CardGridPane implements FxComponent {
 
     protected ObjectProperty<CardCollection> cardCollectionProperty = new SimpleObjectProperty<>();
-    public final ObjectProperty<CardCollection> cardCollectionProperty() {
-        return cardCollectionProperty;
-    }
-    public final void setCardCollection(CardCollection value) {
-        cardCollectionProperty.set(value);
-    }
-    public final CardCollection getCardCollection() {
-        return cardCollectionProperty.get();
-    }
-
     public CardCollectionPane() {
         this(CardGridPane.class);
     }
@@ -39,7 +27,15 @@ public class CardCollectionPane extends CardGridPane implements FxComponent {
             redraw(newValue.getCards());
         });
     }
-
+    public final ObjectProperty<CardCollection> cardCollectionProperty() {
+        return cardCollectionProperty;
+    }
+    public final CardCollection getCardCollection() {
+        return cardCollectionProperty.get();
+    }
+    public final void setCardCollection(CardCollection value) {
+        cardCollectionProperty.set(value);
+    }
     public ObservableList<Card> getCards() {
         return FXCollections.observableList(getCardCollection().getCards());
     }

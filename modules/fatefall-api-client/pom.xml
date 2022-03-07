@@ -7,7 +7,8 @@
     <parent>
         <groupId>com.alver.fatefall</groupId>
         <artifactId>base</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${revision}</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
     <artifactId>fatefall-api-client</artifactId>
     <name>Fatefall API Client</name>
@@ -21,8 +22,7 @@
         <dependency>
             <groupId>com.alver.fatefall</groupId>
             <artifactId>fatefall-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
+                    </dependency>
     </dependencies>
 
 </project>

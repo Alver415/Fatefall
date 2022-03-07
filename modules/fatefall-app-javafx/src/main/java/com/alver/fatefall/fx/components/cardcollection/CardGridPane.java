@@ -2,7 +2,6 @@ package com.alver.fatefall.fx.components.cardcollection;
 
 import com.alver.fatefall.FxComponent;
 import com.alver.fatefall.api.models.Card;
-import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.fx.components.cardview.CardView;
 import com.alver.fatefall.services.DialogService;
 import com.alver.scryfall.api.ScryfallClient;

@@ -10,14 +10,18 @@
         <version>${revision}</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
-    <artifactId>mse-interface</artifactId>
-    <name>Magic Set Editor Interface</name>
+    <artifactId>fatefall-app-bundle</artifactId>
+    <name>Fatefall Application JavaFX (Standalone)</name>
+    <version>${revision}</version>
 
     <dependencies>
         <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.11.0</version>
+            <groupId>com.alver.fatefall</groupId>
+            <artifactId>fatefall-app-javafx</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alver.fatefall</groupId>
+            <artifactId>fatefall-api-server</artifactId>
         </dependency>
     </dependencies>
 

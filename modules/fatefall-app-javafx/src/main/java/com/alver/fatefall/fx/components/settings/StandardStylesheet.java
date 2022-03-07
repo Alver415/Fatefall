@@ -1,7 +1,5 @@
 package com.alver.fatefall.fx.components.settings;
 
-import com.alver.fatefall.FatefallApplication;
-
 import java.util.Objects;
 
 public enum StandardStylesheet implements NamedValue<String> {

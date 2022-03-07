@@ -3,7 +3,6 @@ package com.alver.fatefall.fx.components.cardview;
 import com.alver.fatefall.FxComponent;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.client.FatefallApiClient;
-import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.CardCollection;
 import com.alver.fatefall.api.models.Layouts;
 import javafx.animation.KeyFrame;

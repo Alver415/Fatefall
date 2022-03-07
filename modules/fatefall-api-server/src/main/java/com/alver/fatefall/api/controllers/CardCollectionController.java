@@ -1,17 +1,14 @@
 package com.alver.fatefall.api.controllers;
 
-import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.repositories.CardCollectionRepository;
 import com.alver.fatefall.api.services.CardCollectionService;
 import com.alver.fatefall.api.models.CardCollection;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 

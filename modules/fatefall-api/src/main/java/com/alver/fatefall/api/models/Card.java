@@ -2,7 +2,6 @@ package com.alver.fatefall.api.models;
 
 import com.alver.fatefall.api.PersistedObject;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
