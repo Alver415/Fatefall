@@ -6,7 +6,7 @@
 
 package com.alver.scryfall.api.implementation;
 
-import com.alver.fatefall.api.models.Catalog;
+import com.alver.fatefall.api.models.scryfall.Catalog;
 import com.alver.scryfall.api.Catalogs;
 import com.alver.scryfall.api.models.ErrorException;
 import retrofit2.Retrofit;

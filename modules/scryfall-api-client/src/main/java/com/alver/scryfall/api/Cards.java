@@ -6,9 +6,7 @@
 
 package com.alver.scryfall.api;
 
-import com.alver.fatefall.api.models.Card;
-import com.alver.fatefall.api.models.*;
-import com.alver.fatefall.api.models.SortOrder;
+import com.alver.fatefall.api.models.scryfall.*;
 import com.alver.scryfall.api.models.ErrorException;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;

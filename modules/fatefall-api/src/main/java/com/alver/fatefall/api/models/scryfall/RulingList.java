@@ -4,27 +4,27 @@
  * regenerated.
  */
 
-package com.alver.fatefall.api.models;
+package com.alver.fatefall.api.models.scryfall;
 
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The SetList model.
+ * The RulingList model.
  */
-public class SetList {
+public class RulingList {
     /**
      * The data property.
      */
     @JsonProperty(value = "data")
-    private List<Set> data;
+    private List<Ruling> data;
 
     /**
      * Get the data value.
      *
      * @return the data value
      */
-    public List<Set> data() {
+    public List<Ruling> data() {
         return this.data;
     }
 
@@ -32,9 +32,9 @@ public class SetList {
      * Set the data value.
      *
      * @param data the data value to set
-     * @return the SetList object itself.
+     * @return the RulingList object itself.
      */
-    public SetList withData(List<Set> data) {
+    public RulingList withData(List<Ruling> data) {
         this.data = data;
         return this;
     }

@@ -1,6 +1,7 @@
 package com.alver.fatefall.api.models;
 
 import com.alver.fatefall.api.PersistedObject;
+import com.alver.fatefall.api.models.scryfall.Card;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;

@@ -4,7 +4,7 @@
  * regenerated.
  */
 
-package com.alver.fatefall.api.models;
+package com.alver.fatefall.api.models.scryfall;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -64,7 +64,7 @@ public class CardSymbol {
      * Possible values include: 'W', 'U', 'B', 'R', 'G'.
      */
     @JsonProperty(value = "colors")
-    private com.alver.fatefall.api.models.Colors colors;
+    private Colors colors;
 
     /**
      * Get the symbol value.
@@ -231,7 +231,7 @@ public class CardSymbol {
      *
      * @return the colors value
      */
-    public com.alver.fatefall.api.models.Colors colors() {
+    public Colors colors() {
         return this.colors;
     }
 
@@ -241,7 +241,7 @@ public class CardSymbol {
      * @param colors the colors value to set
      * @return the CardSymbol object itself.
      */
-    public CardSymbol withColors(com.alver.fatefall.api.models.Colors colors) {
+    public CardSymbol withColors(Colors colors) {
         this.colors = colors;
         return this;
     }

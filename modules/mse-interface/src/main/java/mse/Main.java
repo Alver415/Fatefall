@@ -1,5 +1,8 @@
 package mse;
 
+import mse.data.MseCard;
+import mse.data.MseSet;
+
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -11,9 +14,9 @@ public class Main {
         String setName = "TestImport";
         SetManager setManager = SetManager.importMseSet(setName, sourceSet);
 
-        SetManager.Set set = setManager.getSet();
+        MseSet set = setManager.getSet();
         set.cards.clear();
-        SetManager.Card card = new SetManager.Card();
+        MseCard card = new MseCard();
         card.fields.put("has_styling", "false");
         card.fields.put("name", "Palitacita, Best Pal");
         card.fields.put("casting_cost", "GWU");

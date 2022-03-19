@@ -4,7 +4,7 @@
  * regenerated.
  */
 
-package com.alver.fatefall.api.models;
+package com.alver.fatefall.api.models.scryfall;
 
 import java.util.UUID;
 

@@ -4,7 +4,7 @@
  * regenerated.
  */
 
-package com.alver.fatefall.api.models;
+package com.alver.fatefall.api.models.scryfall;
 
 import com.alver.fatefall.api.PersistedObject;
 import com.fasterxml.jackson.annotation.JsonProperty;

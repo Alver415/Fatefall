@@ -6,9 +6,8 @@
 
 package com.alver.scryfall.api.implementation;
 
-import com.alver.fatefall.api.models.Card;
+import com.alver.fatefall.api.models.scryfall.*;
 import com.alver.scryfall.api.Cards;
-import com.alver.fatefall.api.models.*;
 import com.alver.scryfall.api.models.ErrorException;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;

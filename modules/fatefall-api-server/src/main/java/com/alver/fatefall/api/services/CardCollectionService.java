@@ -1,9 +1,9 @@
 package com.alver.fatefall.api.services;
 
-import com.alver.fatefall.api.models.Card;
+import com.alver.fatefall.api.models.scryfall.Card;
 import com.alver.fatefall.api.models.CardCollection;
-import com.alver.fatefall.api.models.ImageUri;
-import com.alver.fatefall.api.models.Layouts;
+import com.alver.fatefall.api.models.scryfall.ImageUri;
+import com.alver.fatefall.api.models.scryfall.Layouts;
 import com.alver.fatefall.api.repositories.CardRepository;
 import mse.SetManager;
 import org.springframework.beans.factory.annotation.Autowired;

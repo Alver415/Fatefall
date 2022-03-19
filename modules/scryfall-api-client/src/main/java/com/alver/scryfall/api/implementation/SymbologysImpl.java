@@ -7,8 +7,8 @@
 package com.alver.scryfall.api.implementation;
 
 import com.alver.scryfall.api.Symbologys;
-import com.alver.fatefall.api.models.CardSymbolList;
-import com.alver.fatefall.api.models.ManaCost;
+import com.alver.fatefall.api.models.scryfall.CardSymbolList;
+import com.alver.fatefall.api.models.scryfall.ManaCost;
 import com.alver.scryfall.api.models.ErrorException;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;

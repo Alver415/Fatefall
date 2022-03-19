@@ -1,8 +1,12 @@
 package com.alver.fatefall.api.services;
 
-import com.alver.fatefall.api.models.*;
+import com.alver.fatefall.api.models.scryfall.Card;
+import com.alver.fatefall.api.models.scryfall.Colors;
+import com.alver.fatefall.api.models.scryfall.ImageUri;
+import com.alver.fatefall.api.models.scryfall.Layouts;
 import com.alver.fatefall.api.repositories.CardRepository;
 import mse.SetManager;
+import mse.data.MseCard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +36,7 @@ public class CardService {
                 .replace(" ", "_");
 
         Path artCropPath = setManager.getSetPath().resolveSibling(artCropFilename);
+        Files.deleteIfExists(artCropPath);
         try(InputStream in = new URL(card.imageUris().artCrop()).openStream()){
             Files.copy(in, artCropPath);
         }
@@ -40,7 +45,7 @@ public class CardService {
                 .replace(",", "")
                 .replace(" ", "_");
 
-        SetManager.Card mseCard = new SetManager.Card();
+        MseCard mseCard = new MseCard();
         mseCard.fields.put("has_styling", "false");
         mseCard.fields.put("name", name);
         mseCard.fields.put("casting_cost", card.manaCost());
