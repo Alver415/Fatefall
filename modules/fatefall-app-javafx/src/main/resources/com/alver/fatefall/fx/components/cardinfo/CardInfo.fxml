@@ -10,13 +10,7 @@
          fx:controller="com.alver.fatefall.fx.components.cardinfo.CardInfo">
     <CardView fx:id="cardView"/>
     <ScrollPane hbarPolicy="NEVER" vbarPolicy="NEVER">
-        <VBox fx:id="cardFields">
-            <InputTextField fx:id="name" labelText="Card Name"/>
-            <InputTextField fx:id="manaCost" labelText="Cost"/>
-            <InputTextField fx:id="typeLine" labelText="Type"/>
-            <InputTextField fx:id="power" labelText="Power"/>
-            <InputTextField fx:id="toughness" labelText="Toughness"/>
-        </VBox>
+        <VBox fx:id="dataFields"/>
     </ScrollPane>
     <HBox>
         <Button fx:id="saveButton" text="Save"/>

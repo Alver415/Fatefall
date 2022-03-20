@@ -3,8 +3,7 @@ package com.alver.fatefall;
 import com.alver.fatefall.api.client.FatefallApiClient;
 import com.alver.fatefall.fx.components.mainstage.MainStage;
 import com.alver.fatefall.fx.components.settings.Settings;
-import com.alver.scryfall.api.ScryfallClient;
-import com.alver.scryfall.api.implementation.ScryfallClientImpl;
+import com.alver.scryfall.api.ScryfallApiClient;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -72,8 +71,8 @@ public class FatefallApplication extends Application {
     }
 
     @Bean
-    public ScryfallClient getScryfallClient() {
-        return new ScryfallClientImpl();
+    public ScryfallApiClient getScryfallClient() {
+        return new ScryfallApiClient();
     }
 
 

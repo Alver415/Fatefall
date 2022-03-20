@@ -1,17 +1,20 @@
 package com.alver.fatefall.fx.components.cardcollection;
 
 import com.alver.fatefall.FxComponent;
-import com.alver.fatefall.api.models.scryfall.Card;
+import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.CardCollection;
 import com.alver.fatefall.api.models.scryfall.CardList;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static javafx.scene.control.Alert.AlertType.INFORMATION;
 
@@ -46,19 +49,19 @@ public class CardCollectionPane extends CardGridPane implements FxComponent {
             redraw(getCardCollection().getCards());
         } else {
             runAsync(() -> {
-                CardList cards = client.cards().search(query);
-                if (cards == null || cards.data().isEmpty()) {
+                List<Card> cards = scryfallClient.getCardApi().search(query);
+                if (cards.isEmpty()) {
                     errorHandler.alert(INFORMATION,
                             "No Results",
                             "There were no results for the search query.",
                             query);
                     return;
                 }
-                Set<String> resultNames = cards.data().stream().map(Card::name).collect(Collectors.toSet());
+                Set<String> resultNames = new HashSet<>();
+                cards.forEach(c -> resultNames.add(c.findString("name")));
                 List<Card> filtered = getCards().stream()
-                        .filter(c -> {
-                            return resultNames.contains(c.name());
-                        }).toList();
+                        .filter(c -> resultNames.contains(c.findString("name")))
+                        .toList();
 
                 runFx(() -> redraw(filtered));
             });

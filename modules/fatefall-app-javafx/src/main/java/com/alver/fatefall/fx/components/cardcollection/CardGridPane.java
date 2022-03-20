@@ -1,10 +1,10 @@
 package com.alver.fatefall.fx.components.cardcollection;
 
 import com.alver.fatefall.FxComponent;
-import com.alver.fatefall.api.models.scryfall.Card;
+import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.fx.components.cardview.CardView;
 import com.alver.fatefall.services.DialogService;
-import com.alver.scryfall.api.ScryfallClient;
+import com.alver.scryfall.api.ScryfallApiClient;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -31,7 +31,7 @@ public abstract class CardGridPane extends BorderPane implements FxComponent {
      * Spring Dependency Injection
      */
     @Autowired
-    protected ScryfallClient client;
+    protected ScryfallApiClient scryfallClient;
     @Autowired
     protected DialogService errorHandler;
 

@@ -1,9 +1,6 @@
 package mse;
 
-import mse.data.MseCard;
-import mse.data.MseKeyword;
-import mse.data.MseNode;
-import mse.data.MseSet;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -11,9 +8,8 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.List;
+import java.util.Objects;
 
 public class SetManager {
 
@@ -24,7 +20,7 @@ public class SetManager {
 
     private final String setName;
     private final String fileName;
-    private MseSet set;
+    private ObjectNode set;
 
     private SetManager(String setName, String fileName) throws IOException {
         this.setName = setName;
@@ -62,10 +58,10 @@ public class SetManager {
         return setManager;
     }
 
-    public MseSet getSet() {
+    public ObjectNode getSet() {
         return set;
     }
-    public void setSet(MseSet set) {
+    public void setSet(ObjectNode set) {
         this.set = set;
     }
 
@@ -100,7 +96,7 @@ public class SetManager {
     public void generateImages() throws IOException {
         exportSet();
         File imagesDirectory = getImagesPath().toFile();
-        FileUtils.deleteDirectory(imagesDirectory);
+        // FileUtils.deleteDirectory(imagesDirectory);
         if (!imagesDirectory.exists()) {
             if (!imagesDirectory.mkdirs()) {
                 throw new IOException("Failed to create directory: " + imagesDirectory);
@@ -125,14 +121,14 @@ public class SetManager {
 
     /*============================== LOAD ==============================*/
 
-    public MseSet load() throws IOException {
+    public ObjectNode load() throws IOException {
         List<String> lines = Files.readAllLines(getSetPath());
-        return mapper.fromLines(lines);
+        return mapper.toJson(lines);
     }
     /*============================== Write ==============================*/
 
     public void save() throws IOException {
-        String setString = mapper.toString(set);
+        String setString = mapper.fromJson(set);
         FileUtils.writeStringToFile(getSetPath().toFile(), setString, Charset.defaultCharset());
     }
 

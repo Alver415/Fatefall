@@ -8,6 +8,7 @@ package com.alver.fatefall.api.models.scryfall;
 
 import java.util.List;
 
+import com.alver.fatefall.api.models.Card;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**

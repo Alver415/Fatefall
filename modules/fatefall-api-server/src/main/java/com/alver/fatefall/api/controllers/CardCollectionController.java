@@ -52,6 +52,7 @@ public class CardCollectionController {
                 .resolve(filename)
                 .toAbsolutePath()
                 .toFile();
+        mseFile.mkdirs();
         file.transferTo(mseFile);
         return cardCollectionService.importFromMse(name, mseFile);
     }

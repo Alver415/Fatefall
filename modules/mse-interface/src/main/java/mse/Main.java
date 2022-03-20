@@ -1,7 +1,10 @@
 package mse;
 
-import mse.data.MseCard;
-import mse.data.MseSet;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -14,26 +17,25 @@ public class Main {
         String setName = "TestImport";
         SetManager setManager = SetManager.importMseSet(setName, sourceSet);
 
-        MseSet set = setManager.getSet();
-        set.cards.clear();
-        MseCard card = new MseCard();
-        card.fields.put("has_styling", "false");
-        card.fields.put("name", "Palitacita, Best Pal");
-        card.fields.put("casting_cost", "GWU");
-        card.fields.put("card_color", "green, white, blue, horizontal");
-        card.fields.put("super_type", "Legendary Creature");
-        card.fields.put("sub_type", "Human Cleric");
-        card.fields.put("rarity", "mythic rare");
-        card.fields.put("rule_text", "Palitacita is the most loved.");
-        card.fields.put("power", "3");
-        card.fields.put("toughness", "3");
-        card.fields.put("notes", "Loved the most.");
-        set.cards.add(card);
+        ObjectNode set = setManager.getSet();
+        ArrayNode cards = (ArrayNode) set.get("cards");
+        ObjectNode card = new ObjectMapper().createObjectNode();
+        card.put("has_styling", "false");
+        card.put("name", "Palitacita, Best Pal");
+        card.put("casting_cost", "GWU");
+        card.put("card_color", "green, white, blue, horizontal");
+        card.put("super_type", "Legendary Creature");
+        card.put("sub_type", "Human Cleric");
+        card.put("rarity", "mythic rare");
+        card.put("rule_text", "Palitacita is the most loved.");
+        card.put("power", "3");
+        card.put("toughness", "3");
+        card.put("notes", "Loved the most.");
+        cards.add(card);
 
         setManager.save();
         setManager.exportSet();
         setManager.generateImages();
-
     }
 
 }
