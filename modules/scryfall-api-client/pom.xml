@@ -19,9 +19,13 @@
             <artifactId>fatefall-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.microsoft.rest</groupId>
-            <artifactId>client-runtime</artifactId>
-            <version>1.7.14</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webflux</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

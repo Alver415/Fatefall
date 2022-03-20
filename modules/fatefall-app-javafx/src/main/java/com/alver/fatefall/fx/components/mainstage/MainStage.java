@@ -2,7 +2,7 @@ package com.alver.fatefall.fx.components.mainstage;
 
 import com.alver.fatefall.FxComponent;
 import com.alver.fatefall.api.client.FatefallApiClient;
-import com.alver.fatefall.api.models.scryfall.Card;
+import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.CardCollection;
 import com.alver.fatefall.fx.components.cardcollection.CardCollectionPane;
 import com.alver.fatefall.fx.components.cardcollection.CardGridPane;
@@ -10,7 +10,7 @@ import com.alver.fatefall.fx.components.cardcollection.ScryfallSearchPane;
 import com.alver.fatefall.fx.components.cardinfo.CardInfo;
 import com.alver.fatefall.fx.components.settings.Settings;
 import com.alver.fatefall.services.DialogService;
-import com.alver.scryfall.api.ScryfallClient;
+import com.alver.scryfall.api.ScryfallApiClient;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -34,7 +34,7 @@ public class MainStage extends Stage implements FxComponent {
      * Spring Dependency Injection
      */
     @Autowired
-    protected ScryfallClient client;
+    protected ScryfallApiClient client;
     @Autowired
     protected FatefallApiClient fatefallApiClient;
     @Autowired
@@ -68,12 +68,6 @@ public class MainStage extends Stage implements FxComponent {
 
     @FXML
     public void initialize() {
-        addScryfallTab();
-
-        collectionsList.setCellFactory(cardCollectionCellFactory);
-        collectionsList.setItems(FXCollections.observableList(fatefallApiClient.getCardCollectionApi().findAll()));
-        collectionsList.getItems().stream().findFirst().ifPresent(this::addCollectionTab);
-
         tabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null) {
                 addScryfallTab();
@@ -82,9 +76,17 @@ public class MainStage extends Stage implements FxComponent {
             }
         });
 
+        //So there's always something there on startup.
+        addScryfallTab();
+
+        collectionsList.setCellFactory(cardCollectionCellFactory);
+        collectionsList.setItems(FXCollections.observableList(fatefallApiClient.getCardCollectionApi().findAll()));
+        collectionsList.getItems().stream().findFirst().ifPresent(this::addCollectionTab);
+
         newCollection.setOnAction(a -> newCollection());
         saveCollection.setOnAction(a -> saveCollection());
         importFromMse.setOnAction(a -> importFromMse());
+
     }
     private void importFromMse() {
         FileChooser fileChooser = new FileChooser();
@@ -100,10 +102,12 @@ public class MainStage extends Stage implements FxComponent {
             return;
         }
 
-        CardCollection cardCollection = fatefallApiClient.getCardCollectionApi().importFromMse(name, file);
-
-        CardCollection created = createCollection(cardCollection.getName());
-        created.getCards().addAll(cardCollection.getCards());
+        runAsync(() -> {
+            CardCollection cardCollection = fatefallApiClient.getCardCollectionApi().importFromMse(name, file);
+            runFx(() -> {
+                collectionsList.getItems().add(cardCollection);
+            });
+        });
 
     }
 

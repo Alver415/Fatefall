@@ -1,10 +1,9 @@
 package com.alver.fatefall.fx.components.cardview;
 
 import com.alver.fatefall.FxComponent;
-import com.alver.fatefall.api.models.scryfall.Card;
 import com.alver.fatefall.api.client.FatefallApiClient;
+import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.CardCollection;
-import com.alver.fatefall.api.models.scryfall.Layouts;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -25,9 +24,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Objects;
 
-import static com.alver.fatefall.fx.components.cardview.CardDimensions.*;
+import static com.alver.fatefall.fx.components.cardview.CardView.CardDimensions.*;
 
 public class CardView extends StackPane implements FxComponent {
+
+    public interface CardDimensions {
+        double WIDTH = 2.5;
+        double HEIGHT = 3.5;
+        double CORNER_RADIUS = 0.125;
+    }
 
     @Autowired
     private FatefallApiClient fatefallApiClient;
@@ -160,9 +165,9 @@ public class CardView extends StackPane implements FxComponent {
         });
     }
 
-    //TODO: Figure out why the doubling is necessary. Math is off somehow...
-    private static final double ARC_WIDTH_MULTIPLIER = 2 * CORNER_RADIUS / WIDTH;
-    private static final double ARC_HEIGHT_MULTIPLIER = 2 * CORNER_RADIUS / HEIGHT;
+    //TODO: Figure out why the 2.5x is necessary. Math is off somehow...
+    private static final double ARC_WIDTH_MULTIPLIER = 2.5 * CORNER_RADIUS / WIDTH;
+    private static final double ARC_HEIGHT_MULTIPLIER = 2.5 * CORNER_RADIUS / HEIGHT;
 
     private void setupClip() {
 
@@ -184,18 +189,8 @@ public class CardView extends StackPane implements FxComponent {
 
         progressIndicator.setVisible(true);
         runAsync(() -> {
-            Image frontFaceImage;
-            Image backFaceImage;
-            switch (card.layout()) {
-                case TRANSFORM, MODAL_DFC, DOUBLE_FACED_TOKEN, ART_SERIES, REVERSIBLE_CARD -> {
-                    frontFaceImage = new Image(card.cardFaces().get(0).imageUris().png(), true);
-                    backFaceImage = new Image(card.cardFaces().get(1).imageUris().png(), true);
-                }
-                default -> {
-                    frontFaceImage = new Image(card.imageUris().png(), true);
-                    backFaceImage = CARD_BACK;
-                }
-            }
+            Image frontFaceImage = new Image(card.getFrontFaceUrl(), true);
+            Image backFaceImage = new Image(card.getBackFaceUrl(), true);
 
             runFx(() -> {
                 progressIndicator.progressProperty().bind(frontFaceImage.progressProperty());
@@ -219,17 +214,8 @@ public class CardView extends StackPane implements FxComponent {
     }
 
     private void setupControls() {
-        Card card = getCard();
-        boolean isDoubleFaced = Layouts.isDoubleFaced(card);
-        boolean isRotated = Layouts.isRotated(card);
-
-        flipButton.setVisible(isDoubleFaced);
         flipButton.setOnMouseClicked((event) -> flip());
-
-        spinLeftButton.setVisible(isRotated);
         spinLeftButton.setOnMouseClicked((event) -> spinLeft());
-
-        spinRightButton.setVisible(isRotated);
         spinRightButton.setOnMouseClicked((event) -> spinRight());
 
         setOnMouseEntered(e -> {
@@ -238,9 +224,9 @@ public class CardView extends StackPane implements FxComponent {
             spinRightButton.setVisible(true);
         });
         setOnMouseExited(e -> {
-            flipButton.setVisible(isDoubleFaced);
-            spinLeftButton.setVisible(isRotated);
-            spinRightButton.setVisible(isRotated);
+            flipButton.setVisible(false);
+            spinLeftButton.setVisible(false);
+            spinRightButton.setVisible(false);
         });
     }
 

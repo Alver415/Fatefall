@@ -2,36 +2,35 @@ package com.alver.fatefall.fx.components.cardinfo;
 
 import com.alver.fatefall.FxComponent;
 import com.alver.fatefall.api.client.FatefallApiClient;
-import com.alver.fatefall.api.models.scryfall.Card;
+import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.fx.components.cardview.CardView;
+import com.alver.fatefall.services.DialogService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import org.alver415.javafx.scene.control.input.InputTextField;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Iterator;
 
 public class CardInfo extends VBox implements FxComponent {
 
     @Autowired
     protected FatefallApiClient fatefallApiClient;
+    @Autowired
+    protected DialogService dialogService;
 
     @FXML
     protected CardView cardView;
     @FXML
-    protected VBox cardFields;
-    @FXML
-    protected InputTextField name;
-    @FXML
-    protected InputTextField manaCost;
-    @FXML
-    protected InputTextField typeLine;
-    @FXML
-    protected InputTextField power;
-    @FXML
-    protected InputTextField toughness;
+    protected TextArea textArea;
     @FXML
     protected Button saveButton;
     @FXML
@@ -58,7 +57,7 @@ public class CardInfo extends VBox implements FxComponent {
     @FXML
     public void initialize() {
         saveButton.setOnMouseClicked(this::save);
-        generateButton.setOnMouseClicked(e -> setCard(fatefallApiClient.getCardApi().generateImage(getCard())));
+        generateButton.setOnMouseClicked(e -> setCard(fatefallApiClient.getCardApi().generateImage(getCardWithEdits())));
         cardProperty.bindBidirectional(cardView.cardProperty());
         cardProperty.addListener((observable, oldValue, newValue) -> refresh());
     }
@@ -70,22 +69,23 @@ public class CardInfo extends VBox implements FxComponent {
     }
 
     private Card getCardWithEdits() {
-        return cardProperty.get()
-                .withName(name.getValue())
-                .withManaCost(manaCost.getValue())
-                .withTypeLine(typeLine.getValue())
-                .withPower(power.getValue())
-                .withToughness(toughness.getValue());
+        Card card = getCard();
+        try {
+            card.setJson(textArea.getText());
+        } catch (JsonProcessingException e) {
+            dialogService.error("Invalid json.");
+        }
+        return card;
     }
 
     private void refresh() {
-        Card card = cardProperty.get();
-        name.setValue(card == null ? null : card.name());
-        manaCost.setValue(card == null ? null : card.manaCost());
-        typeLine.setValue(card == null ? null : card.typeLine());
-        power.setValue(card == null ? null : card.power());
-        toughness.setValue(card == null ? null : card.toughness());
-
+        if (cardProperty.get() == null){
+            textArea.clear();
+            textArea.setEditable(false);
+        } else {
+            textArea.setText(cardProperty.get().getJsonPretty());
+            textArea.setEditable(true);
+        }
     }
 
 }
