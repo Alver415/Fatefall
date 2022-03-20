@@ -36,11 +36,6 @@
 
         <!--   JavaFX    -->
         <dependency>
-            <groupId>org.alver415</groupId>
-            <artifactId>javafx-custom-components</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>17.0.2</version>

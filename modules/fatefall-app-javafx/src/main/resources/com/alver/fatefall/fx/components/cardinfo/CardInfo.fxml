@@ -5,12 +5,12 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import org.alver415.javafx.scene.control.input.*?>
+<?import javafx.scene.control.TextArea?>
 <fx:root type="VBox" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
          fx:controller="com.alver.fatefall.fx.components.cardinfo.CardInfo">
     <CardView fx:id="cardView"/>
     <ScrollPane hbarPolicy="NEVER" vbarPolicy="NEVER">
-        <VBox fx:id="dataFields"/>
+        <TextArea fx:id="textArea" style="-fx-font-family: 'monospaced'"/>
     </ScrollPane>
     <HBox>
         <Button fx:id="saveButton" text="Save"/>

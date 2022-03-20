@@ -41,6 +41,13 @@ public class Card extends PersistedObject {
     public String getJson(){
         return data.toString();
     }
+    public String getJsonPretty() {
+        try {
+            return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(data);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public void setJson(String json) throws JsonProcessingException {
         this.data = (ObjectNode) new ObjectMapper().readTree(json);
     }

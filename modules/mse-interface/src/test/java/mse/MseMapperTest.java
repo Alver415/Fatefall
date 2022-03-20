@@ -26,13 +26,19 @@ public class MseMapperTest {
         ObjectNode card = JsonNodeFactory.instance.objectNode();
         card.put("name", "Name of the Card");
         card.put("cost", "$5");
+        card.put("long_string", "This is a long string.\nIt takes up more than one line.");
+        card.put("short_string", "This is a single length string.");
         cards.add(card);
         json.set("cards", cards);
         String string = MAPPER.fromJson(json);
         String expected = """
                 card:
                 \tname: Name of the Card
-                \tcost: $5""";
+                \tcost: $5
+                \tlong_string:
+                \t\tThis is a long string.
+                \t\tIt takes up more than one line.
+                \tshort_string: This is a single length string.""";
         assertEquals(expected, string);
     }
 

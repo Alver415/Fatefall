@@ -199,10 +199,10 @@ public class MseMapper {
     }
 
     private void writeNode(StringBuilder builder, String field, JsonNode node, int depth) {
-        if (node instanceof ObjectNode){
+        if (node instanceof ObjectNode) {
             writeObject(builder, field, (ObjectNode) node, depth);
-        } else if (node instanceof TextNode){
-            writeField(builder, field, node.textValue(), depth);
+        } else if (node instanceof TextNode) {
+            writeText(builder, field, node.textValue(), depth);
         } else {
             throw new NotYetImplementedException(node.getNodeType().toString());
         }
@@ -223,8 +223,15 @@ public class MseMapper {
         writeChildren(builder, keyword, depth + 1);
     }
 
-    private void writeField(StringBuilder builder, String field, String value, int depth) {
-        builder.append("\n%s%s: %s".formatted(getKeyDepth(depth), field, value));
+    private void writeText(StringBuilder builder, String field, String value, int depth) {
+        if (!value.contains("\n")){
+            builder.append("\n%s%s: %s".formatted(getKeyDepth(depth), field, value));
+        } else{
+            builder.append("\n%s%s:".formatted(getKeyDepth(depth), field));
+            for (String line : value.split("\n")){
+                builder.append("\n%s%s".formatted(getKeyDepth(depth + 1), line));
+            }
+        }
     }
 
     /* Probably unnecessary performance optimization. Avoids building the depth string for every single line. */
