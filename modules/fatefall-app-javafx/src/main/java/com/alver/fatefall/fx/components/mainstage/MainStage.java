@@ -49,8 +49,6 @@ public class MainStage extends Stage implements FxComponent {
     protected ListView<CardCollection> collectionsList;
     @FXML
     protected TabPane tabPane;
-    @FXML
-    protected CardInfo cardInfo;
 
     @FXML
     protected MenuItem newCollection;
@@ -70,12 +68,10 @@ public class MainStage extends Stage implements FxComponent {
     public void initialize() {
         tabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null) {
+                //This *should* only happen if there are no more tabs.
                 addScryfallTab();
-            } else if (newValue.getContent() instanceof CardGridPane) {
-                cardInfo.cardProperty().bindBidirectional(((CardGridPane) newValue.getContent()).selectedCardProperty());
             }
         });
-
         //So there's always something there on startup.
         addScryfallTab();
 
@@ -155,18 +151,6 @@ public class MainStage extends Stage implements FxComponent {
     public void saveCollection() {
         CardCollection selectedItem = collectionsList.getSelectionModel().getSelectedItem();
         fatefallApiClient.getCardCollectionApi().save(selectedItem);
-    }
-
-    public void addCard() {
-        CardCollection selectedCollection = collectionsList.getSelectionModel().getSelectedItem();
-        Card selectedCard = cardInfo.getCard();
-        selectedCollection.getCards().add(selectedCard);
-    }
-
-    public void removeCard() {
-        CardCollection selectedCollection = collectionsList.getSelectionModel().getSelectedItem();
-        Card selectedCard = cardInfo.getCard();
-        selectedCollection.getCards().remove(selectedCard);
     }
 
     private Callback<ListView<CardCollection>, ListCell<CardCollection>> cardCollectionCellFactory = (z) -> {

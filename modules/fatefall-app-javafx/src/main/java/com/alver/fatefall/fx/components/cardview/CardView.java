@@ -24,15 +24,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Objects;
 
-import static com.alver.fatefall.fx.components.cardview.CardView.CardDimensions.*;
+import static com.alver.fatefall.fx.components.cardview.CardView.CardDimensions.ARC_HEIGHT_MULTIPLIER;
+import static com.alver.fatefall.fx.components.cardview.CardView.CardDimensions.ARC_WIDTH_MULTIPLIER;
 
 public class CardView extends StackPane implements FxComponent {
-
-    public interface CardDimensions {
-        double WIDTH = 2.5;
-        double HEIGHT = 3.5;
-        double CORNER_RADIUS = 0.125;
-    }
 
     @Autowired
     private FatefallApiClient fatefallApiClient;
@@ -42,11 +37,8 @@ public class CardView extends StackPane implements FxComponent {
     public enum Spin {UP, RIGHT, DOWN, LEFT}
 
     /* === Static Resources ===*/
-    public static final Image CARD_BACK = new Image(Objects.requireNonNull(
-            CardView.class.getResource("card_back.png")).toExternalForm());
-    public static final Image CARD_BACK_INVERTED_GRAY = new Image(Objects.requireNonNull(
-            CardView.class.getResource("card_back_inverted_gray.png")).toExternalForm());
-
+    public static final Image PLACEHOLDER = new Image(Objects.requireNonNull(
+            CardView.class.getResource("placeholder.png")).toExternalForm());
     public static final Image FLIP_FRONT = new Image(Objects.requireNonNull(
             CardView.class.getResource("flip_front.png")).toExternalForm());
     public static final Image FLIP_BACK = new Image(Objects.requireNonNull(
@@ -112,7 +104,7 @@ public class CardView extends StackPane implements FxComponent {
     /**
      * Front Face Image Property
      */
-    protected ObjectProperty<Image> frontFaceProperty = new SimpleObjectProperty<>(CARD_BACK);
+    protected ObjectProperty<Image> frontFaceProperty = new SimpleObjectProperty<>(PLACEHOLDER);
     public final void setFrontFace(Image value) {
         frontFaceProperty.set(value);
     }
@@ -126,7 +118,7 @@ public class CardView extends StackPane implements FxComponent {
     /**
      * Back Face Image Property
      */
-    protected ObjectProperty<Image> backFaceProperty = new SimpleObjectProperty<>(CARD_BACK);
+    protected ObjectProperty<Image> backFaceProperty = new SimpleObjectProperty<>(PLACEHOLDER);
     public final void setBackFace(Image value) {
         backFaceProperty.set(value);
     }
@@ -144,16 +136,16 @@ public class CardView extends StackPane implements FxComponent {
     @FXML
     public void initialize() {
         setupClip();
+        setupControls();
         setPickOnBounds(true);
         imageView.imageProperty().bind(frontFaceProperty);
 
         //Whenever side changes, update the imageView binding.
         sideProperty().addListener((observable, oldValue, newValue) -> {
             boolean isFront = newValue == Side.FRONT;
-            imageView.imageProperty().bind(
-                    isFront ? frontFaceProperty : backFaceProperty);
-            ((ImageView) flipButton.getGraphic()).imageProperty().set(
-                    isFront ? FLIP_FRONT : FLIP_BACK);
+            ImageView flipButtonGraphic = (ImageView) flipButton.getGraphic();
+            flipButtonGraphic.imageProperty().set(isFront ? FLIP_FRONT : FLIP_BACK);
+            imageView.imageProperty().bind(isFront ? frontFaceProperty : backFaceProperty);
         });
 
         //On right click, build and show context menu.
@@ -165,12 +157,7 @@ public class CardView extends StackPane implements FxComponent {
         });
     }
 
-    //TODO: Figure out why the 2.5x is necessary. Math is off somehow...
-    private static final double ARC_WIDTH_MULTIPLIER = 2.5 * CORNER_RADIUS / WIDTH;
-    private static final double ARC_HEIGHT_MULTIPLIER = 2.5 * CORNER_RADIUS / HEIGHT;
-
     private void setupClip() {
-
         Rectangle clip = new Rectangle();
         clip.widthProperty().bind(imageView.fitWidthProperty());
         clip.heightProperty().bind(imageView.fitHeightProperty());
@@ -180,10 +167,9 @@ public class CardView extends StackPane implements FxComponent {
     }
 
     private void loadCardImages(Card card) {
-        setFrontFace(CARD_BACK_INVERTED_GRAY);
-        setBackFace(CARD_BACK_INVERTED_GRAY);
-
         if (card == null) {
+            setFrontFace(PLACEHOLDER);
+            setBackFace(PLACEHOLDER);
             return;
         }
 
@@ -197,14 +183,12 @@ public class CardView extends StackPane implements FxComponent {
                 if (Objects.equals(frontFaceImage.getProgress(), 1.0)) {
                     setFrontFace(frontFaceImage);
                     setBackFace(backFaceImage);
-                    setupControls();
                     progressIndicator.setVisible(false);
                 } else {
                     frontFaceImage.progressProperty().addListener((observable, oldValue, newValue) -> {
                         if (newValue.equals(1.0)) {
                             setFrontFace(frontFaceImage);
                             setBackFace(backFaceImage);
-                            setupControls();
                             progressIndicator.setVisible(false);
                         }
                     });
@@ -233,28 +217,36 @@ public class CardView extends StackPane implements FxComponent {
     /**
      * Context Menu
      */
+    private final ContextMenu contextMenu = new ContextMenu();
     public void showContextMenu(double x, double y) {
-        List<CardCollection> cardCollections = fatefallApiClient.getCardCollectionApi().findAll();
-        ContextMenu contextMenu = new ContextMenu();
+        if (getCard() == null) {
+            return;
+        }
+        contextMenu.getItems().clear();
 
         //Save
         MenuItem save = new MenuItem("Save");
         save.setOnAction(a -> fatefallApiClient.getCardApi().save(getCard()));
         contextMenu.getItems().add(save);
 
-        //Remove
-        MenuItem delete = new MenuItem("Remove");
+        //Delete
+        MenuItem delete = new MenuItem("Delete");
         delete.setOnAction(a -> fatefallApiClient.getCardApi().delete(getCard().getPk()));
         contextMenu.getItems().add(delete);
 
         //Add to Collection
         Menu collectionsMenu = new Menu("Add to...");
-        for (CardCollection cardCollection : cardCollections) {
-            MenuItem item = new MenuItem(cardCollection.getName());
-            item.setOnAction(a -> cardCollection.getCards().add(getCard()));
-            collectionsMenu.getItems().add(item);
-        }
         contextMenu.getItems().add(collectionsMenu);
+        runAsync(() -> {
+            List<CardCollection> cardCollections = fatefallApiClient.getCardCollectionApi().findAll();
+            runFx(() -> {
+                for (CardCollection cardCollection : cardCollections) {
+                    MenuItem item = new MenuItem(cardCollection.getName());
+                    item.setOnAction(a -> cardCollection.getCards().add(getCard()));
+                    collectionsMenu.getItems().add(item);
+                }
+            });
+        });
 
         //Show the context menu.
         contextMenu.show(this, x, y);
@@ -328,4 +320,13 @@ public class CardView extends StackPane implements FxComponent {
         flipTimeline.playFromStart();
     }
 
+    public interface CardDimensions {
+        double WIDTH = 2.5;
+        double HEIGHT = 3.5;
+        double CORNER_RADIUS = 0.125;
+
+        //TODO: Figure out why the 2.5x is necessary. Math is off somehow...
+        double ARC_WIDTH_MULTIPLIER = 2.5 * CORNER_RADIUS / WIDTH;
+        double ARC_HEIGHT_MULTIPLIER = 2.5 * CORNER_RADIUS / HEIGHT;
+    }
 }

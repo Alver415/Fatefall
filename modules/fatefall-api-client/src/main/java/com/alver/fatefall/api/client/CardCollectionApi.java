@@ -8,10 +8,12 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.Disposable;
 import reactor.core.publisher.Mono;
 
 import java.io.File;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class CardCollectionApi extends AbstractApi {
 
@@ -22,13 +24,20 @@ public class CardCollectionApi extends AbstractApi {
     }
 
     public List<CardCollection> findAll() {
+        return findAllRequest().block();
+    }
+
+    public Disposable findAllThen(Consumer<List<CardCollection>> consumer) {
+        return findAllRequest().subscribe(consumer);
+    }
+
+    private Mono<List<CardCollection>> findAllRequest() {
         return client.get()
                 .uri("card_collection")
                 .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<CardCollection>>() {
-                })
-                .block();
+                .bodyToMono(new ParameterizedTypeReference<List<CardCollection>>() {});
     }
+
     public CardCollection findById(Long id) {
         return client.get()
                 .uri("card_collection/" + id)

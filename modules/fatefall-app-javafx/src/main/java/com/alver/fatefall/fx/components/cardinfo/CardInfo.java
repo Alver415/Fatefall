@@ -6,19 +6,13 @@ import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.fx.components.cardview.CardView;
 import com.alver.fatefall.services.DialogService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.Iterator;
 
 public class CardInfo extends VBox implements FxComponent {
 
@@ -32,9 +26,7 @@ public class CardInfo extends VBox implements FxComponent {
     @FXML
     protected TextArea textArea;
     @FXML
-    protected Button saveButton;
-    @FXML
-    protected Button generateButton;
+    protected Button renderButton;
 
     /**
      * === Selected Property ==
@@ -56,16 +48,14 @@ public class CardInfo extends VBox implements FxComponent {
 
     @FXML
     public void initialize() {
-        saveButton.setOnMouseClicked(this::save);
-        generateButton.setOnMouseClicked(e -> setCard(fatefallApiClient.getCardApi().generateImage(getCardWithEdits())));
+        renderButton.setOnMouseClicked(e -> render());
         cardProperty.bindBidirectional(cardView.cardProperty());
         cardProperty.addListener((observable, oldValue, newValue) -> refresh());
     }
-
-    protected void save(MouseEvent event) {
+    private void render() {
         Card cardWithEdits = getCardWithEdits();
-        Card saved = fatefallApiClient.getCardApi().save(cardWithEdits);
-        setCard(saved);
+        Card rendered = fatefallApiClient.getCardApi().generateImage(cardWithEdits);
+        setCard(rendered);
     }
 
     private Card getCardWithEdits() {
@@ -79,7 +69,7 @@ public class CardInfo extends VBox implements FxComponent {
     }
 
     private void refresh() {
-        if (cardProperty.get() == null){
+        if (cardProperty.get() == null) {
             textArea.clear();
             textArea.setEditable(false);
         } else {

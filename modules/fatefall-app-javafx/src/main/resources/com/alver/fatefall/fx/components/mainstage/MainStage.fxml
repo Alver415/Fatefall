@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
-<?import com.alver.fatefall.fx.components.cardinfo.CardInfo?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.Scene?>
@@ -10,7 +9,7 @@
          fx:controller="com.alver.fatefall.fx.components.mainstage.MainStage">
     <scene>
         <Scene>
-            <BorderPane maxHeight="1000">
+            <BorderPane>
                 <top>
                     <MenuBar>
                         <Menu text="File">
@@ -32,11 +31,8 @@
                     </ScrollPane>
                 </left>
                 <center>
-                    <TabPane fx:id="tabPane" prefWidth="1190" prefHeight="825"/>
+                    <TabPane fx:id="tabPane"/>
                 </center>
-                <right>
-                    <CardInfo fx:id="cardInfo"/>
-                </right>
             </BorderPane>
         </Scene>
     </scene>

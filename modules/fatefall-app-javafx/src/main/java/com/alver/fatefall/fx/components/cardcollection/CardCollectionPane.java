@@ -57,10 +57,11 @@ public class CardCollectionPane extends CardGridPane implements FxComponent {
                             query);
                     return;
                 }
-                Set<String> resultNames = new HashSet<>();
-                cards.forEach(c -> resultNames.add(c.findString("name")));
+                Set<String> resultNames = cards.stream()
+                        .map(c -> c.getData().path("name").textValue())
+                        .collect(Collectors.toSet());
                 List<Card> filtered = getCards().stream()
-                        .filter(c -> resultNames.contains(c.findString("name")))
+                        .filter(c -> resultNames.contains(c.getData().path("name").textValue()))
                         .toList();
 
                 runFx(() -> redraw(filtered));

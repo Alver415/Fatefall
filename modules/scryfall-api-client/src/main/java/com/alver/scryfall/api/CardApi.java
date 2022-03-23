@@ -14,7 +14,7 @@ import java.util.Objects;
 public class CardApi extends AbstractApi {
 
     public static final String DEFAULT_CARD_BACK_FACE = Objects.requireNonNull(
-            CardApi.class.getResource("card_back.png")).toExternalForm();
+            CardApi.class.getResource("magic_card_back.png")).toExternalForm();
 
     protected CardApi(WebClient client) {
         super(client);

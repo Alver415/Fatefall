@@ -5,13 +5,13 @@ import com.alver.fatefall.fx.components.mainstage.MainStage;
 import com.alver.fatefall.fx.components.settings.Settings;
 import com.alver.scryfall.api.ScryfallApiClient;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -61,19 +61,15 @@ public class FatefallApplication extends Application {
         stage.show();
     }
 
+    @Override
+    public void stop(){
+        Platform.exit();
+        System.exit(0);
+    }
+
     @Autowired
-    private FatefallApplicationConfiguration config;
+    private ApplicationConfiguration config;
 
-    @Bean
-    public FatefallApiClient getFatefallApiClient() {
-        String baseUrl = String.join(":", config.getHost(), Integer.toString(config.getPort()));
-        return new FatefallApiClient(baseUrl);
-    }
-
-    @Bean
-    public ScryfallApiClient getScryfallClient() {
-        return new ScryfallApiClient();
-    }
 
 
 }

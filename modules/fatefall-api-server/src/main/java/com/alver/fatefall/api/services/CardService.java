@@ -25,7 +25,7 @@ public class CardService {
         ArrayNode cards = (ArrayNode) setManager.getSet().get("cards");
         cards.removeAll();
 
-        String name = card.findString("name");
+        String name = card.getData().path("name").textValue();
         String imageUrl = card.getData().path("image_uris").path("art_crop").textValue();
         if (imageUrl != null) {
             String artCropFilename = "artcrop_" + name + ".png";

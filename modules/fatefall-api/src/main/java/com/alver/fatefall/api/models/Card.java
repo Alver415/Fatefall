@@ -13,20 +13,12 @@ import javax.persistence.*;
 public class Card extends PersistedObject {
 
     @Transient
-    private ObjectNode data = JsonNodeFactory.instance.objectNode();
+    private ObjectNode data;
     private String frontFaceUrl;
     private String backFaceUrl;
 
-    public String findString(String key) {
-        JsonNode value = data.findValue(key);
-        return value == null ? null : value.asText();
-    }
-
-    public JsonNode find(String key) {
-        return data.findValue(key);
-    }
-
     public ObjectNode getData() {
+        //Ensure data is never null, but rather empty.
         if (data == null) {
             data = JsonNodeFactory.instance.objectNode();
         }
@@ -51,7 +43,6 @@ public class Card extends PersistedObject {
     public void setJson(String json) throws JsonProcessingException {
         this.data = (ObjectNode) new ObjectMapper().readTree(json);
     }
-
 
     public String getFrontFaceUrl() {
         return frontFaceUrl;

@@ -13,6 +13,9 @@ import java.util.Objects;
 
 public class SetManager {
 
+    public static final String DEFAULT_CARD_BACK_FACE = Objects.requireNonNull(
+            SetManager.class.getResource("magic_card_back.png")).toExternalForm();
+
     private static final Path JMSE_SET_DIRECTORY = Path.of("jmse_sets");
     private static final boolean overwriteExisting = true;
 

@@ -2,6 +2,7 @@ package com.alver.fatefall.fx.components.cardcollection;
 
 import com.alver.fatefall.FxComponent;
 import com.alver.fatefall.api.models.Card;
+import com.alver.fatefall.fx.components.cardinfo.CardInfo;
 import com.alver.fatefall.fx.components.cardview.CardView;
 import com.alver.fatefall.services.DialogService;
 import com.alver.scryfall.api.ScryfallApiClient;
@@ -15,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -27,6 +29,9 @@ import java.util.Map;
 
 public abstract class CardGridPane extends BorderPane implements FxComponent {
 
+    protected static final int GRID_DIMENSION_ROW = 4;
+    protected static final int GRID_DIMENSION_COL = 4;
+
     /**
      * Spring Dependency Injection
      */
@@ -37,22 +42,24 @@ public abstract class CardGridPane extends BorderPane implements FxComponent {
 
     @FXML
     protected TextField searchInput;
+    @FXML
+    protected CardInfo cardInfo;
 
     /**
      * === Selected Property ==
      */
-    protected ObjectProperty<Card> selectedCard = new SimpleObjectProperty<>();
-    public final void setSelectedCard(Card value) {
-        selectedCard.set(value);
+    protected ObjectProperty<CardView> selectedCardViewProperty = new SimpleObjectProperty<>();
+    public final void setSelectedCardView(CardView value) {
+        selectedCardViewProperty.set(value);
     }
-    public final Card getSelectedCard() {
-        return selectedCard.get();
+    public final CardView getSelectedCardView() {
+        return selectedCardViewProperty.get();
     }
-    public final ObjectProperty<Card> selectedCardProperty() {
-        return selectedCard;
+    public final ObjectProperty<CardView> selectedCardViewProperty() {
+        return selectedCardViewProperty;
     }
 
-    protected Map<Card, CardView> map = new HashMap<>();
+    protected Map<Long, CardView> map = new HashMap<>();
 
     @FXML
     protected GridPane gridPane;
@@ -71,29 +78,39 @@ public abstract class CardGridPane extends BorderPane implements FxComponent {
                 search(searchInput.getText());
             }
         });
-        selectedCard.addListener((observable, oldValue, newValue) -> {
-            SelectedCardViewAnimator.animateDeselected(map.get(oldValue));
-            SelectedCardViewAnimator.animateSelected(map.get(newValue));
+        selectedCardViewProperty.addListener((observable, oldValue, newValue) -> {
+            SelectedCardViewAnimator.animateDeselected(oldValue);
+            SelectedCardViewAnimator.animateSelected(newValue);
         });
     }
 
     protected void redraw(List<Card> cards) {
         gridPane.getChildren().clear();
         //TODO: Remove limit and implement pagination.
-        for (int i = 0; i < Math.min(cards.size(), 20); i++) {
-            int col = i % gridPane.getColumnCount();
-            int row = i / gridPane.getColumnCount();
+        for (int i = 0; i < cards.size(); i++) {
+            int col = i % GRID_DIMENSION_ROW;
+            int row = i / GRID_DIMENSION_COL;
             Card card = cards.get(i);
             CardView cardView = new CardView();
             cardView.setCard(card);
-            cardView.setOnMouseClicked((event) -> {
-                if (event.getButton() == MouseButton.PRIMARY) {
-                    setSelectedCard(getSelectedCard() == card ? null : card);
-                }
-            });
-            map.put(card, cardView);
+            cardView.setOnMouseClicked((event) -> handleCardViewSelection(cardView, event));
+            map.put(card.getPk(), cardView);
             gridPane.add(cardView, col, row);
         }
+    }
+
+    private void handleCardViewSelection(CardView cardView, MouseEvent event) {
+        if (event.getButton() != MouseButton.PRIMARY) {
+            return;
+        }
+        // If there is a card view already selected, unbind it from the card info pane.
+        CardView previouslySelected = getSelectedCardView();
+        if (previouslySelected != null) {
+            cardInfo.cardProperty().unbindBidirectional(previouslySelected.cardProperty());
+        }
+        // Set the newly selected card view and bind the card info pane's card property to it.
+        setSelectedCardView(cardView);
+        cardInfo.cardProperty().bindBidirectional(getSelectedCardView().cardProperty());
     }
 
     public abstract void search(String query);

@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CardCollectionService {
@@ -39,7 +40,7 @@ public class CardCollectionService {
             Card card = new Card();
             card.setData(data);
             card.setFrontFaceUrl(image);
-            card.setBackFaceUrl(image);
+            card.setBackFaceUrl(SetManager.DEFAULT_CARD_BACK_FACE);
             convertedCards.add(card);
         }
 

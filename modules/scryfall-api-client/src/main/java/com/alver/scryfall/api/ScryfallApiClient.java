@@ -7,11 +7,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 public class ScryfallApiClient {
 
+    private static final String DEFAULT_BASE_URL = "https://api.scryfall.com";
+
     private final WebClient client;
     private final CardApi cardApi;
 
     public ScryfallApiClient() {
-        this("https://api.scryfall.com");
+        this(DEFAULT_BASE_URL);
     }
     public ScryfallApiClient(String baseUrl) {
         client = WebClient.builder()

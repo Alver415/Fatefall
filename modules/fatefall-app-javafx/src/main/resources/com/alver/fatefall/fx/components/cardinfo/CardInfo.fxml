@@ -13,7 +13,6 @@
         <TextArea fx:id="textArea" style="-fx-font-family: 'monospaced'"/>
     </ScrollPane>
     <HBox>
-        <Button fx:id="saveButton" text="Save"/>
-        <Button fx:id="generateButton" text="Generate"/>
+        <Button fx:id="renderButton" text="Render"/>
     </HBox>
 </fx:root>
