@@ -9,12 +9,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.VBox;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class CardInfo extends VBox implements FxComponent {
+public class CardInfo extends BorderPane implements FxComponent {
 
     @Autowired
     protected FatefallApiClient fatefallApiClient;
@@ -25,19 +26,30 @@ public class CardInfo extends VBox implements FxComponent {
     protected CardView cardView;
     @FXML
     protected TextArea textArea;
-    @FXML
-    protected Button renderButton;
+
+
+    protected final static Border BLACK = new Border(new BorderStroke(Color.BLACK,
+            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
+    protected final static Border ORANGE = new Border(new BorderStroke(Color.ORANGE,
+            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
+    protected final static Border RED = new Border(new BorderStroke(Color.RED,
+            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
+    protected final static Border GREEN = new Border(new BorderStroke(Color.GREEN,
+            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
 
     /**
      * === Selected Property ==
      */
     protected ObjectProperty<Card> cardProperty = new SimpleObjectProperty<>();
+
     public final void setCard(Card value) {
         cardProperty.set(value);
     }
+
     public final Card getCard() {
         return cardProperty.get();
     }
+
     public final ObjectProperty<Card> cardProperty() {
         return cardProperty;
     }
@@ -48,14 +60,33 @@ public class CardInfo extends VBox implements FxComponent {
 
     @FXML
     public void initialize() {
-        renderButton.setOnMouseClicked(e -> render());
         cardProperty.bindBidirectional(cardView.cardProperty());
         cardProperty.addListener((observable, oldValue, newValue) -> refresh());
+
+        textArea.setOnKeyPressed(e -> {
+            //Hotkey for submit is Ctrl+Enter
+            if (e.isControlDown() && e.getCode() == KeyCode.ENTER) {
+                submit();
+            }
+        });
     }
-    private void render() {
-        Card cardWithEdits = getCardWithEdits();
-        Card rendered = fatefallApiClient.getCardApi().generateImage(cardWithEdits);
-        setCard(rendered);
+
+    private void submit() {
+        textArea.setBorder(ORANGE);
+        textArea.setDisable(true);
+        runAsync(() -> {
+            try {
+                Card cardWithEdits = getCardWithEdits();
+                Card rendered = fatefallApiClient.getCardApi().generateImage(cardWithEdits);
+                setCard(rendered);
+                textArea.setBorder(GREEN);
+                runAsync(() -> textArea.setBorder(BLACK), 500);
+            } catch (Exception e) {
+                textArea.setBorder(RED);
+            } finally {
+                textArea.setDisable(false);
+            }
+        });
     }
 
     private Card getCardWithEdits() {

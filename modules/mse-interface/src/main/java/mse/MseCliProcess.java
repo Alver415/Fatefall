@@ -30,10 +30,8 @@ public class MseCliProcess implements Closeable {
     }
 
     public MseCliProcess(Path mseExe) throws IOException {
-        List<String> startCommand = List.of(
-                mseExe.toString(),
-                "--cli",
-                "--raw");
+        String msePath = mseExe.toString();
+        List<String> startCommand = List.of(msePath, "--cli", "--raw");
         System.out.println(String.join(" ", startCommand));
         process = new ProcessBuilder(startCommand)
                 .redirectError(ProcessBuilder.Redirect.INHERIT)

@@ -41,6 +41,9 @@ public interface FxComponent {
     default void runAsync(Runnable runnable) {
         getApplicationContext().getBean(AsyncService.class).runAsync(runnable);
     }
+    default void runAsync(Runnable runnable, long delay) {
+        getApplicationContext().getBean(AsyncService.class).runAsync(runnable, delay);
+    }
     default void runFx(Runnable runnable) {
         getApplicationContext().getBean(AsyncService.class).runFx(runnable);
     }

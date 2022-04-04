@@ -48,7 +48,7 @@ public class CardCollectionController {
             @RequestParam("name") String name,
             @RequestParam("filename") String filename,
             @RequestParam("file") MultipartFile file) throws IOException {
-        File mseFile = Path.of("importedMseFiles")
+        File mseFile = Path.of("imported")
                 .resolve(filename)
                 .toAbsolutePath()
                 .toFile();

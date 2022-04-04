@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class AsyncService {
@@ -24,6 +25,10 @@ public class AsyncService {
 
     public void runAsync(Runnable runnable) {
         executor.submit(wrap(runnable));
+    }
+
+    public void runAsync(Runnable runnable, long delay) {
+        executor.schedule(wrap(runnable), delay, TimeUnit.MILLISECONDS);
     }
 
     /**
