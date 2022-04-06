@@ -1,5 +1,6 @@
-package com.alver.fatefall.api.controllers;
+package com.alver.fatefall.api.local;
 
+import com.alver.fatefall.api.CardApi;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.repositories.CardRepository;
 import com.alver.fatefall.api.services.CardService;
@@ -12,13 +13,13 @@ import java.util.List;
 @RestController
 @RequestMapping("card")
 @ResponseBody
-public class CardController {
+public class LocalCardApi implements CardApi {
 
     protected CardRepository cardRepository;
     protected CardService cardService;
 
     @Autowired
-    public CardController(
+    public LocalCardApi(
             CardRepository cardRepository,
             CardService cardService) {
         this.cardRepository = cardRepository;

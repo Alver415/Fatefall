@@ -1,19 +1,21 @@
 package com.alver.fatefall.api.client;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.alver.fatefall.api.CardApi;
+import com.alver.fatefall.api.CardCollectionApi;
+import com.alver.fatefall.api.FatefallApi;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 
-public class FatefallApiClient {
+public class RemoteFatefallApi implements FatefallApi {
 
     private final WebClient client;
 
-    private final CardApi cardApi;
-    private final CardCollectionApi cardCollectionApi;
+    private final RemoteCardApi cardApi;
+    private final RemoteCardCollectionApi cardCollectionApi;
 
-    public FatefallApiClient(String baseUrl) {
+    public RemoteFatefallApi(String baseUrl) {
         client = WebClient.builder()
                 .baseUrl(baseUrl)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -21,8 +23,8 @@ public class FatefallApiClient {
                         configurer -> configurer.defaultCodecs().maxInMemorySize(Integer.MAX_VALUE)).build())
                 .build();
 
-        this.cardApi = new CardApi(client);
-        this.cardCollectionApi = new CardCollectionApi(client);
+        this.cardApi = new RemoteCardApi(client);
+        this.cardCollectionApi = new RemoteCardCollectionApi(client);
     }
 
     public WebClient getClient() {

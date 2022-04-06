@@ -1,13 +1,10 @@
 package com.alver.fatefall.fx.components.mainstage;
 
 import com.alver.fatefall.FxComponent;
-import com.alver.fatefall.api.client.FatefallApiClient;
-import com.alver.fatefall.api.models.Card;
+import com.alver.fatefall.api.FatefallApi;
 import com.alver.fatefall.api.models.CardCollection;
 import com.alver.fatefall.fx.components.cardcollection.CardCollectionPane;
-import com.alver.fatefall.fx.components.cardcollection.CardGridPane;
 import com.alver.fatefall.fx.components.cardcollection.ScryfallSearchPane;
-import com.alver.fatefall.fx.components.cardinfo.CardInfo;
 import com.alver.fatefall.fx.components.settings.Settings;
 import com.alver.fatefall.services.DialogService;
 import com.alver.scryfall.api.ScryfallApiClient;
@@ -36,7 +33,7 @@ public class MainStage extends Stage implements FxComponent {
     @Autowired
     protected ScryfallApiClient client;
     @Autowired
-    protected FatefallApiClient fatefallApiClient;
+    protected FatefallApi fatefallApi;
     @Autowired
     protected DialogService dialogService;
     @Autowired
@@ -76,7 +73,7 @@ public class MainStage extends Stage implements FxComponent {
         addScryfallTab();
 
         collectionsList.setCellFactory(cardCollectionCellFactory);
-        collectionsList.setItems(FXCollections.observableList(fatefallApiClient.getCardCollectionApi().findAll()));
+        collectionsList.setItems(FXCollections.observableList(fatefallApi.getCardCollectionApi().findAll()));
         collectionsList.getItems().stream().findFirst().ifPresent(this::addCollectionTab);
 
         newCollection.setOnAction(a -> newCollection());
@@ -84,14 +81,15 @@ public class MainStage extends Stage implements FxComponent {
         importFromMse.setOnAction(a -> importFromMse());
 
     }
+
     private void importFromMse() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Import from Magic Set Editor");
         File file = fileChooser.showOpenDialog(this);
 
         String name = dialogService.textInput(
-                        "Import from Magic Set Editor",
-                        "Enter a name for the new collection.")
+                "Import from Magic Set Editor",
+                "Enter a name for the new collection.")
                 .orElse(file.getName());
 
         if (!file.getName().endsWith(".mse-set")) {
@@ -99,7 +97,7 @@ public class MainStage extends Stage implements FxComponent {
         }
 
         runAsync(() -> {
-            CardCollection cardCollection = fatefallApiClient.getCardCollectionApi().importFromMse(name, file);
+            CardCollection cardCollection = fatefallApi.getCardCollectionApi().importFromMse(name, file);
             runFx(() -> {
                 collectionsList.getItems().add(cardCollection);
             });
@@ -135,6 +133,7 @@ public class MainStage extends Stage implements FxComponent {
                 .textInput("New Collection", "Enter a name for the new collection.");
         response.ifPresent(this::createCollection);
     }
+
     private CardCollection createCollection(String name) {
         boolean nameAlreadyExists = collectionsList.getItems().stream()
                 .map(CardCollection::getName)
@@ -150,7 +149,7 @@ public class MainStage extends Stage implements FxComponent {
 
     public void saveCollection() {
         CardCollection selectedItem = collectionsList.getSelectionModel().getSelectedItem();
-        fatefallApiClient.getCardCollectionApi().save(selectedItem);
+        fatefallApi.getCardCollectionApi().save(selectedItem);
     }
 
     private Callback<ListView<CardCollection>, ListCell<CardCollection>> cardCollectionCellFactory = (z) -> {
@@ -174,7 +173,7 @@ public class MainStage extends Stage implements FxComponent {
         });
         ContextMenu contextMenu = new ContextMenu();
         MenuItem save = new MenuItem("Save");
-        save.setOnAction(a -> fatefallApiClient.getCardCollectionApi().save(cell.getItem()));
+        save.setOnAction(a -> fatefallApi.getCardCollectionApi().save(cell.getItem()));
         contextMenu.getItems().add(save);
 
         cell.setContextMenu(contextMenu);

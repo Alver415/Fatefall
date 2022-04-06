@@ -1,17 +1,12 @@
 package com.alver.fatefall;
 
-import com.alver.fatefall.api.client.FatefallApiClient;
 import com.alver.fatefall.fx.components.mainstage.MainStage;
 import com.alver.fatefall.fx.components.settings.Settings;
-import com.alver.scryfall.api.ScryfallApiClient;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -20,13 +15,6 @@ import java.util.Objects;
 public class FatefallApplication extends Application {
 
     public static FatefallApplication INSTANCE;
-    public static final Image APP_ICON = new Image(Objects.requireNonNull(
-            FatefallApplication.class.getResource("icon.png")).toExternalForm());
-
-    private ApplicationContext applicationContext;
-    public ApplicationContext getApplicationContext() {
-        return applicationContext;
-    }
 
     @Autowired
     private FxApplicationExceptionHandler applicationExceptionHandler;
@@ -41,35 +29,29 @@ public class FatefallApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        //Start Spring application.
-        applicationContext = SpringApplication.run(this.getClass());
-
         //Inject Spring dependencies.
-        applicationContext.getAutowireCapableBeanFactory().autowireBean(this);
-
-        //Initialize Settings after Spring setup is complete.
-        settings.initFxml();
+        Main.APPLICATION_CONTEXT.getAutowireCapableBeanFactory().autowireBean(this);
 
         //Setup global FX Thread exception handling.
         Thread.currentThread().setUncaughtExceptionHandler(applicationExceptionHandler);
 
         //Disregard the original stage, create our own.
         stage = new MainStage();
-        stage.setTitle("Fatefall - Magic: the Gathering Card Designer Powered by the Scryfall API");
-        stage.getScene().getStylesheets().add(settings.getSelectedStylesheet().getValue());
-        stage.getIcons().add(APP_ICON);
+        stage.getScene().getStylesheets().add(settings.getStylesheet());
+        stage.setTitle("Fatefall 0.1 - Magic: the Gathering Card Designer Powered by the Scryfall API");
+        stage.getIcons().add(new Image(Objects.requireNonNull(
+                FatefallApplication.class.getResource("icon.png")).toExternalForm()));
         stage.show();
     }
 
     @Override
-    public void stop(){
-        Platform.exit();
-        System.exit(0);
+    public void stop() {
+//        Platform.exit();
+//        System.exit(0);
     }
 
     @Autowired
     private ApplicationConfiguration config;
-
 
 
 }

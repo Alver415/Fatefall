@@ -58,7 +58,7 @@ public class DialogService {
     public void alert(Alert.AlertType type, String title, Node content) {
         Platform.runLater(() -> {
             Alert alert = new Alert(type);
-            alert.getDialogPane().getStylesheets().add(settings.getSelectedStylesheet().getValue());
+            alert.getDialogPane().getStylesheets().add(settings.getStylesheet());
             alert.setTitle(title);
             alert.setResizable(true);
 
@@ -69,7 +69,7 @@ public class DialogService {
 
     public Optional<String> textInput(String title, String contentText) {
         Dialog<String> dialog = new TextInputDialog();
-        dialog.getDialogPane().getStylesheets().add(settings.getSelectedStylesheet().getValue());
+        dialog.getDialogPane().getStylesheets().add(settings.getStylesheet());
         dialog.setTitle(title);
         dialog.setGraphic(null);
         dialog.setHeaderText(null);

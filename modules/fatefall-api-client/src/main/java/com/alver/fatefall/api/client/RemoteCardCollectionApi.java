@@ -1,5 +1,6 @@
 package com.alver.fatefall.api.client;
 
+import com.alver.fatefall.api.CardCollectionApi;
 import com.alver.fatefall.api.models.CardCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,11 +16,11 @@ import java.io.File;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class CardCollectionApi extends AbstractApi {
+public class RemoteCardCollectionApi extends AbstractApi implements CardCollectionApi {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CardCollectionApi.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RemoteCardCollectionApi.class);
 
-    protected CardCollectionApi(WebClient client) {
+    protected RemoteCardCollectionApi(WebClient client) {
         super(client);
     }
 

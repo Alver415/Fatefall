@@ -1,6 +1,8 @@
 package com.alver.fatefall;
 
-import com.alver.fatefall.api.client.FatefallApiClient;
+import com.alver.fatefall.api.FatefallApi;
+import com.alver.fatefall.api.client.RemoteFatefallApi;
+import com.alver.fatefall.api.local.LocalFatefallApi;
 import com.alver.scryfall.api.ScryfallApiClient;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -27,9 +29,14 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public FatefallApiClient getFatefallApiClient() {
-        String baseUrl = String.join(":", host, Integer.toString(port));
-        return new FatefallApiClient(baseUrl);
+    public FatefallApi getFatefallApiClient() {
+        boolean local = false;
+        if (!local) {
+            String baseUrl = String.join(":", host, Integer.toString(port));
+            return new RemoteFatefallApi(baseUrl);
+        } else {
+            return new LocalFatefallApi();
+        }
     }
 
     @Bean

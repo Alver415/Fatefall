@@ -2,9 +2,12 @@ package com.alver.fatefall.fx.components.settings;
 
 import com.alver.fatefall.FxComponent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.ComboBoxListCell;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -19,51 +22,63 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Properties;
 
-import static com.alver.fatefall.FatefallApplication.APP_ICON;
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_SINGLETON;
 
 @Lazy
 @Component
 @Scope(SCOPE_SINGLETON)
-public class Settings extends Stage implements FxComponent {
+public class Settings {
 
     private static final Logger LOGGER = LogManager.getLogger(Settings.class.getName());
 
     protected Properties properties = new Properties();
 
-    @FXML
-    protected ComboBox<NamedValue<String>> stylesheet;
+    public Settings(){
+        load();
+    }
 
-    public void initialize() {
-        initModality(Modality.APPLICATION_MODAL);
-        getIcons().add(APP_ICON);
-        setTitle("Fatefall Settings");
+    public void show() {
+        load();
+        VBox root = new VBox();
+        Scene scene = new Scene(root);
 
+        ComboBox<NamedValue<String>> stylesheet = new ComboBox<>();
         stylesheet.getItems().addAll(Arrays.asList(StandardStylesheet.values()));
         stylesheet.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            Window.getWindows().stream().map(Window::getScene).forEach(scene -> {
-                scene.getStylesheets().clear();
-                scene.getStylesheets().add(newValue.getValue());
-            });
+            redrawWindows(newValue);
         });
-        stylesheet.setCellFactory((c) -> {
-            return new ComboBoxListCell<>() {
-                @Override
-                public void updateItem(NamedValue<String> item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (!empty && item != null) {
-                        setText(item.getName());
-                    }
+        stylesheet.setCellFactory(c -> new ComboBoxListCell<>() {
+            @Override
+            public void updateItem(NamedValue<String> item, boolean empty) {
+                super.updateItem(item, empty);
+                if (!empty && item != null) {
+                    setText(item.getName());
+                    setTooltip(new Tooltip(item.getValue()));
                 }
-            };
+            }
         });
-        load();
+        stylesheet.getSelectionModel().select(StandardStylesheet.valueOf(properties.getProperty("stylesheet").toUpperCase()));
+
+        root.getChildren().add(stylesheet);
 
         //Ensure this window is also initialized with the selected item.
-        setStylesheet(getScene(), stylesheet.getSelectionModel().getSelectedItem());
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle("Fatefall Settings");
+        stage.setScene(scene);
+        setStylesheet(stage.getScene(), stylesheet.getSelectionModel().getSelectedItem());
+        stage.show();
+    }
+
+    private void redrawWindows(NamedValue<String> newValue) {
+        Window.getWindows().stream().map(Window::getScene).forEach(scene -> {
+            properties.setProperty("stylesheet", newValue.getName());
+            setStylesheet(scene, newValue);
+        });
     }
 
     private void setStylesheet(Scene scene, NamedValue<String> stylesheet) {
@@ -71,14 +86,13 @@ public class Settings extends Stage implements FxComponent {
         scene.getStylesheets().add(stylesheet.getValue());
     }
 
-    public NamedValue<String> getSelectedStylesheet() {
-        return stylesheet.getSelectionModel().getSelectedItem();
+    public String getStylesheet() {
+        return StandardStylesheet.valueOf(properties.getProperty("stylesheet").toUpperCase()).getValue();
     }
 
     public void load() {
         try (InputStream input = getClass().getResourceAsStream("fatefall.settings")) {
             properties.load(input);
-            stylesheet.getSelectionModel().select(StandardStylesheet.valueOf(((String) properties.get("stylesheet")).toUpperCase()));
         } catch (IOException e) {
             LOGGER.error("Error saving Fatefall application settings.", e);
         }
@@ -87,7 +101,6 @@ public class Settings extends Stage implements FxComponent {
     public void save() {
         try (OutputStream output = new FileOutputStream(
                 Objects.requireNonNull(getClass().getResource("fatefall.settings")).getPath())) {
-            properties.setProperty("stylesheet", stylesheet.getSelectionModel().getSelectedItem().getName());
             properties.setProperty("db.url", "localhost");
             properties.setProperty("db.password", "password");
             properties.store(output, "Fatefall Application Properties");

@@ -1,7 +1,7 @@
 package com.alver.fatefall.fx.components.cardinfo;
 
 import com.alver.fatefall.FxComponent;
-import com.alver.fatefall.api.client.FatefallApiClient;
+import com.alver.fatefall.api.FatefallApi;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.fx.components.cardview.CardView;
 import com.alver.fatefall.services.DialogService;
@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class CardInfo extends BorderPane implements FxComponent {
 
     @Autowired
-    protected FatefallApiClient fatefallApiClient;
+    protected FatefallApi fatefallApi;
     @Autowired
     protected DialogService dialogService;
 
@@ -77,12 +77,13 @@ public class CardInfo extends BorderPane implements FxComponent {
         runAsync(() -> {
             try {
                 Card cardWithEdits = getCardWithEdits();
-                Card rendered = fatefallApiClient.getCardApi().generateImage(cardWithEdits);
+                Card rendered = fatefallApi.getCardApi().generateImage(cardWithEdits);
                 setCard(rendered);
                 textArea.setBorder(GREEN);
                 runAsync(() -> textArea.setBorder(BLACK), 500);
             } catch (Exception e) {
                 textArea.setBorder(RED);
+                throw new RuntimeException(e);
             } finally {
                 textArea.setDisable(false);
             }

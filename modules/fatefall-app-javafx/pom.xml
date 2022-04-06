@@ -21,6 +21,10 @@
         </dependency>
         <dependency>
             <groupId>com.alver.fatefall</groupId>
+            <artifactId>fatefall-api-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alver.fatefall</groupId>
             <artifactId>fatefall-api-client</artifactId>
         </dependency>
 

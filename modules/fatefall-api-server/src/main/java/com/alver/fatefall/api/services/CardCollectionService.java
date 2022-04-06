@@ -22,32 +22,36 @@ public class CardCollectionService {
     @Autowired
     protected CardRepository cardRepository;
 
-    public CardCollection importFromMse(String name, File file) throws IOException {
-        SetManager setManager = SetManager.importMseSet(name, file.toPath());
-        ArrayNode cards = (ArrayNode) setManager.getSet().get("cards");
+    public CardCollection importFromMse(String name, File file) {
+        try {
+            SetManager setManager = SetManager.importMseSet(name, file.toPath());
+            ArrayNode cards = (ArrayNode) setManager.getSet().get("cards");
 
-        List<Card> convertedCards = new ArrayList<>();
-        for (JsonNode node : cards) {
-            ObjectNode data = (ObjectNode) node;
-            String cardName = data.get("name").textValue();
-            String fileName = cardName
-                    .replace("\"", "")
-                    .replace(",", "")
-                    .replace(" ", "_");
-            String image = setManager.getImagesPath()
-                    .resolve(fileName + ".png")
-                    .toFile().toURI().toString();
-            Card card = new Card();
-            card.setData(data);
-            card.setFrontFaceUrl(image);
-            card.setBackFaceUrl(SetManager.DEFAULT_CARD_BACK_FACE);
-            convertedCards.add(card);
+            List<Card> convertedCards = new ArrayList<>();
+            for (JsonNode node : cards) {
+                ObjectNode data = (ObjectNode) node;
+                String cardName = data.get("name").textValue();
+                String fileName = cardName
+                        .replace("\"", "")
+                        .replace(",", "")
+                        .replace(" ", "_");
+                String image = setManager.getImagesPath()
+                        .resolve(fileName + ".png")
+                        .toFile().toURI().toString();
+                Card card = new Card();
+                card.setData(data);
+                card.setFrontFaceUrl(image);
+                card.setBackFaceUrl(SetManager.DEFAULT_CARD_BACK_FACE);
+                convertedCards.add(card);
+            }
+
+            CardCollection collection = new CardCollection();
+            collection.setName(name);
+            collection.getCards().addAll(convertedCards);
+            return collection;
+        } catch (Exception e){
+            throw new RuntimeException(e);
         }
-
-        CardCollection collection = new CardCollection();
-        collection.setName(name);
-        collection.getCards().addAll(convertedCards);
-        return collection;
     }
 
 }

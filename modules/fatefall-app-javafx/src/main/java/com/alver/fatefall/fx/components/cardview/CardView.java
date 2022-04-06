@@ -1,7 +1,7 @@
 package com.alver.fatefall.fx.components.cardview;
 
 import com.alver.fatefall.FxComponent;
-import com.alver.fatefall.api.client.FatefallApiClient;
+import com.alver.fatefall.api.FatefallApi;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.CardCollection;
 import javafx.animation.KeyFrame;
@@ -30,7 +30,7 @@ import static com.alver.fatefall.fx.components.cardview.CardView.CardDimensions.
 public class CardView extends StackPane implements FxComponent {
 
     @Autowired
-    private FatefallApiClient fatefallApiClient;
+    private FatefallApi fatefallApi;
 
     public enum Side {FRONT, BACK}
 
@@ -226,19 +226,19 @@ public class CardView extends StackPane implements FxComponent {
 
         //Save
         MenuItem save = new MenuItem("Save");
-        save.setOnAction(a -> fatefallApiClient.getCardApi().save(getCard()));
+        save.setOnAction(a -> fatefallApi.getCardApi().save(getCard()));
         contextMenu.getItems().add(save);
 
         //Delete
         MenuItem delete = new MenuItem("Delete");
-        delete.setOnAction(a -> fatefallApiClient.getCardApi().delete(getCard().getPk()));
+        delete.setOnAction(a -> fatefallApi.getCardApi().delete(getCard().getPk()));
         contextMenu.getItems().add(delete);
 
         //Add to Collection
         Menu collectionsMenu = new Menu("Add to...");
         contextMenu.getItems().add(collectionsMenu);
         runAsync(() -> {
-            List<CardCollection> cardCollections = fatefallApiClient.getCardCollectionApi().findAll();
+            List<CardCollection> cardCollections = fatefallApi.getCardCollectionApi().findAll();
             runFx(() -> {
                 for (CardCollection cardCollection : cardCollections) {
                     MenuItem item = new MenuItem(cardCollection.getName());

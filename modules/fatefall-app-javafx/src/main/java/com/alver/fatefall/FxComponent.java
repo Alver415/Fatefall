@@ -84,6 +84,6 @@ public interface FxComponent {
      * Static access to application context.
      */
     default ApplicationContext getApplicationContext() {
-        return FatefallApplication.INSTANCE.getApplicationContext();
+        return Main.APPLICATION_CONTEXT;
     }
 }
