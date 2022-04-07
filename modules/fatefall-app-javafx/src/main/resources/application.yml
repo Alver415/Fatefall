@@ -1,3 +1,6 @@
+spring.profiles.active: local
+
+#TODO: Figure out why this is needed.
 spring.main.allow-bean-definition-overriding: true
 
 fatefall:

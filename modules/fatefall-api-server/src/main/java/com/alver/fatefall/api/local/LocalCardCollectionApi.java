@@ -23,12 +23,12 @@ public class LocalCardCollectionApi implements CardCollectionApi {
     @Autowired
     protected CardCollectionService cardCollectionService;
 
-    @PutMapping()
+    @PutMapping
     public CardCollection save(@RequestBody CardCollection cardCollection) {
         return cardCollectionRepository.save(cardCollection);
     }
 
-    @GetMapping()
+    @GetMapping
     public List<CardCollection> findAll() {
         return cardCollectionRepository.findAll();
     }
