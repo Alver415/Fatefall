@@ -1,7 +1,9 @@
 spring.profiles.active: local
 
-#TODO: Figure out why this is needed.
-spring.main.allow-bean-definition-overriding: true
+#TODO: Hook this up to configuration. Currently hardcoded.
+scryfall:
+  api:
+    url: https://api.scryfall.com
 
 fatefall:
   api:

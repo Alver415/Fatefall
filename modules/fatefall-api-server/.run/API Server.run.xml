@@ -3,7 +3,7 @@
     <envs>
       <env name="server.port" value="8080" />
     </envs>
-    <option name="MAIN_CLASS_NAME" value="com.alver.fatefall.api.FatefallApiServer" />
+    <option name="MAIN_CLASS_NAME" value="com.alver.fatefall.api.server.FatefallApiServer" />
     <module name="fatefall-api-server" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/modules/fatefall-api-server" />
     <extension name="coverage">

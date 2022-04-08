@@ -5,6 +5,7 @@ import com.alver.fatefall.api.models.Card;
 import java.io.IOException;
 
 public interface CardApi {
+
     Card findById(Long id);
 
     Card save(Card card);
