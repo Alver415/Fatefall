@@ -1,4 +1,8 @@
-spring.profiles.active: local
+spring:
+  profiles:
+    active: local
+  main:
+    banner-mode: "off"
 
 #TODO: Hook this up to configuration. Currently hardcoded.
 scryfall:
