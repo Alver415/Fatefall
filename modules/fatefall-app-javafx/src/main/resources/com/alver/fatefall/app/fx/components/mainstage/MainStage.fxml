@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.Scene?>
+<?import javafx.stage.Stage?>
+<fx:root type="Stage" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="com.alver.fatefall.app.fx.components.mainstage.MainStage">
+    <scene>
+        <Scene>
+            <BorderPane>
+                <top>
+                    <MenuBar>
+                        <Menu text="File">
+                            <MenuItem text="New" fx:id="newCollection"/>
+                            <MenuItem text="Save" fx:id="saveCollection"/>
+                            <SeparatorMenuItem/>
+                            <MenuItem text="Import from MSE" fx:id="importFromMse"/>
+                        </Menu>
+                        <Menu text="Help">
+                            <MenuItem text="Settings" fx:id="openSettings" onAction="#openSettings"/>
+                            <SeparatorMenuItem/>
+                            <MenuItem text="App Info" fx:id="openAppInfo"/>
+                        </Menu>
+                    </MenuBar>
+                </top>
+                <left>
+                    <ScrollPane fitToHeight="true">
+                        <ListView fx:id="collectionsList"/>
+                    </ScrollPane>
+                </left>
+                <center>
+                    <TabPane fx:id="tabPane"/>
+                </center>
+            </BorderPane>
+        </Scene>
+    </scene>
+</fx:root>

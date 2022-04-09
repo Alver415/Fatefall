@@ -1,3 +1,14 @@
+spring:
+  profiles:
+    active: local
+  main:
+    banner-mode: "off"
+
+#TODO: Hook this up to configuration. Currently hardcoded.
+scryfall:
+  api:
+    url: https://api.scryfall.com
+
 fatefall:
   api:
     server:

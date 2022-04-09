@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.Scene?>
+<?import javafx.stage.Stage?>
+<fx:root xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+         type="Stage" fx:controller="com.alver.fatefall.app.fx.components.settings.Settings"
+         minWidth="100.0" width="400" maxWidth="600"
+         minHeight="200.0" height="600" maxHeight="800">
+    <scene>
+        <Scene>
+            <BorderPane>
+                <center>
+                    <VBox alignment="CENTER">
+                        <HBox alignment="CENTER">
+                            <ComboBox fx:id="stylesheet" promptText="Stylesheet"/>
+                        </HBox>
+                    </VBox>
+                </center>
+                <bottom>
+                    <ButtonBar>
+                        <buttons>
+                            <Button text="Load" ButtonBar.buttonData="LEFT" onAction="#load"/>
+                            <Button text="Save" ButtonBar.buttonData="RIGHT" onAction="#save"/>
+                        </buttons>
+                    </ButtonBar>
+                </bottom>
+            </BorderPane>
+        </Scene>
+    </scene>
+</fx:root>
