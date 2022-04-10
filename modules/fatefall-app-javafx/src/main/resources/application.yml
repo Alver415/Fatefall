@@ -4,25 +4,19 @@ spring:
   main:
     banner-mode: "off"
 
-#TODO: Hook this up to configuration. Currently hardcoded.
+application:
+  title: "Fatefall 0.0 - Custom Card Designer"
+
 scryfall:
-  api:
-    url: https://api.scryfall.com
+  url: https://api.scryfall.com
 
 fatefall:
-  api:
-    server:
-      host: http://localhost
-      port: 8080
+  url: http://localhost:8080
 ---
 spring.config.activate.on-profile: desktop
 fatefall:
-  api:
-    server:
-      host: http://192.168.0.111
+  url: http://192.168.0.111:8080
 ---
 spring.config.activate.on-profile: laptop
 fatefall:
-  api:
-    server:
-      host: http://192.168.0.101
+  url: http://192.168.0.101:8080

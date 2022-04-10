@@ -1,5 +1,6 @@
 package com.alver.fatefall.app;
 
+import com.alver.fatefall.app.configuration.ApplicationConfiguration;
 import com.alver.fatefall.app.fx.components.mainstage.MainStage;
 import com.alver.fatefall.app.fx.components.settings.Settings;
 import com.alver.fatefall.app.services.AsyncService;
@@ -25,6 +26,9 @@ public class FatefallApplication extends Application {
     private FxApplicationExceptionHandler exceptionHandler;
 
     @Autowired
+    private ApplicationConfiguration applicationConfiguration;
+
+    @Autowired
     private Settings settings;
 
     @Override
@@ -45,7 +49,7 @@ public class FatefallApplication extends Application {
             Platform.runLater(() -> {
                 Stage mainStage = new MainStage();
                 mainStage.getScene().getStylesheets().add(settings.getStylesheet());
-                mainStage.setTitle("Fatefall 0.1 - Magic: the Gathering Card Designer Powered by the Scryfall API");
+                mainStage.setTitle(applicationConfiguration.getTitle());
                 mainStage.getIcons().add(new Image(Objects.requireNonNull(
                         FatefallApplication.class.getResource("icon.png")).toExternalForm()));
                 mainStage.show();

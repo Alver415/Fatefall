@@ -2,10 +2,7 @@ package mse;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.node.TextNode;
-import org.hibernate.cfg.NotYetImplementedException;
+import com.fasterxml.jackson.databind.node.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -180,11 +177,13 @@ public class MseMapper {
         writeCards(builder, set, depth);
         writeKeywords(builder, set, depth);
     }
+
     private void writeKeywords(StringBuilder builder, JsonNode set, int depth) {
         for (JsonNode keyword : set.path("keywords")) {
             writeKeyword(builder, (ObjectNode) keyword, depth);
         }
     }
+
     private void writeCards(StringBuilder builder, JsonNode set, int depth) {
         for (JsonNode card : set.path("cards")) {
             writeCard(builder, (ObjectNode) card, depth);
@@ -201,11 +200,17 @@ public class MseMapper {
     private void writeNode(StringBuilder builder, String field, JsonNode node, int depth) {
         if (node instanceof ObjectNode) {
             writeObject(builder, field, (ObjectNode) node, depth);
-        } else if (node instanceof TextNode) {
-            writeText(builder, field, node.textValue(), depth);
+        } else if (node instanceof ArrayNode) {
+            writeArray(builder, field, (ArrayNode) node, depth);
         } else {
-            throw new NotYetImplementedException(node.getNodeType().toString());
+            writeText(builder, field, node.textValue(), depth);
         }
+    }
+
+    private void writeArray(StringBuilder builder, String field, ArrayNode array, int depth) {
+        array.forEach(element -> {
+            writeNode(builder, field, element, depth);
+        });
     }
 
     private void writeObject(StringBuilder builder, String field, ObjectNode object, int depth) {
@@ -224,11 +229,12 @@ public class MseMapper {
     }
 
     private void writeText(StringBuilder builder, String field, String value, int depth) {
-        if (!value.contains("\n")){
+        value = value == null ? "" : value;
+        if (!value.contains("\n")) {
             builder.append("\n%s%s: %s".formatted(getKeyDepth(depth), field, value));
-        } else{
+        } else {
             builder.append("\n%s%s:".formatted(getKeyDepth(depth), field));
-            for (String line : value.split("\n")){
+            for (String line : value.split("\n")) {
                 builder.append("\n%s%s".formatted(getKeyDepth(depth + 1), line));
             }
         }
@@ -240,6 +246,7 @@ public class MseMapper {
     private static final String _3 = "\t".repeat(3);
     private static final String _4 = "\t".repeat(4);
     private static final String _5 = "\t".repeat(5);
+
     private static final String getKeyDepth(int depth) {
         switch (depth) {
             case 1:

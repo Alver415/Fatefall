@@ -74,7 +74,6 @@ public class MainStage extends Stage implements FxComponent {
 
         collectionsList.setCellFactory(cardCollectionCellFactory);
         collectionsList.setItems(FXCollections.observableList(fatefallApi.getCardCollectionApi().findAll()));
-        collectionsList.getItems().stream().findFirst().ifPresent(this::addCollectionTab);
 
         newCollection.setOnAction(a -> newCollection());
         saveCollection.setOnAction(a -> saveCollection());
