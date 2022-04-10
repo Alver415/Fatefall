@@ -1,8 +1,5 @@
 package com.alver.fatefall.app.fx.components.settings;
 
-import com.alver.fatefall.app.FxComponent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tooltip;
@@ -22,7 +19,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Properties;
 

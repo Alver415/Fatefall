@@ -2,7 +2,7 @@ package com.alver.fatefall.app.fx.components.cardcollection;
 
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.CardCollection;
-import com.alver.fatefall.app.FxComponent;
+import com.alver.fatefall.app.fx.components.FxComponent;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;

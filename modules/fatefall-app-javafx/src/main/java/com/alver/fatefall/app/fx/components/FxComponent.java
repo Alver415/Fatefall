@@ -1,5 +1,6 @@
-package com.alver.fatefall.app;
+package com.alver.fatefall.app.fx.components;
 
+import com.alver.fatefall.app.FatefallApplication;
 import com.alver.fatefall.app.services.AsyncService;
 import javafx.fxml.FXMLLoader;
 import javafx.util.Callback;

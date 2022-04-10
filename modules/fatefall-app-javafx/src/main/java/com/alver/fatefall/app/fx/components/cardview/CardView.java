@@ -1,6 +1,6 @@
 package com.alver.fatefall.app.fx.components.cardview;
 
-import com.alver.fatefall.app.FxComponent;
+import com.alver.fatefall.app.fx.components.FxComponent;
 import com.alver.fatefall.api.FatefallApi;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.CardCollection;

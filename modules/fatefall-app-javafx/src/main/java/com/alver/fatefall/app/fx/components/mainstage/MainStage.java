@@ -2,7 +2,7 @@ package com.alver.fatefall.app.fx.components.mainstage;
 
 import com.alver.fatefall.api.FatefallApi;
 import com.alver.fatefall.api.models.CardCollection;
-import com.alver.fatefall.app.FxComponent;
+import com.alver.fatefall.app.fx.components.FxComponent;
 import com.alver.fatefall.app.fx.components.cardcollection.CardCollectionPane;
 import com.alver.fatefall.app.fx.components.cardcollection.ScryfallSearchPane;
 import com.alver.fatefall.app.fx.components.settings.Settings;
