@@ -2,6 +2,7 @@ package com.alver.fatefall.api.server.services;
 
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.server.repositories.CardRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import mse.SetManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,6 @@ public class CardService {
 
     public Card generateImage(Card card) throws IOException {
         SetManager setManager = SetManager.get("champions");
-        ArrayNode cards = (ArrayNode) setManager.getSet().get("cards");
-        cards.removeAll();
 
         String name = card.getData().path("name").textValue();
         String imageUrl = card.getData().path("image_uris").path("art_crop").textValue();
@@ -38,6 +37,8 @@ public class CardService {
         }
         String fileName = toValidFileName(name);
 
+        ArrayNode cards = new ObjectMapper().createArrayNode();
+        setManager.getSet().set("card", cards);
         cards.add(card.getData());
         setManager.save();
         setManager.generateImages();

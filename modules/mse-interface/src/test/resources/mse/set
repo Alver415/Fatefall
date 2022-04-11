@@ -726,7 +726,7 @@ card:
 	rarity: mythic rare
 	rule_text:
 		When <atom-cardname><nospellcheck>Gragas, the Rabble Rouser</nospellcheck></atom-cardname> enters the battlefield and at the beginning of your upkeep, create a <kw-a><nospellcheck>Food toke<param-*s>n</param-*s></nospellcheck></kw-a>.
-		<i>Happy Hour</i> — <sym-auto>2</sym-auto>, Sacrifice a Food: You gain 3 life. Put a +1/+1 counter on <atom-legname><nospellcheck>Gragas</nospellcheck></atom-legname>. 
+		<i>Happy Hour</i> — <sym-auto>2</sym-auto>, Sacrifice a Food: You gain 3 life. Put a +1/+1 counter on <atom-legname><nospellcheck>Gragas</nospellcheck></atom-legname>.
 		<i>Body Slam</i> — <sym-auto>T</sym-auto>, Sacrifice two Foods: <atom-legname><nospellcheck>Gragas</nospellcheck></atom-legname> fights another target creature.
 		<i>Drunken Rage</i> — Sacrifice three Foods: <kw-a><nospellcheck>Goad</nospellcheck></kw-a> each creature.
 	flavor_text: <i-flavor>“Let’s get this party started!”</i-flavor>
@@ -1605,7 +1605,7 @@ card:
 card:
 	has_styling: false
 	notes:
-		Very similar to Roon of the Hidden Realm. 
+		Very similar to Roon of the Hidden Realm.
 		I think her being mono-white and the condition on the flicker allow for the reduced mana cost.
 	time_created: 2021-06-20 00:00:00
 	time_modified: 2021-11-12 23:46:59
@@ -2633,7 +2633,7 @@ card:
 	sub_type: <word-list-race>Human</word-list-race> <word-list-class>Fighter</word-list-class><soft> </soft><word-list-class></word-list-class>
 	rarity: mythic rare
 	rule_text:
-		<sym-auto>B/G</sym-auto>: Exile target creature card from a graveyard. If you do, spawn a 2/1 black Ghoul. 
+		<sym-auto>B/G</sym-auto>: Exile target creature card from a graveyard. If you do, spawn a 2/1 black Ghoul.
 		<sym-auto>B/GB/GB/G</sym-auto>, <sym-auto>T</sym-auto>: Spawn The Maiden of the Mist, a legendary 3/3 black Spirit Ghoul with <kw-a><nospellcheck>flying</nospellcheck></kw-a> and <kw-a><nospellcheck>menace</nospellcheck></kw-a>.
 		Whenever <atom-cardname><nospellcheck>Yorick, Shepherd of Souls</nospellcheck></atom-cardname> blocks or becomes blocked, you may have each Ghoul you control <kw-a><nospellcheck>fight</nospellcheck></kw-a> that creature.
 	flavor_text: <i-flavor></i-flavor>
@@ -2683,7 +2683,7 @@ card:
 	sub_type: <word-list-race>Yordle</word-list-race> <word-list-class>Mage</word-list-class><soft> </soft><word-list-class></word-list-class>
 	rarity: mythic rare
 	rule_text:
-		<i>Hexplosive Minefield</i> — Whenever a creature attacks you or a permanent you control, <atom-cardname><nospellcheck>Ziggs, the Hexplosives Expert</nospellcheck></atom-cardname> deals 1 damage to that creature. 
+		<i>Hexplosive Minefield</i> — Whenever a creature attacks you or a permanent you control, <atom-cardname><nospellcheck>Ziggs, the Hexplosives Expert</nospellcheck></atom-cardname> deals 1 damage to that creature.
 		<i>Satchel Charge</i> — <sym-auto>1R</sym-auto>, <sym-auto>T</sym-auto>: Destroy target artifact at the end of its controllers next turn.
 	flavor_text: <i-flavor>“I like my enemies like I like my bombs: about to explode!”</i-flavor>
 	power: 3
@@ -3125,7 +3125,7 @@ card:
 	mainframe_image_2: 
 card:
 	has_styling: false
-	notes: Wording with and/or is weird. 
+	notes: Wording with and/or is weird.
 	time_created: 2021-05-08 18:57:47
 	time_modified: 2021-11-21 00:15:14
 	name: Karma, the Enlightened One
@@ -3367,7 +3367,7 @@ card:
 	rarity: mythic rare
 	rule_text:
 		<kw-a><nospellcheck>Devoid</nospellcheck></kw-a>
-		<i>Icathian Surprise</i> — When <atom-cardname><nospellcheck>Kog’Maw, the Mouth of the Abyss</nospellcheck></atom-cardname> dies, it deals 1 damage to target player and each creature that player controls. The damage can’t be prevented. 
+		<i>Icathian Surprise</i> — When <atom-cardname><nospellcheck>Kog’Maw, the Mouth of the Abyss</nospellcheck></atom-cardname> dies, it deals 1 damage to target player and each creature that player controls. The damage can’t be prevented.
 		<i>Caustic Spittle</i> — If a creature dealt damage by <atom-legname><nospellcheck>Kog’Maw</nospellcheck></atom-legname> this turn would die, exile it instead.
 	flavor_text: <i-flavor></i-flavor>
 	power: 2
@@ -4404,7 +4404,7 @@ card:
 	rarity: mythic rare
 	rule_text:
 		<i>Ascension</i> — <atom-cardname><nospellcheck>Pantheon, the Unbreakable Spear</nospellcheck></atom-cardname> is ascended.
-		<kw-a><nospellcheck>Protection from <param-name>Angels, from Demons, from Gods, and from Darkin</param-name></nospellcheck></kw-a>. 
+		<kw-a><nospellcheck>Protection from <param-name>Angels, from Demons, from Gods, and from Darkin</param-name></nospellcheck></kw-a>.
 		<i>Mortal Will</i> — Ascended creatures you control have <kw-a><nospellcheck>indestructible</nospellcheck></kw-a>.
 	flavor_text: <i-flavor></i-flavor>
 	power: 5
@@ -4661,4 +4661,4 @@ keyword:
 	mode: expert
 version_control:
 	type: none
-apprentice_code: 
+apprentice_code:

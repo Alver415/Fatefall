@@ -79,6 +79,7 @@ public class CardInfo extends BorderPane implements FxComponent {
                 Card cardWithEdits = getCardWithEdits();
                 Card rendered = fatefallApi.getCardApi().generateImage(cardWithEdits);
                 setCard(rendered);
+                textArea.setText(rendered.getJsonPretty());
                 textArea.setBorder(GREEN);
                 runAsync(() -> textArea.setBorder(BLACK), 500);
             } catch (Exception e) {

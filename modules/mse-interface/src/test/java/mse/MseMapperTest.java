@@ -8,15 +8,16 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class MseMapperTest {
 
     private static final MseMapper MAPPER = new MseMapper();
+    private static final String NEWLINE = System.lineSeparator();
 
     private ObjectNode json = JsonNodeFactory.instance.objectNode();
 
@@ -26,18 +27,18 @@ public class MseMapperTest {
         ObjectNode card = JsonNodeFactory.instance.objectNode();
         card.put("name", "Name of the Card");
         card.put("cost", "$5");
-        card.put("long_string", "This is a long string.\nIt takes up more than one line.");
+        card.put("long_string", "This is a long string." + NEWLINE + "It takes up more than one line.");
         card.put("short_string", "This is a single length string.");
         cards.add(card);
-        json.set("cards", cards);
+        json.set("card", cards);
         String string = MAPPER.fromJson(json);
         String expected = """
-                card:
-                \tname: Name of the Card
-                \tcost: $5
-                \tlong_string:
-                \t\tThis is a long string.
-                \t\tIt takes up more than one line.
+                card:\r
+                \tname: Name of the Card\r
+                \tcost: $5\r
+                \tlong_string:\r
+                \t\tThis is a long string.\r
+                \t\tIt takes up more than one line.\r
                 \tshort_string: This is a single length string.""";
         assertEquals(expected, string);
     }
@@ -48,6 +49,13 @@ public class MseMapperTest {
         String exampleString = Files.readString(Path.of(uri));
         ObjectNode set = MAPPER.toJson(exampleString);
         System.out.println(set);
+
+        ArrayNode cards = (ArrayNode) set.get("card");
+        assertNotNull(cards);
+        assertEquals(175, cards.size());
+        ArrayNode keywords = (ArrayNode) set.get("keyword");
+        assertNotNull(keywords);
+        assertEquals(2, keywords.size());
     }
 
     @Test
@@ -57,6 +65,7 @@ public class MseMapperTest {
         ObjectNode set = MAPPER.toJson(exampleString);
         String result = MAPPER.fromJson(set);
         System.out.println(result);
+        assertEquals(exampleString, result);
     }
 
 }

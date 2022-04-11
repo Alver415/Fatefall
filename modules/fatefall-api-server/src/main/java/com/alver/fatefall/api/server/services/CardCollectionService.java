@@ -23,7 +23,7 @@ public class CardCollectionService {
     public CardCollection importFromMse(String name, File file) {
         try {
             SetManager setManager = SetManager.importMseSet(name, file.toPath());
-            ArrayNode cards = (ArrayNode) setManager.getSet().get("cards");
+            ArrayNode cards = (ArrayNode) setManager.getSet().get("card");
 
             List<Card> convertedCards = new ArrayList<>();
             for (JsonNode node : cards) {
