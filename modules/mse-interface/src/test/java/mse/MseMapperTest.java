@@ -48,7 +48,7 @@ public class MseMapperTest {
         URI uri = getClass().getResource("set").toURI();
         String exampleString = Files.readString(Path.of(uri));
         ObjectNode set = MAPPER.toJson(exampleString);
-        System.out.println(set);
+        System.out.println(set.toPrettyString());
 
         ArrayNode cards = (ArrayNode) set.get("card");
         assertNotNull(cards);
