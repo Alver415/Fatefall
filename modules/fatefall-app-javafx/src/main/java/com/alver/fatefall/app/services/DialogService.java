@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import static javafx.scene.control.Alert.AlertType.ERROR;
@@ -69,6 +70,16 @@ public class DialogService {
 
     public Optional<String> textInput(String title, String contentText) {
         Dialog<String> dialog = new TextInputDialog();
+        dialog.getDialogPane().getStylesheets().add(settings.getStylesheet());
+        dialog.setTitle(title);
+        dialog.setGraphic(null);
+        dialog.setHeaderText(null);
+        dialog.setContentText(contentText);
+        return dialog.showAndWait();
+    }
+
+    public Optional<String> choiceInput(String title, String contentText, Collection<String> choices) {
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(null, choices);
         dialog.getDialogPane().getStylesheets().add(settings.getStylesheet());
         dialog.setTitle(title);
         dialog.setGraphic(null);

@@ -1,0 +1,14 @@
+{
+  "scripts": [
+    {
+      "title": "Scryfall to MSE Transformer",
+      "description": "Transforms card json from Scryfall schema to Magic Set Editor schema.",
+      "file": "scryfall_to_mse.js"
+    },
+    {
+      "title": "Stupifyer",
+      "description": "Replaces legendary titles in card name with something stupid",
+      "file": "stupifyer.js"
+    }
+  ]
+}

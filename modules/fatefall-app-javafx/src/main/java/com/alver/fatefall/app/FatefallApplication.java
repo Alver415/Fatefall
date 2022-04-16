@@ -42,11 +42,11 @@ public class FatefallApplication extends Application {
             //Inject Spring dependencies.
             APPLICATION_CONTEXT.getAutowireCapableBeanFactory().autowireBean(this);
 
-            //Setup global FX Thread exception handling.
-            Thread.currentThread().setUncaughtExceptionHandler(exceptionHandler);
-
             //Disregard the original stage, create our own.
             Platform.runLater(() -> {
+                //Setup global FX Thread exception handling.
+                Thread.currentThread().setUncaughtExceptionHandler(exceptionHandler);
+
                 Stage mainStage = new MainStage();
                 mainStage.getScene().getStylesheets().add(settings.getStylesheet());
                 mainStage.setTitle(applicationConfiguration.getTitle());

@@ -20,6 +20,7 @@
         <module>modules/fatefall-app-javafx</module>
 
         <!--    Tools    -->
+        <module>modules/plugin-system</module>
         <module>modules/scryfall-api-client</module>
         <module>modules/mse-interface</module>
     </modules>
@@ -77,6 +78,11 @@
             <dependency>
                 <groupId>com.alver.fatefall</groupId>
                 <artifactId>fatefall-app-javafx</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alver.fatefall</groupId>
+                <artifactId>plugin-system</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>

@@ -2,7 +2,7 @@
   <configuration default="false" name="HSQLDB" type="JarApplication">
     <option name="JAR_PATH" value="$MAVEN_REPOSITORY$/org/hsqldb/hsqldb/2.6.1.hack/hsqldb-2.6.1.jar" />
     <option name="PROGRAM_PARAMETERS" value="--database.0 file:database\fatefall --dbname.0 fatefall" />
-    <option name="WORKING_DIRECTORY" value="C:\Users\Alver\Development\projects\Fatefall" />
+    <option name="WORKING_DIRECTORY" value="$ProjectFileDir$\.wd" />
     <option name="ALTERNATIVE_JRE_PATH" />
     <method v="2" />
   </configuration>

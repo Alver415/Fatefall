@@ -5,13 +5,7 @@
     </envs>
     <option name="MAIN_CLASS_NAME" value="com.alver.fatefall.api.server.FatefallApiServer" />
     <module name="fatefall-api-server" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/modules/fatefall-api-server" />
-    <extension name="coverage">
-      <pattern>
-        <option name="PATTERN" value="com.alver.fatefall.api.models.*" />
-        <option name="ENABLED" value="true" />
-      </pattern>
-    </extension>
+    <option name="WORKING_DIRECTORY" value="$ProjectFileDir$/.wd" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

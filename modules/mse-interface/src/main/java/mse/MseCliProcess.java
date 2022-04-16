@@ -104,9 +104,8 @@ public class MseCliProcess implements Closeable {
      */
     public synchronized Response command(String command) throws IOException {
         System.out.println(command);
-        command = escape(command);
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
-        writer.write(command);
+        writer.write(escape(command));
         writer.write(NEW_LINE);
         writer.flush();
 
@@ -153,9 +152,6 @@ public class MseCliProcess implements Closeable {
     }
 
     public record Response(int status, int lineCount, List<String> lines) {
-        public boolean success() {
-            return status == 0;
-        }
 
         @Override
         public String toString() {

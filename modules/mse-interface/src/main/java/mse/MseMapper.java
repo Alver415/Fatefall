@@ -12,7 +12,7 @@ public class MseMapper {
 
     //TODO: Determine if we need to support whitespace in variable names. (\\s)
     private static final String VARIABLE_NAME_REGEX = "\uFEFF?[a-zA-Z_$][\\sa-zA-Z0-9_$-]*";
-    private static final String NEWLINE = "\r\n";
+    private static final String NEWLINE = "\n";
     private static final String FIELD_DELIMITER = ":";
     private static final String FIELD_FORMAT = NEWLINE + "%s%s" + FIELD_DELIMITER;
     private static final String MULTILINE_STRING_FORMAT = NEWLINE + "%s%s";
@@ -22,7 +22,11 @@ public class MseMapper {
     }
 
     public ObjectNode toJson(List<String> lines) {
-        return (ObjectNode) readNode(lines.listIterator(), 0);
+        JsonNode json = readNode(lines.listIterator(), 0);
+        if (json instanceof ObjectNode) {
+            return (ObjectNode) json;
+        }
+        throw new RuntimeException("Expected an object but got: " + json.toPrettyString());
     }
 
     private JsonNode readNode(ListIterator<String> iterator, int depth) {
@@ -44,9 +48,7 @@ public class MseMapper {
                     setNode(parent, key, node);
                 } else {
                     //Simple field. Value is null or on the same line as the key.
-                    JsonNode node = line.length() > index ?
-                            new TextNode(line.substring(index + 1).trim()) :
-                            MAPPER.nullNode();
+                    JsonNode node = new TextNode(line.substring(index + 1).trim());
                     setNode(parent, key, node);
                 }
             } else {
@@ -125,7 +127,7 @@ public class MseMapper {
             if (node instanceof ObjectNode) {
                 writeObject(builder, node, depth + 1);
             } else {
-                writeString(builder, node.textValue(), depth + 1);
+                writeString(builder, node.asText(), depth + 1);
             }
         }
     }

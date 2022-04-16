@@ -1,11 +1,15 @@
 package com.alver.fatefall.app.fx.components.cardinfo;
 
-import com.alver.fatefall.app.fx.components.FxComponent;
+import com.alver.fatefall.JsonUtil;
 import com.alver.fatefall.api.FatefallApi;
 import com.alver.fatefall.api.models.Card;
+import com.alver.fatefall.app.fx.components.FxComponent;
 import com.alver.fatefall.app.fx.components.cardview.CardView;
 import com.alver.fatefall.app.services.DialogService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
@@ -14,6 +18,14 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import org.springframework.beans.factory.annotation.Autowired;
+import plugin.ScriptPlugin;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 public class CardInfo extends BorderPane implements FxComponent {
 
@@ -66,18 +78,42 @@ public class CardInfo extends BorderPane implements FxComponent {
         textArea.setOnKeyPressed(e -> {
             //Hotkey for submit is Ctrl+Enter
             if (e.isControlDown() && e.getCode() == KeyCode.ENTER) {
-                submit();
+                try {
+                    Card card = script();
+                    submit(card);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
     }
 
-    private void submit() {
+    private Card script() throws IOException {
+        JsonNode master = JsonUtil.fromJson(new File("scripts/master.json"));
+        ArrayNode array = (ArrayNode) master.get("scripts");
+        Map<String, JsonNode> map = new HashMap<>();
+        array.forEach(e -> map.put(e.get("title").asText(), e));
+        Set<String> choices = map.keySet();
+        Optional<String> script_selection =
+                dialogService.choiceInput(
+                        "Script Selection",
+                        "What script would you like to execute?",
+                        choices);
+        String selectedTitle = script_selection.get();
+        JsonNode selected = map.get(selectedTitle);
+        Card card = getCardWithEdits();
+        ObjectNode data = card.getData();
+        String file = "scripts/" + selected.get("file").asText();
+        String converted = ScriptPlugin.convert(data, file);
+        card.setJson(converted);
+        return card;
+    }
+    private void submit(Card card) {
         textArea.setBorder(ORANGE);
         textArea.setDisable(true);
         runAsync(() -> {
             try {
-                Card cardWithEdits = getCardWithEdits();
-                Card rendered = fatefallApi.getCardApi().generateImage(cardWithEdits);
+                Card rendered = fatefallApi.getCardApi().generateImage(card);
                 setCard(rendered);
                 textArea.setText(rendered.getJsonPretty());
                 textArea.setBorder(GREEN);
