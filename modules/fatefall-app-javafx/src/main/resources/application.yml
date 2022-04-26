@@ -13,6 +13,10 @@ scryfall:
 fatefall:
   url: http://localhost:8080
 ---
+spring.config.activate.on-profile: yohun
+fatefall:
+  url: http://192.168.0.106:8080
+---
 spring.config.activate.on-profile: desktop
 fatefall:
   url: http://192.168.0.111:8080

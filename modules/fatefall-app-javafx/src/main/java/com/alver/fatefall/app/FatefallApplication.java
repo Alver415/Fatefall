@@ -17,7 +17,7 @@ import org.springframework.context.annotation.ComponentScan;
 import java.util.Objects;
 
 @SpringBootApplication
-@ComponentScan("com.alver.fatefall")
+@ComponentScan("com.alver.fatefall.app")
 public class FatefallApplication extends Application {
 
     public static ApplicationContext APPLICATION_CONTEXT;

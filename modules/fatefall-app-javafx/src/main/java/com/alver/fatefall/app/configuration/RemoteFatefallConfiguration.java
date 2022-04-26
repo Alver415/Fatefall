@@ -5,12 +5,15 @@ import com.alver.fatefall.api.client.RemoteFatefallApi;
 import com.alver.fatefall.api.server.local.LocalFatefallApi;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
+@Profile(Profiles.REMOTE)
 @ConfigurationProperties("fatefall")
-public class FatefallConfiguration {
+@ComponentScan("com.alver.fatefall.client")
+public class RemoteFatefallConfiguration {
 
     protected String url;
 
@@ -28,9 +31,4 @@ public class FatefallConfiguration {
         return new RemoteFatefallApi(url);
     }
 
-    @Bean
-    @Profile(Profiles.LOCAL)
-    public FatefallApi getLocalFatefallApi() {
-        return new LocalFatefallApi();
-    }
 }
