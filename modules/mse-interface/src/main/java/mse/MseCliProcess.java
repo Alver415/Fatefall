@@ -15,9 +15,9 @@ public class MseCliProcess implements Closeable {
 
     public static void main(String... args) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        try(MseCliProcess process = new MseCliProcess()){
+        try (MseCliProcess process = new MseCliProcess()) {
             String input;
-            while (scanner.hasNext()){
+            while (scanner.hasNext()) {
                 input = scanner.next();
                 process.command(input);
             }
@@ -25,18 +25,10 @@ public class MseCliProcess implements Closeable {
     }
 
     public MseCliProcess() throws IOException {
-        /* Requires that 'mse.exe' be on path */
-        this(Path.of("mse"));
-    }
-
-    public MseCliProcess(Path mseExe) throws IOException {
-        String msePath = mseExe.toString();
-        List<String> startCommand = List.of(msePath, "--cli", "--raw");
-        System.out.println(String.join(" ", startCommand));
-        process = new ProcessBuilder(startCommand)
-                .redirectError(ProcessBuilder.Redirect.INHERIT)
-                .redirectErrorStream(true)
-                .start();
+        /* Requires that 'mse' be setup on path environment variable */
+        String[] command = {"mse", "--cli", "--raw"};
+        System.out.println(String.join(" ", command));
+        process = new ProcessBuilder(command).start();
     }
 
     public Response help() throws IOException {
@@ -123,7 +115,7 @@ public class MseCliProcess implements Closeable {
             Response response = new Response(status, lineCount, List.copyOf(lines));
             System.out.println(response);
             return response;
-        } catch (Exception e){
+        } catch (Exception e) {
             System.err.println(firstLine);
             String line;
             while (reader.ready() && (line = reader.readLine()) != null) {
