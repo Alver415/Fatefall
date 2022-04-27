@@ -21,6 +21,9 @@ import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Objects;
 
@@ -175,26 +178,39 @@ public class CardView extends StackPane implements FxComponent {
 
         progressIndicator.setVisible(true);
         runAsync(() -> {
-            Image frontFaceImage = new Image(card.getFrontFaceUrl(), true);
-            Image backFaceImage = new Image(card.getBackFaceUrl(), true);
+            try {
+                Image frontFaceImage = new Image(new ByteArrayInputStream(fatefallApi.getCardApi().getImage(card.getFrontFaceUrl())));
+                Image backFaceImage = new Image(new ByteArrayInputStream(fatefallApi.getCardApi().getImage(card.getBackFaceUrl())));
 
-            runFx(() -> {
-                progressIndicator.progressProperty().bind(frontFaceImage.progressProperty());
-                if (Objects.equals(frontFaceImage.getProgress(), 1.0)) {
-                    setFrontFace(frontFaceImage);
-                    setBackFace(backFaceImage);
-                    progressIndicator.setVisible(false);
-                } else {
-                    frontFaceImage.progressProperty().addListener((observable, oldValue, newValue) -> {
-                        if (newValue.equals(1.0)) {
-                            setFrontFace(frontFaceImage);
-                            setBackFace(backFaceImage);
-                            progressIndicator.setVisible(false);
-                        }
-                    });
-                }
-            });
+                runFx(() -> {
+                    progressIndicator.progressProperty().bind(frontFaceImage.progressProperty());
+                    if (Objects.equals(frontFaceImage.getProgress(), 1.0)) {
+                        setImages(frontFaceImage, backFaceImage);
+                    } else {
+                        frontFaceImage.progressProperty().addListener((observable, oldValue, newValue) -> {
+                            if (newValue.equals(1.0)) {
+                                setImages(frontFaceImage, backFaceImage);
+                            }
+                        });
+                    }
+                });
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
+    }
+    private void setImages(Image frontFaceImage, Image backFaceImage) {
+        if (frontFaceImage.getException() != null) {
+            setFrontFace(PLACEHOLDER);
+        } else {
+            setFrontFace(frontFaceImage);
+        }
+        if (backFaceImage.getException() != null) {
+            setBackFace(PLACEHOLDER);
+        } else {
+            setBackFace(backFaceImage);
+        }
+        progressIndicator.setVisible(false);
     }
 
     private void setupControls() {

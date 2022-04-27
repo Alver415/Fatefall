@@ -5,7 +5,12 @@ import com.alver.fatefall.api.models.Card;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.DefaultUriBuilderFactory;
+import org.springframework.web.util.UriBuilder;
 import reactor.core.publisher.Mono;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public class RemoteCardApi extends AbstractApi implements CardApi {
 
@@ -38,6 +43,19 @@ public class RemoteCardApi extends AbstractApi implements CardApi {
                 .toBodilessEntity()
                 .block();
     }
+
+    public byte[] getImage(String location){
+        return client.get()
+                .uri(new DefaultUriBuilderFactory().builder()
+                        .path("card/image")
+                        .queryParam("location", location)
+                        .build().toString()
+                )
+                .retrieve()
+                .bodyToMono(byte[].class)
+                .block();
+    }
+
     public Card generateImage(Card card) {
         return client.post()
                 .uri("card/generateImage/")

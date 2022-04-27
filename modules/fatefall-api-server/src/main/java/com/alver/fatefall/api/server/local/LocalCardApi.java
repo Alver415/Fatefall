@@ -4,10 +4,15 @@ import com.alver.fatefall.api.CardApi;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.server.repositories.CardRepository;
 import com.alver.fatefall.api.server.services.CardService;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 @RestController
@@ -46,7 +51,12 @@ public class LocalCardApi implements CardApi {
         cardRepository.deleteById(pk);
     }
 
-    @PostMapping("generateImage")
+    @GetMapping(value = "/image", produces = MediaType.IMAGE_JPEG_VALUE)
+    public byte[] getImage(@RequestParam("location") String location) throws IOException {
+        return IOUtils.toByteArray(Files.newInputStream(Path.of(location.substring(6))));
+    }
+
+    @PostMapping("/generateImage")
     public Card generateImage(@RequestBody Card card) throws IOException {
         return cardService.generateImage(card);
     }
