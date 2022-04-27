@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="JavaFX Application" type="Application" factoryName="Application">
+  <configuration default="false" name="Fatefall Application" type="Application" factoryName="Application">
     <option name="ALTERNATIVE_JRE_PATH" value="16" />
     <envs>
       <env name="server.port" value="8081" />
