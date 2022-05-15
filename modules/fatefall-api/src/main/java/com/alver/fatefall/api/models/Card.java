@@ -2,7 +2,6 @@ package com.alver.fatefall.api.models;
 
 import com.alver.fatefall.api.PersistedObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -14,8 +13,12 @@ public class Card extends PersistedObject {
 
     @Transient
     private ObjectNode data;
-    private String frontFaceUrl;
-    private String backFaceUrl;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private CardImage frontFace;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private CardImage backFace;
 
     public ObjectNode getData() {
         //Ensure data is never null, but rather empty.
@@ -44,16 +47,16 @@ public class Card extends PersistedObject {
         this.data = (ObjectNode) new ObjectMapper().readTree(json);
     }
 
-    public String getFrontFaceUrl() {
-        return frontFaceUrl;
+    public CardImage getFrontFace() {
+        return frontFace;
     }
-    public void setFrontFaceUrl(String frontFaceUrl) {
-        this.frontFaceUrl = frontFaceUrl;
+    public void setFrontFace(CardImage frontFace) {
+        this.frontFace = frontFace;
     }
-    public String getBackFaceUrl() {
-        return backFaceUrl;
+    public CardImage getBackFace() {
+        return backFace;
     }
-    public void setBackFaceUrl(String backFaceUrl) {
-        this.backFaceUrl = backFaceUrl;
+    public void setBackFace(CardImage backFace) {
+        this.backFace = backFace;
     }
 }

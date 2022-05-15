@@ -1,6 +1,7 @@
 package com.alver.scryfall.api;
 
 import com.alver.fatefall.api.models.Card;
+import com.alver.fatefall.api.models.CardImage;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.http.MediaType;
@@ -27,12 +28,16 @@ public class CardApi extends AbstractApi {
         for (Iterator<JsonNode> it = data.elements(); it.hasNext(); ) {
             JsonNode element = it.next();
             Card card = new Card();
+            CardImage frontFace = new CardImage();
+            CardImage backFace = new CardImage();
+            card.setFrontFace(frontFace);
+            card.setBackFace(backFace);
             if (!element.path("card_faces").isEmpty()) {
-                card.setFrontFaceUrl(element.path("card_faces").get(0).path("image_uris").path("normal").asText());
-                card.setBackFaceUrl(element.path("card_faces").get(1).path("image_uris").path("normal").asText());
+                frontFace.setLocation(element.path("card_faces").get(0).path("image_uris").path("normal").asText());
+                backFace.setLocation(element.path("card_faces").get(1).path("image_uris").path("normal").asText());
             } else {
-                card.setFrontFaceUrl(element.path("image_uris").path("normal").asText());
-                card.setBackFaceUrl(DEFAULT_CARD_BACK_FACE);
+                frontFace.setLocation(element.path("image_uris").path("normal").asText());
+                backFace.setLocation(DEFAULT_CARD_BACK_FACE);
             }
             card.setData((ObjectNode) element);
             cards.add(card);

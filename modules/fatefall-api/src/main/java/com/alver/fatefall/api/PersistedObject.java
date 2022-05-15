@@ -10,15 +10,15 @@ public abstract class PersistedObject {
 
     @Id
     @GeneratedValue
-    @Column(name = "pk", nullable = false)
-    private Long pk;
+    @Column(name = "id", nullable = false)
+    private Long id;
 
     public Long getPk() {
-        return pk;
+        return id;
     }
 
-    public void setPk(Long pk) {
-        this.pk = pk;
+    public void setPk(Long id) {
+        this.id = id;
     }
 
 }

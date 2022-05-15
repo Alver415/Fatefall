@@ -20,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -73,7 +74,12 @@ public class MainStage extends Stage implements FxComponent {
         addScryfallTab();
 
         collectionsList.setCellFactory(cardCollectionCellFactory);
-        collectionsList.setItems(FXCollections.observableList(fatefallApi.getCardCollectionApi().findAll()));
+        runAsync(() -> {
+            List<CardCollection> collections = fatefallApi.getCardCollectionApi().findAll();
+            runFx(() -> {
+                collectionsList.setItems(FXCollections.observableList(collections));
+            });
+        });
 
         newCollection.setOnAction(a -> newCollection());
         saveCollection.setOnAction(a -> saveCollection());
@@ -85,22 +91,23 @@ public class MainStage extends Stage implements FxComponent {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Import from Magic Set Editor");
         File file = fileChooser.showOpenDialog(this);
+        if (file != null) {
+            String name = dialogService.textInput(
+                            "Import from Magic Set Editor",
+                            "Enter a name for the new collection.")
+                    .orElse(file.getName());
 
-        String name = dialogService.textInput(
-                "Import from Magic Set Editor",
-                "Enter a name for the new collection.")
-                .orElse(file.getName());
+            if (!file.getName().endsWith(".mse-set")) {
+                throw new RuntimeException("Incorrect file extension. Must be '*.mse-set' but was: " + file.getName());
+            }
 
-        if (!file.getName().endsWith(".mse-set")) {
-            return;
-        }
-
-        runAsync(() -> {
-            CardCollection cardCollection = fatefallApi.getCardCollectionApi().importFromMse(name, file);
-            runFx(() -> {
-                collectionsList.getItems().add(cardCollection);
+            runAsync(() -> {
+                CardCollection cardCollection = fatefallApi.getCardCollectionApi().importFromMse(name, file);
+                runFx(() -> {
+                    collectionsList.getItems().add(cardCollection);
+                });
             });
-        });
+        }
 
     }
 
@@ -151,17 +158,12 @@ public class MainStage extends Stage implements FxComponent {
         fatefallApi.getCardCollectionApi().save(selectedItem);
     }
 
-    private Callback<ListView<CardCollection>, ListCell<CardCollection>> cardCollectionCellFactory = (z) -> {
+    private final Callback<ListView<CardCollection>, ListCell<CardCollection>> cardCollectionCellFactory = (z) -> {
         ListCell<CardCollection> cell = new ListCell<>() {
             @Override
             protected void updateItem(CardCollection item, boolean empty) {
                 super.updateItem(item, empty);
-                setText(null);
-                if (!empty) {
-                    //Show name with unsaved symbol is pk is null (not hibernate controlled).
-                    String unsavedSymbol = item.getPk() == null ? " *" : "";
-                    setText(item.getName() + unsavedSymbol);
-                }
+                setText(empty ? null : item.getName());
             }
         };
         //When double-clicked, open that cardCollection.

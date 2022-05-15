@@ -11,7 +11,7 @@ public interface CardApi {
 
     Card save(Card card);
 
-    void delete(Long pk);
+    void delete(Long id);
 
     byte[] getImage(String location) throws IOException;
 

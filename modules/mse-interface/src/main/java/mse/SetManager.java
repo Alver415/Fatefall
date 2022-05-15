@@ -5,18 +5,16 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 
-public class SetManager {
+public class SetManager { ;
 
-    public static final String DEFAULT_CARD_BACK_FACE = Objects.requireNonNull(
-            SetManager.class.getResource("magic_card_back.png")).toExternalForm();
-
-    private static final Path JMSE_SET_DIRECTORY = Path.of("jmse_sets");
+    private static final Path JMSE_SET_DIRECTORY = Path.of("database/jmse_sets");
     private static final boolean overwriteExisting = true;
 
     private static final MseMapper mapper = new MseMapper();

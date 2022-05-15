@@ -23,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Objects;
 
@@ -179,8 +178,11 @@ public class CardView extends StackPane implements FxComponent {
         progressIndicator.setVisible(true);
         runAsync(() -> {
             try {
-                Image frontFaceImage = new Image(new ByteArrayInputStream(fatefallApi.getCardApi().getImage(card.getFrontFaceUrl())));
-                Image backFaceImage = new Image(new ByteArrayInputStream(fatefallApi.getCardApi().getImage(card.getBackFaceUrl())));
+                byte[] frontBytes = fatefallApi.getCardImageApi().downloadImage(card.getFrontFace().getPk());
+                byte[] backBytes = fatefallApi.getCardImageApi().downloadImage(card.getBackFace().getPk());
+
+                Image frontFaceImage = new Image(new ByteArrayInputStream(frontBytes));
+                Image backFaceImage = new Image(new ByteArrayInputStream(backBytes));
 
                 runFx(() -> {
                     progressIndicator.progressProperty().bind(frontFaceImage.progressProperty());

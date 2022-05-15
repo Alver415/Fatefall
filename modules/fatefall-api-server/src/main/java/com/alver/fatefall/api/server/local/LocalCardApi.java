@@ -41,19 +41,19 @@ public class LocalCardApi implements CardApi {
         return cardRepository.findAll();
     }
 
-    @GetMapping("/{pk}")
-    public Card findById(@PathVariable Long pk) {
-        return cardRepository.findById(pk).get();
+    @GetMapping("/{id}")
+    public Card findById(@PathVariable Long id) {
+        return cardRepository.findById(id).get();
     }
 
-    @DeleteMapping("/{pk}")
-    public void delete(@PathVariable Long pk) {
-        cardRepository.deleteById(pk);
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        cardRepository.deleteById(id);
     }
 
     @GetMapping(value = "/image", produces = MediaType.IMAGE_JPEG_VALUE)
     public byte[] getImage(@RequestParam("location") String location) throws IOException {
-        return IOUtils.toByteArray(Files.newInputStream(Path.of(location.substring(6))));
+        return IOUtils.toByteArray(Files.newInputStream(Path.of(location.substring(5))));
     }
 
     @PostMapping("/generateImage")

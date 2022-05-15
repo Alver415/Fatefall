@@ -36,9 +36,9 @@ public class RemoteCardApi extends AbstractApi implements CardApi {
                 .block();
     }
 
-    public void delete(Long pk) {
+    public void delete(Long id) {
         client.delete()
-                .uri("card/" + pk)
+                .uri("card/" + id)
                 .retrieve()
                 .toBodilessEntity()
                 .block();

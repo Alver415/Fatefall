@@ -69,12 +69,16 @@ public class DialogService {
     }
 
     public Optional<String> textInput(String title, String contentText) {
+        return textInput(title, contentText, null);
+    }
+    public Optional<String> textInput(String title, String contentText, String defaultValue) {
         Dialog<String> dialog = new TextInputDialog();
         dialog.getDialogPane().getStylesheets().add(settings.getStylesheet());
         dialog.setTitle(title);
         dialog.setGraphic(null);
         dialog.setHeaderText(null);
         dialog.setContentText(contentText);
+        dialog.setResult(defaultValue);
         return dialog.showAndWait();
     }
 

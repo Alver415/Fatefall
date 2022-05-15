@@ -1,6 +1,7 @@
 package com.alver.fatefall.api.server.services;
 
 import com.alver.fatefall.api.models.Card;
+import com.alver.fatefall.api.models.CardImage;
 import com.alver.fatefall.api.server.repositories.CardRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -48,9 +49,16 @@ public class CardService {
                 .toFile().toURI().toString();
 
         Card result = new Card();
+        CardImage frontFace = new CardImage();
+        CardImage backFace = new CardImage();
+
         result.setData(card.getData());
-        result.setFrontFaceUrl(image);
-        result.setBackFaceUrl(image);
+        result.setFrontFace(frontFace);
+        result.setBackFace(backFace);
+
+        frontFace.setLocation(image);
+        backFace.setLocation(image);
+
         return result;
     }
     private String toValidFileName(String string) {

@@ -4,6 +4,8 @@ public interface FatefallApi {
 
     CardApi getCardApi();
 
+    CardImageApi getCardImageApi();
+
     CardCollectionApi getCardCollectionApi();
 
 }
