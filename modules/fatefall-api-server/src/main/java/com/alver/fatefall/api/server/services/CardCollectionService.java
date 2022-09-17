@@ -12,7 +12,10 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @Service
 public class CardCollectionService {
@@ -25,10 +28,10 @@ public class CardCollectionService {
             SetManager setManager = SetManager.importMseSet(name, file.toPath());
             ArrayNode cards = (ArrayNode) setManager.getSet().get("card");
 
-            List<Card> convertedCards = new ArrayList<>();
-            for (JsonNode node : cards) {
-                ObjectNode data = (ObjectNode) node;
-                String cardName = data.get("name").textValue();
+            CardCollection collection = new CardCollection();
+            collection.setName(name);
+            List<Card> converted = StreamSupport.stream(cards.spliterator(), true).map(node -> {
+                String cardName = node.get("name").textValue();
                 String fileName = cardName
                         .replace("\"", "")
                         .replace(",", "")
@@ -37,17 +40,15 @@ public class CardCollectionService {
                         .resolve(fileName + ".png")
                         .toFile().toURI().toString();
                 Card card = new Card();
-                card.setData(data);
+                card.setData(node);
                 card.setFrontFaceUrl(image);
                 card.setBackFaceUrl(SetManager.DEFAULT_CARD_BACK_FACE);
-                convertedCards.add(card);
-            }
-
-            CardCollection collection = new CardCollection();
-            collection.setName(name);
-            collection.getCards().addAll(convertedCards);
+                return card;
+            }).toList();
+            collection.getCards().addAll(converted);
             return collection;
-        } catch (Exception e){
+        } catch (
+                Exception e) {
             throw new RuntimeException(e);
         }
     }

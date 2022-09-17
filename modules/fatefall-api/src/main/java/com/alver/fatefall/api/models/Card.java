@@ -13,18 +13,18 @@ import javax.persistence.*;
 public class Card extends PersistedObject {
 
     @Transient
-    private ObjectNode data;
+    private JsonNode data;
     private String frontFaceUrl;
     private String backFaceUrl;
 
-    public ObjectNode getData() {
+    public JsonNode getData() {
         //Ensure data is never null, but rather empty.
         if (data == null) {
             data = JsonNodeFactory.instance.objectNode();
         }
         return data;
     }
-    public void setData(ObjectNode data) {
+    public void setData(JsonNode data) {
         this.data = data;
     }
 

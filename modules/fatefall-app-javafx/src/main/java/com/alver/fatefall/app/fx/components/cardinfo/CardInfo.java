@@ -102,7 +102,7 @@ public class CardInfo extends BorderPane implements FxComponent {
         String selectedTitle = script_selection.get();
         JsonNode selected = map.get(selectedTitle);
         Card card = getCardWithEdits();
-        ObjectNode data = card.getData();
+        JsonNode data = card.getData();
         String file = "scripts/" + selected.get("file").asText();
         String converted = ScriptPlugin.convert(data, file);
         card.setJson(converted);
