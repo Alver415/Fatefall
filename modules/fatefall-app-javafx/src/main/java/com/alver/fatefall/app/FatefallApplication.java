@@ -4,10 +4,13 @@ import com.alver.fatefall.app.configuration.ApplicationConfiguration;
 import com.alver.fatefall.app.fx.components.mainstage.MainStage;
 import com.alver.fatefall.app.fx.components.settings.Settings;
 import com.alver.fatefall.app.services.AsyncService;
+import com.alver.log.Log;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.slf4j.LoggerFactory;
+import org.slf4j.event.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -36,11 +39,7 @@ public class FatefallApplication extends Application {
         Stage splash = Splash.createAndShow();
 
         new Thread(() -> {
-            //Start Spring Application and get the ApplicationContext
-            APPLICATION_CONTEXT = SpringApplication.run(FatefallApplication.class);
-
-            //Inject Spring dependencies.
-            APPLICATION_CONTEXT.getAutowireCapableBeanFactory().autowireBean(this);
+            initializeSpring();
 
             //Disregard the original stage, create our own.
             Platform.runLater(() -> {
@@ -58,11 +57,20 @@ public class FatefallApplication extends Application {
         }).start();
     }
 
+    @Log(Level.WARN)
+    private void initializeSpring() {
+        //Start Spring Application and get the ApplicationContext
+        APPLICATION_CONTEXT = SpringApplication.run(FatefallApplication.class);
+
+        //Inject Spring dependencies.
+        APPLICATION_CONTEXT.getAutowireCapableBeanFactory().autowireBean(this);
+    }
+
     @Override
     public void stop() {
         //Wait 2.5s then force stop application if it's not already stopped.
         APPLICATION_CONTEXT.getBean(AsyncService.class).runAsync(() -> {
-            System.err.println("FORCE STOP");
+            LoggerFactory.getLogger(this.getClass()).error("FORCE EXIT");
             Platform.exit();
             System.exit(-1);
         }, 2500);

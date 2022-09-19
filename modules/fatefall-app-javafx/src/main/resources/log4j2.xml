@@ -1,38 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN" monitorInterval="30">
+<Configuration status="ERROR" monitorInterval="5">
     <Properties>
-        <Property name="LOG_PATTERN">%d [%-6p] %c{1} - %m%n</Property>
-        <Property name="APP_LOG_ROOT">logs</Property>
+        <Property name="COLORS">
+            {FATAL=bright red, ERROR=red, WARN=yellow, INFO=normal, DEBUG=magenta, TRACE=cyan}
+        </Property>
+        <Property name="CONSOLE_PATTERN">
+            %highlight{%-5p [%t] %c{1}: %m%n%xEx}${COLORS}
+        </Property>
+        <Property name="LOG_PATTERN">
+            %-5p %d [%t] %c: %m%n%xEx
+        </Property>
     </Properties>
     <Appenders>
-        <Console name="Console" target="SYSTEM_OUT" follow="true">
-            <PatternLayout pattern="${LOG_PATTERN}"/>
+        <Console name="CONSOLE" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${CONSOLE_PATTERN}" disableAnsi="false"/>
         </Console>
 
-        <RollingFile name="ApplicationLog"
-                     fileName="${APP_LOG_ROOT}/application.log"
-                     filePattern="${APP_LOG_ROOT}/application-%d{yyyy-MM-dd}-%i.log">
+        <RollingFile name="LOG_FILE"
+                     fileName="logs/application.log"
+                     filePattern="logs/application-%d{yyyy-MM-dd}-%i.log">
             <PatternLayout pattern="${LOG_PATTERN}"/>
             <Policies>
                 <SizeBasedTriggeringPolicy size="19500KB"/>
             </Policies>
             <DefaultRolloverStrategy max="1"/>
         </RollingFile>
-
     </Appenders>
+
     <Loggers>
-        <Root level="warn">
-            <AppenderRef ref="Console"/>
+        <Root level="TRACE">
+            <AppenderRef ref="CONSOLE" level="INFO"/>
+            <AppenderRef ref="LOG_FILE" level="TRACE"/>
         </Root>
-
-        <Logger name="com.alver.fatefall" level="trace" additivity="false">
-            <AppenderRef ref="Console"/>
-            <AppenderRef ref="ApplicationLog"/>
-        </Logger>
-
-        <!-- Hibernate SQL Logging -->
-<!--        <Logger name="org.hibernate.SQL" level="debug" additivity="false">-->
-<!--            <AppenderRef ref="Console"/>-->
-<!--        </Logger>-->
     </Loggers>
 </Configuration>

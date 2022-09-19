@@ -6,7 +6,7 @@
     </envs>
     <option name="MAIN_CLASS_NAME" value="com.alver.fatefall.app.FatefallApplication" />
     <module name="fatefall-app-javafx" />
-    <option name="VM_PARAMETERS" value="--module-path ${JAVAFX_SDK}/lib --add-modules=javafx.controls,javafx.fxml" />
+    <option name="VM_PARAMETERS" value="-javaagent:C:\Users\Alver\.m2\repository/org/aspectj/aspectjweaver/1.9.9.1/aspectjweaver-1.9.9.1.jar --add-opens java.base/java.lang=ALL-UNNAMED --module-path ${JAVAFX_SDK}/lib --add-modules=javafx.controls,javafx.fxml -Dorg.slf4j.simpleLogger.logFile=System.out -Xverify:none" />
     <option name="WORKING_DIRECTORY" value="$ProjectFileDir$/.wd" />
     <method v="2">
       <option name="Make" enabled="true" />

@@ -3,6 +3,7 @@ spring:
     active: local
   main:
     banner-mode: "off"
+    lazy-initialization: true
 
 application:
   title: "Fatefall 0.0 - Custom Card Designer"

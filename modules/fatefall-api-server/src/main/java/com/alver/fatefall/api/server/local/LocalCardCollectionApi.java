@@ -1,9 +1,11 @@
 package com.alver.fatefall.api.server.local;
 
 import com.alver.fatefall.api.CardCollectionApi;
+import com.alver.fatefall.api.models.CardCollection;
 import com.alver.fatefall.api.server.repositories.CardCollectionRepository;
 import com.alver.fatefall.api.server.services.CardCollectionService;
-import com.alver.fatefall.api.models.CardCollection;
+import com.alver.log.Log;
+import org.slf4j.event.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -57,6 +59,7 @@ public class LocalCardCollectionApi implements CardCollectionApi {
     }
 
     @Override
+    @Log(Level.WARN)
     public CardCollection importFromMse(String name, File mseFile) {
         return cardCollectionService.importFromMse(name, mseFile);
     }

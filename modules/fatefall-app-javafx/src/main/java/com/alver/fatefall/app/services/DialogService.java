@@ -5,8 +5,8 @@ import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ import static javafx.scene.control.Alert.AlertType.ERROR;
 @Service
 public class DialogService {
 
-    private static final Logger LOGGER = LogManager.getLogger(DialogService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DialogService.class);
 
     private static final String ERROR_TITLE = "Error";
     private static final String DEFAULT_ERROR_MESSAGE = "There was an unknown error.";

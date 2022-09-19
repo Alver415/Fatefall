@@ -13,7 +13,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -57,11 +56,11 @@ public class LocalCardApi implements CardApi {
 
     @GetMapping(value = "/image", produces = MediaType.IMAGE_JPEG_VALUE)
     public byte[] getImage(@RequestParam("location") String location) throws IOException {
-        if (location.startsWith("http")){
+        if (location.startsWith("http")) {
             URL imageURL = new URL(location);
-             BufferedImage originalImage= ImageIO.read(imageURL);
-            ByteArrayOutputStream baos =new ByteArrayOutputStream();
-            ImageIO.write(originalImage, "jpg", baos );
+            BufferedImage originalImage = ImageIO.read(imageURL);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(originalImage, "jpg", baos);
             return baos.toByteArray();
         }
         return IOUtils.toByteArray(Files.newInputStream(Path.of(location.substring(6))));
