@@ -1,33 +1,30 @@
 package com.alver.plugin;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.StrokeTransition;
-import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.scene.transform.Rotate;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Source;
 import org.graalvm.polyglot.Value;
 
-import javafx.scene.shape.*;
-
-import java.awt.*;
-import java.io.*;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -42,6 +39,7 @@ public class TestApp extends Application {
     TextArea output;
     ImageView imageView;
     StackPane stackPane;
+    MenuBar menuBar;
 
     String JS_PATH = "scripts/image_generator.js";
     String IMG_PATH = "card_image.png";
@@ -71,6 +69,8 @@ public class TestApp extends Application {
         this.imageView = new ImageView();
         this.scene = new Scene(root);
         this.stage = stage;
+        this.menuBar = new MenuBar();
+        root.setTop(menuBar);
         root.setCenter(input);
         root.setBottom(output);
         stage.setScene(scene);
@@ -105,19 +105,27 @@ public class TestApp extends Application {
             if (e.isControlDown()) {
                 if (KeyCode.ENTER.equals(e.getCode())) {
                     execute();
-                    e.consume();
                 } else if (KeyCode.S.equals(e.getCode())) {
                     save(JS_PATH);
-                    e.consume();
                 } else if (KeyCode.L.equals(e.getCode())) {
                     load(JS_PATH);
-                    e.consume();
                 } else if (KeyCode.P.equals(e.getCode())) {
                     print(IMG_PATH);
-                    e.consume();
+                } else if (KeyCode.O.equals(e.getCode())) {
+                    openFile();
+                } else {
+                    //Don't consume
+                    return;
                 }
+                e.consume();
             }
         });
+
+        Menu fileMenu = new Menu("File");
+        MenuItem fileMenuItem = new MenuItem("Open");
+        fileMenuItem.setOnAction(e -> openFile());
+        fileMenu.getItems().add(fileMenuItem);
+        menuBar.getMenus().add(fileMenu);
 
         load(JS_PATH);
         execute();
@@ -129,10 +137,20 @@ public class TestApp extends Application {
     private void execute() {
         StringBuilder console = new StringBuilder();
         try (Context context = Context.newBuilder("js").build()) {
-            Source source = Source.newBuilder("js", input.getText(), "user-input").build();
             try {
-                Value value = context.eval(source);
                 Value jsBindings = context.getBindings("js");
+                jsBindings.putMember("a", 255);
+                jsBindings.putMember("r", 255);
+                jsBindings.putMember("g", 255);
+                jsBindings.putMember("b", 255);
+                console.append("-- Input --").append(System.lineSeparator());
+                console.append("a: ").append(jsBindings.getMember("a")).append(System.lineSeparator());
+                console.append("r: ").append(jsBindings.getMember("r")).append(System.lineSeparator());
+                console.append("g: ").append(jsBindings.getMember("g")).append(System.lineSeparator());
+                console.append("b: ").append(jsBindings.getMember("b")).append(System.lineSeparator());
+
+                context.eval(Source.newBuilder("js", Path.of("scripts/image_utils.js").toFile()).build());
+                Value value = context.eval(Source.newBuilder("js", input.getText(), "user-input").build());
 
                 int width = jsBindings.getMember("width").asInt();
                 int height = jsBindings.getMember("height").asInt();
@@ -148,7 +166,7 @@ public class TestApp extends Application {
                 imageView.setImage(img);
                 output.setBorder(GREEN_BORDER);
 
-                console.append("-- Output --").append(System.lineSeparator());
+                console.append(System.lineSeparator()).append("-- Output --").append(System.lineSeparator());
                 console.append(value.as(Object.class)).append(System.lineSeparator());
             } finally {
                 Value jsBindings = context.getBindings("js");
@@ -215,5 +233,12 @@ public class TestApp extends Application {
             output.setText("Print Failed: " + fileName);
             output.setBorder(RED_BORDER);
         }
+    }
+
+    private void openFile(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(Path.of("scripts").toFile());
+        File file = fileChooser.showOpenDialog(stage.getOwner());
+        load(file.getPath());
     }
 }
