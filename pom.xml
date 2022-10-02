@@ -23,7 +23,10 @@
         <module>modules/plugin-system</module>
         <module>modules/scryfall-api-client</module>
         <module>modules/mse-interface</module>
+
+        <!--    Antlr4 Languages    -->
         <module>modules/antlr4-js</module>
+        <module>modules/antlr4-ms</module>
     </modules>
 
     <properties>

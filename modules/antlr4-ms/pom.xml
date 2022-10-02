@@ -10,8 +10,8 @@
         <version>${revision}</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
-    <artifactId>antlr4-js</artifactId>
-    <name>Antlr4 JavaScript</name>
+    <artifactId>antlr4-ms</artifactId>
+    <name>Antlr4 MSE Script</name>
 
     <dependencies>
         <dependency>
