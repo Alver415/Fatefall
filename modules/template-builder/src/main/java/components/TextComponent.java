@@ -1,33 +1,53 @@
 package components;
 
-import javafx.geometry.Insets;
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 
 public class TextComponent extends BaseComponent {
+
+    private static final Font DEFAULT_FONT = Font.font("Beleren Bold", 16);
 
     protected final TextArea textArea = new TextArea();
 
     public TextComponent() {
         super();
         getChildren().add(textArea);
-        textArea.setFont(Font.font("Beleren Bold", 16));
-        AnchorPane.setTopAnchor(textArea, 0d);
-        AnchorPane.setRightAnchor(textArea, 0d);
-        AnchorPane.setBottomAnchor(textArea, 0d);
-        AnchorPane.setLeftAnchor(textArea, 0d);
-        setPrefHeight(30);
-        setPadding(new Insets(5));
+        setTranslateZ(1);
 
+        textArea.setFont(DEFAULT_FONT);
+        textArea.setPrefHeight(0);
         textArea.textProperty().bindBidirectional(valueProperty());
         textArea.promptTextProperty().bindBidirectional(idProperty());
     }
 
-    public void setText(String text){
-        textArea.setText(text);
+    public ObjectProperty<Font> fontProperty() {
+        return textArea.fontProperty();
     }
-    public String getText(){
-        return textArea.getText();
+
+    public final void setFont(Font value) {
+        fontProperty().setValue(value);
     }
+
+    public final Font getFont() {
+        return fontProperty() == null ? Font.getDefault() : fontProperty().getValue();
+    }
+
+    public final void setFontName(String name) {
+        setFont(Font.font(name, getFontSize()));
+    }
+
+    public final String getFontName() {
+        return getFont().getName();
+    }
+
+    public final void setFontSize(double size) {
+        setFont(Font.font(getFontName(), size));
+    }
+
+    public final double getFontSize() {
+        return getFont().getSize();
+    }
+
+
 }

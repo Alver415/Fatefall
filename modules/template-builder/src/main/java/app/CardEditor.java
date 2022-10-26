@@ -1,28 +1,29 @@
 package app;
 
 import components.BaseComponent;
-import javafx.beans.property.ReadOnlyStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class CardEditor extends AnchorPane {
 
     private static final Path PATH = Path.of("src/main/resources/app/card.fxml");
 
-    public final Map<ReadOnlyStringProperty, StringProperty> data;
-
     public CardEditor() {
-        this.data = new ConcurrentHashMap<>();
         try {
             FXMLLoader loader = new FXMLLoader(PATH.toUri().toURL());
             loader.setController(this);
@@ -33,9 +34,19 @@ public class CardEditor extends AnchorPane {
         }
 
         this.getStylesheets().add("app/component.css");
+
+        setOnKeyPressed(e -> {
+            if (e.isControlDown() && e.getCode().equals(KeyCode.P)) {
+                WritableImage snapshot = this.snapshot(new SnapshotParameters(), null);
+                Scene scene = new Scene(new Pane(new ImageView(snapshot)));
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
+            }
+        });
     }
 
-    public void toggleBoxes(){
+    public void toggleBoxes() {
         if (!this.getStylesheets().contains("app/boxes.css")) {
             this.getStylesheets().add("app/boxes.css");
         } else {
@@ -43,14 +54,17 @@ public class CardEditor extends AnchorPane {
         }
     }
 
-    @FXML
-    public void initialize() {
-        List<Node> childrenRecursive = getChildrenRecursive(this);
-        for (Node node : childrenRecursive) {
-            if (node instanceof BaseComponent component) {
-                component.card.setValue(this);
-            }
-        }
+    public List<BaseComponent> getComponents() {
+        return getChildrenRecursive(this).stream()
+                .filter(BaseComponent.class::isInstance)
+                .map(node -> (BaseComponent) node)
+                .toList();
+    }
+    public Map<String, BaseComponent> getComponentsMap() {
+        return getChildrenRecursive(this).stream()
+                .filter(BaseComponent.class::isInstance)
+                .map(node -> (BaseComponent) node)
+                .collect(Collectors.toMap(Node::getId, v -> v));
     }
 
     private static List<Node> getChildrenRecursive(Parent parent) {

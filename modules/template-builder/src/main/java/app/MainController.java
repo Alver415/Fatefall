@@ -1,15 +1,22 @@
 package app;
 
+import com.sun.javafx.property.PropertyReference;
+import components.BaseComponent;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.util.converter.DoubleStringConverter;
+
+import java.util.Map;
 
 public class MainController {
 
@@ -21,9 +28,9 @@ public class MainController {
     protected BorderPane cardTab;
 
     @FXML
-    protected TableView<CardProperty> templatePropertyTableView;
+    protected TableView<BaseComponent> templatePropertyTableView;
     @FXML
-    protected TableView<CardProperty> cardPropertyTableView;
+    protected TableView<BaseComponent> cardPropertyTableView;
 
     @FXML
     public void initialize() {
@@ -38,53 +45,123 @@ public class MainController {
         setupCardTableView(cardPropertyTableView);
     }
 
-    private void setupCardTableView(TableView<CardProperty> tableView) {
-        TableColumn<CardProperty, String> idCol = new TableColumn<>("ID");
-        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        tableView.getColumns().add(idCol);
-
-        TableColumn<CardProperty, String> valueCol = new TableColumn<>("Value");
-        valueCol.setCellValueFactory(new PropertyValueFactory<>("value"));
-        valueCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        valueCol.setOnEditCommit(event -> {
-            int row = event.getTablePosition().getRow();
-            ObservableList<CardProperty> items = event.getTableView().getItems();
-            items.get(row).value.setValue(event.getNewValue());
-        });
-        tableView.getColumns().add(valueCol);
+    private void setupCardTableView(TableView<BaseComponent> tableView) {
         tableView.setEditable(true);
+
+        TableColumn<BaseComponent, Boolean> selected = createBooleanColumn("selected");
+        TableColumn<BaseComponent, String> id = createStringColumn("id");
+        TableColumn<BaseComponent, String> value = createStringColumn("value");
+
+        TableColumn<BaseComponent, Double> translateX = createDoubleColumn("translateX");
+        TableColumn<BaseComponent, Double> translateY = createDoubleColumn("translateY");
+        TableColumn<BaseComponent, Double> translateZ = createDoubleColumn("translateZ");
+
+        TableColumn<BaseComponent, Double> top = createDoubleColumn("top");
+        TableColumn<BaseComponent, Double> left = createDoubleColumn("right");
+        TableColumn<BaseComponent, Double> bottom = createDoubleColumn("bottom");
+        TableColumn<BaseComponent, Double> right = createDoubleColumn("left");
+        tableView.getColumns().setAll(selected, id, value, translateX, translateY, translateZ, top, left, bottom, right);
+
+    }
+
+    private static TableColumn<BaseComponent, Boolean> createBooleanColumn(String name) {
+        PropertyReference<Boolean> propertyReference = new PropertyReference<>(BaseComponent.class, name);
+
+        TableColumn<BaseComponent, Boolean> column = new TableColumn<>(name);
+        column.setCellValueFactory(new PropertyValueFactory<>(name));
+        column.setCellFactory(CheckBoxTableCell.forTableColumn(column));
+        column.setOnEditCommit(event -> {
+            try {
+                int row = event.getTablePosition().getRow();
+                ObservableList<BaseComponent> items = event.getTableView().getItems();
+                propertyReference.set(items.get(row), event.getNewValue());
+            } catch (Exception e) {
+                event.consume();
+                e.printStackTrace();
+            }
+        });
+
+        return column;
+    }
+
+    private static TableColumn<BaseComponent, String> createStringColumn(String name) {
+        TableColumn<BaseComponent, String> column = new TableColumn<>(name);
+        column.setCellValueFactory(new PropertyValueFactory<>(name));
+        column.setCellFactory(TextFieldTableCell.forTableColumn());
+        column.setOnEditCommit(event -> {
+            try {
+                int row = event.getTablePosition().getRow();
+                ObservableList<BaseComponent> items = event.getTableView().getItems();
+                PropertyReference<String> propertyReference = new PropertyReference<>(BaseComponent.class, name);
+                propertyReference.set(items.get(row), event.getNewValue());
+            } catch (Exception e) {
+                event.consume();
+                e.printStackTrace();
+            }
+        });
+        return column;
+    }
+
+    private static TableColumn<BaseComponent, Double> createDoubleColumn(String name) {
+        TableColumn<BaseComponent, Double> column = new TableColumn<>(name);
+        column.setCellValueFactory(new PropertyValueFactory<>(name));
+        column.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        column.setOnEditCommit(event -> {
+            try {
+                int row = event.getTablePosition().getRow();
+                ObservableList<BaseComponent> items = event.getTableView().getItems();
+                PropertyReference<Double> propertyReference = new PropertyReference<>(BaseComponent.class, name);
+                propertyReference.set(items.get(row), event.getNewValue());
+            } catch (Exception e) {
+                event.consume();
+                e.printStackTrace();
+            }
+        });
+        return column;
     }
 
     public void reload() {
-        reloadTemplatePane();
-        reloadCardPane();
-    }
+        CardEditor templateEditor = new CardEditor();
+        templateEditor.toggleBoxes();
+        templateTab.setCenter(templateEditor);
 
-    public void reloadTemplatePane() {
+        Map<String, BaseComponent> templateComponents = templateEditor.getComponentsMap();
+        templatePropertyTableView.getItems().setAll(templateComponents.values());
+
+
         CardEditor cardEditor = new CardEditor();
         cardEditor.toggleBoxes();
-        templateTab.setCenter(cardEditor);
-
-        templatePropertyTableView.getItems().clear();
-        cardEditor.data.forEach((k, v) -> {
-            v.setValue(null);
-            CardProperty prop = new CardProperty();
-            prop.id = k;
-            prop.value = v;
-            templatePropertyTableView.getItems().add(prop);
-        });
-    }
-
-    public void reloadCardPane() {
-        CardEditor cardEditor = new CardEditor();
         cardTab.setCenter(cardEditor);
 
-        cardPropertyTableView.getItems().clear();
-        cardEditor.data.forEach((k, v) -> {
-            CardProperty prop = new CardProperty();
-            prop.id = k;
-            prop.value = v;
-            cardPropertyTableView.getItems().add(prop);
-        });
+        Map<String, BaseComponent> cardComponents = cardEditor.getComponentsMap();
+        cardPropertyTableView.getItems().setAll(cardComponents.values());
+        cardPropertyTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        for (BaseComponent component : cardPropertyTableView.getItems()){
+            component.selectedProperty().addListener((obs, o, n) ->{
+                if (n) {
+                    cardPropertyTableView.getSelectionModel().select(component);
+                } else {
+                    int index = cardPropertyTableView.getItems().indexOf(component);
+                    cardPropertyTableView.getSelectionModel().clearSelection(index);
+                }
+            });
+        }
+
+        for (Map.Entry<String, BaseComponent> entry : templateComponents.entrySet()) {
+            BaseComponent templateComponent = entry.getValue();
+            BaseComponent cardComponent = cardComponents.get(entry.getKey());
+
+            cardComponent.selectedProperty().bindBidirectional(templateComponent.selectedProperty());
+            cardComponent.valueProperty().bindBidirectional(templateComponent.valueProperty());
+
+            cardComponent.translateXProperty().bindBidirectional(templateComponent.translateXProperty());
+            cardComponent.translateYProperty().bindBidirectional(templateComponent.translateYProperty());
+            cardComponent.translateZProperty().bindBidirectional(templateComponent.translateZProperty());
+
+            cardComponent.topProperty().bindBidirectional(templateComponent.topProperty());
+            cardComponent.rightProperty().bindBidirectional(templateComponent.rightProperty());
+            cardComponent.bottomProperty().bindBidirectional(templateComponent.bottomProperty());
+            cardComponent.leftProperty().bindBidirectional(templateComponent.leftProperty());
+        }
     }
 }

@@ -1,25 +1,32 @@
 package components;
 
-import app.CardEditor;
+import app.Bindingz;
 import javafx.beans.property.*;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
+import java.lang.reflect.Method;
+
 public abstract class BaseComponent extends AnchorPane {
     public static final String STYLE_CLASS = "component";
-    public static final Insets ZERO_INSETS = new Insets(0);
 
     public BaseComponent() {
         super();
-        setPadding(ZERO_INSETS);
         getStyleClass().add(STYLE_CLASS);
 
         setupTooltip();
         setupDragListener();
+
+        setOnMouseClicked(event -> {
+            selected.set(!selected.get());
+        });
+
+        double INVERTED = -1d;
+        Bindingz.bindBidirectional(viewOrderProperty(), translateZProperty(), INVERTED);
     }
 
     private void setupTooltip() {
@@ -54,60 +61,120 @@ public abstract class BaseComponent extends AnchorPane {
         });
     }
 
-    protected DoubleProperty top = new SimpleDoubleProperty(this, "top", 0);
+    public class AnchorProperty extends SimpleDoubleProperty {
+        Method getMethod;
+        Method setMethod;
+
+        public AnchorProperty(Object bean, String name, double initialValue) {
+            super(bean, name, initialValue);
+            try {
+                String getMethodName = switch (name) {
+                    case "top" -> "getTopAnchor";
+                    case "right" -> "getRightAnchor";
+                    case "bottom" -> "getBottomAnchor";
+                    case "left" -> "getLeftAnchor";
+                    default -> throw new RuntimeException("Invalid name: " + name);
+                };
+                String setMethodName = switch (name) {
+                    case "top" -> "setTopAnchor";
+                    case "right" -> "setRightAnchor";
+                    case "bottom" -> "setBottomAnchor";
+                    case "left" -> "setLeftAnchor";
+                    default -> throw new RuntimeException("Invalid name: " + name);
+                };
+                getMethod = AnchorPane.class.getDeclaredMethod(getMethodName, Node.class);
+                setMethod = AnchorPane.class.getDeclaredMethod(setMethodName, Node.class, Double.class);
+                set(initialValue);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        private void _set(Double value) {
+            try {
+                setMethod.invoke(null, BaseComponent.this, value);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        private Double _get() {
+            try {
+                return (Double) getMethod.invoke(null, BaseComponent.this);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        private static final Double UNDEFINED = Double.MIN_VALUE;
+
+        @Override
+        public void set(double value) {
+            super.set(value);
+            boolean ignore = Math.abs(value - UNDEFINED) < 0.00001d;
+            _set(ignore ? null : value);
+        }
+
+        @Override
+        public double get() {
+            return super.get();
+        }
+    }
+
+    protected DoubleProperty top = new AnchorProperty(this, "top", AnchorProperty.UNDEFINED);
 
     public DoubleProperty topProperty() {
         return top;
     }
 
     public Double getTop() {
-        return AnchorPane.getTopAnchor(this);
+        return top.get();
     }
 
     public void setTop(Double top) {
-        AnchorPane.setTopAnchor(this, top);
+        this.top.set(top);
     }
 
-    protected DoubleProperty right = new SimpleDoubleProperty(this, "right", 0);
+    protected DoubleProperty right = new AnchorProperty(this, "right", AnchorProperty.UNDEFINED);
 
     public DoubleProperty rightProperty() {
         return right;
     }
 
     public Double getRight() {
-        return AnchorPane.getRightAnchor(this);
+        return right.get();
     }
 
     public void setRight(Double right) {
-        AnchorPane.setRightAnchor(this, right);
+        this.right.set(right);
     }
 
-    protected DoubleProperty bottom = new SimpleDoubleProperty(this, "bottom", 0);
+    protected DoubleProperty bottom = new AnchorProperty(this, "bottom", AnchorProperty.UNDEFINED);
 
     public DoubleProperty bottomProperty() {
         return bottom;
     }
 
     public Double getBottom() {
-        return AnchorPane.getBottomAnchor(this);
+        return bottom.get();
     }
 
     public void setBottom(Double bottom) {
-        AnchorPane.setBottomAnchor(this, bottom);
+        this.bottom.set(bottom);
     }
 
-    protected DoubleProperty left = new SimpleDoubleProperty(this, "left", 0);
+    protected DoubleProperty left = new AnchorProperty(this, "left", AnchorProperty.UNDEFINED);
 
     public DoubleProperty leftProperty() {
         return left;
     }
 
     public Double getLeft() {
-        return AnchorPane.getLeftAnchor(this);
+        return left.get();
     }
 
     public void setLeft(Double left) {
-        AnchorPane.setLeftAnchor(this, left);
+        this.left.set(left);
     }
 
     public StringProperty value = new SimpleStringProperty(this, "value", "");
@@ -124,26 +191,19 @@ public abstract class BaseComponent extends AnchorPane {
         this.value.set(value);
     }
 
-    public ObjectProperty<CardEditor> card = new SimpleObjectProperty<>(this, "card", null) {
-        {
-            this.addListener((observable, oldValue, newValue) -> {
-                StringProperty property = newValue.data.getOrDefault(idProperty(), new SimpleStringProperty(card, getId(), ""));
-                newValue.data.put(idProperty(), property);
-                //Order matters here. Uses 'value' instead of 'property'.
-                property.bindBidirectional(value);
-            });
-        }
-    };
+    public BooleanProperty selected = new SimpleBooleanProperty(this, "selected", false);
 
-    public ObjectProperty<CardEditor> cardProperty() {
-        return card;
+    public BooleanProperty selectedProperty() {
+        return selected;
     }
 
-    public void setCard(CardEditor card) {
-        this.card.set(card);
+    public Boolean getSelected() {
+        return selected.get();
     }
 
-    public CardEditor getCard() {
-        return card.get();
+    public void setSelected(Boolean selected) {
+        this.selected.set(selected);
     }
+
+
 }

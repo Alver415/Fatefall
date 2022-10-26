@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import components.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.TextArea?>
 <fx:root xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
          type="AnchorPane"
@@ -34,11 +36,18 @@
                    left="30"
                    top="350"
                    right="30"
-                   bottom="50"/>
+                   bottom="50"
+
+                   fontName="Arial"
+                   fontSize="40"/>
 
     <TextComponent id="illustrator"
                    left="30"
                    right="30"
-                   bottom="20"/>
+                   bottom="20">
+        <font>
+            <Font name="Arial" size="12"/>
+        </font>
+    </TextComponent>
 
 </fx:root>
