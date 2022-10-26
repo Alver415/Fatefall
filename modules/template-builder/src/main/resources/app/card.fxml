@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import components.*?>
+<?import javafx.scene.layout.*?>
+<fx:root xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         type="AnchorPane"
+         minHeight="560" minWidth="400"
+         maxHeight="560" maxWidth="400"
+         prefHeight="560" prefWidth="400">
+
+    <ImageComponent id="background"
+                    value="/app/blank.jpg"/>
+
+    <TextComponent id="name"
+                   value="Card Name"
+                   left="30"
+                   right="30"
+                   top="30"/>
+
+    <ImageComponent id="art"
+                    value="/app/nicol-bolas-the-ravager.jpg"
+                    top="67"
+                    right="35"
+                    bottom="250"
+                    left="35"/>
+
+    <TextComponent id="type"
+                   left="30"
+                   right="30"
+                   top="310"/>
+
+    <TextComponent id="text"
+                   left="30"
+                   top="350"
+                   right="30"
+                   bottom="50"/>
+
+    <TextComponent id="illustrator"
+                   left="30"
+                   right="30"
+                   bottom="20"/>
+
+</fx:root>

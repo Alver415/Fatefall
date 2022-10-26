@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="app.MainController"
+            fx:id="root">
+    <center>
+        <SplitPane>
+            <TabPane>
+                <Tab text="Template">
+                    <BorderPane fx:id="templateTab">
+                        <bottom>
+                            <TableView fx:id="templatePropertyTableView"/>
+                        </bottom>
+                    </BorderPane>
+                </Tab>
+            </TabPane>
+            <TabPane>
+                <Tab text="Card">
+                    <BorderPane fx:id="cardTab">
+                        <bottom>
+                            <TableView fx:id="cardPropertyTableView"/>
+                        </bottom>
+                    </BorderPane>
+                </Tab>
+            </TabPane>
+        </SplitPane>
+    </center>
+</BorderPane>

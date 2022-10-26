@@ -1,0 +1,5 @@
+
+.text-area, .text-area * {
+    -fx-padding:0;
+    -fx-background-color: transparent;
+}
