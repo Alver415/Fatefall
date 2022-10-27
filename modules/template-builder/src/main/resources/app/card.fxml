@@ -7,47 +7,50 @@
 <fx:root xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
          type="AnchorPane"
-         minHeight="560" minWidth="400"
-         maxHeight="560" maxWidth="400"
-         prefHeight="560" prefWidth="400">
+         minHeight="523" minWidth="375"
+         maxHeight="523" maxWidth="375"
+         prefHeight="523" prefWidth="375">
 
-    <ImageComponent id="background"
-                    value="/app/blank.jpg"/>
+    <ImageBlendComponent id="background"
+                         leftImage="/mse/magic-m15.mse-style/bcard.jpg"
+                         rightImage="/mse/magic-m15.mse-style/ucard.jpg"/>
 
     <TextComponent id="name"
-                   value="Card Name"
+                   value="Nicol Bolas, the Ravager"
                    left="30"
                    right="30"
-                   top="30"/>
+                   top="24"
+                   fontSize="20"/>
 
     <ImageComponent id="art"
                     value="/app/nicol-bolas-the-ravager.jpg"
-                    top="67"
-                    right="35"
-                    bottom="250"
-                    left="35"/>
+                    top="60"
+                    right="30"
+                    bottom="230"
+                    left="30"
+                    blendMode="BLUE"/>
 
     <TextComponent id="type"
-                   left="30"
+                   value="Legendary Creature - Elder Dragon"
+                   left="32"
                    right="30"
-                   top="310"/>
+                   top="295"/>
 
     <TextComponent id="text"
+                   value="When Nicol Bolas enters the battlefield, each opponent loses 5 life."
                    left="30"
-                   top="350"
+                   top="330"
                    right="30"
-                   bottom="50"
-
-                   fontName="Arial"
-                   fontSize="40"/>
+                   bottom="45"
+                   fontName="MPlantin"/>
 
     <TextComponent id="illustrator"
+                   value="Alver415"
                    left="30"
                    right="30"
-                   bottom="20">
-        <font>
-            <Font name="Arial" size="12"/>
-        </font>
-    </TextComponent>
+                   bottom="20"
+                   fontName="Beleren small caps Bold"
+                   fontSize="12"
+                   fontColor="white"/>
 
 </fx:root>

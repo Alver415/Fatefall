@@ -130,7 +130,6 @@ public class MainController {
 
 
         CardEditor cardEditor = new CardEditor();
-        cardEditor.toggleBoxes();
         cardTab.setCenter(cardEditor);
 
         Map<String, BaseComponent> cardComponents = cardEditor.getComponentsMap();
@@ -151,6 +150,7 @@ public class MainController {
             BaseComponent templateComponent = entry.getValue();
             BaseComponent cardComponent = cardComponents.get(entry.getKey());
 
+            //TODO: Make this dynamic.
             cardComponent.selectedProperty().bindBidirectional(templateComponent.selectedProperty());
             cardComponent.valueProperty().bindBidirectional(templateComponent.valueProperty());
 
@@ -162,6 +162,8 @@ public class MainController {
             cardComponent.rightProperty().bindBidirectional(templateComponent.rightProperty());
             cardComponent.bottomProperty().bindBidirectional(templateComponent.bottomProperty());
             cardComponent.leftProperty().bindBidirectional(templateComponent.leftProperty());
+
+            cardComponent.blendModeProperty().bindBidirectional(templateComponent.blendModeProperty());
         }
     }
 }

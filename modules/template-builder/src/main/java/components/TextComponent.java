@@ -2,6 +2,8 @@ package components;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class TextComponent extends BaseComponent {
@@ -12,13 +14,15 @@ public class TextComponent extends BaseComponent {
 
     public TextComponent() {
         super();
-        getChildren().add(textArea);
+        getChildren().add(new BorderPane(textArea));
         setTranslateZ(1);
 
+        textArea.setWrapText(true);
         textArea.setFont(DEFAULT_FONT);
-        textArea.setPrefHeight(0);
         textArea.textProperty().bindBidirectional(valueProperty());
         textArea.promptTextProperty().bindBidirectional(idProperty());
+        textArea.prefWidthProperty().bind(widthProperty());
+        textArea.prefHeightProperty().bind(heightProperty());
     }
 
     public ObjectProperty<Font> fontProperty() {
@@ -47,6 +51,14 @@ public class TextComponent extends BaseComponent {
 
     public final double getFontSize() {
         return getFont().getSize();
+    }
+
+    public final void setFontColor(Color color) {
+        textArea.setStyle(" -fx-text-fill: #" + color.toString().substring(2));
+    }
+
+    public final Color getFontColor() {
+        return Color.BLACK;
     }
 
 
