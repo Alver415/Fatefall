@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import components.*?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import component.*?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.AnchorPane?>
 <fx:root xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
          type="AnchorPane"
@@ -11,33 +11,38 @@
          maxHeight="523" maxWidth="375"
          prefHeight="523" prefWidth="375">
 
-    <ImageBlendComponent id="background"
-                         leftImage="/mse/magic-m15.mse-style/bcard.jpg"
-                         rightImage="/mse/magic-m15.mse-style/ucard.jpg"/>
+    <CompositeImageComponent id="background">
+        <firstImage>
+            <Image url="/mse/magic-m15.mse-style/bcard.jpg"/>
+        </firstImage>
+        <secondImage>
+            <Image url="/mse/magic-m15.mse-style/ucard.jpg"/>
+        </secondImage>
+    </CompositeImageComponent>
 
     <TextComponent id="name"
-                   value="Nicol Bolas, the Ravager"
+                   text="Nicol Bolas, the Ravager"
                    left="30"
                    right="30"
                    top="24"
                    fontSize="20"/>
 
     <ImageComponent id="art"
-                    value="/app/nicol-bolas-the-ravager.jpg"
                     top="60"
                     right="30"
                     bottom="230"
-                    left="30"
-                    blendMode="BLUE"/>
+                    left="30">
+        <Image url="https://cards.scryfall.io/art_crop/front/1/4/14aa4474-96a0-4c1d-a09d-73b9c1073b00.jpg?1562862324"/>
+    </ImageComponent>
 
     <TextComponent id="type"
-                   value="Legendary Creature - Elder Dragon"
+                   text="Legendary Creature - Elder Dragon"
                    left="32"
                    right="30"
                    top="295"/>
 
     <TextComponent id="text"
-                   value="When Nicol Bolas enters the battlefield, each opponent loses 5 life."
+                   text="When Nicol Bolas enters the battlefield, each opponent loses 5 life."
                    left="30"
                    top="330"
                    right="30"
@@ -45,7 +50,7 @@
                    fontName="MPlantin"/>
 
     <TextComponent id="illustrator"
-                   value="Alver415"
+                   text="Alver415"
                    left="30"
                    right="30"
                    bottom="20"

@@ -30,7 +30,7 @@
         <revision>1.0-SNAPSHOT</revision>
         <java.version>16</java.version>
         <junit.version>5.9.0</junit.version>
-        <jackson.version>2.13.4.2</jackson.version>
+        <jackson.version>2.13.4</jackson.version>
         <javafx.version>19</javafx.version>
         <controlsfx.version>11.1.2</controlsfx.version>
     </properties>

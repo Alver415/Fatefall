@@ -4,8 +4,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -33,13 +31,7 @@ public class TemplateBuilder extends Application {
             URL fxml = TemplateBuilder.class.getResource("TemplateBuilder.fxml");
             FXMLLoader loader = new FXMLLoader(fxml);
             Parent root = loader.load();
-            Scene scene = new Scene(root);
-            scene.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
-                if (e.isControlDown() && e.getCode() == KeyCode.R) {
-                    loadScene();
-                }
-            });
-            return scene;
+            return new Scene(root);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

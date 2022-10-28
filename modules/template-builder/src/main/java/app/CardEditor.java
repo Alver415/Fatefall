@@ -1,6 +1,6 @@
 package app;
 
-import components.BaseComponent;
+import component.Component;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -33,8 +33,6 @@ public class CardEditor extends AnchorPane {
             throw new RuntimeException(e);
         }
 
-        this.getStylesheets().add("app/component.css");
-
         setOnKeyPressed(e -> {
             if (e.isControlDown() && e.getCode().equals(KeyCode.P)) {
                 WritableImage snapshot = this.snapshot(new SnapshotParameters(), null);
@@ -54,20 +52,21 @@ public class CardEditor extends AnchorPane {
         }
     }
 
-    public List<BaseComponent> getComponents() {
+    public List<Component> getComponents() {
         return getChildrenRecursive(this).stream()
-                .filter(BaseComponent.class::isInstance)
-                .map(node -> (BaseComponent) node)
+                .filter(Component.class::isInstance)
+                .map(node -> (Component) node)
                 .toList();
     }
-    public Map<String, BaseComponent> getComponentsMap() {
+
+    public Map<String, Component> getComponentsMap() {
         return getChildrenRecursive(this).stream()
-                .filter(BaseComponent.class::isInstance)
-                .map(node -> (BaseComponent) node)
-                .collect(Collectors.toMap(Node::getId, v -> v));
+                .filter(Component.class::isInstance)
+                .map(node -> (Component)node)
+                .collect(Collectors.toMap(Component::getId, v -> v));
     }
 
-    private static List<Node> getChildrenRecursive(Parent parent) {
+    public static List<Node> getChildrenRecursive(Parent parent) {
         List<Node> nodes = new ArrayList<>();
         for (Node node : parent.getChildrenUnmodifiable()) {
             nodes.add(node);

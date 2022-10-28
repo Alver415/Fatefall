@@ -1,5 +1,13 @@
 
-.text-area, .text-area * {
+.text-area,
+.text-area .scroll-pane,
+.text-area .scroll-pane .viewport,
+.text-area .scroll-pane .content  {
+    -fx-padding:0;
+    -fx-background-color: transparent;
+}
+
+.table-view.text-field, .tableview.text-field * {
     -fx-padding:0;
     -fx-background-color: transparent;
 }
