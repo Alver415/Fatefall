@@ -15,10 +15,10 @@
     </clip>
     <CompositeImageComponent id="background">
         <firstImage>
-            <Image url="images/bcard.jpg"/>
+            <Image url="file:C:/Users/Alver/Development/projects/Fatefall/template-mtg/src/main/resources/com/alver/fatefall/template/mtg/images/bcard.jpg"/>
         </firstImage>
         <secondImage>
-            <Image url="images/gcard.jpg"/>
+            <Image url="file:C:/Users/Alver/Development/projects/Fatefall/template-mtg/src/main/resources/com/alver/fatefall/template/mtg/images/gcard.jpg"/>
         </secondImage>
     </CompositeImageComponent>
 

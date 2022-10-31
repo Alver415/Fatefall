@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -25,7 +26,7 @@ public class CardEditor extends BorderPane implements FXMLLoadable {
     private static final URL FXML = FXMLLoadable.findFXML(CardEditor.class);
 
     @FXML
-    protected BorderPane borderPane;
+    protected Pane wrapper;
 
     public CardEditor() {
         load(getClass(), FXML);
@@ -35,7 +36,7 @@ public class CardEditor extends BorderPane implements FXMLLoadable {
             } else if (e.isControlDown() && e.getCode().equals(KeyCode.P)) {
                 boolean before = getShowOutlines();
                 setShowOutlines(false);
-                WritableImage snapshot = borderPane.getCenter().snapshot(new SnapshotParameters(), null);
+                WritableImage snapshot = wrapper.snapshot(new SnapshotParameters(), null);
                 setShowOutlines(before);
                 Scene scene = new Scene(new BorderPane(new ImageView(snapshot)));
                 Stage stage = new Stage();
@@ -100,7 +101,8 @@ public class CardEditor extends BorderPane implements FXMLLoadable {
     protected ObjectProperty<Card> card = new SimpleObjectProperty<>(this, "card", null) {
         {
             addListener((observable, oldValue, newValue) -> {
-                borderPane.setCenter(newValue);
+                wrapper.getChildren().clear();
+                wrapper.getChildren().add(newValue);
             });
         }
     };

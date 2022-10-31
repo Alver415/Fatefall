@@ -8,8 +8,7 @@
          stylesheets="/component/CardEditor.css">
 
     <center>
-        <BorderPane fx:id="borderPane">
-        </BorderPane>
+        <Pane fx:id="wrapper"/>
     </center>
 
     <minHeight>

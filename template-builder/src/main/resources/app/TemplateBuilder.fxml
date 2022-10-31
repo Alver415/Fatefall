@@ -10,7 +10,7 @@
             xmlns:fx="http://javafx.com/fxml">
     <top>
         <FileField fx:id="fxmlFileSelector"
-                   text="..\modules\template-mtg\src\main\resources\com\alver\fatefall\template\mtg\MagicCard.fxml">
+                   text="..\template-mtg\src\main\resources\com\alver\fatefall\template\mtg\MagicCard.fxml">
             <extensions>
                 <FXCollections fx:id="theList" fx:factory="observableArrayList">
                     <String fx:value="*.fxml"/>

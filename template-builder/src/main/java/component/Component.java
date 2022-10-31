@@ -102,6 +102,9 @@ public class Component extends AnchorPane implements FXMLLoadable {
     private static final List<Font> FONTS = loadFonts(Path.of("fonts"));
 
     private static List<Font> loadFonts(Path basePath) {
+        if (!basePath.toFile().exists()) {
+            return List.of();
+        }
         PathMatcher fontExtensionMatcher = FileSystems.getDefault().getPathMatcher("glob:**.ttf");
         try (Stream<Path> walk = Files.walk(basePath)) {
             return walk.filter(fontExtensionMatcher::matches)

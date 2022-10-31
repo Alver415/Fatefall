@@ -19,6 +19,7 @@ public interface FXMLLoadable {
             FXMLLoader loader = new FXMLLoader(fxml);
             loader.setController(this);
             loader.setRoot(this);
+            loader.setClassLoader(this.getClass().getClassLoader());
             loader.load();
         } catch (Exception e) {
             throw new RuntimeException(e);
