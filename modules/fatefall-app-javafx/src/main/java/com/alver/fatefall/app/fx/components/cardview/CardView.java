@@ -1,9 +1,9 @@
 package com.alver.fatefall.app.fx.components.cardview;
 
-import com.alver.fatefall.app.fx.components.FxComponent;
 import com.alver.fatefall.api.FatefallApi;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.CardCollection;
+import com.alver.fatefall.app.fx.components.FxComponent;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -23,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Objects;
 
@@ -65,7 +64,15 @@ public class CardView extends StackPane implements FxComponent {
     /**
      * === Card Property ==
      */
-    protected ObjectProperty<Card> cardProperty = new SimpleObjectProperty<>();
+    protected ObjectProperty<Card> cardProperty = new SimpleObjectProperty<>(){
+        {
+            addListener((observable, oldValue, newValue) -> {
+                if (newValue != null){
+                    frontFaceProperty.bindBidirectional(newValue.frontFaceImageProperty());
+                }
+            });
+        }
+    };
     public final void setCard(Card value) {
         cardProperty.set(value);
     }

@@ -23,6 +23,7 @@
         <module>modules/plugin-system</module>
         <module>modules/scryfall-api-client</module>
         <module>modules/mse-interface</module>
+        <module>modules/template-builder</module>
     </modules>
 
     <properties>
@@ -117,6 +118,11 @@
             <dependency>
                 <groupId>com.alver.fatefall</groupId>
                 <artifactId>scryfall-api-client</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alver.fatefall</groupId>
+                <artifactId>template-builder</artifactId>
                 <version>${revision}</version>
             </dependency>
 

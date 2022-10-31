@@ -9,12 +9,15 @@ import com.alver.fatefall.app.services.DialogService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import component.CardEditor;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +39,8 @@ public class CardInfo extends BorderPane implements FxComponent {
 
     @FXML
     protected CardView cardView;
+    @FXML
+    protected CardEditor cardEditor;
     @FXML
     protected TextArea textArea;
 
@@ -72,6 +77,13 @@ public class CardInfo extends BorderPane implements FxComponent {
 
     @FXML
     public void initialize() {
+        cardEditor.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode().equals(KeyCode.S) && event.isControlDown()){
+                WritableImage snapshot = cardEditor.snapshot(new SnapshotParameters(), null);
+                getCard().setFrontFaceImage(snapshot);
+            }
+        });
+        cardView.setVisible(false);
         cardProperty.bindBidirectional(cardView.cardProperty());
         cardProperty.addListener((observable, oldValue, newValue) -> refresh());
 

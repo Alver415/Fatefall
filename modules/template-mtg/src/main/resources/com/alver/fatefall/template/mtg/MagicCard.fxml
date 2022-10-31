@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import component.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
+<Card xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      minWidth="375" minHeight="523"
+      prefWidth="375" prefHeight="523"
+      maxWidth="375" maxHeight="523">
+
+    <clip>
+        <Rectangle width="375" height="523"/>
+    </clip>
+    <CompositeImageComponent id="background">
+        <firstImage>
+            <Image url="images/bcard.jpg"/>
+        </firstImage>
+        <secondImage>
+            <Image url="images/gcard.jpg"/>
+        </secondImage>
+    </CompositeImageComponent>
+
+    <TextComponent id="name"
+                   text="Neucahrd, the Beginning"
+                   maxHeight="20"
+                   top="17"
+                   left="30"
+                   right="30"
+                   fontSize="20"/>
+
+    <ImageComponent id="art"
+                    top="55"
+                    right="30"
+                    left="30"
+                    bottom="235">
+        <Image url="https://cards.scryfall.io/art_crop/front/8/0/80ee7e6b-ae36-41e2-9f5f-273e8aa6cb06.jpg?1562871533"/>
+    </ImageComponent>
+
+    <TextComponent id="type"
+                   text="Legendary Creature - Elder"
+                   left="30"
+                   right="30"
+                   top="290"/>
+
+    <TextComponent id="text"
+                   text="When Neucahrd enters the battlefield, each player may cast a spell they own from exile without paying its mana cost."
+                   left="30"
+                   top="330"
+                   right="30"
+                   bottom="45"
+                   fontName="MPlantin"/>
+
+    <TextComponent id="developer"
+                   text="Developer: Alver415"
+                   left="30"
+                   right="30"
+                   bottom="5"
+                   maxHeight="20"
+                   fontName="Beleren small caps Bold"
+                   fontSize="12"
+                   fontColor="white"/>
+</Card>

@@ -2,14 +2,25 @@ package component;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import utils.ImageInterpolator;
 import utils.LinearImageInterpolator;
 
+import java.net.URL;
+
 public class CompositeImageComponent extends ImageComponent {
+
+    private static final URL FXML = FXMLLoadable.findFXML(ImageComponent.class);
 
     public CompositeImageComponent() {
         super();
+        load(CompositeImageComponent.class, FXML);
+    }
+
+    @FXML
+    protected void initialize(){
+        super.initialize();
         firstImage.addListener((observable, oldValue, newValue) -> refresh());
         secondImage.addListener((observable, oldValue, newValue) -> refresh());
     }
@@ -19,7 +30,7 @@ public class CompositeImageComponent extends ImageComponent {
             return;
         }
         try {
-            imageProperty().set(imageInterpolator.get().interpolate(getFirstImage(), getSecondImage()));
+            imageView.imageProperty().set(imageInterpolator.get().interpolate(getFirstImage(), getSecondImage()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -67,4 +78,5 @@ public class CompositeImageComponent extends ImageComponent {
     public void setSecondImage(Image secondImage) {
         this.secondImage.set(secondImage);
     }
+
 }

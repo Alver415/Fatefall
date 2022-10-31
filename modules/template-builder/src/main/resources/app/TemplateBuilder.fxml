@@ -1,32 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.cell.PropertyValueFactory?>
-<?import javafx.scene.control.*?>
+<?import app.tool.EditorToolPane?>
+<?import component.CardEditor?>
+<?import component.FileField?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.layout.BorderPane?>
+<?import java.lang.String?>
 <BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="app.MainController"
-            fx:id="root">
+            xmlns:fx="http://javafx.com/fxml">
+    <top>
+        <FileField fx:id="fxmlFileSelector"
+                   text="..\modules\template-mtg\src\main\resources\com\alver\fatefall\template\mtg\MagicCard.fxml">
+            <extensions>
+                <FXCollections fx:id="theList" fx:factory="observableArrayList">
+                    <String fx:value="*.fxml"/>
+                </FXCollections>
+            </extensions>
+        </FileField>
+    </top>
     <center>
-        <SplitPane>
-            <TabPane>
-                <Tab text="Template">
-                    <BorderPane fx:id="templateTab">
-                        <bottom>
-                            <TableView fx:id="templatePropertyTableView"/>
-                        </bottom>
-                    </BorderPane>
-                </Tab>
-            </TabPane>
-            <TabPane>
-                <Tab text="Card">
-                    <BorderPane fx:id="cardTab">
-                        <bottom>
-                            <TableView fx:id="cardPropertyTableView"/>
-                        </bottom>
-                    </BorderPane>
-                </Tab>
-            </TabPane>
-        </SplitPane>
+        <CardEditor fx:id="editor"/>
     </center>
+    <right>
+        <EditorToolPane fx:id="editorToolPane"/>
+    </right>
 </BorderPane>

@@ -1,116 +1,84 @@
 package component;
 
-import component.tool.ComponentToolPopOver;
-import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.StringProperty;
+import javafx.event.Event;
+import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.TextArea;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import utils.DragListener;
+import org.controlsfx.control.PropertySheet;
+import org.controlsfx.property.BeanProperty;
 
-public class TextComponent extends TextArea implements Component {
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
+import java.net.URL;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-    private static final Font DEFAULT_FONT = Font.font("Beleren Bold", 16);
+public class TextComponent extends Component {
+    private static final URL FXML = FXMLLoadable.findFXML(TextComponent.class);
 
-    private final ComponentToolPopOver componentToolPopOver;
+    @FXML
+    protected TextArea textArea;
 
     public TextComponent() {
-        super();
-        getStyleClass().add("component");
-        getStylesheets().add("app/component.css");
+        load(TextComponent.class, FXML);
         setViewOrder(-1); //Bump back so it is drawn on top.
 
-        setWrapText(true);
-        setFont(DEFAULT_FONT);
-        promptTextProperty().bindBidirectional(idProperty());
-        prefWidthProperty().bind(widthProperty());
-        prefHeightProperty().bind(heightProperty());
-
-        addEventFilter(MouseEvent.ANY, new DragListener(this));
-        componentToolPopOver = new ComponentToolPopOver(this);
+        textArea.promptTextProperty().bindBidirectional(idProperty());
+        textArea.addEventFilter(ContextMenuEvent.CONTEXT_MENU_REQUESTED, Event::consume);
     }
 
-    public final void setFontName(String name) {
+    public StringProperty textProperty() {
+        return textArea.textProperty();
+    }
+
+    public String getText() {
+        return textProperty().get();
+    }
+
+    public void setText(String text) {
+        textProperty().set(text);
+    }
+
+    public ObjectProperty<Font> fontProperty() {
+        return textArea.fontProperty();
+    }
+
+    public Font getFont() {
+        return fontProperty().get();
+    }
+
+    public void setFont(Font font) {
+        fontProperty().set(font);
+    }
+
+    public void setFontName(String name) {
         setFont(Font.font(name, getFontSize()));
     }
 
-    public final String getFontName() {
+    public String getFontName() {
         return getFont().getName();
     }
 
-    public final void setFontSize(double size) {
+    public void setFontSize(double size) {
         setFont(Font.font(getFontName(), size));
     }
 
-    public final double getFontSize() {
+    public double getFontSize() {
         return getFont().getSize();
     }
 
-    public final void setFontColor(Color color) {
-        setStyle(" -fx-text-fill: #" + color.toString().substring(2));
+    public void setFontColor(Color color) {
+        textArea.setStyle("-fx-text-fill: #" + color.toString().substring(2));
     }
 
-    public final Color getFontColor() {
+    public Color getFontColor() {
         return Color.BLACK;
     }
-
-
-    protected DoubleProperty top = new AnchorProperty(this, "top", AnchorProperty.UNDEFINED);
-
-    public DoubleProperty topProperty() {
-        return top;
-    }
-
-    protected DoubleProperty right = new AnchorProperty(this, "right", AnchorProperty.UNDEFINED);
-
-    public DoubleProperty rightProperty() {
-        return right;
-    }
-
-    protected DoubleProperty bottom = new AnchorProperty(this, "bottom", AnchorProperty.UNDEFINED);
-
-    public DoubleProperty bottomProperty() {
-        return bottom;
-    }
-
-    protected DoubleProperty left = new AnchorProperty(this, "left", AnchorProperty.UNDEFINED);
-
-    public DoubleProperty leftProperty() {
-        return left;
-    }
-
-
-    public Double getTop() {
-        return topProperty().get();
-    }
-
-    public void setTop(Double top) {
-        topProperty().set(top);
-    }
-
-    public Double getRight() {
-        return rightProperty().get();
-    }
-
-    public void setRight(Double right) {
-        rightProperty().set(right);
-    }
-
-    public Double getBottom() {
-        return bottomProperty().get();
-    }
-
-    public void setBottom(Double bottom) {
-        bottomProperty().set(bottom);
-    }
-
-    public Double getLeft() {
-        return leftProperty().get();
-    }
-
-    public void setLeft(Double left) {
-        leftProperty().set(left);
-    }
-
 
 }

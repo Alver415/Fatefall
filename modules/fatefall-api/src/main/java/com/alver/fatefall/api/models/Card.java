@@ -6,6 +6,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.image.Image;
 
 import javax.persistence.*;
 
@@ -55,5 +58,19 @@ public class Card extends PersistedObject {
     }
     public void setBackFaceUrl(String backFaceUrl) {
         this.backFaceUrl = backFaceUrl;
+    }
+
+
+    @Transient
+    protected ObjectProperty<Image> frontFaceImage = new SimpleObjectProperty<>(this, "frontFaceImage", null);
+    public ObjectProperty<Image> frontFaceImageProperty(){
+        return frontFaceImage;
+    }
+    public Image getFrontFaceImage(){
+        return frontFaceImageProperty().get();
+    }
+
+    public void setFrontFaceImage(Image frontFaceImage) {
+        this.frontFaceImageProperty().set(frontFaceImage);
     }
 }

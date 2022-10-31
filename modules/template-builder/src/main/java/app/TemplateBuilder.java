@@ -1,58 +1,80 @@
 package app;
 
+import app.tool.EditorToolPane;
+import component.Card;
+import component.CardEditor;
+import component.FileField;
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.text.Font;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
-import java.util.stream.Stream;
 
 public class TemplateBuilder extends Application {
 
-    @Override
-    public void start(Stage primaryStage) throws IOException {
-        List<Font> fonts = loadFonts(Path.of("fonts"));
-        primaryStage.setTitle(TemplateBuilder.class.getSimpleName());
-        Scene scene = loadScene();
-        primaryStage.setScene(scene);
-        primaryStage.show();
+    @FXML
+    public FileField fxmlFileSelector;
+    @FXML
+    protected CardEditor editor;
+    @FXML
+    protected EditorToolPane editorToolPane;
+
+    @FXML
+    public void initialize() {
+        fxmlFileSelector.setOnAction(a -> {
+            reloadCard();
+        });
+//        editorToolPane.setTarget(cardEditor);
+//        editorToolPane.setMaxHeight(600);
+//
+//        for (Node node : CardEditor.getChildrenRecursive(cardEditor)) {
+//            if (node instanceof Component)
+//                node.addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
+//                    editorToolPane.setTarget(node);
+//                });
+//        }
     }
 
-    private Scene loadScene() {
+    @Override
+    public void start(Stage primaryStage) throws IOException {
         try {
+            primaryStage.setTitle(TemplateBuilder.class.getSimpleName());
+
             URL fxml = TemplateBuilder.class.getResource("TemplateBuilder.fxml");
             FXMLLoader loader = new FXMLLoader(fxml);
+            loader.setController(this);
             Parent root = loader.load();
-            return new Scene(root);
+            Scene scene = new Scene(root);
+
+            primaryStage.setScene(scene);
+            primaryStage.setMaximized(true);
+            primaryStage.show();
+            primaryStage.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+                if (e.isControlDown() && e.getCode().equals(KeyCode.R)) {
+                    reloadCard();
+                }
+            });
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static List<Font> loadFonts(Path path) {
-        try (Stream<Path> walk = Files.walk(path)) {
-            return walk
-                    .filter(p -> p.getFileName().toString().endsWith(".ttf"))
-                    .map(TemplateBuilder::loadFont)
-                    .toList();
-        } catch (IOException e) {
+    public void reloadCard() {
+        try {
+            URL fxml = fxmlFileSelector.getFile().toURI().toURL();
+            FXMLLoader loader = new FXMLLoader(fxml);
+            Card card = loader.load();
+            editor.setCard(card);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
     }
 
-    private static Font loadFont(Path p) {
-        try {
-            return Font.loadFont(p.toUri().toURL().toString(), 12);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

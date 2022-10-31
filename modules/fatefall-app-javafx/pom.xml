@@ -31,6 +31,10 @@
             <groupId>com.alver.fatefall</groupId>
             <artifactId>plugin-system</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.alver.fatefall</groupId>
+            <artifactId>template-builder</artifactId>
+        </dependency>
 
         <!--   Spring    -->
         <dependency>

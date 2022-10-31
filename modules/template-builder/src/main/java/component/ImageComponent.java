@@ -1,96 +1,86 @@
 package component;
 
-import component.tool.ComponentToolPopOver;
 import javafx.beans.DefaultProperty;
-import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ReadOnlyObjectProperty;
-import javafx.geometry.Bounds;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.fxml.FXML;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import utils.Bindingz;
-import utils.DragListener;
+
+import java.net.URL;
 
 @DefaultProperty("image")
-public class ImageComponent extends ImageView implements Component {
+public class ImageComponent extends Component {
 
-    private final ComponentToolPopOver componentToolPopOver;
+    private static final URL FXML = FXMLLoadable.findFXML(ImageComponent.class);
+
+    @FXML
+    protected ImageView imageView;
+    protected ObjectProperty<Image> image = new SimpleObjectProperty<>(this, "image", null);
 
     public ImageComponent() {
-        super();
-        getStyleClass().addAll("component", "image-component");
-        Bindingz.bindBidirectional(translateZProperty(), viewOrderProperty(), -1d);
-
-        parentProperty().addListener((observable, oldValue, newValue) -> {
-            fitWidthProperty().unbind();
-            fitHeightProperty().unbind();
-            ReadOnlyObjectProperty<Bounds> bounds = newValue.layoutBoundsProperty();
-            bounds.addListener((observable1, oldValue1, newValue1) -> {
-                fitWidthProperty().bind(Bindings.subtract(newValue1.getWidth(), rightProperty()).subtract(leftProperty()));
-                fitHeightProperty().bind(Bindings.subtract(newValue1.getHeight(), bottomProperty()).subtract(topProperty()));
-            });
-        });
-        AnchorProperty.addAnchorChangeListener(this);
-
-        addEventFilter(MouseEvent.ANY, new DragListener(this));
-        componentToolPopOver = new ComponentToolPopOver(this);
-
+        load(ImageComponent.class, FXML);
     }
 
-    protected DoubleProperty top = new AnchorProperty(this, "top", AnchorProperty.UNDEFINED);
+    @FXML
+    protected void initialize() {
+        super.initialize();
+        imageProperty().bindBidirectional(imageView.imageProperty());
 
-    public DoubleProperty topProperty() {
-        return top;
+        imageView.setPreserveRatio(false);
+        imageView.fitWidthProperty().bind(widthProperty());
+        imageView.fitHeightProperty().bind(heightProperty());
     }
 
-    public Double getTop() {
-        return top.get();
+    public ObjectProperty<Image> imageProperty() {
+        return image;
     }
 
-    public void setTop(Double top) {
-        this.top.set(top);
+    public Image getImage() {
+        return imageProperty().get();
     }
 
-    protected DoubleProperty right = new AnchorProperty(this, "right", AnchorProperty.UNDEFINED);
-
-    public DoubleProperty rightProperty() {
-        return right;
+    public void setImage(Image image) {
+        imageProperty().set(image);
     }
 
-    public Double getRight() {
-        return right.get();
+    public DoubleProperty fitWidthProperty() {
+        return imageView.fitWidthProperty();
     }
 
-    public void setRight(Double right) {
-        this.right.set(right);
+    public double getFitWidth() {
+        return fitWidthProperty().get();
     }
 
-    protected DoubleProperty bottom = new AnchorProperty(this, "bottom", AnchorProperty.UNDEFINED);
-
-    public DoubleProperty bottomProperty() {
-        return bottom;
+    public void setFitWidth(double value) {
+        fitWidthProperty().set(value);
     }
 
-    public Double getBottom() {
-        return bottom.get();
+    public DoubleProperty fitHeightProperty() {
+        return imageView.fitWidthProperty();
     }
 
-    public void setBottom(Double bottom) {
-        this.bottom.set(bottom);
+    public double getFitHeight() {
+        return fitHeightProperty().get();
     }
 
-    protected DoubleProperty left = new AnchorProperty(this, "left", AnchorProperty.UNDEFINED);
-
-    public DoubleProperty leftProperty() {
-        return left;
+    public void setFitHeight(double value) {
+        fitHeightProperty().set(value);
     }
 
-    public Double getLeft() {
-        return left.get();
+
+    public BooleanProperty preserveRatioProperty() {
+        return imageView.preserveRatioProperty();
     }
 
-    public void setLeft(Double left) {
-        this.left.set(left);
+    public boolean getPreserveRatio() {
+        return preserveRatioProperty().get();
+    }
+
+    public void setPreserveRatio(boolean value) {
+        preserveRatioProperty().set(value);
     }
 
 }
