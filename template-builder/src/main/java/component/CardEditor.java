@@ -13,7 +13,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -26,7 +25,7 @@ public class CardEditor extends BorderPane implements FXMLLoadable {
     private static final URL FXML = FXMLLoadable.findFXML(CardEditor.class);
 
     @FXML
-    protected Pane wrapper;
+    protected BorderPane wrapper;
 
     public CardEditor() {
         load(getClass(), FXML);
@@ -101,8 +100,9 @@ public class CardEditor extends BorderPane implements FXMLLoadable {
     protected ObjectProperty<Card> card = new SimpleObjectProperty<>(this, "card", null) {
         {
             addListener((observable, oldValue, newValue) -> {
-                wrapper.getChildren().clear();
-                wrapper.getChildren().add(newValue);
+//                wrapper.getChildren().clear();
+//                wrapper.getChildren().add(newValue);
+                wrapper.setCenter(newValue);
             });
         }
     };

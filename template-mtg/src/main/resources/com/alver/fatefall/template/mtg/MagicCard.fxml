@@ -6,59 +6,71 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Rectangle?>
 <Card xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      minWidth="375" minHeight="523"
-      prefWidth="375" prefHeight="523"
-      maxWidth="375" maxHeight="523">
+      cardWidth="375" cardHeight="523">
+    <front>
+        <CardFace>
+            <CompositeImageComponent id="background">
+                <firstImage>
+                    <Image url="file:C:/Users/Alver/Development/projects/Fatefall/template-mtg/src/main/resources/com/alver/fatefall/template/mtg/images/bcard.jpg"/>
+                </firstImage>
+                <secondImage>
+                    <Image url="file:C:/Users/Alver/Development/projects/Fatefall/template-mtg/src/main/resources/com/alver/fatefall/template/mtg/images/gcard.jpg"/>
+                </secondImage>
+            </CompositeImageComponent>
 
-    <clip>
-        <Rectangle width="375" height="523"/>
-    </clip>
-    <CompositeImageComponent id="background">
-        <firstImage>
-            <Image url="file:C:/Users/Alver/Development/projects/Fatefall/template-mtg/src/main/resources/com/alver/fatefall/template/mtg/images/bcard.jpg"/>
-        </firstImage>
-        <secondImage>
-            <Image url="file:C:/Users/Alver/Development/projects/Fatefall/template-mtg/src/main/resources/com/alver/fatefall/template/mtg/images/gcard.jpg"/>
-        </secondImage>
-    </CompositeImageComponent>
+            <TextComponent id="name"
+                           text="Neucahrd, the Beginning of the End"
+                           maxHeight="20"
+                           top="17"
+                           left="30"
+                           right="30"
+                           fontSize="20"/>
 
-    <TextComponent id="name"
-                   text="Neucahrd, the Beginning"
-                   maxHeight="20"
-                   top="17"
-                   left="30"
-                   right="30"
-                   fontSize="20"/>
+            <ImageComponent id="art"
+                            top="55"
+                            right="30"
+                            left="30"
+                            bottom="235">
+                <Image url="https://cards.scryfall.io/art_crop/front/8/0/80ee7e6b-ae36-41e2-9f5f-273e8aa6cb06.jpg?1562871533"/>
+            </ImageComponent>
 
-    <ImageComponent id="art"
-                    top="55"
-                    right="30"
-                    left="30"
-                    bottom="235">
-        <Image url="https://cards.scryfall.io/art_crop/front/8/0/80ee7e6b-ae36-41e2-9f5f-273e8aa6cb06.jpg?1562871533"/>
-    </ImageComponent>
+            <TextComponent id="type"
+                           text="Legendary Creature - Elder"
+                           left="30"
+                           right="30"
+                           top="290"/>
 
-    <TextComponent id="type"
-                   text="Legendary Creature - Elder"
-                   left="30"
-                   right="30"
-                   top="290"/>
+            <TextComponent id="text"
+                           text="When Neucahrd enters the battlefield, each player may cast a spell they own from exile without paying its mana cost."
+                           left="30"
+                           top="330"
+                           right="30"
+                           bottom="45"
+                           fontName="MPlantin"/>
 
-    <TextComponent id="text"
-                   text="When Neucahrd enters the battlefield, each player may cast a spell they own from exile without paying its mana cost."
-                   left="30"
-                   top="330"
-                   right="30"
-                   bottom="45"
-                   fontName="MPlantin"/>
+            <TextComponent id="developer"
+                           text="Developer: Alver415"
+                           left="30"
+                           right="30"
+                           bottom="5"
+                           maxHeight="20"
+                           fontName="Beleren small caps Bold"
+                           fontSize="12"
+                           fontColor="white"/>
+        </CardFace>
+    </front>
+    <back>
+        <CardFace>
+            <ImageComponent id="cardBack">
+<!--                <fitWidth>375</fitWidth>-->
+<!--                <fitHeight>523</fitHeight>-->
 
-    <TextComponent id="developer"
-                   text="Developer: Alver415"
-                   left="30"
-                   right="30"
-                   bottom="5"
-                   maxHeight="20"
-                   fontName="Beleren small caps Bold"
-                   fontSize="12"
-                   fontColor="white"/>
+                <top>0</top>
+                <bottom>0</bottom>
+                <left>0</left>
+                <right>0</right>
+                <Image url="file:C:/Users/Alver/Development/projects/Fatefall/template-mtg/src/main/resources/com/alver/fatefall/template/mtg/images/magic_card_back.png"/>
+            </ImageComponent>
+        </CardFace>
+    </back>
 </Card>
