@@ -8,21 +8,20 @@
         <groupId>com.alver.fatefall</groupId>
         <artifactId>base</artifactId>
         <version>${revision}</version>
-        <relativePath>../../pom.xml</relativePath>
+
     </parent>
-    <artifactId>fatefall-api</artifactId>
-    <name>Fatefall API</name>
+    <artifactId>fatefall-api-client</artifactId>
+    <name>Fatefall API Client</name>
 
     <dependencies>
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>5.6.5.Final</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>2.6.1</version>
+            <groupId>com.alver.fatefall</groupId>
+            <artifactId>fatefall-api</artifactId>
         </dependency>
     </dependencies>
 

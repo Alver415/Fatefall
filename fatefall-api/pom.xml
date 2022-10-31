@@ -8,24 +8,21 @@
         <groupId>com.alver.fatefall</groupId>
         <artifactId>base</artifactId>
         <version>${revision}</version>
-        <relativePath>../../pom.xml</relativePath>
     </parent>
-    <artifactId>scryfall-api-client</artifactId>
-    <name>Scryfall API Client</name>
+    <artifactId>fatefall-api</artifactId>
+    <name>Fatefall API</name>
 
     <dependencies>
         <dependency>
-            <groupId>com.alver.fatefall</groupId>
-            <artifactId>fatefall-api</artifactId>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.6.5.Final</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webflux</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
-            <scope>test</scope>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.6.1</version>
         </dependency>
     </dependencies>
+
 </project>

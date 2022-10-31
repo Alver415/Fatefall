@@ -12,18 +12,18 @@
     <packaging>pom</packaging>
     <modules>
         <!--    Back End Server/Client    -->
-        <module>modules/fatefall-api</module>
-        <module>modules/fatefall-api-server</module>
-        <module>modules/fatefall-api-client</module>
+        <module>fatefall-api</module>
+        <module>fatefall-api-server</module>
+        <module>fatefall-api-client</module>
 
         <!--    Front End Application    -->
-        <module>modules/fatefall-app-javafx</module>
+        <module>fatefall-app-javafx</module>
 
         <!--    Tools    -->
-        <module>modules/plugin-system</module>
-        <module>modules/scryfall-api-client</module>
-        <module>modules/mse-interface</module>
-        <module>modules/template-builder</module>
+        <module>plugin-system</module>
+        <module>scryfall-api-client</module>
+        <module>mse-interface</module>
+        <module>template-builder</module>
     </modules>
 
     <properties>
@@ -39,13 +39,7 @@
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
+            <artifactId>junit-jupiter</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
@@ -146,6 +140,32 @@
                     <source>16</source>
                     <target>16</target>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>1.1.0</version>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

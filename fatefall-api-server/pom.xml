@@ -8,7 +8,7 @@
         <groupId>com.alver.fatefall</groupId>
         <artifactId>base</artifactId>
         <version>${revision}</version>
-        <relativePath>../../pom.xml</relativePath>
+
     </parent>
     <artifactId>fatefall-api-server</artifactId>
     <name>Fatefall API Server</name>

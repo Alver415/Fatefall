@@ -8,22 +8,24 @@
         <groupId>com.alver.fatefall</groupId>
         <artifactId>base</artifactId>
         <version>${revision}</version>
-        <relativePath>../../pom.xml</relativePath>
+
     </parent>
-    <artifactId>plugin-system</artifactId>
-    <name>Fatefall Plugin System</name>
+    <artifactId>scryfall-api-client</artifactId>
+    <name>Scryfall API Client</name>
 
     <dependencies>
         <dependency>
-            <groupId>org.graalvm.js</groupId>
-            <artifactId>js</artifactId>
-            <version>22.0.0.2</version>
+            <groupId>com.alver.fatefall</groupId>
+            <artifactId>fatefall-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.graalvm.js</groupId>
-            <artifactId>js-scriptengine</artifactId>
-            <version>22.0.0.2</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webflux</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
-
 </project>
