@@ -5,6 +5,10 @@ import javafx.scene.layout.AnchorPane;
 public class CardFace extends AnchorPane implements FXMLLoadable {
 
     public CardFace(){
+        AnchorPane.setTopAnchor(this, 0.0);
+        AnchorPane.setRightAnchor(this, 0.0);
+        AnchorPane.setBottomAnchor(this, 0.0);
+        AnchorPane.setLeftAnchor(this, 0.0);
         parentProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue instanceof Card card) {
                 minWidthProperty().bind(card.cardWidth);
@@ -16,5 +20,4 @@ public class CardFace extends AnchorPane implements FXMLLoadable {
             }
         });
     }
-
 }

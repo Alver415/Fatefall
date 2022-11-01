@@ -33,7 +33,6 @@ public class ImageBlock extends Block<Image> {
         imageView.fitHeightProperty().bind(heightProperty());
 
         valueProperty().bindBidirectional(imageProperty());
-
     }
 
     protected StringProperty url = new SimpleStringProperty(this, "url", null);

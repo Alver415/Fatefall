@@ -3,13 +3,10 @@ package com.alver.fatefall.templatebuilder.app;
 import com.alver.fatefall.templatebuilder.components.block.*;
 import com.alver.fatefall.templatebuilder.components.editor.file.FileSelectionField;
 import com.alver.fatefall.templatebuilder.components.editor.image.ImageSelectionEditor;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
@@ -28,10 +25,10 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.util.Properties;
 
-public class TemplateBuilder extends Application {
+public class TemplateBuilder extends Stage {
 
     @FXML
-    public BorderPane root;
+    public BorderPane borderPane;
     @FXML
     public FileSelectionField templateSelector;
     @FXML
@@ -47,16 +44,12 @@ public class TemplateBuilder extends Application {
     @FXML
     public void initialize() {
         templateSelector.getExtensions().add("*.fxml");
-        templateSelector.setOnAction(a -> {
-            loadTemplate(templateSelector.getFile());
-        });
+        templateSelector.setOnAction(a -> loadTemplate(templateSelector.getFile()));
 
         cardSelector.getExtensions().add("*.card");
-        cardSelector.setOnAction(a -> {
-            loadCard(cardSelector.getFile());
-        });
+        cardSelector.setOnAction(a -> loadCard(cardSelector.getFile()));
 
-        root.setBackground(new Background(new BackgroundImage(
+        borderPane.setBackground(new Background(new BackgroundImage(
                 ImageUtil.getTransparencyGrid(16, 16),
                 BackgroundRepeat.REPEAT,
                 BackgroundRepeat.REPEAT,
@@ -64,7 +57,7 @@ public class TemplateBuilder extends Application {
                 BackgroundSize.DEFAULT
         )));
 
-        root.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+        addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.isControlDown() && event.getCode().equals(KeyCode.S)) {
                 promptSaveCard();
             } else if (event.isControlDown() && event.getCode().equals(KeyCode.L)) {
@@ -171,7 +164,7 @@ public class TemplateBuilder extends Application {
     private void promptLoadCard() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(Path.of("cards").toFile());
-        File file = fileChooser.showOpenDialog(root.getScene().getWindow());
+        File file = fileChooser.showOpenDialog(this);
         if (file != null) {
             loadCard(file);
         }
@@ -211,6 +204,7 @@ public class TemplateBuilder extends Application {
             }
             ObservableList<PropertySheet.Item> items = updateCardProperties(editor.getCard());
             cardProperties.getItems().setAll(items);
+            lockToScene();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -221,7 +215,7 @@ public class TemplateBuilder extends Application {
         File wd = Path.of("").toAbsolutePath().toFile();
         File base = cardSelector.getFile();
         fileChooser.setInitialDirectory(base.isDirectory() ? base : wd);
-        File file = fileChooser.showSaveDialog(root.getScene().getWindow());
+        File file = fileChooser.showSaveDialog(this);
         if (file != null) {
             saveCard(file);
         }
@@ -256,21 +250,6 @@ public class TemplateBuilder extends Application {
         }
     }
 
-    @Override
-    public void start(Stage stage) throws IOException {
-        stage.setTitle(TemplateBuilder.class.getSimpleName());
-
-        URL fxml = TemplateBuilder.class.getResource("TemplateBuilder.fxml");
-        FXMLLoader loader = new FXMLLoader(fxml);
-        loader.setController(this);
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-
-        sizeToSceneAndLockMin(stage);
-        stage.centerOnScreen();
-    }
 
     public static URL fxml;
 
@@ -283,19 +262,23 @@ public class TemplateBuilder extends Application {
             templateProperties.getItems().setAll(properties);
 
             editor.setCard(template);
-            Stage stage = (Stage) editor.getScene().getWindow();
-            sizeToSceneAndLockMin(stage);
+            lockToScene();
         } catch (
                 Exception e) {
             throw new RuntimeException(e);
         }
-
     }
 
-    private static void sizeToSceneAndLockMin(Stage stage) {
-        stage.sizeToScene();
-        stage.setMinWidth(stage.getWidth());
-        stage.setMinHeight(stage.getHeight());
+    private void lockToScene() {
+        sizeToScene();
     }
 
+    public TemplateBuilder() throws IOException {
+        super();
+        URL fxml = TemplateBuilder.class.getResource("TemplateBuilder.fxml");
+        FXMLLoader loader = new FXMLLoader(fxml);
+        loader.setController(this);
+        loader.setRoot(this);
+        loader.load();
+    }
 }

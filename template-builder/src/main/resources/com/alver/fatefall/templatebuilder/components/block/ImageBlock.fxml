@@ -8,7 +8,7 @@
          stylesheets="/com/alver/fatefall/templatebuilder/components/block/ImageBlock.css"
          styleClass="block,image-block">
     <children>
-        <ImageView fx:id="imageView" preserveRatio="true">
+        <ImageView fx:id="imageView">
             <AnchorPane.topAnchor>0</AnchorPane.topAnchor>
             <AnchorPane.bottomAnchor>0</AnchorPane.bottomAnchor>
             <AnchorPane.leftAnchor>0</AnchorPane.leftAnchor>

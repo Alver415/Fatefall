@@ -1,46 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.alver.fatefall.templatebuilder.components.editor.file.FileSelectionField?>
 <?import com.alver.fatefall.templatebuilder.app.CardEditor?>
-<?import javafx.collections.FXCollections?>
-<?import javafx.scene.layout.BorderPane?>
-<?import org.controlsfx.control.PropertySheet?>
-<?import java.lang.String?>
+<?import com.alver.fatefall.templatebuilder.components.editor.file.FileSelectionField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.VBox?>
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:id="root">
-    <center>
-        <BorderPane>
-            <center>
-                <CardEditor fx:id="editor"/>
-            </center>
-            <BorderPane.margin>
-                <Insets topRightBottomLeft="50"/>
-            </BorderPane.margin>
-        </BorderPane>
-    </center>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.*?>
+<?import javafx.stage.Stage?>
+<?import org.controlsfx.control.PropertySheet?>
+<fx:root xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+         type="Stage" title="Template Builder">
+    <scene>
+        <Scene>
+            <BorderPane fx:id="borderPane">
+                <center>
+                    <BorderPane>
+                        <center>
+                            <CardEditor fx:id="editor"/>
+                        </center>
+                        <BorderPane.margin>
+                            <Insets topRightBottomLeft="50"/>
+                        </BorderPane.margin>
+                    </BorderPane>
+                </center>
 
-    <left>
-        <VBox>
-            <FileSelectionField fx:id="templateSelector"
-                                text="../template-mtg/src/main/resources/com/alver/fatefall/template/mtg/MagicCard.fxml"/>
-            <PropertySheet fx:id="templateProperties"
-                           mode="CATEGORY"
-                           modeSwitcherVisible="false"
-                           VBox.vgrow="ALWAYS"/>
-        </VBox>
-    </left>
+                <left>
+                    <VBox>
+                        <FileSelectionField fx:id="templateSelector"
+                                            text="../template-mtg/src/main/resources/com/alver/fatefall/template/mtg/MagicCard.fxml"/>
+                        <PropertySheet fx:id="templateProperties"
+                                       mode="CATEGORY"
+                                       modeSwitcherVisible="false"
+                                       VBox.vgrow="ALWAYS"/>
+                    </VBox>
+                </left>
 
-    <right>
-        <VBox>
-            <FileSelectionField fx:id="cardSelector"
-                                text="./cards"/>
-            <PropertySheet fx:id="cardProperties"
-                           mode="NAME"
-                           modeSwitcherVisible="false"
-                           VBox.vgrow="ALWAYS"/>
-        </VBox>
-    </right>
-</BorderPane>
+                <right>
+                    <VBox>
+                        <FileSelectionField fx:id="cardSelector"
+                                            text="./cards"/>
+                        <PropertySheet fx:id="cardProperties"
+                                       mode="NAME"
+                                       modeSwitcherVisible="false"
+                                       VBox.vgrow="ALWAYS"/>
+                    </VBox>
+                </right>
+            </BorderPane>
+        </Scene>
+    </scene>
+</fx:root>
