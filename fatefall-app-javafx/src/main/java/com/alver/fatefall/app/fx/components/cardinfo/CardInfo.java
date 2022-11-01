@@ -9,7 +9,7 @@ import com.alver.fatefall.app.services.DialogService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import component.CardEditor;
+import com.alver.fatefall.templatebuilder.app.CardEditor;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;

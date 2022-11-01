@@ -1,4 +1,4 @@
-import app.TemplateBuilder;
+import com.alver.fatefall.templatebuilder.app.TemplateBuilder;
 import javafx.application.Application;
 
 public class Launcher {

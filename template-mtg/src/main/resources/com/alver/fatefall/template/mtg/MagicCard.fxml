@@ -1,76 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import component.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.shape.Rectangle?>
+<?import com.alver.fatefall.templatebuilder.components.block.*?>
 <Card xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       cardWidth="375" cardHeight="523">
     <front>
         <CardFace>
-            <CompositeImageComponent id="background">
-                <firstImage>
-                    <Image url="file:C:/Users/Alver/Development/projects/Fatefall/template-mtg/src/main/resources/com/alver/fatefall/template/mtg/images/bcard.jpg"/>
-                </firstImage>
-                <secondImage>
-                    <Image url="file:C:/Users/Alver/Development/projects/Fatefall/template-mtg/src/main/resources/com/alver/fatefall/template/mtg/images/gcard.jpg"/>
-                </secondImage>
-            </CompositeImageComponent>
+            <Block blendMode="SRC_ATOP">
+                <Block blendMode="MULTIPLY" anchors="0">
+                    <ImageBlock fx:id="first"
+                                url="images/ccard.jpg"/>
+                    <ImageBlock anchors="0"
+                                style="-fx-background-color:linear-gradient(from 0% 0% to 50% 0%, white, transparent);"/>
+                </Block>
+                <Block blendMode="MULTIPLY" anchors="0">
+                    <ImageBlock fx:id="second"
+                                url="images/ccard.jpg"/>
+                    <ImageBlock anchors="0"
+                                style="-fx-background-color:linear-gradient(from 50% 0% to 100% 0%, transparent, white);"/>
+                </Block>
+            </Block>
 
-            <TextComponent id="name"
-                           text="Neucahrd, the Beginning of the End"
-                           maxHeight="20"
-                           top="17"
-                           left="30"
-                           right="30"
-                           fontSize="20"/>
 
-            <ImageComponent id="art"
-                            top="55"
-                            right="30"
-                            left="30"
-                            bottom="235">
-                <Image url="https://cards.scryfall.io/art_crop/front/8/0/80ee7e6b-ae36-41e2-9f5f-273e8aa6cb06.jpg?1562871533"/>
-            </ImageComponent>
+            <TextBlock id="name" displayName="Card Name"
+                       maxHeight="20" anchors="20, 30, 471, 30"/>
 
-            <TextComponent id="type"
-                           text="Legendary Creature - Elder"
-                           left="30"
-                           right="30"
-                           top="290"/>
+            <ImageBlock id="art" displayName="Card Art"
+                        anchors="55, 30, 235, 30"/>
 
-            <TextComponent id="text"
-                           text="When Neucahrd enters the battlefield, each player may cast a spell they own from exile without paying its mana cost."
-                           left="30"
-                           top="330"
-                           right="30"
-                           bottom="45"
-                           fontName="MPlantin"/>
+            <TextBlock id="type" displayName="Type"
+                       anchors="290 30 -1 30"/>
 
-            <TextComponent id="developer"
-                           text="Developer: Alver415"
-                           left="30"
-                           right="30"
-                           bottom="5"
-                           maxHeight="20"
-                           fontName="Beleren small caps Bold"
-                           fontSize="12"
-                           fontColor="white"/>
+            <TextBlock id="text" displayName="Rules Text"
+                       anchors="330 30 45 30"
+                       fontName="MPlantin"/>
+
+            <TextBlock id="developer" displayName="Developer Credit"
+                       anchors="-1 30 5 30"
+                       maxHeight="20"
+                       fontSize="12"
+                       fontName="Beleren small caps Bold"
+                       fontColor="white"/>
+
         </CardFace>
     </front>
     <back>
         <CardFace>
-            <ImageComponent id="cardBack">
-<!--                <fitWidth>375</fitWidth>-->
-<!--                <fitHeight>523</fitHeight>-->
-
-                <top>0</top>
-                <bottom>0</bottom>
-                <left>0</left>
-                <right>0</right>
-                <Image url="file:C:/Users/Alver/Development/projects/Fatefall/template-mtg/src/main/resources/com/alver/fatefall/template/mtg/images/magic_card_back.png"/>
-            </ImageComponent>
+            <ImageBlock id="cardBack"
+                        url="images/magic_card_back.png"
+                        anchors="0"/>
         </CardFace>
     </back>
 </Card>

@@ -1,4 +1,4 @@
-<component name="ProjectRunConfigurationManager">
+<block name="ProjectRunConfigurationManager">
   <configuration default="false" name="HSQLDB Server" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="HSQLDBServer" />
     <module name="fatefall-api-server" />
@@ -8,4 +8,4 @@
       <option name="Make" enabled="true" />
     </method>
   </configuration>
-</component>
+</block>

@@ -1,4 +1,4 @@
-<component name="ProjectRunConfigurationManager">
+<block name="ProjectRunConfigurationManager">
   <configuration default="false" name="Fatefall Application" type="Application" factoryName="Application">
     <option name="ALTERNATIVE_JRE_PATH" value="16" />
     <envs>
@@ -12,4 +12,4 @@
       <option name="Make" enabled="true" />
     </method>
   </configuration>
-</component>
+</block>

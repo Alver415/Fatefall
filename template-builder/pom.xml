@@ -20,7 +20,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>app.TemplateBuilder</mainClass>
+                    <mainClass>com.alver.fatefall.templatebuilder.app.TemplateBuilder</mainClass>
                 </configuration>
             </plugin>
 

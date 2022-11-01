@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.alver.fatefall.templatebuilder.components.properties.FileSelectionField?>
+<?import com.alver.fatefall.templatebuilder.app.CardEditor?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.layout.BorderPane?>
+<?import org.controlsfx.control.PropertySheet?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:id="root">
+    <top>
+        <FileSelectionField fx:id="fxmlFileSelector"
+                            text="..\template-mtg\src\main\resources\com\alver\fatefall\template\mtg\MagicCard.fxml"/>
+    </top>
+    <right>
+        <PropertySheet fx:id="templateProperties"/>
+    </right>
+    <center>
+        <BorderPane>
+            <center>
+                <CardEditor fx:id="editor"/>
+            </center>
+            <padding>
+                <Insets topRightBottomLeft="50"/>
+            </padding>
+        </BorderPane>
+    </center>
+    <right>
+        <PropertySheet fx:id="cardProperties"/>
+    </right>
+</BorderPane>
