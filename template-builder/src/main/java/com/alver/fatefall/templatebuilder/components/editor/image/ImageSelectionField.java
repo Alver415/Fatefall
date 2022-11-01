@@ -1,4 +1,4 @@
-package com.alver.fatefall.templatebuilder.components.properties;
+package com.alver.fatefall.templatebuilder.components.editor.image;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

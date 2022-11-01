@@ -1,4 +1,4 @@
-package com.alver.fatefall.templatebuilder.components.properties;
+package com.alver.fatefall.templatebuilder.components.editor.image;
 
 import com.alver.fatefall.templatebuilder.app.ImageUtil;
 import com.alver.fatefall.templatebuilder.app.TemplateBuilder;
@@ -6,9 +6,9 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.net.URISyntaxException;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 
 public class StringImageConverter extends StringConverter<Image> {
@@ -24,14 +24,28 @@ public class StringImageConverter extends StringConverter<Image> {
 
     @Override
     public Image fromString(String string) {
+        Image image;
         try {
             Path basePath = Path.of(TemplateBuilder.fxml.toURI()).getParent();
             Path resolved = basePath.resolve(Path.of(string));
-            return new Image(new FileInputStream(resolved.toFile()));
-        } catch (FileNotFoundException | URISyntaxException e) {
-            throw new RuntimeException(e);
-//            e.printStackTrace();
-//            return IMAGE_NOT_FOUND;
+            File file = resolved.toFile();
+            if (file.exists() && file.isFile()) {
+                image = new Image(file.toPath().toString());
+                if (image.isError()){
+                    image.getException().printStackTrace();
+                } else {
+                    return image;
+                }
+            }
+        } catch (URISyntaxException | InvalidPathException ignored) {
+            //Ignored
+        }
+        image = new Image(string);
+        if (image.isError()){
+            image.getException().printStackTrace();
+            return null;
+        } else {
+            return image;
         }
     }
 }

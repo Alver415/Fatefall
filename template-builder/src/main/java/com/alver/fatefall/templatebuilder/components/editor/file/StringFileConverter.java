@@ -1,4 +1,4 @@
-package com.alver.fatefall.templatebuilder.components.properties;
+package com.alver.fatefall.templatebuilder.components.editor.file;
 
 import javafx.util.StringConverter;
 

@@ -1,6 +1,6 @@
 package com.alver.fatefall.templatebuilder.components.block;
 
-import com.alver.fatefall.templatebuilder.components.properties.StringImageConverter;
+import com.alver.fatefall.templatebuilder.components.editor.image.StringImageConverter;
 import com.alver.fatefall.templatebuilder.components.utils.ImageInterpolator;
 import com.alver.fatefall.templatebuilder.components.utils.LinearImageInterpolator;
 import javafx.beans.property.ObjectProperty;

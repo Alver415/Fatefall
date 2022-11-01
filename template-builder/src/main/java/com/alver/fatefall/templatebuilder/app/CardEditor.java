@@ -20,9 +20,8 @@ import java.net.URL;
 public class CardEditor extends BorderPane implements FXMLLoadable {
     private static final URL FXML = FXMLLoadable.fxmlResource(CardEditor.class);
 
-
     public CardEditor() {
-        load(getClass(), FXML);
+        load(CardEditor.class, FXML);
 
         setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
         setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);

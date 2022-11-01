@@ -1,33 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.alver.fatefall.templatebuilder.components.properties.FileSelectionField?>
+<?import com.alver.fatefall.templatebuilder.components.editor.file.FileSelectionField?>
 <?import com.alver.fatefall.templatebuilder.app.CardEditor?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.layout.BorderPane?>
 <?import org.controlsfx.control.PropertySheet?>
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.VBox?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:id="root">
-    <top>
-        <FileSelectionField fx:id="fxmlFileSelector"
-                            text="..\template-mtg\src\main\resources\com\alver\fatefall\template\mtg\MagicCard.fxml"/>
-    </top>
-    <right>
-        <PropertySheet fx:id="templateProperties"/>
-    </right>
     <center>
         <BorderPane>
             <center>
                 <CardEditor fx:id="editor"/>
             </center>
-            <padding>
+            <BorderPane.margin>
                 <Insets topRightBottomLeft="50"/>
-            </padding>
+            </BorderPane.margin>
         </BorderPane>
     </center>
+
+    <left>
+        <VBox>
+            <FileSelectionField fx:id="templateSelector"
+                                text="../template-mtg/src/main/resources/com/alver/fatefall/template/mtg/MagicCard.fxml"/>
+            <PropertySheet fx:id="templateProperties"
+                           mode="CATEGORY"
+                           modeSwitcherVisible="false"
+                           VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </left>
+
     <right>
-        <PropertySheet fx:id="cardProperties"/>
+        <VBox>
+            <FileSelectionField fx:id="cardSelector"
+                                text="./cards"/>
+            <PropertySheet fx:id="cardProperties"
+                           mode="NAME"
+                           modeSwitcherVisible="false"
+                           VBox.vgrow="ALWAYS"/>
+        </VBox>
     </right>
 </BorderPane>

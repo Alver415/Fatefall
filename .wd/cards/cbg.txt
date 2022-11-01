@@ -1,8 +1,8 @@
-#Mon Oct 31 10:51:03 EDT 2022
-first=./images/gcard.jpg
+#Tue Nov 01 11:35:22 EDT 2022
 art=https\://cards.scryfall.io/art_crop/front/6/f/6f17070a-9102-4bfd-86d1-78dff65f6ba2.jpg?1562876232
-name=Cool Green Gatorade
-second=images/clcard.jpg
+name=Cool Green Gatorade is Delicious
 developer=Alver415
 text=When you drink Cool Blue Gatorade, up to one target creature is blue until end of turn. You become cool forever. Put a +1/+1 counter on target Aligator.
 type=Enchantment
+first=C\:\\Users\\Alver\\Development\\projects\\Fatefall\\.wd\\..\\template-mtg\\src\\main\\resources\\com\\alver\\fatefall\\template\\mtg\\images\\acard.jpg
+second=C\:\\Users\\Alver\\Development\\projects\\Fatefall\\.wd\\..\\template-mtg\\src\\main\\resources\\com\\alver\\fatefall\\template\\mtg\\images\\ucard.jpg

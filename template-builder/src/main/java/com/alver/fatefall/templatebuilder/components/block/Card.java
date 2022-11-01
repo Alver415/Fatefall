@@ -52,15 +52,14 @@ public class Card extends AnchorPane implements FXMLLoadable {
             }
         });
         sceneProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == null){
-                return;
+            if (newValue != null) {
+                newValue.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+                    if (event.isControlDown() && event.getCode().equals(KeyCode.F)) {
+                        flipped.set(!flipped.get());
+                        event.consume();
+                    }
+                });
             }
-            newValue.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-                if (event.isControlDown() && event.getCode().equals(KeyCode.F)) {
-                    flipped.set(!flipped.get());
-                    event.consume();
-                }
-            });
         });
     }
 
@@ -137,12 +136,12 @@ public class Card extends AnchorPane implements FXMLLoadable {
     public DoubleProperty cardWidthProperty() {
         return cardWidth;
     }
-    
-    public double getCardWidth(){
+
+    public double getCardWidth() {
         return cardWidth.get();
     }
-    
-    public void setCardWidth(double width){
+
+    public void setCardWidth(double width) {
         this.cardWidth.set(width);
     }
 
@@ -152,11 +151,11 @@ public class Card extends AnchorPane implements FXMLLoadable {
         return cardHeight;
     }
 
-    public double getCardHeight(){
+    public double getCardHeight() {
         return cardHeight.get();
     }
 
-    public void setCardHeight(double Height){
+    public void setCardHeight(double Height) {
         this.cardHeight.set(Height);
     }
 

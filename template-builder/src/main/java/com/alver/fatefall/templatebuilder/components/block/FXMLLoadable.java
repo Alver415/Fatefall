@@ -8,7 +8,7 @@ import java.util.Objects;
 public interface FXMLLoadable {
 
     default void load(Class<?> level, URL fxml) {
-        if (getClass().equals(level)){
+        if (true || getClass().equals(level)){
             load(fxml);
         }
     }
@@ -17,6 +17,16 @@ public interface FXMLLoadable {
         try {
             FXMLLoader loader = new FXMLLoader(fxml);
             loader.setController(this);
+            loader.setRoot(this);
+            loader.setClassLoader(this.getClass().getClassLoader());
+            loader.load();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    default void load(URL fxml, Object... nu) {
+        try {
+            FXMLLoader loader = new FXMLLoader(fxml);
             loader.setRoot(this);
             loader.setClassLoader(this.getClass().getClassLoader());
             loader.load();

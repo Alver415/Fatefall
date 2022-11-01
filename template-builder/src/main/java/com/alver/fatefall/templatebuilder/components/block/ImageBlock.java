@@ -1,6 +1,6 @@
 package com.alver.fatefall.templatebuilder.components.block;
 
-import com.alver.fatefall.templatebuilder.components.properties.StringImageConverter;
+import com.alver.fatefall.templatebuilder.components.editor.image.StringImageConverter;
 import javafx.beans.DefaultProperty;
 import javafx.beans.property.*;
 import javafx.fxml.FXML;
@@ -26,9 +26,7 @@ public class ImageBlock extends Block<Image> {
     protected void initialize() {
         super.initialize();
         imageProperty().bindBidirectional(imageView.imageProperty());
-        Image prefImage = image.get();
         urlProperty().bindBidirectional(imageProperty(), new StringImageConverter());
-        imageProperty().set(prefImage);
 
         imageView.setPreserveRatio(false);
         imageView.fitWidthProperty().bind(widthProperty());
