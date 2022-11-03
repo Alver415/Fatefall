@@ -12,7 +12,6 @@
     </parent>
     <artifactId>template-builder</artifactId>
     <name>Card Template Builder</name>
-
     <build>
         <plugins>
             <plugin>

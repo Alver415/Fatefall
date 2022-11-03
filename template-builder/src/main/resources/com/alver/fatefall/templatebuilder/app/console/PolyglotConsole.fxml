@@ -1,0 +1,27 @@
+<?import com.alver.fatefall.templatebuilder.app.console.PolyglotConsole?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.TextFlow?>
+<?import org.controlsfx.control.textfield.CustomTextField?>
+<fx:root xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+         type="PolyglotConsole">
+    <Tab text="Console" closable="false">
+        <BorderPane>
+            <center>
+                <ScrollPane fx:id="scrollPane">
+                    <TextFlow fx:id="output"/>
+                </ScrollPane>
+            </center>
+            <bottom>
+                <CustomTextField fx:id="input">
+                    <right>
+                        <ComboBox fx:id="language"/>
+                    </right>
+                </CustomTextField>
+            </bottom>
+        </BorderPane>
+    </Tab>
+</fx:root>

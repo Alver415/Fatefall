@@ -1,12 +1,15 @@
 package com.alver.fatefall.templatebuilder.app;
 
+import com.alver.fatefall.templatebuilder.app.console.PolyglotConsole;
 import com.alver.fatefall.templatebuilder.components.block.*;
 import com.alver.fatefall.templatebuilder.components.editor.file.FileSelectionField;
 import com.alver.fatefall.templatebuilder.components.editor.image.ImageSelectionEditor;
+import com.alver.fatefall.templatebuilder.components.serialization.FXMLSaver;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
@@ -14,6 +17,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.controlsfx.control.PropertySheet;
 import org.controlsfx.property.BeanProperty;
+import org.graalvm.polyglot.Context;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
@@ -39,6 +43,8 @@ public class TemplateBuilder extends Stage {
     protected PropertySheet cardProperties;
     @FXML
     protected CardEditor editor;
+
+    protected Stage consoleStage;
 
 
     @FXML
@@ -204,7 +210,7 @@ public class TemplateBuilder extends Stage {
             }
             ObservableList<PropertySheet.Item> items = updateCardProperties(editor.getCard());
             cardProperties.getItems().setAll(items);
-            lockToScene();
+            sizeToScene();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -223,6 +229,9 @@ public class TemplateBuilder extends Stage {
 
     private void saveCard(File file) {
         Properties properties = new Properties();
+
+        FXMLSaver.save(file, editor.getCard());
+
         for (Block<?> block : editor.getCard().getBlocks()) {
             String id = block.getId();
             if (id == null) {
@@ -262,23 +271,25 @@ public class TemplateBuilder extends Stage {
             templateProperties.getItems().setAll(properties);
 
             editor.setCard(template);
-            lockToScene();
+            sizeToScene();
         } catch (
                 Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void lockToScene() {
-        sizeToScene();
-    }
-
-    public TemplateBuilder() throws IOException {
-        super();
-        URL fxml = TemplateBuilder.class.getResource("TemplateBuilder.fxml");
-        FXMLLoader loader = new FXMLLoader(fxml);
-        loader.setController(this);
-        loader.setRoot(this);
-        loader.load();
+    @FXML
+    public void openPolyglotConsole(){
+        if (consoleStage == null) {
+            consoleStage = new Stage();
+            consoleStage.setTitle("Polyglot Console");
+            PolyglotConsole console = new PolyglotConsole();
+            consoleStage.setScene(new Scene(console));
+            Context context = console.getContext();
+            context.getPolyglotBindings().putMember("card", editor.getCard());
+            console.setPrefSize(600, 400);
+        }
+        consoleStage.show();
+        consoleStage.toFront();
     }
 }

@@ -1,26 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.alver.fatefall.templatebuilder.app.TemplateBuilder?>
 <?import com.alver.fatefall.templatebuilder.app.CardEditor?>
 <?import com.alver.fatefall.templatebuilder.components.editor.file.FileSelectionField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.*?>
+<?import javafx.scene.Scene?>
 <?import javafx.stage.Stage?>
 <?import org.controlsfx.control.PropertySheet?>
 <fx:root xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-         type="Stage" title="Template Builder">
+         type="Stage" fx:controller="com.alver.fatefall.templatebuilder.app.TemplateBuilder"
+         title="Template Builder">
     <scene>
         <Scene>
             <BorderPane fx:id="borderPane">
+                <top>
+                    <MenuBar>
+                        <Menu text="Context">
+                            <MenuItem text="Open Context" onAction="#openPolyglotConsole"/>
+                        </Menu>
+                    </MenuBar>
+                </top>
                 <center>
-                    <BorderPane>
-                        <center>
-                            <CardEditor fx:id="editor"/>
-                        </center>
+                    <CardEditor fx:id="editor">
                         <BorderPane.margin>
                             <Insets topRightBottomLeft="50"/>
                         </BorderPane.margin>
-                    </BorderPane>
+                    </CardEditor>
                 </center>
 
                 <left>

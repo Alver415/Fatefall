@@ -1,23 +1,25 @@
 import com.alver.fatefall.templatebuilder.app.TemplateBuilder;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 
-public class TemplateBuilderApplication extends Application{
+public class TemplateBuilderApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        //Disregard the primaryStage.
-        primaryStage.close();
-
-        TemplateBuilder stage = new TemplateBuilder();
+        URL fxml = TemplateBuilder.class.getResource("TemplateBuilder.fxml");
+        FXMLLoader loader = new FXMLLoader(fxml);
+        loader.setRoot(primaryStage);
+        Stage stage = loader.load();
         stage.show();
-        stage.centerOnScreen();
+        stage.setMaximized(true);
     }
 
     public static class Launcher {
-        public static void main(String... args){
+        public static void main(String... args) {
             launch(TemplateBuilderApplication.class, args);
         }
     }
