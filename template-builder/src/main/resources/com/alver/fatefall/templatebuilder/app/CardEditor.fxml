@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.alver.fatefall.templatebuilder.app.CardEditor?>
-<?import com.alver.fatefall.templatebuilder.components.block.*?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Rectangle?>
 <fx:root xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+         fx:id="root"
          type="CardEditor"
          stylesheets="@CardEditor.css"
          styleClass="outlined">
-    <center>
-        <Card>
-            <CardFace>
-                <fx:define>
-                    <Image fx:id="squares" url="@squares.gif"/>
-                    <Image fx:id="hexagon" url="@hexagon.gif"/>
-                </fx:define>
-                <ImageBlock image="$squares" anchors="0" blendMode="RED"/>
-                <ImageBlock image="$squares" anchors="0" blendMode="GREEN" rotate="90"/>
-                <ImageBlock image="$squares" anchors="0" blendMode="BLUE" rotate="180"/>
+    <clip>
+        <Rectangle width="${root.width}" height="${root.height}"/>
+    </clip>
+    <padding>
+        <Insets topRightBottomLeft="50"/>
+    </padding>
 
-                <ImageBlock anchors="0" style="-fx-background-color:rgba(255,255,255,0.75);"/>
-                <ImageBlock anchors="0" top="100" bottom="100" image="$hexagon"/>
-            </CardFace>
-        </Card>
-    </center>
+    <StackPane fx:id="wrapper" styleClass="wrapper">
+        <minWidth><Region fx:constant="USE_PREF_SIZE"/></minWidth>
+        <minHeight><Region fx:constant="USE_PREF_SIZE"/></minHeight>
+        <maxWidth><Region fx:constant="USE_PREF_SIZE"/></maxWidth>
+        <maxHeight><Region fx:constant="USE_PREF_SIZE"/></maxHeight>
+        <fx:include source="DefaultCard.fxml"/>
+    </StackPane>
 </fx:root>

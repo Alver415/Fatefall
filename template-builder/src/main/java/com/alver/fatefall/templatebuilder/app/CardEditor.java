@@ -2,40 +2,45 @@ package com.alver.fatefall.templatebuilder.app;
 
 import com.alver.fatefall.templatebuilder.components.block.Card;
 import com.alver.fatefall.templatebuilder.components.block.FXMLLoadable;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
+import javafx.fxml.FXML;
+import javafx.geometry.Point3D;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.net.URL;
 
-public class CardEditor extends BorderPane implements FXMLLoadable {
+public class CardEditor extends StackPane implements FXMLLoadable {
     private static final URL FXML = FXMLLoadable.fxmlResource(CardEditor.class);
+
+    @FXML
+    protected StackPane wrapper;
 
     public CardEditor() {
         load(CardEditor.class, FXML);
 
-        setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
-        setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
-        setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
-
-        setOnKeyPressed(e -> {
+        addEventFilter(MouseEvent.MOUSE_CLICKED, e -> requestFocus());
+        addEventFilter(KeyEvent.KEY_PRESSED, e -> {
             if (e.isControlDown() && e.getCode().equals(KeyCode.O)) {
                 toggleShowOutlines();
             } else if (e.isControlDown() && e.getCode().equals(KeyCode.P)) {
                 screenshot();
+            } else if (e.isControlDown() && e.getCode().equals(KeyCode.R)) {
+                resetTransform();
             }
         });
         cardProperty().addListener((observable, oldValue, newValue) -> {
-            setCenter(newValue);
+            wrapper.getChildren().clear();
+            wrapper.getChildren().add(newValue);
         });
 
         showOutlinesProperty().addListener(observable -> {
@@ -46,6 +51,42 @@ public class CardEditor extends BorderPane implements FXMLLoadable {
             }
         });
 
+        addEventFilter(ScrollEvent.SCROLL, event -> {
+            double deltaX = event.getDeltaX();
+            double deltaY = event.getDeltaY();
+            if (event.isControlDown()) {
+                DoubleProperty x = wrapper.translateXProperty();
+                DoubleProperty y = wrapper.translateYProperty();
+                x.set(x.get() + deltaX);
+                y.set(y.get() + deltaY);
+            } else {
+                DoubleProperty scaleX = wrapper.scaleXProperty();
+                DoubleProperty scaleY = wrapper.scaleYProperty();
+                double newScale = scaleX.get() + deltaY / 100d;
+                newScale = Math.min(Math.max(0.1, newScale), 10.0);
+                scaleX.set(newScale);
+                scaleY.set(newScale);
+
+                wrapper.setRotationAxis(new Point3D(0, 1, 0));
+                DoubleProperty rotation = wrapper.rotateProperty();
+                double newRotation = rotation.get() + deltaX / 10d;
+                newRotation = Math.floorMod((int) newRotation, 360);
+                rotation.set(newRotation);
+
+                getCard().setFlipped(newRotation < 90 || newRotation > 270);
+            }
+        });
+    }
+
+    public void resetTransform() {
+        wrapper.setTranslateX(0);
+        wrapper.setTranslateY(0);
+        wrapper.setTranslateZ(0);
+        wrapper.setScaleX(1);
+        wrapper.setScaleY(1);
+        wrapper.setScaleZ(1);
+        wrapper.setRotate(0);
+        getCard().setFlipped(false);
     }
 
     private void toggleShowOutlines() {
@@ -55,7 +96,7 @@ public class CardEditor extends BorderPane implements FXMLLoadable {
     private void screenshot() {
         boolean before = getShowOutlines();
         setShowOutlines(false);
-        WritableImage snapshot = snapshot(new SnapshotParameters(), null);
+        WritableImage snapshot = getCard().snapshot(new SnapshotParameters(), null);
         setShowOutlines(before);
         Scene scene = new Scene(new BorderPane(new ImageView(snapshot)));
         Stage stage = new Stage();

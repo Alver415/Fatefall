@@ -11,6 +11,7 @@
 <?import javafx.scene.Scene?>
 <?import javafx.stage.Stage?>
 <?import org.controlsfx.control.PropertySheet?>
+<?import javafx.scene.shape.Rectangle?>
 <fx:root xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
          type="Stage" fx:controller="com.alver.fatefall.templatebuilder.app.TemplateBuilder"
          title="Template Builder">
@@ -25,11 +26,7 @@
                     </MenuBar>
                 </top>
                 <center>
-                    <CardEditor fx:id="editor">
-                        <BorderPane.margin>
-                            <Insets topRightBottomLeft="50"/>
-                        </BorderPane.margin>
-                    </CardEditor>
+                    <CardEditor fx:id="editor"/>
                 </center>
 
                 <left>

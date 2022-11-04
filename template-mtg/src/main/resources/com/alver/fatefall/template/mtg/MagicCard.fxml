@@ -28,7 +28,7 @@
                         anchors="55, 30, 235, 30"/>
 
             <TextBlock id="type" displayName="Type"
-                       anchors="290 30 -1 30"/>
+                       anchors="290 30 200 30"/>
 
             <TextBlock id="text" displayName="Rules Text"
                        anchors="330 30 45 30"

@@ -4,61 +4,33 @@ import javafx.beans.DefaultProperty;
 import javafx.beans.property.*;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+
 @DefaultProperty("front")
 public class Card extends AnchorPane implements FXMLLoadable {
 
     public Card() {
-        minWidthProperty().bind(cardWidth);
-        minHeightProperty().bind(cardHeight);
-        maxWidthProperty().bind(cardWidth);
-        maxHeightProperty().bind(cardHeight);
-        prefWidthProperty().bind(cardWidth);
-        prefHeightProperty().bind(cardHeight);
-
-        frontProperty().addListener((observable, oldValue, newValue) -> {
-            Rectangle rectangle = new Rectangle();
-            rectangle.widthProperty().bind(widthProperty());
-            rectangle.heightProperty().bind(heightProperty());
-            newValue.setClip(rectangle);
-        });
-        backProperty().addListener((observable, oldValue, newValue) -> {
-            Rectangle rectangle = new Rectangle();
-            rectangle.widthProperty().bind(widthProperty());
-            rectangle.heightProperty().bind(heightProperty());
-            newValue.setClip(rectangle);
-        });
-
         frontProperty().addListener((observable, oldValue, newValue) -> {
             if (getChildren().isEmpty()) {
                 getChildren().add(newValue);
             }
         });
+
         flippedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == oldValue) return;
             getChildren().clear();
             if (newValue) {
                 getChildren().add(front.get());
+                setScaleX(Math.abs(getScaleX()));
             } else {
                 getChildren().add(back.get());
-            }
-        });
-        sceneProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                newValue.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-                    if (event.isControlDown() && event.getCode().equals(KeyCode.F)) {
-                        flipped.set(!flipped.get());
-                        event.consume();
-                    }
-                });
+                setScaleX(-Math.abs(getScaleX()));
             }
         });
     }
@@ -74,7 +46,7 @@ public class Card extends AnchorPane implements FXMLLoadable {
         return getChildrenRecursive(this).stream()
                 .filter(Block.class::isInstance)
                 .map(node -> (Block<?>) node)
-                .collect(Collectors.toMap(Block::getId, v -> v));
+                .collect(Collectors.toMap(k -> k.getId() == null ? "" : k.getId(), v -> v));
     }
 
     public static List<Node> getChildrenRecursive(Parent parent) {
@@ -103,7 +75,7 @@ public class Card extends AnchorPane implements FXMLLoadable {
     }
 
 
-    protected ObjectProperty<CardFace> front = new SimpleObjectProperty<>(this, "front", null);
+    protected ObjectProperty<CardFace> front = new SimpleObjectProperty<>(this, "front", new CardFace());
 
     public ObjectProperty<CardFace> frontProperty() {
         return front;
@@ -117,7 +89,7 @@ public class Card extends AnchorPane implements FXMLLoadable {
         this.front.set(front);
     }
 
-    protected ObjectProperty<CardFace> back = new SimpleObjectProperty<>(this, "back", null);
+    protected ObjectProperty<CardFace> back = new SimpleObjectProperty<>(this, "back", new CardFace());
 
     public ObjectProperty<CardFace> backProperty() {
         return back;
