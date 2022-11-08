@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.skin.ScrollPaneSkin$5?>
+<?import javafx.scene.control.skin.ScrollBarSkin$3?>
+<?import javafx.scene.Group?>
+<?import com.alver.fatefall.templatebuilder.components.block.TextBlock?>
+<?import javafx.scene.control.skin.ScrollBarSkin$2?>
+<?import javafx.scene.control.skin.ScrollBarSkin$1?>
+<?import javafx.scene.layout.Region?>
+<?import com.alver.fatefall.templatebuilder.components.block.ImageBlock?>
+<?import javafx.scene.control.skin.ScrollPaneSkin$6?>
+<?import com.alver.fatefall.templatebuilder.components.block.CardFace?>
+<?import javafx.scene.control.ScrollPane?>
+<?import com.alver.fatefall.templatebuilder.components.block.Block?>
+<?import javafx.scene.control.skin.TextAreaSkin$ContentView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ScrollBar?>
+<?import com.alver.fatefall.templatebuilder.components.block.Card?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.shape.Path?>
+<Card xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/javafx" cardHeight="523.0" cardWidth="375.0">
+	<back>
+		<CardFace>
+			<children>
+				<ImageBlock bottom="0.0" displayName="cardBack" id="cardBack" left="0.0" right="0.0" top="0.0" url="C:\projects\Fatefall\template-mtg\src\main\resources\com\alver\fatefall\template\mtg\images\magic_card_back.png"/>
+			</children>
+		</CardFace>
+	</back>
+	<front>
+		<CardFace maxHeight="523.0" maxWidth="375.0" minHeight="523.0" minWidth="375.0" prefHeight="523.0" prefWidth="375.0">
+			<children>
+				<Block blendMode="SRC_ATOP">
+					<children>
+						<Block blendMode="MULTIPLY" bottom="0.0" left="0.0" right="0.0" top="0.0">
+							<children>
+								<ImageBlock displayName="first" id="first" url="C:\projects\Fatefall\template-mtg\src\main\resources\com\alver\fatefall\template\mtg\images\ccard.jpg"/>
+								<ImageBlock bottom="0.0" left="0.0" right="0.0" style="-fx-background-color:linear-gradient(from 0% 0% to 50% 0%, white, transparent);" top="0.0"/>
+							</children>
+						</Block>
+						<Block blendMode="MULTIPLY" bottom="0.0" left="0.0" right="0.0" top="0.0">
+							<children>
+								<ImageBlock displayName="second" id="second" url="C:\projects\Fatefall\template-mtg\src\main\resources\com\alver\fatefall\template\mtg\images\ccard.jpg"/>
+								<ImageBlock bottom="0.0" left="0.0" right="0.0" style="-fx-background-color:linear-gradient(from 50% 0% to 100% 0%, transparent, white);" top="0.0"/>
+							</children>
+						</Block>
+					</children>
+				</Block>
+				<TextBlock bottom="471.0" displayName="Card Name" id="name" layoutX="30.0" layoutY="20.0" left="30.0" maxHeight="20.0" right="30.0" top="20.0"/>
+				<ImageBlock bottom="235.0" displayName="Card Art" id="art" layoutX="30.0" layoutY="55.0" left="30.0" right="30.0" top="55.0" url="https://cards.scryfall.io/art_crop/front/d/5/d5ae38a2-2f95-4750-9b59-53eb1771e5ab.jpg?1667573238"/>
+				<TextBlock bottom="200.0" displayName="Type" id="type" layoutX="30.0" layoutY="290.0" left="30.0" right="30.0" top="290.0"/>
+				<TextBlock bottom="45.0" displayName="Rules Text" fontName="MPlantin" id="text" layoutX="30.0" layoutY="330.0" left="30.0" right="30.0" top="330.0"/>
+				<TextBlock bottom="5.0" displayName="Developer Credit" fontName="Beleren Small Caps Bold" fontSize="12.0" id="developer" layoutX="30.0" layoutY="480.0" left="30.0" maxHeight="20.0" right="30.0"/>
+			</children>
+		</CardFace>
+	</front>
+</Card>

@@ -1,9 +1,12 @@
 package com.alver.fatefall.templatebuilder.components.block;
 
 import com.alver.fatefall.templatebuilder.components.editor.image.StringImageConverter;
+import com.alver.fxmlsaver.FXMLIgnore;
 import javafx.beans.DefaultProperty;
 import javafx.beans.property.*;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -33,6 +36,11 @@ public class ImageBlock extends Block<Image> {
         imageView.fitHeightProperty().bind(heightProperty());
 
         valueProperty().bindBidirectional(imageProperty());
+    }
+
+    @FXMLIgnore
+    public ObservableList<Node> getChildrenUnmodifiable(){
+        return super.getChildrenUnmodifiable();
     }
 
     protected StringProperty url = new SimpleStringProperty(this, "url", null);
@@ -66,31 +74,6 @@ public class ImageBlock extends Block<Image> {
     public void setImageUrl(String url) {
         this.image.set(new StringImageConverter().fromString(url));
     }
-
-    public DoubleProperty fitWidthProperty() {
-        return imageView.fitWidthProperty();
-    }
-
-    public double getFitWidth() {
-        return fitWidthProperty().get();
-    }
-
-    public void setFitWidth(double value) {
-        fitWidthProperty().set(value);
-    }
-
-    public DoubleProperty fitHeightProperty() {
-        return imageView.fitWidthProperty();
-    }
-
-    public double getFitHeight() {
-        return fitHeightProperty().get();
-    }
-
-    public void setFitHeight(double value) {
-        fitHeightProperty().set(value);
-    }
-
 
     public BooleanProperty preserveRatioProperty() {
         return imageView.preserveRatioProperty();

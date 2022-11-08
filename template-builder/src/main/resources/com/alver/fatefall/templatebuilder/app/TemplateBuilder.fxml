@@ -20,6 +20,10 @@
             <BorderPane fx:id="borderPane">
                 <top>
                     <MenuBar>
+                        <Menu text="File">
+                            <MenuItem text="Save Card" onAction="#promptSaveCard"/>
+                            <MenuItem text="Load Card" onAction="#promptLoadCard"/>
+                        </Menu>
                         <Menu text="Context">
                             <MenuItem text="Open Context" onAction="#openPolyglotConsole"/>
                         </Menu>
