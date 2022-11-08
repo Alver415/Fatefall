@@ -84,7 +84,7 @@ public class EditorToolPane extends VBox {
                 StringProperty url = new SimpleStringProperty(null, "url", image == null ? null : image.getUrl());
 
                 url.addListener(((observable, oldValue, newValue) -> {
-                    imageProperty.set(new Image(newValue));
+                    imageProperty.set(new Image(newValue, true));
                 }));
 
                 propertySheet.getItems().add(new PropertySheet.Item() {
