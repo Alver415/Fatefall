@@ -202,6 +202,15 @@ public class TemplateBuilder extends Stage {
 			Context context = console.getContext();
 			context.getPolyglotBindings().putMember("card", editor.getCard());
 			console.setPrefSize(600, 400);
+			editor.cardProperty().addListener((observable, oldValue, newValue) -> {
+				if (oldValue != null) {
+					context.getPolyglotBindings().removeMember("card");
+				}
+				if (newValue != null) {
+					context.getPolyglotBindings().putMember("card", newValue);
+				}
+				console.refreshBindings();
+			});
 		}
 		consoleStage.show();
 		consoleStage.toFront();

@@ -16,15 +16,13 @@ import java.net.URL;
 public class PolyglotBindingTable extends TableView<PolyglotBindingTable.Binding> implements FXMLLoadable {
     private static final URL FXML = FXMLLoadable.fxmlResource(PolyglotBindingTable.class);
 
-    protected ObservableList<Binding> bindings = FXCollections.observableArrayList();
-
     public PolyglotBindingTable() {
         load(PolyglotBindingTable.class, FXML);
         getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
     public void refresh(Value bindings) {
-        this.bindings.clear();
+        getItems().clear();
         for (String key : bindings.getMemberKeys()) {
             Value value = bindings.getMember(key);
             String metaName;
@@ -33,7 +31,7 @@ public class PolyglotBindingTable extends TableView<PolyglotBindingTable.Binding
             } catch (Exception e) {
                 metaName = null;
             }
-            this.bindings.add(new Binding(key, metaName, value));
+            getItems().add(new Binding(key, metaName, value));
         }
     }
 

@@ -97,7 +97,7 @@ public class PolyglotConsole extends TabPane implements FXMLLoadable {
         }
     }
 
-    private void refreshBindings() {
+    public void refreshBindings() {
         bindingsMap.put("Polyglot", context.getPolyglotBindings());
         for (Language language : context.getEngine().getLanguages().values()) {
             bindingsMap.put(language.getName(), context.getBindings(language.getId()));
