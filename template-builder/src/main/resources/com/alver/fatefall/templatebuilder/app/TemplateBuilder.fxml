@@ -13,48 +13,47 @@
 <?import org.controlsfx.control.PropertySheet?>
 <?import javafx.scene.shape.Rectangle?>
 <fx:root xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-         type="Stage" fx:controller="com.alver.fatefall.templatebuilder.app.TemplateBuilder"
-         title="Template Builder">
-    <scene>
-        <Scene>
-            <BorderPane fx:id="borderPane">
-                <top>
-                    <MenuBar>
-                        <Menu text="File">
-                            <MenuItem text="Save Card" onAction="#promptSaveCard"/>
-                            <MenuItem text="Load Card" onAction="#promptLoadCard"/>
-                        </Menu>
-                        <Menu text="Context">
-                            <MenuItem text="Open Context" onAction="#openPolyglotConsole"/>
-                        </Menu>
-                    </MenuBar>
-                </top>
-                <center>
-                    <CardEditor fx:id="editor"/>
-                </center>
+		 type="Stage" fx:controller="com.alver.fatefall.templatebuilder.app.TemplateBuilder"
+		 title="Template Builder">
+	<scene>
+		<Scene stylesheets="@TemplateBuilder.css">
+			<BorderPane fx:id="root">
+				<top>
+					<MenuBar fx:id="menuBar">
+						<Menu text="_File">
+							<MenuItem text="_Save Card" onAction="#promptSaveCard" accelerator="Shortcut+S"/>
+							<MenuItem text="_Load Card" onAction="#promptLoadCard" accelerator="Shortcut+L"/>
+						</Menu>
+						<Menu text="_Context">
+							<MenuItem text="_Open Context" onAction="#openPolyglotConsole" accelerator="Shortcut+O"/>
+						</Menu>
+						<Menu text="_Settings">
+							<MenuItem text="_Open Settings" onAction="#openSettings"/>
+						</Menu>
+					</MenuBar>
+				</top>
+				<center>
+					<CardEditor fx:id="editor"/>
+				</center>
 
-                <left>
-                    <VBox>
-                        <FileSelectionField fx:id="templateSelector"
-                                            text="../template-mtg/src/main/resources/com/alver/fatefall/template/mtg/MagicCard.fxml"/>
-                        <PropertySheet fx:id="templateProperties"
-                                       mode="CATEGORY"
-                                       modeSwitcherVisible="false"
-                                       VBox.vgrow="ALWAYS"/>
-                    </VBox>
-                </left>
+				<left>
+					<VBox>
+						<PropertySheet fx:id="templateProperties"
+									   mode="CATEGORY"
+									   modeSwitcherVisible="false"
+									   VBox.vgrow="ALWAYS"/>
+					</VBox>
+				</left>
 
-                <right>
-                    <VBox>
-                        <FileSelectionField fx:id="cardSelector"
-                                            text="./cards"/>
-                        <PropertySheet fx:id="cardProperties"
-                                       mode="NAME"
-                                       modeSwitcherVisible="false"
-                                       VBox.vgrow="ALWAYS"/>
-                    </VBox>
-                </right>
-            </BorderPane>
-        </Scene>
-    </scene>
+				<right>
+					<VBox>
+						<PropertySheet fx:id="cardProperties"
+									   mode="NAME"
+									   modeSwitcherVisible="false"
+									   VBox.vgrow="ALWAYS"/>
+					</VBox>
+				</right>
+			</BorderPane>
+		</Scene>
+	</scene>
 </fx:root>

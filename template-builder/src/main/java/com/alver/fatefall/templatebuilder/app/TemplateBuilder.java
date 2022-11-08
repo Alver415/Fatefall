@@ -5,15 +5,19 @@ import com.alver.fatefall.templatebuilder.components.block.*;
 import com.alver.fatefall.templatebuilder.components.editor.file.FileSelectionField;
 import com.alver.fatefall.templatebuilder.components.editor.image.ImageSelectionEditor;
 import com.alver.fxmlsaver.FXMLSaver;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.MenuBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.controlsfx.control.PropertySheet;
 import org.controlsfx.property.BeanProperty;
@@ -22,20 +26,21 @@ import org.graalvm.polyglot.Context;
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 public class TemplateBuilder extends Stage {
 
 	@FXML
-	public BorderPane borderPane;
+	public BorderPane root;
 	@FXML
-	public FileSelectionField templateSelector;
-	@FXML
-	public FileSelectionField cardSelector;
+	public MenuBar menuBar;
 	@FXML
 	protected PropertySheet templateProperties;
 	@FXML
@@ -47,10 +52,7 @@ public class TemplateBuilder extends Stage {
 
 	@FXML
 	public void initialize() {
-		templateSelector.getExtensions().add("*.fxml");
-		cardSelector.getExtensions().add("*.card");
-
-		borderPane.setBackground(new Background(new BackgroundImage(
+		root.setBackground(new Background(new BackgroundImage(
 				ImageUtil.getTransparencyGrid(16, 16),
 				BackgroundRepeat.REPEAT,
 				BackgroundRepeat.REPEAT,
@@ -169,9 +171,7 @@ public class TemplateBuilder extends Stage {
 	@FXML
 	private void promptSaveCard() {
 		FileChooser fileChooser = new FileChooser();
-		File wd = Path.of("").toAbsolutePath().toFile();
-		File base = cardSelector.getFile();
-		fileChooser.setInitialDirectory(base.isDirectory() ? base : wd);
+		fileChooser.setInitialDirectory(Path.of("").toAbsolutePath().toFile());
 		File file = fileChooser.showSaveDialog(this);
 		if (file != null) {
 			FXMLSaver.save(file, editor.getCard());
