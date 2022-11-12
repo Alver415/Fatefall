@@ -24,7 +24,7 @@
   <back>
     <CardFace maxHeight="523.0" maxWidth="375.0" minHeight="523.0" minWidth="375.0" prefHeight="523.0" prefWidth="375.0">
       <children>
-        <ImageBlock bottom="0.0" displayName="cardBack" id="cardBack" left="0.0" right="0.0" top="0.0" url="file:C:\projects\Fatefall\template-mtg\src\main\resources\com\alver\fatefall\template\mtg\images\magic_card_back.png"/>
+        <ImageBlock bottom="0.0" displayName="cardBack" id="cardBack" left="0.0" right="0.0" top="0.0" url="file:C:..\template-mtg\src\main\resources\com\alver\fatefall\template\mtg\images\magic_card_back.png"/>
       </children>
     </CardFace>
   </back>
@@ -35,13 +35,13 @@
           <children>
             <Block blendMode="MULTIPLY" bottom="0.0" left="0.0" right="0.0" top="0.0">
               <children>
-                <ImageBlock displayName="first" id="first" url="file:C:/projects/Fatefall/template-mtg/src/main/resources/com/alver/fatefall/template/mtg/images/acard.jpg"/>
+                <ImageBlock displayName="first" id="first" url="file:../template-mtg/src/main/resources/com/alver/fatefall/template/mtg/images/acard.jpg"/>
                 <ImageBlock bottom="0.0" left="0.0" right="0.0" style="-fx-background-color:linear-gradient(from 0% 0% to 50% 0%, white, transparent);" top="0.0"/>
               </children>
             </Block>
             <Block blendMode="MULTIPLY" bottom="0.0" left="0.0" right="0.0" top="0.0">
               <children>
-                <ImageBlock displayName="second" id="second" url="file:C:/projects/Fatefall/template-mtg/src/main/resources/com/alver/fatefall/template/mtg/images/rcard.jpg"/>
+                <ImageBlock displayName="second" id="second" url="file:../template-mtg/src/main/resources/com/alver/fatefall/template/mtg/images/rcard.jpg"/>
                 <ImageBlock bottom="0.0" left="0.0" right="0.0" style="-fx-background-color:linear-gradient(from 50% 0% to 100% 0%, transparent, white);" top="0.0"/>
               </children>
             </Block>
