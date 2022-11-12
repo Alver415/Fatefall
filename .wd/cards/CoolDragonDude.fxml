@@ -1,30 +1,30 @@
 <?xml version='1.0' encoding='UTF-8'?>
 
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.skin.ScrollBarSkin$2?>
-<?import javafx.scene.control.skin.TextAreaSkin$ContentView?>
 <?import javafx.scene.control.skin.ScrollBarSkin$3?>
+<?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.layout.Region?>
+<?import com.alver.fatefall.templatebuilder.components.block.Block?>
+<?import com.alver.fatefall.templatebuilder.components.block.TextBlock?>
+<?import javafx.scene.control.skin.ScrollBarSkin$1?>
+<?import javafx.scene.control.skin.ScrollPaneSkin$6?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ScrollPane?>
 <?import com.alver.fatefall.templatebuilder.components.block.Card?>
 <?import javafx.scene.control.skin.ScrollPaneSkin$5?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.control.skin.ScrollPaneSkin$6?>
-<?import javafx.scene.layout.StackPane?>
-<?import com.alver.fatefall.templatebuilder.components.block.TextBlock?>
-<?import com.alver.fatefall.templatebuilder.components.block.ImageBlock?>
-<?import javafx.scene.control.skin.ScrollBarSkin$1?>
-<?import com.alver.fatefall.templatebuilder.components.block.Block?>
-<?import javafx.scene.control.ScrollBar?>
-<?import javafx.scene.text.Text?>
-<?import javafx.scene.shape.Path?>
 <?import com.alver.fatefall.templatebuilder.components.block.CardFace?>
-<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.skin.TextAreaSkin$ContentView?>
+<?import javafx.scene.shape.Path?>
+<?import com.alver.fatefall.templatebuilder.components.block.ImageBlock?>
+<?import javafx.scene.layout.StackPane?>
 <Card xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/javafx" cardHeight="523.0" cardWidth="375.0" flipped="true">
   <back>
     <CardFace maxHeight="523.0" maxWidth="375.0" minHeight="523.0" minWidth="375.0" prefHeight="523.0" prefWidth="375.0">
       <children>
-        <ImageBlock bottom="0.0" displayName="cardBack" id="cardBack" left="0.0" right="0.0" top="0.0" url="file:C:\Users\Alver\Development\projects\Fatefall\template-mtg\src\main\resources\com\alver\fatefall\template\mtg\images\magic_card_back.png"/>
+        <ImageBlock bottom="0.0" displayName="cardBack" id="cardBack" left="0.0" right="0.0" top="0.0" url="file:C:\projects\Fatefall\template-mtg\src\main\resources\com\alver\fatefall\template\mtg\images\magic_card_back.png"/>
       </children>
     </CardFace>
   </back>
@@ -35,13 +35,13 @@
           <children>
             <Block blendMode="MULTIPLY" bottom="0.0" left="0.0" right="0.0" top="0.0">
               <children>
-                <ImageBlock displayName="first" id="first" url="file:C:/Users/Alver/Development/projects/Fatefall/template-mtg/src/main/resources/com/alver/fatefall/template/mtg/images/acard.jpg"/>
+                <ImageBlock displayName="first" id="first" url="file:C:/projects/Fatefall/template-mtg/src/main/resources/com/alver/fatefall/template/mtg/images/acard.jpg"/>
                 <ImageBlock bottom="0.0" left="0.0" right="0.0" style="-fx-background-color:linear-gradient(from 0% 0% to 50% 0%, white, transparent);" top="0.0"/>
               </children>
             </Block>
             <Block blendMode="MULTIPLY" bottom="0.0" left="0.0" right="0.0" top="0.0">
               <children>
-                <ImageBlock displayName="second" id="second" url="file:C:\Users\Alver\Development\projects/Fatefall/template-mtg/src/main/resources/com/alver/fatefall/template/mtg/images/rcard.jpg"/>
+                <ImageBlock displayName="second" id="second" url="file:C:/projects/Fatefall/template-mtg/src/main/resources/com/alver/fatefall/template/mtg/images/rcard.jpg"/>
                 <ImageBlock bottom="0.0" left="0.0" right="0.0" style="-fx-background-color:linear-gradient(from 50% 0% to 100% 0%, transparent, white);" top="0.0"/>
               </children>
             </Block>

@@ -215,4 +215,52 @@ public class TemplateBuilder extends Stage {
 		consoleStage.show();
 		consoleStage.toFront();
 	}
+
+	protected ObservableList<Property<?>> settings = FXCollections.observableArrayList();
+
+	protected ObjectProperty<Color> fxBase = new SimpleObjectProperty<>(this, "fxBase", Color.SLATEBLUE){
+		{
+			addListener((observable, oldValue, newValue) -> {
+				root.setStyle("-fx-base: #" + newValue.toString().substring(2));
+			});
+		}
+	};
+
+	public Color getFxBase(){
+		return fxBase.get();
+	}
+	public void setFxBase(Color fxBase){
+		this.fxBase.set(fxBase);
+	}
+
+	protected BooleanProperty maximize = new SimpleBooleanProperty(this, "maximize", true);
+	{
+		settings.add(fxBase);
+	}
+
+	public void saveSettings() throws IOException {
+		Properties properties = new Properties();
+		properties.load(new FileReader(Path.of("settings").toFile()));
+		Set<Map.Entry<Object, Object>> entries = properties.entrySet();
+	}
+
+	public void openSettings(){
+		PropertySheet propertySheet = new PropertySheet();
+		List<BeanProperty> props = settings.stream().map(this::settingToBeanProperty).toList();
+		propertySheet.getItems().setAll(props);
+		Stage stage = new Stage();
+		Scene scene = new Scene(propertySheet);
+		stage.setScene(scene);
+		stage.initOwner(this);
+		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.show();
+	}
+
+	private BeanProperty settingToBeanProperty(Property<?> setting) {
+		try {
+			return new BeanProperty(this, new PropertyDescriptor(setting.getName(), this.getClass()));
+		} catch (IntrospectionException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }
