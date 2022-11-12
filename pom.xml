@@ -27,8 +27,13 @@
     </modules>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <revision>1.0-SNAPSHOT</revision>
+
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <java.version>17</java.version>
         <junit.version>5.9.0</junit.version>
         <log4j.version>2.19.0</log4j.version>
@@ -167,10 +172,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>17</source>
-                    <target>17</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
 

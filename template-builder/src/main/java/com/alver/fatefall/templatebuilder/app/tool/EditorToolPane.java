@@ -42,8 +42,8 @@ public class EditorToolPane extends VBox {
 
     public void rebuild() {
         getChildren().clear();
-        //Block Layout
-        if (getTarget() instanceof Block block) {
+        //Block<?> Layout
+        if (getTarget() instanceof Block<?> block) {
             TitledPane layoutSection = new TitledPane("Block Layout", new HBox(
                     createTranslateControls(block),
                     createAnchorControls(block),
@@ -77,9 +77,14 @@ public class EditorToolPane extends VBox {
 
             for (PropertySheet.Item item : properties) {
                 if (!blockProps.contains(item.getName())) {
-                    return;
+                    continue;
                 }
-                ObjectProperty<Image> imageProperty = (ObjectProperty<Image>) item.getObservableValue().get();
+                Optional<ObservableValue<?>> observableValue = item.getObservableValue();
+                if (observableValue.isEmpty()){
+                    continue;
+                }
+                @SuppressWarnings("unchecked")
+                ObjectProperty<Image> imageProperty = (ObjectProperty<Image>) observableValue.get();
                 Image image = imageProperty.get();
                 StringProperty url = new SimpleStringProperty(null, "url", image == null ? null : image.getUrl());
 
@@ -119,21 +124,16 @@ public class EditorToolPane extends VBox {
                     }
 
                     @Override
-                    public Optional<ObservableValue<? extends Object>> getObservableValue() {
+                    public Optional<ObservableValue<?>> getObservableValue() {
                         return Optional.of(url);
                     }
                 });
             }
         }
-
-//        propertySheet.getItems().addAll(properties);
-
-//        propertySheet.getItems().addAll(BeanPropertyUtils.getProperties(getTarget()));
-
     }
 
 
-    private PropertySheet createTranslateControls(Block block) {
+    private PropertySheet createTranslateControls(Block<?> block) {
         PropertySheet propertySheet = new PropertySheet();
         propertySheet.setPadding(Insets.EMPTY);
         propertySheet.setModeSwitcherVisible(false);
@@ -144,7 +144,7 @@ public class EditorToolPane extends VBox {
         return propertySheet;
     }
 
-    private GridPane createAnchorControls(Block block) {
+    private GridPane createAnchorControls(Block<?> block) {
 
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(5, 5, 5, 5));
@@ -173,7 +173,7 @@ public class EditorToolPane extends VBox {
         return gridPane;
     }
 
-    private GridPane createButtonGrid(Block block) {
+    private GridPane createButtonGrid(Block<?> block) {
         GridPane gridPane = new GridPane();
 
         for (int r = -1; r <= 1; r++) {
@@ -235,5 +235,4 @@ public class EditorToolPane extends VBox {
     public void setTarget(Node target) {
         this.target.set(target);
     }
-
 }

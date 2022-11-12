@@ -6,7 +6,6 @@ import com.alver.fatefall.templatebuilder.components.utils.AnchorProperty;
 import com.alver.fatefall.templatebuilder.components.utils.Bindingz;
 import com.alver.fatefall.templatebuilder.components.utils.DragListener;
 import javafx.beans.property.*;
-import javafx.fxml.FXML;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -23,16 +22,11 @@ import java.util.stream.Stream;
 
 import static com.alver.fatefall.templatebuilder.components.utils.AnchorProperty.Anchor.*;
 
-public class Block<T> extends AnchorPane implements FXMLLoadable {
+public class Block<T> extends AnchorPane {
 
     protected EditorToolPane editor;
 
     public Block() {
-        super();
-    }
-
-    @FXML
-    protected void initialize() {
         editor = new EditorToolPane(this);
         Bindingz.bindBidirectional(translateZProperty(), viewOrderProperty(), -1d);
 

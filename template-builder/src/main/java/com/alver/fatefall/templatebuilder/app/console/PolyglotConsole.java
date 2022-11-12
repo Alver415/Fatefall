@@ -1,5 +1,6 @@
 package com.alver.fatefall.templatebuilder.app.console;
 
+import com.alver.aspect.fxml.FXMLComponent;
 import com.alver.fatefall.templatebuilder.components.block.FXMLLoadable;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -19,11 +20,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.net.URL;
 import java.util.*;
 
+@FXMLComponent
 public class PolyglotConsole extends TabPane implements FXMLLoadable {
-    private static final URL FXML = FXMLLoadable.fxmlResource(PolyglotConsole.class);
     private static final Logger log = LogManager.getLogger(PolyglotConsole.class);
 
     protected final Context context;
@@ -44,7 +44,6 @@ public class PolyglotConsole extends TabPane implements FXMLLoadable {
 
 
     public PolyglotConsole() {
-        load(PolyglotConsole.class, FXML);
         context = Context.newBuilder()
                 .out(getOutputStream())
                 .allowAllAccess(true)

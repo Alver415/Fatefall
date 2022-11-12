@@ -1,8 +1,8 @@
 package com.alver.fatefall.templatebuilder.components.block;
 
+import com.alver.aspect.fxml.FXMLComponent;
 import com.alver.fxmlsaver.FXMLIgnore;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -13,22 +13,14 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-import java.net.URL;
-
+@FXMLComponent
 public class TextBlock extends Block<String> {
-	private static final URL FXML = FXMLLoadable.fxmlResource(TextBlock.class);
-	
+
 	@FXML
 	protected TextArea textArea;
 	
 	public TextBlock() {
 		super();
-		load(TextBlock.class, FXML);
-	}
-
-	@FXML
-	public void initialize() {
-		super.initialize();
 		setViewOrder(-1); //Bump back so it is drawn on top.
 
 		textArea.textProperty().bindBidirectional(valueProperty());

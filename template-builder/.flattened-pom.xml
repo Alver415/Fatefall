@@ -11,18 +11,37 @@
   <artifactId>template-builder</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>Card Template Builder</name>
+  <properties>
+    <aspectj-plugin.version>1.14.0</aspectj-plugin.version>
+    <javafx-maven-plugin.version>0.0.8</javafx-maven-plugin.version>
+    <aspectj.version>1.9.9.1</aspectj.version>
+    <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>com.alver</groupId>
+      <artifactId>aspect-fxml</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.alver</groupId>
+      <artifactId>fxml-saver</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
   <build>
     <plugins>
       <plugin>
         <groupId>org.openjfx</groupId>
         <artifactId>javafx-maven-plugin</artifactId>
-        <version>0.0.8</version>
+        <version>${javafx-maven-plugin.version}</version>
         <configuration>
           <mainClass>com.alver.fatefall.templatebuilder.app.TemplateBuilder</mainClass>
         </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
+        <version>${maven-assembly-plugin.version}</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -36,6 +55,38 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>aspectj-maven-plugin</artifactId>
+        <version>${aspectj-plugin.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>
+              <goal>test-compile</goal>
+            </goals>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjtools</artifactId>
+            <version>${aspectj.version}</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <complianceLevel>${maven.compiler.source}</complianceLevel>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.target}</target>
+          <showWeaveInfo>true</showWeaveInfo>
+          <aspectLibraries>
+            <aspectLibrary>
+              <groupId>com.alver</groupId>
+              <artifactId>aspect-fxml</artifactId>
+            </aspectLibrary>
+          </aspectLibraries>
+        </configuration>
       </plugin>
     </plugins>
   </build>

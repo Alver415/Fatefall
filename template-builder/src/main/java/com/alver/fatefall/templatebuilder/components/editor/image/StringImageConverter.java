@@ -1,13 +1,11 @@
 package com.alver.fatefall.templatebuilder.components.editor.image;
 
-import com.alver.fatefall.templatebuilder.app.TemplateBuilder;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 import javafx.util.StringConverter;
 
 import java.io.File;
-import java.net.URISyntaxException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 

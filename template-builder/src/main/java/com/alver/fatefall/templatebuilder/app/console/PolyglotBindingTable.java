@@ -1,23 +1,19 @@
 package com.alver.fatefall.templatebuilder.app.console;
 
+import com.alver.aspect.fxml.FXMLComponent;
 import com.alver.fatefall.templatebuilder.components.block.FXMLLoadable;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableView;
 import org.graalvm.polyglot.Value;
 
-import java.net.URL;
-
+@FXMLComponent
 public class PolyglotBindingTable extends TableView<PolyglotBindingTable.Binding> implements FXMLLoadable {
-    private static final URL FXML = FXMLLoadable.fxmlResource(PolyglotBindingTable.class);
 
     public PolyglotBindingTable() {
-        load(PolyglotBindingTable.class, FXML);
         getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
@@ -35,7 +31,7 @@ public class PolyglotBindingTable extends TableView<PolyglotBindingTable.Binding
         }
     }
 
-    protected static class Binding{
+    protected static class Binding {
         private final StringProperty key;
         private final StringProperty type;
         private final ObjectProperty<Value> value;

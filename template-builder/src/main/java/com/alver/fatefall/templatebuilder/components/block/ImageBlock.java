@@ -1,5 +1,6 @@
 package com.alver.fatefall.templatebuilder.components.block;
 
+import com.alver.aspect.fxml.FXMLComponent;
 import com.alver.fatefall.templatebuilder.components.editor.image.StringImageConverter;
 import com.alver.fxmlsaver.FXMLIgnore;
 import javafx.beans.DefaultProperty;
@@ -10,24 +11,15 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.net.URL;
-
+@FXMLComponent
 @DefaultProperty("image")
 public class ImageBlock extends Block<Image> {
-
-    private static final URL FXML = FXMLLoadable.fxmlResource(ImageBlock.class);
 
     @FXML
     protected ImageView imageView;
 
     public ImageBlock() {
         super();
-        load(ImageBlock.class, FXML);
-    }
-
-    @FXML
-    protected void initialize() {
-        super.initialize();
         imageProperty().bindBidirectional(imageView.imageProperty());
         urlProperty().bindBidirectional(imageProperty(), new StringImageConverter());
 
@@ -39,7 +31,7 @@ public class ImageBlock extends Block<Image> {
     }
 
     @FXMLIgnore
-    public ObservableList<Node> getChildrenUnmodifiable(){
+    public ObservableList<Node> getChildrenUnmodifiable() {
         return super.getChildrenUnmodifiable();
     }
 

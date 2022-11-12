@@ -1,10 +1,13 @@
 package com.alver.fatefall.templatebuilder.app;
 
+import com.alver.aspect.fxml.FXMLComponent;
 import com.alver.fatefall.templatebuilder.components.block.Card;
 import com.alver.fatefall.templatebuilder.components.block.FXMLLoadable;
 import javafx.beans.property.*;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Point3D;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.ImageView;
@@ -17,16 +20,18 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import java.net.URL;
-
+@FXMLComponent
 public class CardEditor extends StackPane implements FXMLLoadable {
-    private static final URL FXML = FXMLLoadable.fxmlResource(CardEditor.class);
 
     @FXML
     protected StackPane wrapper;
 
-    public CardEditor() {
-        load(CardEditor.class, FXML);
+    public CardEditor(){
+        wrapper.getChildren().addListener((ListChangeListener<? super Node>) observable -> {
+            if (observable.getList().size() > 0 ){
+                setCard((Card) observable.getList().get(0));
+            }
+        });
 
         addEventFilter(MouseEvent.MOUSE_CLICKED, e -> requestFocus());
         addEventFilter(KeyEvent.KEY_PRESSED, e -> {
