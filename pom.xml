@@ -40,7 +40,6 @@
         <jackson.version>2.13.4</jackson.version>
         <javafx.version>19</javafx.version>
         <controlsfx.version>11.1.2</controlsfx.version>
-        <immutables.version>2.9.2</immutables.version>
     </properties>
 
     <dependencies>
@@ -50,19 +49,6 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.immutables</groupId>
-            <artifactId>value</artifactId>
-            <version>${immutables.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.immutables</groupId>
-            <artifactId>builder</artifactId>
-            <version>${immutables.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
