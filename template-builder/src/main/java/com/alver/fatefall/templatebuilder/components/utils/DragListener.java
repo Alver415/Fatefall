@@ -92,7 +92,6 @@ public class DragListener implements EventHandler<MouseEvent> {
             }
             case ROTATE -> {
                 block.setRotate(nodeRotate + deltaX);
-
             }
         }
     }

@@ -2,7 +2,6 @@ package com.alver.fatefall.templatebuilder.app;
 
 import com.alver.aspect.fxml.FXMLComponent;
 import com.alver.fatefall.templatebuilder.components.block.Card;
-import com.alver.fatefall.templatebuilder.components.block.FXMLLoadable;
 import javafx.beans.property.*;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;

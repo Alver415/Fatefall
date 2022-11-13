@@ -1,7 +1,6 @@
 package com.alver.fatefall.templatebuilder.app.console;
 
 import com.alver.aspect.fxml.FXMLComponent;
-import com.alver.fatefall.templatebuilder.components.block.FXMLLoadable;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
