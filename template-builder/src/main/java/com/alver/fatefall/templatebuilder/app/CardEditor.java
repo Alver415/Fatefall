@@ -20,7 +20,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 @FXMLComponent
-public class CardEditor extends StackPane implements FXMLLoadable {
+public class CardEditor extends StackPane {
 
     @FXML
     protected StackPane wrapper;

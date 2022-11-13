@@ -10,7 +10,7 @@ import javafx.scene.control.TableView;
 import org.graalvm.polyglot.Value;
 
 @FXMLComponent
-public class PolyglotBindingTable extends TableView<PolyglotBindingTable.Binding> implements FXMLLoadable {
+public class PolyglotBindingTable extends TableView<PolyglotBindingTable.Binding> {
 
     public PolyglotBindingTable() {
         getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);

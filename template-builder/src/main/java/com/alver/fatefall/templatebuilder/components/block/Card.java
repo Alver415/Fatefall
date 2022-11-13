@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 
 @DefaultProperty("front")
-public class Card extends AnchorPane implements FXMLLoadable {
+public class Card extends AnchorPane {
 
     public Card() {
         frontProperty().addListener((observable, oldValue, newValue) -> {

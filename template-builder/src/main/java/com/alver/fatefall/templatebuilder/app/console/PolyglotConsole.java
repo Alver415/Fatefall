@@ -22,7 +22,7 @@ import java.io.StringWriter;
 import java.util.*;
 
 @FXMLComponent
-public class PolyglotConsole extends TabPane implements FXMLLoadable {
+public class PolyglotConsole extends TabPane {
     private static final Logger log = LogManager.getLogger(PolyglotConsole.class);
 
     protected final Context context;

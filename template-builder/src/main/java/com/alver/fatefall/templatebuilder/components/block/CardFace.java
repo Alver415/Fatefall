@@ -2,7 +2,7 @@ package com.alver.fatefall.templatebuilder.components.block;
 
 import javafx.scene.layout.AnchorPane;
 
-public class CardFace extends AnchorPane implements FXMLLoadable {
+public class CardFace extends AnchorPane {
 
     public CardFace(){
         AnchorPane.setTopAnchor(this, 0.0);
