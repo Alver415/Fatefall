@@ -25,9 +25,11 @@ public class FileSelectionField extends CustomTextField {
             fileChooser.setInitialFileName(getFile().isFile() ? getFile().getName() : null);
 
             ObservableList<String> extensions = getExtensions();
-            String description = "Extensions: %s".formatted(String.join(", ", extensions));
-            FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter(description, extensions);
-            fileChooser.setSelectedExtensionFilter(filter);
+            if (!extensions.isEmpty()) {
+                String description = "Extensions: %s".formatted(String.join(", ", extensions));
+                FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter(description, extensions);
+                fileChooser.setSelectedExtensionFilter(filter);
+            }
 
             File file = fileChooser.showOpenDialog(getScene().getWindow());
             if (file != null) {

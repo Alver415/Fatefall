@@ -1,8 +1,11 @@
 package com.alver.fatefall.templatebuilder.app;
 
 import com.alver.fatefall.templatebuilder.app.console.PolyglotConsole;
-import com.alver.fatefall.templatebuilder.components.block.*;
-import com.alver.fatefall.templatebuilder.components.editor.file.FileSelectionField;
+import com.alver.fatefall.templatebuilder.components.block.Block;
+import com.alver.fatefall.templatebuilder.components.block.Card;
+import com.alver.fatefall.templatebuilder.components.block.ImageBlock;
+import com.alver.fatefall.templatebuilder.components.block.TextBlock;
+import com.alver.fatefall.templatebuilder.components.editor.directory.DirectorySelectionField;
 import com.alver.fatefall.templatebuilder.components.editor.image.ImageSelectionEditor;
 import com.alver.fxmlsaver.FXMLSaver;
 import javafx.beans.property.*;
@@ -26,7 +29,6 @@ import org.graalvm.polyglot.Context;
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -35,232 +37,242 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import static com.alver.fatefall.templatebuilder.app.utils.AsyncUtil.async;
+
 public class TemplateBuilder extends Stage {
 
-	@FXML
-	public BorderPane root;
-	@FXML
-	public MenuBar menuBar;
-	@FXML
-	protected PropertySheet templateProperties;
-	@FXML
-	protected PropertySheet cardProperties;
-	@FXML
-	protected CardEditor editor;
+    @FXML
+    public BorderPane root;
+    @FXML
+    public MenuBar menuBar;
+    @FXML
+    public DirectorySelectionField directorySelectionField;
+    @FXML
+    public FileSystemTreeView fileSystemTreeView;
+    @FXML
+    protected PropertySheet templateProperties;
+    @FXML
+    protected PropertySheet cardProperties;
+    @FXML
+    protected CardEditor editor;
 
-	protected Stage consoleStage;
+    protected Stage consoleStage;
 
-	@FXML
-	public void initialize() {
-		root.setBackground(new Background(new BackgroundImage(
-				ImageUtil.getTransparencyGrid(16, 16),
-				BackgroundRepeat.REPEAT,
-				BackgroundRepeat.REPEAT,
-				BackgroundPosition.CENTER,
-				BackgroundSize.DEFAULT
-		)));
+    private static final File BASE_DIRECTORY = new File(".");
+    private static final File CARDS_DIRECTORY = Path.of("cards").toFile();
 
-		addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-			if (event.isControlDown() && event.getCode().equals(KeyCode.S)) {
-				promptSaveCard();
-			} else if (event.isControlDown() && event.getCode().equals(KeyCode.L)) {
-				promptLoadCard();
-			}
-		});
-	}
 
-	private ObservableList<PropertySheet.Item> updateCardProperties(Card card) {
-		ObservableList<PropertySheet.Item> items = FXCollections.observableArrayList();
-		for (Block<?> block : card.getBlocks()) {
-			if (block.getId() == null) {
-				continue;
-			}
-			try {
-				if (block instanceof TextBlock) {
-					PropertyDescriptor propertyDescriptor = new PropertyDescriptor("text", TextBlock.class);
-					propertyDescriptor.setDisplayName(block.getId());
-					propertyDescriptor.setValue(BeanProperty.CATEGORY_LABEL_KEY, block.getDisplayName());
-					items.add(new BeanProperty(block, propertyDescriptor));
+    @FXML
+    public void initialize() {
+        root.setBackground(new Background(new BackgroundImage(
+                ImageUtil.getTransparencyGrid(16, 16),
+                BackgroundRepeat.REPEAT,
+                BackgroundRepeat.REPEAT,
+                BackgroundPosition.CENTER,
+                BackgroundSize.DEFAULT
+        )));
 
-				} else if (block instanceof ImageBlock) {
-					PropertyDescriptor propertyDescriptor = new PropertyDescriptor("image", ImageBlock.class);
-					propertyDescriptor.setDisplayName(block.getId());
-					propertyDescriptor.setPropertyEditorClass(ImageSelectionEditor.class);
-					propertyDescriptor.setValue(BeanProperty.CATEGORY_LABEL_KEY, block.getDisplayName());
-					items.add(new BeanProperty(block, propertyDescriptor));
+        addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.isControlDown() && event.getCode().equals(KeyCode.S)) {
+                promptSaveCard();
+            } else if (event.isControlDown() && event.getCode().equals(KeyCode.L)) {
+                promptLoadCard();
+            }
+        });
+        fileSystemTreeView.setDirectory(BASE_DIRECTORY);
+        fileSystemTreeView.addFileSelectHook(file -> {
+            if (file.isFile() && file.toString().endsWith(".fxml")) {
+                loadCard(file);
+            }
+        });
 
-				} else {
-					PropertyDescriptor propertyDescriptor = new PropertyDescriptor("value", Block.class) {
-						@Override
-						public Class<?> getPropertyType() {
-							return String.class;
-						}
-					};
-					propertyDescriptor.setDisplayName(block.getId());
-					propertyDescriptor.setValue(BeanProperty.CATEGORY_LABEL_KEY, block.getDisplayName());
-					items.add(new BeanProperty(block, propertyDescriptor));
-				}
-			} catch (IntrospectionException e) {
-				e.printStackTrace();
-			}
-		}
-		return items;
-	}
+        directorySelectionField.setDirectory(BASE_DIRECTORY);
+        directorySelectionField.setOnAction(a -> {
+            fileSystemTreeView.setDirectory(directorySelectionField.getDirectory());
+        });
 
-	private ObservableList<PropertySheet.Item> updateTemplateProperties(Card card) {
-		ObservableList<PropertySheet.Item> items = FXCollections.observableArrayList();
-		for (Block<?> block : card.getBlocks()) {
-			if (block.getId() == null) {
-				continue;
-			}
-			try {
-				//Translations
-				PropertyDescriptor translateX = new PropertyDescriptor("translateX", TextBlock.class);
-				translateX.setValue(BeanProperty.CATEGORY_LABEL_KEY, block.getDisplayName());
-				items.add(new BeanProperty(block, translateX));
+        editor.cardProperty().addListener((observable, oldValue, newValue) -> {
+            async(() -> updateCardProperties(newValue), props -> cardProperties.getItems().setAll(props));
+            async(() -> updateTemplateProperties(newValue), props -> templateProperties.getItems().setAll(props));
+        });
+    }
 
-				PropertyDescriptor translateY = new PropertyDescriptor("translateY", TextBlock.class);
-				translateY.setValue(BeanProperty.CATEGORY_LABEL_KEY, block.getDisplayName());
-				items.add(new BeanProperty(block, translateY));
+    private ObservableList<PropertySheet.Item> updateCardProperties(Card card) {
+        ObservableList<PropertySheet.Item> items = FXCollections.observableArrayList();
+        for (Block<?> block : card.getBlocks()) {
+            if (block.getId() == null) {
+                continue;
+            }
+            try {
+                if (block instanceof TextBlock) {
+                    PropertyDescriptor propertyDescriptor = new PropertyDescriptor("text", TextBlock.class);
+                    propertyDescriptor.setDisplayName(block.getId());
+                    propertyDescriptor.setValue(BeanProperty.CATEGORY_LABEL_KEY, block.getDisplayName());
+                    items.add(new BeanProperty(block, propertyDescriptor));
 
-				PropertyDescriptor translateZ = new PropertyDescriptor("translateZ", TextBlock.class);
-				translateZ.setValue(BeanProperty.CATEGORY_LABEL_KEY, block.getDisplayName());
-				items.add(new BeanProperty(block, translateZ));
+                } else if (block instanceof ImageBlock) {
+                    PropertyDescriptor propertyDescriptor = new PropertyDescriptor("image", ImageBlock.class);
+                    propertyDescriptor.setDisplayName(block.getId());
+                    propertyDescriptor.setPropertyEditorClass(ImageSelectionEditor.class);
+                    propertyDescriptor.setValue(BeanProperty.CATEGORY_LABEL_KEY, block.getDisplayName());
+                    items.add(new BeanProperty(block, propertyDescriptor));
 
-				//Anchors
-				PropertyDescriptor top = new PropertyDescriptor("top", TextBlock.class);
-				top.setValue(BeanProperty.CATEGORY_LABEL_KEY, block.getDisplayName());
-				items.add(new BeanProperty(block, top));
+                } else {
+                    PropertyDescriptor propertyDescriptor = new PropertyDescriptor("value", Block.class) {
+                        @Override
+                        public Class<?> getPropertyType() {
+                            return String.class;
+                        }
+                    };
+                    propertyDescriptor.setDisplayName(block.getId());
+                    propertyDescriptor.setValue(BeanProperty.CATEGORY_LABEL_KEY, block.getDisplayName());
+                    items.add(new BeanProperty(block, propertyDescriptor));
+                }
+            } catch (IntrospectionException e) {
+                e.printStackTrace();
+            }
+        }
+        return items;
+    }
 
-				PropertyDescriptor right = new PropertyDescriptor("right", TextBlock.class);
-				right.setValue(BeanProperty.CATEGORY_LABEL_KEY, block.getDisplayName());
-				items.add(new BeanProperty(block, right));
+    private ObservableList<PropertySheet.Item> updateTemplateProperties(Card card) {
+        ObservableList<PropertySheet.Item> items = FXCollections.observableArrayList();
+        for (Block<?> block : card.getBlocks()) {
+            if (block.getId() == null) {
+                continue;
+            }
+            try {
+                //Translations
+                PropertyDescriptor translateX = new PropertyDescriptor("translateX", TextBlock.class);
+                translateX.setValue(BeanProperty.CATEGORY_LABEL_KEY, block.getDisplayName());
+                items.add(new BeanProperty(block, translateX));
 
-				PropertyDescriptor bottom = new PropertyDescriptor("bottom", TextBlock.class);
-				bottom.setValue(BeanProperty.CATEGORY_LABEL_KEY, block.getDisplayName());
-				items.add(new BeanProperty(block, bottom));
+                PropertyDescriptor translateY = new PropertyDescriptor("translateY", TextBlock.class);
+                translateY.setValue(BeanProperty.CATEGORY_LABEL_KEY, block.getDisplayName());
+                items.add(new BeanProperty(block, translateY));
 
-				PropertyDescriptor left = new PropertyDescriptor("left", TextBlock.class);
-				left.setValue(BeanProperty.CATEGORY_LABEL_KEY, block.getDisplayName());
-				items.add(new BeanProperty(block, left));
-			} catch (IntrospectionException e) {
-				e.printStackTrace();
-			}
-		}
-		return items;
-	}
+                PropertyDescriptor translateZ = new PropertyDescriptor("translateZ", TextBlock.class);
+                translateZ.setValue(BeanProperty.CATEGORY_LABEL_KEY, block.getDisplayName());
+                items.add(new BeanProperty(block, translateZ));
 
-	@FXML
-	private void promptLoadCard() {
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setInitialDirectory(Path.of("cards").toFile());
-		File file = fileChooser.showOpenDialog(this);
-		if (file != null) {
-			try {
-				FXMLLoader loader = new FXMLLoader(file.toURI().toURL());
-				Card card = loader.load();
-				editor.setCard(card);
-				cardProperties.getItems().setAll(updateCardProperties(card));
-				templateProperties.getItems().setAll(updateTemplateProperties(card));
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
-	}
+                //Anchors
+                PropertyDescriptor top = new PropertyDescriptor("top", TextBlock.class);
+                top.setValue(BeanProperty.CATEGORY_LABEL_KEY, block.getDisplayName());
+                items.add(new BeanProperty(block, top));
 
-	@FXML
-	private void promptSaveCard() {
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setInitialDirectory(Path.of("").toAbsolutePath().toFile());
-		File file = fileChooser.showSaveDialog(this);
-		if (file != null) {
-			FXMLSaver.save(file, editor.getCard());
-		}
-	}
+                PropertyDescriptor right = new PropertyDescriptor("right", TextBlock.class);
+                right.setValue(BeanProperty.CATEGORY_LABEL_KEY, block.getDisplayName());
+                items.add(new BeanProperty(block, right));
 
-	public void loadTemplate(File file) {
-		try {
-			FXMLLoader loader = new FXMLLoader(file.toURI().toURL());
-			Card template = loader.load();
-			ObservableList<PropertySheet.Item> properties = updateTemplateProperties(template);
-			templateProperties.getItems().setAll(properties);
+                PropertyDescriptor bottom = new PropertyDescriptor("bottom", TextBlock.class);
+                bottom.setValue(BeanProperty.CATEGORY_LABEL_KEY, block.getDisplayName());
+                items.add(new BeanProperty(block, bottom));
 
-			editor.setCard(template);
-			sizeToScene();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
+                PropertyDescriptor left = new PropertyDescriptor("left", TextBlock.class);
+                left.setValue(BeanProperty.CATEGORY_LABEL_KEY, block.getDisplayName());
+                items.add(new BeanProperty(block, left));
+            } catch (IntrospectionException e) {
+                e.printStackTrace();
+            }
+        }
+        return items;
+    }
 
-	@FXML
-	public void openPolyglotConsole() {
-		if (consoleStage == null) {
-			consoleStage = new Stage();
-			consoleStage.setTitle("Polyglot Console");
-			PolyglotConsole console = new PolyglotConsole();
-			consoleStage.setScene(new Scene(console));
-			Context context = console.getContext();
-			context.getPolyglotBindings().putMember("card", editor.getCard());
-			console.setPrefSize(600, 400);
-			editor.cardProperty().addListener((observable, oldValue, newValue) -> {
-				if (oldValue != null) {
-					context.getPolyglotBindings().removeMember("card");
-				}
-				if (newValue != null) {
-					context.getPolyglotBindings().putMember("card", newValue);
-				}
-				console.refreshBindings();
-			});
-		}
-		consoleStage.show();
-		consoleStage.toFront();
-	}
+    @FXML
+    private void promptLoadCard() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(CARDS_DIRECTORY);
+        File file = fileChooser.showOpenDialog(this);
+        if (file != null) {
+            loadCard(file);
+        }
+    }
 
-	protected ObservableList<Property<?>> settings = FXCollections.observableArrayList();
+    @FXML
+    private void promptSaveCard() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(CARDS_DIRECTORY);
+        File file = fileChooser.showSaveDialog(this);
+        if (file != null) {
+            FXMLSaver.save(file, editor.getCard());
+        }
+    }
 
-	protected ObjectProperty<Color> fxBase = new SimpleObjectProperty<>(this, "fxBase", Color.SLATEBLUE){
-		{
-			addListener((observable, oldValue, newValue) -> {
-				root.setStyle("-fx-base: #" + newValue.toString().substring(2));
-			});
-		}
-	};
+    public void loadCard(File file) {
+        async(() -> new FXMLLoader(file.toURI().toURL()).load(), editor::setCard);
+    }
 
-	public Color getFxBase(){
-		return fxBase.get();
-	}
-	public void setFxBase(Color fxBase){
-		this.fxBase.set(fxBase);
-	}
+    @FXML
+    public void openPolyglotConsole() {
+        if (consoleStage == null) {
+            consoleStage = new Stage();
+            consoleStage.setTitle("Polyglot Console");
+            PolyglotConsole console = new PolyglotConsole();
+            consoleStage.setScene(new Scene(console));
+            Context context = console.getContext();
+            context.getPolyglotBindings().putMember("card", editor.getCard());
+            console.setPrefSize(600, 400);
+            editor.cardProperty().addListener((observable, oldValue, newValue) -> {
+                if (oldValue != null) {
+                    context.getPolyglotBindings().removeMember("card");
+                }
+                if (newValue != null) {
+                    context.getPolyglotBindings().putMember("card", newValue);
+                }
+                console.refreshBindings();
+            });
+        }
+        consoleStage.show();
+        consoleStage.toFront();
+    }
 
-	protected BooleanProperty maximize = new SimpleBooleanProperty(this, "maximize", true);
-	{
-		settings.add(fxBase);
-	}
+    protected ObservableList<Property<?>> settings = FXCollections.observableArrayList();
 
-	public void saveSettings() throws IOException {
-		Properties properties = new Properties();
-		properties.load(new FileReader(Path.of("settings").toFile()));
-		Set<Map.Entry<Object, Object>> entries = properties.entrySet();
-	}
+    protected ObjectProperty<Color> fxBase = new SimpleObjectProperty<>(this, "fxBase", Color.SLATEBLUE) {
+        {
+            addListener((observable, oldValue, newValue) -> {
+                root.setStyle("-fx-base: #" + newValue.toString().substring(2));
+            });
+        }
+    };
 
-	public void openSettings(){
-		PropertySheet propertySheet = new PropertySheet();
-		List<BeanProperty> props = settings.stream().map(this::settingToBeanProperty).toList();
-		propertySheet.getItems().setAll(props);
-		Stage stage = new Stage();
-		Scene scene = new Scene(propertySheet);
-		stage.setScene(scene);
-		stage.initOwner(this);
-		stage.initModality(Modality.APPLICATION_MODAL);
-		stage.show();
-	}
+    public Color getFxBase() {
+        return fxBase.get();
+    }
 
-	private BeanProperty settingToBeanProperty(Property<?> setting) {
-		try {
-			return new BeanProperty(this, new PropertyDescriptor(setting.getName(), this.getClass()));
-		} catch (IntrospectionException e) {
-			throw new RuntimeException(e);
-		}
-	}
+    public void setFxBase(Color fxBase) {
+        this.fxBase.set(fxBase);
+    }
+
+    protected BooleanProperty maximize = new SimpleBooleanProperty(this, "maximize", true);
+
+    {
+        settings.add(fxBase);
+    }
+
+    public void saveSettings() throws IOException {
+        Properties properties = new Properties();
+        properties.load(new FileReader(Path.of("settings").toFile()));
+        Set<Map.Entry<Object, Object>> entries = properties.entrySet();
+    }
+
+    public void openSettings() {
+        PropertySheet propertySheet = new PropertySheet();
+        List<BeanProperty> props = settings.stream().map(this::settingToBeanProperty).toList();
+        propertySheet.getItems().setAll(props);
+        Stage stage = new Stage();
+        Scene scene = new Scene(propertySheet);
+        stage.setScene(scene);
+        stage.initOwner(this);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.show();
+    }
+
+    private BeanProperty settingToBeanProperty(Property<?> setting) {
+        try {
+            return new BeanProperty(this, new PropertyDescriptor(setting.getName(), this.getClass()));
+        } catch (IntrospectionException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

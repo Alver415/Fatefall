@@ -25,9 +25,9 @@ public class CardEditor extends StackPane {
     @FXML
     protected StackPane wrapper;
 
-    public CardEditor(){
+    public CardEditor() {
         wrapper.getChildren().addListener((ListChangeListener<? super Node>) observable -> {
-            if (observable.getList().size() > 0 ){
+            if (observable.getList().size() > 0) {
                 setCard((Card) observable.getList().get(0));
             }
         });
@@ -44,7 +44,9 @@ public class CardEditor extends StackPane {
         });
         cardProperty().addListener((observable, oldValue, newValue) -> {
             wrapper.getChildren().clear();
-            wrapper.getChildren().add(newValue);
+            if (newValue != null) {
+                wrapper.getChildren().add(newValue);
+            }
         });
 
         showOutlinesProperty().addListener(observable -> {
