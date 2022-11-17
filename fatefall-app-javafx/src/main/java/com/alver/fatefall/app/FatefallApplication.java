@@ -20,6 +20,12 @@ import java.util.Objects;
 @ComponentScan("com.alver.fatefall.app")
 public class FatefallApplication extends Application {
 
+    public static class Launcher{
+        public static void main(String... args){
+            Application.launch(FatefallApplication.class);
+        }
+    }
+
     public static ApplicationContext APPLICATION_CONTEXT;
 
     @Autowired

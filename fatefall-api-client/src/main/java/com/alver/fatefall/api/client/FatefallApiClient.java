@@ -8,14 +8,14 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 
-public class RemoteFatefallApi implements FatefallApi {
+public class FatefallApiClient implements FatefallApi {
 
     private final WebClient client;
 
-    private final RemoteCardApi cardApi;
-    private final RemoteCardCollectionApi cardCollectionApi;
+    private final CardApiClient cardApi;
+    private final CardCollectionApiClient cardCollectionApi;
 
-    public RemoteFatefallApi(String baseUrl) {
+    public FatefallApiClient(String baseUrl) {
         client = WebClient.builder()
                 .baseUrl(baseUrl)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -23,8 +23,8 @@ public class RemoteFatefallApi implements FatefallApi {
                         configurer -> configurer.defaultCodecs().maxInMemorySize(Integer.MAX_VALUE)).build())
                 .build();
 
-        this.cardApi = new RemoteCardApi(client);
-        this.cardCollectionApi = new RemoteCardCollectionApi(client);
+        this.cardApi = new CardApiClient(client);
+        this.cardCollectionApi = new CardCollectionApiClient(client);
     }
 
     public WebClient getClient() {

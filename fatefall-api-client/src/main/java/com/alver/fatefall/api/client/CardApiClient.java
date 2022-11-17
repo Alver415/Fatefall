@@ -6,17 +6,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
-import org.springframework.web.util.UriBuilder;
 import reactor.core.publisher.Mono;
 
-import java.io.IOException;
-import java.io.InputStream;
+public class CardApiClient extends AbstractApi implements CardApi {
 
-public class RemoteCardApi extends AbstractApi implements CardApi {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CardApiClient.class);
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RemoteCardApi.class);
-
-    protected RemoteCardApi(WebClient client) {
+    protected CardApiClient(WebClient client) {
         super(client);
     }
 

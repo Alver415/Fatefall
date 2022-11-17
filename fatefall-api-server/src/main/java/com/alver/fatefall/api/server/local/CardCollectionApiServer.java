@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("card_collection")
-public class LocalCardCollectionApi implements CardCollectionApi {
+public class CardCollectionApiServer implements CardCollectionApi {
 
     @Autowired
     protected CardCollectionRepository cardCollectionRepository;

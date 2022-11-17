@@ -1,8 +1,8 @@
 package com.alver.fatefall.app.configuration;
 
 import com.alver.fatefall.api.FatefallApi;
-import com.alver.fatefall.api.client.RemoteFatefallApi;
-import com.alver.fatefall.api.server.local.LocalFatefallApi;
+import com.alver.fatefall.api.server.local.FatefallApiServer;
+import org.hsqldb.server.Server;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -16,8 +16,18 @@ import org.springframework.context.annotation.Profile;
 public class LocalFatefallConfiguration {
 
     @Bean
-    @Profile(Profiles.LOCAL)
     public FatefallApi getLocalFatefallApi() {
-        return new LocalFatefallApi();
+        return new FatefallApiServer();
     }
+
+    @Bean("database")
+    public Server getDatabase(){
+        Server server = new Server();
+        server.setDatabaseName(0, "fatefall");
+        server.setDatabasePath(0, "file:database/fatefall");
+        server.setPort(9001); // this is the default port
+        server.start();
+        return server;
+    }
+
 }

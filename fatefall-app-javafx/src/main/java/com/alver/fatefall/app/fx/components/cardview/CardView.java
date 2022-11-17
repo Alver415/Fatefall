@@ -64,15 +64,7 @@ public class CardView extends StackPane implements FxComponent {
     /**
      * === Card Property ==
      */
-    protected ObjectProperty<Card> cardProperty = new SimpleObjectProperty<>(){
-        {
-            addListener((observable, oldValue, newValue) -> {
-                if (newValue != null){
-                    frontFaceProperty.bindBidirectional(newValue.frontFaceImageProperty());
-                }
-            });
-        }
-    };
+    protected ObjectProperty<Card> cardProperty = new SimpleObjectProperty<>();
     public final void setCard(Card value) {
         cardProperty.set(value);
     }
@@ -149,6 +141,7 @@ public class CardView extends StackPane implements FxComponent {
         setupControls();
         setPickOnBounds(true);
         imageView.imageProperty().bind(frontFaceProperty);
+        cardProperty.addListener(l -> sideProperty.set(Side.FRONT));
 
         //Whenever side changes, update the imageView binding.
         sideProperty().addListener((observable, oldValue, newValue) -> {

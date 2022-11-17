@@ -12,7 +12,7 @@
         <TextField fx:id="searchInput" promptText="Search for Magic cards..." BorderPane.alignment="CENTER"/>
     </top>
     <center>
-        <ScrollPane fitToWidth="true" prefHeight="825" vbarPolicy="NEVER" hbarPolicy="NEVER">
+        <ScrollPane fitToWidth="true" prefHeight="825" prefWidth="1220" vbarPolicy="NEVER" hbarPolicy="NEVER">
             <GridPane fx:id="gridPane" hgap="5.0" vgap="5.0" >
                 <padding>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>

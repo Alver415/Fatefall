@@ -8,7 +8,6 @@
         <groupId>com.alver.fatefall</groupId>
         <artifactId>base</artifactId>
         <version>${revision}</version>
-
     </parent>
     <artifactId>fatefall-app-javafx</artifactId>
     <name>Fatefall Application JavaFX</name>
@@ -34,6 +33,18 @@
         <dependency>
             <groupId>com.alver.fatefall</groupId>
             <artifactId>template-builder</artifactId>
+        </dependency>
+
+        <!--   JavaFX    -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
         </dependency>
 
         <!--   Spring    -->

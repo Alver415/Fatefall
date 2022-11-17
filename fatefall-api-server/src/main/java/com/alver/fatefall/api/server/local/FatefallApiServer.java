@@ -5,7 +5,7 @@ import com.alver.fatefall.api.CardCollectionApi;
 import com.alver.fatefall.api.FatefallApi;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class LocalFatefallApi implements FatefallApi {
+public class FatefallApiServer implements FatefallApi {
 
     @Autowired
     private CardApi cardApi;

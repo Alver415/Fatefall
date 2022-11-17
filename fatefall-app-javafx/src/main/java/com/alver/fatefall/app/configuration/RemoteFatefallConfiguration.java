@@ -1,8 +1,7 @@
 package com.alver.fatefall.app.configuration;
 
 import com.alver.fatefall.api.FatefallApi;
-import com.alver.fatefall.api.client.RemoteFatefallApi;
-import com.alver.fatefall.api.server.local.LocalFatefallApi;
+import com.alver.fatefall.api.client.FatefallApiClient;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -28,7 +27,7 @@ public class RemoteFatefallConfiguration {
     @Bean
     @Profile(Profiles.REMOTE)
     public FatefallApi getRemoteFatefallApi() {
-        return new RemoteFatefallApi(url);
+        return new FatefallApiClient(url);
     }
 
 }

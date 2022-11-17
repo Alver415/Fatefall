@@ -6,6 +6,7 @@ import com.alver.fatefall.api.server.repositories.CardRepository;
 import com.alver.fatefall.api.server.services.CardService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,22 +14,22 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
+@DependsOn("database")
 @RestController
 @RequestMapping("card")
 @ResponseBody
-public class LocalCardApi implements CardApi {
+public class CardApiServer implements CardApi {
 
     protected CardRepository cardRepository;
     protected CardService cardService;
 
     @Autowired
-    public LocalCardApi(
+    public CardApiServer(
             CardRepository cardRepository,
             CardService cardService) {
         this.cardRepository = cardRepository;

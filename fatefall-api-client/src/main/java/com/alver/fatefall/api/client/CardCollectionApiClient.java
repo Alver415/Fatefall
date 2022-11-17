@@ -16,11 +16,11 @@ import java.io.File;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class RemoteCardCollectionApi extends AbstractApi implements CardCollectionApi {
+public class CardCollectionApiClient extends AbstractApi implements CardCollectionApi {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RemoteCardCollectionApi.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CardCollectionApiClient.class);
 
-    protected RemoteCardCollectionApi(WebClient client) {
+    protected CardCollectionApiClient(WebClient client) {
         super(client);
     }
 

@@ -8,12 +8,12 @@
 <?import javafx.scene.control.TextArea?>
 <?import com.alver.fatefall.templatebuilder.app.CardEditor?>
 <fx:root type="BorderPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-         fx:controller="com.alver.fatefall.app.fx.components.cardinfo.CardInfo">
-    <top>
-                <CardView fx:id="cardView"/>
-                <CardEditor fx:id="cardEditor"/>
-    </top>
-    <center>
-        <TextArea fx:id="textArea" style="-fx-font-family: 'monospaced'"/>
-    </center>
+		 fx:controller="com.alver.fatefall.app.fx.components.cardinfo.CardInfo">
+	<top>
+		<CardView fx:id="cardView"/>
+<!--		<CardEditor fx:id="cardEditor"/>-->
+	</top>
+	<center>
+		<TextArea fx:id="textArea" style="-fx-font-family: 'monospaced'"/>
+	</center>
 </fx:root>

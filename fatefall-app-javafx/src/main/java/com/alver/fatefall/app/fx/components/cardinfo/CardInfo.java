@@ -40,8 +40,6 @@ public class CardInfo extends BorderPane implements FxComponent {
     @FXML
     protected CardView cardView;
     @FXML
-    protected CardEditor cardEditor;
-    @FXML
     protected TextArea textArea;
 
 
@@ -77,14 +75,7 @@ public class CardInfo extends BorderPane implements FxComponent {
 
     @FXML
     public void initialize() {
-        cardEditor.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            if (event.getCode().equals(KeyCode.S) && event.isControlDown()){
-                WritableImage snapshot = cardEditor.snapshot(new SnapshotParameters(), null);
-                getCard().setFrontFaceImage(snapshot);
-            }
-        });
-        cardView.setVisible(false);
-        cardProperty.bindBidirectional(cardView.cardProperty());
+        cardView.cardProperty().bind(cardProperty);
         cardProperty.addListener((observable, oldValue, newValue) -> refresh());
 
         textArea.setOnKeyPressed(e -> {
