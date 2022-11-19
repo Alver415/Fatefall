@@ -9,17 +9,12 @@ import com.alver.fatefall.app.services.DialogService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.alver.fatefall.templatebuilder.app.CardEditor;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.BorderPane;
 import org.springframework.beans.factory.annotation.Autowired;
 import plugin.ScriptPlugin;
 
@@ -29,6 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+
+import static com.alver.fatefall.app.fx.components.Borders.*;
 
 public class CardInfo extends BorderPane implements FxComponent {
 
@@ -41,16 +38,6 @@ public class CardInfo extends BorderPane implements FxComponent {
     protected CardView cardView;
     @FXML
     protected TextArea textArea;
-
-
-    protected final static Border BLACK = new Border(new BorderStroke(Color.BLACK,
-            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
-    protected final static Border ORANGE = new Border(new BorderStroke(Color.ORANGE,
-            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
-    protected final static Border RED = new Border(new BorderStroke(Color.RED,
-            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
-    protected final static Border GREEN = new Border(new BorderStroke(Color.GREEN,
-            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT));
 
     /**
      * === Selected Property ==
