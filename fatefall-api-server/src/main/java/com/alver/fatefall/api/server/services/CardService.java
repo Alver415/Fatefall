@@ -1,7 +1,7 @@
 package com.alver.fatefall.api.server.services;
 
 import com.alver.fatefall.api.models.Card;
-import com.alver.fatefall.api.server.repositories.CardRepository;
+import com.alver.fatefall.api.server.repositories.jpa.CardRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import mse.SetManager;

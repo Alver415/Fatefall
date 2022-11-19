@@ -34,7 +34,7 @@ public class Card extends PersistedObject {
     @Access(AccessType.PROPERTY)
     @Column(name="data", length = Integer.MAX_VALUE)
     public String getJson(){
-        return data.toString();
+        return getData().toString();
     }
     public String getJsonPretty() {
         try {

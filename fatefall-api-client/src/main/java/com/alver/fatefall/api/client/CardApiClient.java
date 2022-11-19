@@ -2,11 +2,14 @@ package com.alver.fatefall.api.client;
 
 import com.alver.fatefall.api.CardApi;
 import com.alver.fatefall.api.models.Card;
+import javafx.scene.image.Image;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import reactor.core.publisher.Mono;
+
+import java.io.ByteArrayInputStream;
 
 public class CardApiClient extends AbstractApi implements CardApi {
 
@@ -40,7 +43,11 @@ public class CardApiClient extends AbstractApi implements CardApi {
                 .block();
     }
 
-    public byte[] getImage(String location){
+    public Image getImage(String location){
+        return new Image(new ByteArrayInputStream(getImageBytes(location)));
+    }
+
+    public byte[] getImageBytes(String location){
         return client.get()
                 .uri(new DefaultUriBuilderFactory().builder()
                         .path("card/image")

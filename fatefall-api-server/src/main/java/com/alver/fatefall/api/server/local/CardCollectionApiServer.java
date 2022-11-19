@@ -1,7 +1,7 @@
 package com.alver.fatefall.api.server.local;
 
 import com.alver.fatefall.api.CardCollectionApi;
-import com.alver.fatefall.api.server.repositories.CardCollectionRepository;
+import com.alver.fatefall.api.server.repositories.jpa.CardCollectionRepository;
 import com.alver.fatefall.api.server.services.CardCollectionService;
 import com.alver.fatefall.api.models.CardCollection;
 import org.springframework.beans.factory.annotation.Autowired;

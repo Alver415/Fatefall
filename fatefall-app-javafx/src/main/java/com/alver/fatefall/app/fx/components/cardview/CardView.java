@@ -179,8 +179,8 @@ public class CardView extends StackPane implements FxComponent {
         progressIndicator.setVisible(true);
         runAsync(() -> {
             try {
-                Image frontFaceImage = new Image(new ByteArrayInputStream(fatefallApi.getCardApi().getImage(card.getFrontFaceUrl())));
-                Image backFaceImage = new Image(new ByteArrayInputStream(fatefallApi.getCardApi().getImage(card.getBackFaceUrl())));
+                Image frontFaceImage = fatefallApi.getCardApi().getImage(card.getFrontFaceUrl());
+                Image backFaceImage = fatefallApi.getCardApi().getImage(card.getBackFaceUrl());
 
                 runFx(() -> {
                     progressIndicator.progressProperty().bind(frontFaceImage.progressProperty());
@@ -258,7 +258,10 @@ public class CardView extends StackPane implements FxComponent {
             runFx(() -> {
                 for (CardCollection cardCollection : cardCollections) {
                     MenuItem item = new MenuItem(cardCollection.getName());
-                    item.setOnAction(a -> cardCollection.getCards().add(getCard()));
+                    item.setOnAction(a -> {
+                        cardCollection.getCards().add(getCard());
+                        fatefallApi.getCardCollectionApi().save(cardCollection);
+                    });
                     collectionsMenu.getItems().add(item);
                 }
             });
