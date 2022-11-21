@@ -1,5 +1,6 @@
 package com.alver.fatefall.templatebuilder.components.block;
 
+import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 
 public class CardFace extends AnchorPane {
@@ -19,5 +20,10 @@ public class CardFace extends AnchorPane {
                 prefHeightProperty().bind(card.cardHeight);
             }
         });
+    }
+
+    public CardFace(Node... children){
+        this();
+        getChildren().addAll(children);
     }
 }
