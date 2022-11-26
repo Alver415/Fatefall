@@ -4,7 +4,10 @@ import com.alver.fatefall.JsonUtil;
 import com.alver.fatefall.api.FatefallApi;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.app.fx.components.FxComponent;
+import com.alver.fatefall.app.fx.components.cardview.CardFace;
+import com.alver.fatefall.app.fx.components.cardview.CardPane;
 import com.alver.fatefall.app.fx.components.cardview.CardView;
+import com.alver.fatefall.app.fx.components.cardview.ImageBlock;
 import com.alver.fatefall.app.services.DialogService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -13,6 +16,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +67,17 @@ public class CardInfo extends BorderPane implements FxComponent {
     @FXML
     public void initialize() {
         cardView.cardProperty().bind(cardProperty);
+        cardProperty.addListener((observable, oldValue, newValue) -> {
+            if (newValue != null){
+                CardPane card = new CardPane();
+                ImageBlock frontImage = new ImageBlock();
+                frontImage.setImage(new Image(newValue.getFrontFaceUrl()));
+                ImageBlock backImage = new ImageBlock();
+                backImage.setImage(new Image(newValue.getBackFaceUrl()));
+                card.setFront(new CardFace(frontImage));
+                card.setBack(new CardFace(backImage));
+            }
+        });
         cardProperty.addListener((observable, oldValue, newValue) -> refresh());
 
         textArea.setOnKeyPressed(e -> {

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.alver.fatefall.templatebuilder.components.block.Card?>
-<?import com.alver.fatefall.templatebuilder.components.block.CardFace?>
-<?import com.alver.fatefall.templatebuilder.components.block.TextBlock?>
-<Card xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      cardWidth="375" cardHeight="523">
+<?import com.alver.fatefall.app.fx.components.cardview.CardPane?>
+<?import com.alver.fatefall.app.fx.components.cardview.CardFace?>
+<?import com.alver.fatefall.app.fx.components.cardview.TextBlock?>
+<CardPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+		  cardWidth="375" cardHeight="523">
     <front>
         <CardFace translateX="0.0" translateY="0.0" translateZ="0.0">
             <children>
@@ -16,4 +16,4 @@
         </CardFace>
     </front>
     <back/>
-</Card>
+</CardPane>

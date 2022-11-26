@@ -23,7 +23,6 @@
         <module>plugin-system</module>
         <module>scryfall-api-client</module>
         <module>mse-interface</module>
-        <module>template-builder</module>
     </modules>
 
     <properties>

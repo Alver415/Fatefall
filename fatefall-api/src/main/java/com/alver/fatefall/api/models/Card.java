@@ -19,6 +19,16 @@ public class Card extends PersistedObject {
     private JsonNode data;
     private String frontFaceUrl;
     private String backFaceUrl;
+    private String fxml;
+
+    @Access(AccessType.PROPERTY)
+    @Column(name="fxml")
+    public String getFxml(){
+        return fxml;
+    }
+    public void setFxml(String fxml){
+        this.fxml = fxml;
+    }
 
     public JsonNode getData() {
         //Ensure data is never null, but rather empty.
@@ -72,5 +82,18 @@ public class Card extends PersistedObject {
 
     public void setFrontFaceImage(Image frontFaceImage) {
         this.frontFaceImageProperty().set(frontFaceImage);
+    }
+
+    @Transient
+    protected ObjectProperty<Image> backFaceImage = new SimpleObjectProperty<>(this, "backFaceImage", null);
+    public ObjectProperty<Image> backFaceImageProperty(){
+        return backFaceImage;
+    }
+    public Image getBackFaceImage(){
+        return backFaceImageProperty().get();
+    }
+
+    public void setBackFaceImage(Image backFaceImage) {
+        this.backFaceImageProperty().set(backFaceImage);
     }
 }

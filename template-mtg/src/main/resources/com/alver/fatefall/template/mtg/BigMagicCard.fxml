@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.alver.fatefall.templatebuilder.components.block.*?>
-<Card xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      cardWidth="745" cardHeight="1040">
+<?import com.alver.fatefall.app.fx.components.cardview.*?>
+<CardPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+		  cardWidth="745" cardHeight="1040">
     <front>
         <CardFace>
             <Block blendMode="SRC_ATOP" anchors="0">
@@ -50,4 +50,4 @@
                         anchors="0"/>
         </CardFace>
     </back>
-</Card>
+</CardPane>
