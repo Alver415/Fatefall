@@ -18,6 +18,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
@@ -62,7 +63,7 @@ public abstract class CardGridPane extends BorderPane implements FxComponent {
     protected Map<Long, CardView> map = new HashMap<>();
 
     @FXML
-    protected GridPane gridPane;
+    protected FlowPane flowPane;
 
     public CardGridPane() {
         this(CardGridPane.class);
@@ -85,17 +86,13 @@ public abstract class CardGridPane extends BorderPane implements FxComponent {
     }
 
     protected void redraw(List<Card> cards) {
-        gridPane.getChildren().clear();
-        //TODO: Remove limit and implement pagination.
-        for (int i = 0; i < cards.size(); i++) {
-            int col = i % GRID_DIMENSION_ROW;
-            int row = i / GRID_DIMENSION_COL;
-            Card card = cards.get(i);
+        flowPane.getChildren().clear();
+        for (Card card : cards) {
             CardView cardView = new CardView();
             cardView.setCard(card);
             cardView.setOnMouseClicked((event) -> handleCardViewSelection(cardView, event));
             map.put(card.getPk(), cardView);
-            gridPane.add(cardView, col, row);
+            flowPane.getChildren().add(cardView);
         }
     }
 

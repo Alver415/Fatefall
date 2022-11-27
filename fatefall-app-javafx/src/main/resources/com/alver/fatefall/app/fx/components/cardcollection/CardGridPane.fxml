@@ -12,12 +12,12 @@
         <TextField fx:id="searchInput" promptText="Search for Magic cards..." BorderPane.alignment="CENTER"/>
     </top>
     <center>
-        <ScrollPane fitToWidth="true" prefHeight="825" prefWidth="1220" vbarPolicy="NEVER" hbarPolicy="NEVER">
-            <GridPane fx:id="gridPane" hgap="5.0" vgap="5.0" >
+        <ScrollPane fitToWidth="true" style="-fx-border-color:blue">
+            <FlowPane fx:id="flowPane" hgap="5" vgap="5" style="-fx-border-color:red">
                 <padding>
-                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    <Insets bottom="10" left="10" right="10" top="10"/>
                 </padding>
-            </GridPane>
+            </FlowPane>
         </ScrollPane>
     </center>
     <right>

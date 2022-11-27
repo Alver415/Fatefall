@@ -45,6 +45,12 @@ public class CardPane extends AnchorPane {
 			getChildren().clear();
 			getChildren().add(newValue);
 		});
+		minWidthProperty().bind(cardWidthProperty());
+		minHeightProperty().bind(cardHeightProperty());
+		prefWidthProperty().bind(cardWidthProperty());
+		prefHeightProperty().bind(cardHeightProperty());
+		maxWidthProperty().bind(cardWidthProperty());
+		maxHeightProperty().bind(cardHeightProperty());
 	}
 
 	public List<? extends Block<?>> getBlocks() {

@@ -110,8 +110,8 @@ public class CardView extends StackPane implements FxComponent {
     }
 
     private void setImages(Image frontFaceImage, Image backFaceImage) {
-        cardPane.setCardWidth(frontFaceImage.getWidth());
-        cardPane.setCardHeight(frontFaceImage.getHeight());
+        cardPane.setCardWidth(300d);
+        cardPane.setCardHeight(450d);
 
         ImageBlock frontBlock = new ImageBlock(frontFaceImage.getException() == null ? frontFaceImage : PLACEHOLDER);
         ImageBlock backBlock = new ImageBlock(backFaceImage.getException() == null ? backFaceImage : PLACEHOLDER);
