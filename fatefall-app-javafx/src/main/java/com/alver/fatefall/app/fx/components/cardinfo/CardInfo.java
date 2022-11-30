@@ -39,7 +39,7 @@ public class CardInfo extends BorderPane implements FxComponent {
     protected DialogService dialogService;
 
     @FXML
-    protected CardView cardView;
+    protected CardView cardEditorView;
     @FXML
     protected TextArea textArea;
 
@@ -66,7 +66,7 @@ public class CardInfo extends BorderPane implements FxComponent {
 
     @FXML
     public void initialize() {
-        cardView.cardProperty().bind(cardProperty);
+        cardEditorView.cardProperty().bind(cardProperty);
         cardProperty.addListener((observable, oldValue, newValue) -> {
             if (newValue != null){
                 CardPane card = new CardPane();

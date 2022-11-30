@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.alver.fatefall.app.fx.components.cardview.CardView?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
+<?import com.alver.fatefall.app.fx.components.cardview.CardEditorView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
 <fx:root type="BorderPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
 		 fx:controller="com.alver.fatefall.app.fx.components.cardinfo.CardInfo">
 	<top>
-		<CardView fx:id="cardView"/>
+		<CardEditorView fx:id="cardEditorView"/>
 	</top>
 	<center>
 		<TextArea fx:id="textArea" style="-fx-font-family: 'monospaced'"/>

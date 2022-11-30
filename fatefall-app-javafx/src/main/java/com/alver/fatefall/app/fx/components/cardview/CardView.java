@@ -45,7 +45,7 @@ public class CardView extends StackPane implements FxComponent {
 
 
     public CardView() {
-        initFxml();
+        initFxml(CardView.class);
     }
 
     public CardPane getCardPane(){
