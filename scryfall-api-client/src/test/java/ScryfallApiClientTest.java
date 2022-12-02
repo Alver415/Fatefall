@@ -1,4 +1,4 @@
-import com.alver.fatefall.api.models.Card;
+import com.alver.fatefall.api.Card;
 import com.alver.scryfall.api.CardApi;
 import com.alver.scryfall.api.ScryfallApiClient;
 import com.fasterxml.jackson.databind.JsonNode;

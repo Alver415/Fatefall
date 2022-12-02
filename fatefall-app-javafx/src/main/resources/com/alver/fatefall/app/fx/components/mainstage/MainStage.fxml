@@ -16,7 +16,6 @@
                             <MenuItem text="New" fx:id="newCollection"/>
                             <MenuItem text="Save" fx:id="saveCollection"/>
                             <SeparatorMenuItem/>
-                            <MenuItem text="Import from MSE" fx:id="importFromMse"/>
                         </Menu>
                         <Menu text="Help">
                             <MenuItem text="Settings" fx:id="openSettings" onAction="#openSettings"/>
@@ -31,7 +30,7 @@
                     </ScrollPane>
                 </left>
                 <center>
-                    <TabPane fx:id="tabPane"/>
+                    <TabPane fx:id="tabPane" prefWidth="600"/>
                 </center>
             </BorderPane>
         </Scene>

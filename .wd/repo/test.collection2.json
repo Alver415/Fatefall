@@ -1,0 +1,13 @@
+{
+  "id": 1,
+  "name": "collection2",
+  "cards": [{
+	"id": 1,
+	"name": "card",
+	"frontUrl":"https://cards.scryfall.io/large/front/7/b/7b215968-93a6-4278-ac61-4e3e8c3c3943.jpg?1566971561",
+	"backUrl":"https://cards.scryfall.io/large/back/7/b/7b215968-93a6-4278-ac61-4e3e8c3c3943.jpg?1566971561"
+  }],
+  "data": {
+
+  }
+}

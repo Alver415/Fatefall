@@ -1,192 +1,131 @@
 package com.alver.fatefall.app.fx.components.mainstage;
 
-import com.alver.fatefall.api.FatefallApi;
-import com.alver.fatefall.api.models.CardCollection;
+import com.alver.fatefall.api.CardCollection;
 import com.alver.fatefall.app.fx.components.FxComponent;
 import com.alver.fatefall.app.fx.components.cardcollection.CardCollectionPane;
-import com.alver.fatefall.app.fx.components.cardcollection.ScryfallSearchPane;
 import com.alver.fatefall.app.fx.components.settings.Settings;
-import com.alver.fatefall.app.services.DialogService;
-import com.alver.scryfall.api.ScryfallApiClient;
+import com.alver.fatefall.app.services.Repository;
 import javafx.collections.FXCollections;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.File;
 import java.util.Objects;
 import java.util.Optional;
 
 public class MainStage extends Stage implements FxComponent {
 
-    private static final Logger LOGGER = LogManager.getLogger(MainStage.class);
+	private static final Logger LOGGER = LogManager.getLogger(MainStage.class);
 
-    /**
-     * Spring Dependency Injection
-     */
-    @Autowired
-    protected ScryfallApiClient client;
-    @Autowired
-    protected FatefallApi fatefallApi;
-    @Autowired
-    protected DialogService dialogService;
-    @Autowired
-    protected Settings settings;
+	protected Settings settings;
 
-    /**
-     * FXML Injection
-     */
-    @FXML
-    protected ListView<CardCollection> collectionsList;
-    @FXML
-    protected TabPane tabPane;
+	/**
+	 * FXML Injection
+	 */
+	@FXML
+	protected ListView<CardCollection> collectionsList;
+	@FXML
+	protected TabPane tabPane;
 
-    @FXML
-    protected MenuItem newCollection;
-    @FXML
-    protected MenuItem saveCollection;
-    @FXML
-    protected MenuItem importFromMse;
+	@FXML
+	protected MenuItem newCollection;
+	@FXML
+	protected MenuItem saveCollection;
 
-    @FXML
-    protected MenuItem openSettings;
+	@FXML
+	protected MenuItem openSettings;
 
-    public MainStage() {
-        initFxml();
-    }
+	protected Repository repository = new Repository();
 
-    @FXML
-    public void initialize() {
-        tabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == null) {
-                //This *should* only happen if there are no more tabs.
-                addScryfallTab();
-            }
-        });
-        //So there's always something there on startup.
-        addScryfallTab();
+	public MainStage() {
+		initFxml();
+	}
 
-        collectionsList.setCellFactory(cardCollectionCellFactory);
-        collectionsList.setItems(FXCollections.observableList(fatefallApi.getCardCollectionApi().findAll()));
+	@FXML
+	public void initialize() {
+		collectionsList.setCellFactory(cardCollectionCellFactory);
+		collectionsList.setItems(FXCollections.observableList(repository.getCardCollections()));
 
-        newCollection.setOnAction(a -> newCollection());
-        saveCollection.setOnAction(a -> saveCollection());
-        importFromMse.setOnAction(a -> importFromMse());
+		newCollection.setOnAction(a -> newCollection());
+		saveCollection.setOnAction(a -> saveCollection());
 
-    }
+	}
 
-    private void importFromMse() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Import from Magic Set Editor");
-        File file = fileChooser.showOpenDialog(this);
+	@FXML
+	private void openSettings() {
+		settings.show();
+	}
 
-        String name = dialogService.textInput(
-                "Import from Magic Set Editor",
-                "Enter a name for the new collection.")
-                .orElse(file.getName());
+	private Tab addCollectionTab(CardCollection cardCollection) {
+		CardCollectionPane cardCollectionPane = new CardCollectionPane();
+		cardCollectionPane.setCardCollection(cardCollection);
 
-        if (!file.getName().endsWith(".mse-set")) {
-            return;
-        }
+		Tab tab = new Tab(cardCollection.getName());
+		tab.setContent(cardCollectionPane);
 
-        runAsync(() -> {
-            CardCollection cardCollection = fatefallApi.getCardCollectionApi().importFromMse(name, file);
-            runFx(() -> {
-                collectionsList.getItems().add(cardCollection);
-            });
-        });
+		tabPane.getTabs().add(tab);
+		return tab;
+	}
 
-    }
+	public void newCollection() {
+		TextInputDialog dialog = new TextInputDialog();
+		dialog.setHeaderText("Create a Collection");
+		dialog.setContentText("Enter a name for the new collection.");
+		dialog.showAndWait().ifPresent(this::createCollection);
+	}
 
-    private void addScryfallTab() {
-        Tab scryfallTab = new Tab("Scryfall");
-        scryfallTab.setOnCloseRequest(Event::consume);
-        scryfallTab.setContent(new ScryfallSearchPane());
-        tabPane.getTabs().add(scryfallTab);
-    }
+	private CardCollection createCollection(String name) {
+		boolean nameAlreadyExists = collectionsList.getItems().stream()
+				.map(CardCollection::getName)
+				.anyMatch(n -> Objects.equals(n, name));
+		if (nameAlreadyExists) {
+			throw new RuntimeException("A collection with that name already exists.");
+		}
+		CardCollection cardCollection = new CardCollection();
+		cardCollection.setName(name);
+		collectionsList.getItems().add(cardCollection);
+		return cardCollection;
+	}
 
-    @FXML
-    private void openSettings() {
-        settings.show();
-    }
+	public void saveCollection() {
+		CardCollection selectedItem = collectionsList.getSelectionModel().getSelectedItem();
+		repository.save(selectedItem);
+	}
 
-    private Tab addCollectionTab(CardCollection cardCollection) {
-        CardCollectionPane cardCollectionPane = new CardCollectionPane();
-        cardCollectionPane.setCardCollection(cardCollection);
+	private Callback<ListView<CardCollection>, ListCell<CardCollection>> cardCollectionCellFactory = (z) -> {
+		ListCell<CardCollection> cell = new ListCell<>() {
+			@Override
+			protected void updateItem(CardCollection item, boolean empty) {
+				super.updateItem(item, empty);
+				setText(empty ? null : item.getName());
+			}
+		};
+		//When double-clicked, open that cardCollection.
+		cell.setOnMouseClicked(e -> {
+			if (!cell.isEmpty() && cell.getItem() != null && e.getClickCount() == 2) {
+				openCollection(cell.getItem());
+			}
+		});
+		ContextMenu contextMenu = new ContextMenu();
+		MenuItem save = new MenuItem("Save");
+		save.setOnAction(a -> repository.save(cell.getItem()));
+		contextMenu.getItems().add(save);
 
-        Tab tab = new Tab(cardCollection.getName());
-        tab.setContent(cardCollectionPane);
+		cell.setContextMenu(contextMenu);
+		return cell;
+	};
 
-        tabPane.getTabs().add(tab);
-        return tab;
-    }
-
-    public void newCollection() {
-        Optional<String> response = dialogService
-                .textInput("New Collection", "Enter a name for the new collection.");
-        response.ifPresent(this::createCollection);
-    }
-
-    private CardCollection createCollection(String name) {
-        boolean nameAlreadyExists = collectionsList.getItems().stream()
-                .map(CardCollection::getName)
-                .anyMatch(n -> Objects.equals(n, name));
-        if (nameAlreadyExists) {
-            throw new RuntimeException("A collection with that name already exists.");
-        }
-        CardCollection cardCollection = new CardCollection();
-        cardCollection.setName(name);
-        collectionsList.getItems().add(cardCollection);
-        return cardCollection;
-    }
-
-    public void saveCollection() {
-        CardCollection selectedItem = collectionsList.getSelectionModel().getSelectedItem();
-        fatefallApi.getCardCollectionApi().save(selectedItem);
-    }
-
-    private Callback<ListView<CardCollection>, ListCell<CardCollection>> cardCollectionCellFactory = (z) -> {
-        ListCell<CardCollection> cell = new ListCell<>() {
-            @Override
-            protected void updateItem(CardCollection item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(null);
-                if (!empty) {
-                    //Show name with unsaved symbol is pk is null (not hibernate controlled).
-                    String unsavedSymbol = item.getPk() == null ? " *" : "";
-                    setText(item.getName() + unsavedSymbol);
-                }
-            }
-        };
-        //When double-clicked, open that cardCollection.
-        cell.setOnMouseClicked(e -> {
-            if (!cell.isEmpty() && cell.getItem() != null && e.getClickCount() == 2) {
-                openCollection(cell.getItem());
-            }
-        });
-        ContextMenu contextMenu = new ContextMenu();
-        MenuItem save = new MenuItem("Save");
-        save.setOnAction(a -> fatefallApi.getCardCollectionApi().save(cell.getItem()));
-        contextMenu.getItems().add(save);
-
-        cell.setContextMenu(contextMenu);
-        return cell;
-    };
-
-    private void openCollection(CardCollection cardCollection) {
-        tabPane.getTabs().stream()
-                .filter(tab -> tab.getText().equals(cardCollection.getName()))
-                .findFirst()
-                .ifPresentOrElse((tab) -> {
-                    tabPane.getSelectionModel().select(tab);
-                }, () -> {
-                    tabPane.getSelectionModel().select(addCollectionTab(cardCollection));
-                });
-    }
+	private void openCollection(CardCollection cardCollection) {
+		tabPane.getTabs().stream()
+				.filter(tab -> tab.getText().equals(cardCollection.getName()))
+				.findFirst()
+				.ifPresentOrElse((tab) -> {
+					tabPane.getSelectionModel().select(tab);
+				}, () -> {
+					tabPane.getSelectionModel().select(addCollectionTab(cardCollection));
+				});
+	}
 }

@@ -1,25 +1,17 @@
 package com.alver.fatefall.app.fx.components.cardview;
 
-import com.alver.fatefall.api.FatefallApi;
-import com.alver.fatefall.api.models.Card;
+import com.alver.fatefall.api.Card;
 import com.alver.fatefall.app.fx.components.FxComponent;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.Objects;
 
 
 public class CardView extends StackPane implements FxComponent {
-
-    @Autowired
-    private FatefallApi fatefallApi;
 
     @FXML
     protected CardPane cardPane;
@@ -74,38 +66,21 @@ public class CardView extends StackPane implements FxComponent {
     }
 
     private void setupCardFaces(Card card) {
-        if (card.getFxml() != null){
-            try {
-                CardPane cardPane = new FXMLLoader().load(new ByteArrayInputStream(card.getFxml().getBytes()));
-                this.getChildren().remove(this.cardPane);
-                this.getChildren().add(0, cardPane);
-                this.cardPane = cardPane;
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            return;
-        }
-
         runAsync(() -> {
-            try {
-                Image frontFaceImage = fatefallApi.getCardApi().getImage(card.getFrontFaceUrl());
-                Image backFaceImage = fatefallApi.getCardApi().getImage(card.getBackFaceUrl());
+            Image frontFaceImage = new Image(card.getFrontUrl());
+            Image backFaceImage = new Image(card.getBackUrl());
 
-                runFx(() -> {
-                    if (Objects.equals(frontFaceImage.getProgress(), 1.0)) {
-                        setImages(frontFaceImage, backFaceImage);
-                    } else {
-                        frontFaceImage.progressProperty().addListener((observable, oldValue, newValue) -> {
-                            if (newValue.equals(1.0)) {
-                                setImages(frontFaceImage, backFaceImage);
-                            }
-                        });
-                    }
-                });
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            runFx(() -> {
+                if (Objects.equals(frontFaceImage.getProgress(), 1.0)) {
+                    setImages(frontFaceImage, backFaceImage);
+                } else {
+                    frontFaceImage.progressProperty().addListener((observable, oldValue, newValue) -> {
+                        if (newValue.equals(1.0)) {
+                            setImages(frontFaceImage, backFaceImage);
+                        }
+                    });
+                }
+            });
         });
     }
 

@@ -1,33 +1,24 @@
 package com.alver.fatefall.app.services;
 
-import com.alver.fatefall.app.FxApplicationExceptionHandler;
 import javafx.application.Platform;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-@Service
 public class AsyncService {
 
-    @Autowired
-    private FxApplicationExceptionHandler applicationExceptionHandler;
-
-    private final ScheduledThreadPoolExecutor executor =
+    private static final ScheduledThreadPoolExecutor executor =
             new ScheduledThreadPoolExecutor(8, r -> {
                 Thread t = Executors.defaultThreadFactory().newThread(r);
-                t.setUncaughtExceptionHandler(applicationExceptionHandler);
                 t.setDaemon(true);
                 return t;
             });
 
-    public void runAsync(Runnable runnable) {
+    public static void runAsync(Runnable runnable) {
         executor.submit(wrap(runnable));
     }
 
-    public void runAsync(Runnable runnable, long delay) {
+    public static void runAsync(Runnable runnable, long delay) {
         executor.schedule(wrap(runnable), delay, TimeUnit.MILLISECONDS);
     }
 
@@ -35,7 +26,7 @@ public class AsyncService {
      * Wrap the runnable in a try/catch to report the error.
      * Otherwise, it is only added to the returned Future and potentially goes unhandled.
      */
-    private Runnable wrap(Runnable runnable) {
+    private static Runnable wrap(Runnable runnable) {
         return () -> {
             try {
                 runnable.run();
@@ -46,7 +37,7 @@ public class AsyncService {
         };
     }
 
-    public void runFx(Runnable runnable) {
+    public static void runFx(Runnable runnable) {
         if (!Platform.isFxApplicationThread()) {
             Platform.runLater(runnable);
         } else {

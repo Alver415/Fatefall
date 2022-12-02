@@ -11,16 +11,10 @@
     <name>Fatefall</name>
     <packaging>pom</packaging>
     <modules>
-        <!--    Back End Server/Client    -->
-        <module>fatefall-api</module>
-        <module>fatefall-api-server</module>
-        <module>fatefall-api-client</module>
-
-        <!--    Front End Application    -->
+        <!--    Application    -->
         <module>fatefall-app-javafx</module>
 
-        <!--    Tools    -->
-        <module>plugin-system</module>
+        <!--    PLugins    -->
         <module>scryfall-api-client</module>
         <module>mse-interface</module>
     </modules>
@@ -103,21 +97,6 @@
         <dependencies>
             <dependency>
                 <groupId>com.alver.fatefall</groupId>
-                <artifactId>fatefall-api</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alver.fatefall</groupId>
-                <artifactId>fatefall-api-client</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alver.fatefall</groupId>
-                <artifactId>fatefall-api-server</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alver.fatefall</groupId>
                 <artifactId>fatefall-app-javafx</artifactId>
                 <version>${revision}</version>
             </dependency>
@@ -135,19 +114,6 @@
                 <groupId>com.alver.fatefall</groupId>
                 <artifactId>scryfall-api-client</artifactId>
                 <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alver.fatefall</groupId>
-                <artifactId>template-builder</artifactId>
-                <version>${revision}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>2.6.4</version>
-                <type>pom</type>
-                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

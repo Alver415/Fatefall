@@ -1,9 +1,8 @@
 package com.alver.scryfall.api;
 
-import com.alver.fatefall.api.models.Card;
+import com.alver.fatefall.api.Card;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -29,11 +28,11 @@ public class CardDeserializer extends StdDeserializer<Card> {
         if (card_faces != null) {
             String frontFaceUrl = card_faces.get(0).path("image_uris").path("normal").asText();
             String backFaceUrl = card_faces.get(1).path("image_uris").path("normal").asText();
-            card.setFrontFaceUrl(frontFaceUrl);
-            card.setBackFaceUrl(backFaceUrl);
+            card.setFrontUrl(frontFaceUrl);
+            card.setBackUrl(backFaceUrl);
         } else {
             String frontFaceUrl = data.path("image_uris").path("normal").asText();
-            card.setBackFaceUrl(frontFaceUrl);
+            card.setBackUrl(frontFaceUrl);
         }
         card.setData(data);
         return card;

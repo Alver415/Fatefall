@@ -12,8 +12,8 @@
         <TextField fx:id="searchInput" promptText="Search for Magic cards..." BorderPane.alignment="CENTER"/>
     </top>
     <center>
-        <ScrollPane fitToWidth="true" style="-fx-border-color:blue">
-            <FlowPane fx:id="flowPane" hgap="5" vgap="5" style="-fx-border-color:red">
+        <ScrollPane fitToWidth="true">
+            <FlowPane fx:id="flowPane" hgap="5" vgap="5">
                 <padding>
                     <Insets bottom="10" left="10" right="10" top="10"/>
                 </padding>

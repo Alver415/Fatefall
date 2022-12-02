@@ -1,12 +1,9 @@
 package com.alver.fatefall.app.fx.components.cardcollection;
 
-import com.alver.fatefall.api.models.Card;
+import com.alver.fatefall.api.Card;
 import com.alver.fatefall.app.fx.components.FxComponent;
 import com.alver.fatefall.app.fx.components.cardinfo.CardInfo;
-import com.alver.fatefall.app.fx.components.cardview.CardEditorView;
 import com.alver.fatefall.app.fx.components.cardview.CardView;
-import com.alver.fatefall.app.services.DialogService;
-import com.alver.scryfall.api.ScryfallApiClient;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -20,27 +17,14 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public abstract class CardGridPane extends BorderPane implements FxComponent {
-
-    protected static final int GRID_DIMENSION_ROW = 4;
-    protected static final int GRID_DIMENSION_COL = 4;
-
-    /**
-     * Spring Dependency Injection
-     */
-    @Autowired
-    protected ScryfallApiClient scryfallClient;
-    @Autowired
-    protected DialogService errorHandler;
 
     @FXML
     protected TextField searchInput;
@@ -61,7 +45,7 @@ public abstract class CardGridPane extends BorderPane implements FxComponent {
         return selectedCardViewProperty;
     }
 
-    protected Map<Long, CardView> map = new HashMap<>();
+    protected Map<String, CardView> map = new HashMap<>();
 
     @FXML
     protected FlowPane flowPane;
@@ -92,7 +76,7 @@ public abstract class CardGridPane extends BorderPane implements FxComponent {
             CardView cardView = new CardView();
             cardView.setCard(card);
             cardView.setOnMouseClicked((event) -> handleCardViewSelection(cardView, event));
-            map.put(card.getPk(), cardView);
+            map.put(card.getId(), cardView);
             flowPane.getChildren().add(cardView);
         }
     }

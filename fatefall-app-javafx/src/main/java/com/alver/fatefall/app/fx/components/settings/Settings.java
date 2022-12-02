@@ -10,9 +10,6 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -22,11 +19,6 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Properties;
 
-import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_SINGLETON;
-
-@Lazy
-@Component
-@Scope(SCOPE_SINGLETON)
 public class Settings {
 
     private static final Logger LOGGER = LogManager.getLogger(Settings.class.getName());
