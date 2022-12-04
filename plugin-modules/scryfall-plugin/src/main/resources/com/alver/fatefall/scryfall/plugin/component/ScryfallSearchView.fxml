@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.alver.fatefall.app.fx.components.cardinfo.CardInfo?>
+<?import com.alver.fatefall.scryfall.plugin.component.ScryfallSearchView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.FlowPane?>
+<fx:root type="ScryfallSearchView"
+         xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml">
+    <top>
+        <TextField fx:id="queryInput" promptText="Search Scryfall Database..." onAction="#executeQuery"/>
+    </top>
+    <center>
+        <ScrollPane fitToHeight="true" fitToWidth="true">
+            <FlowPane fx:id="flowPane" hgap="5" vgap="5">
+                <padding>
+                    <Insets bottom="10" left="10" right="10" top="10"/>
+                </padding>
+            </FlowPane>
+        </ScrollPane>
+    </center>
+</fx:root>

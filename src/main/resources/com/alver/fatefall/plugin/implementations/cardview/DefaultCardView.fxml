@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.alver.fatefall.plugin.implementations.cardview.DefaultCardView?>
+<?import com.alver.fatefall.plugin.implementations.cardview.CardPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<fx:root xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+		 type="DefaultCardView">
+
+	<CardPane fx:id="cardPane"/>
+
+	<Button StackPane.alignment="BOTTOM_RIGHT"
+			style="-fx-background-radius: 100px; -fx-background-color: #FFF3"
+			onAction="#spinRight">
+		<graphic>
+			<ImageView fitHeight="16.0" fitWidth="16.0">
+				<Image url="@spin_right.png"/>
+			</ImageView>
+		</graphic>
+	</Button>
+
+	<Button StackPane.alignment="BOTTOM_CENTER"
+			style="-fx-background-radius: 100px; -fx-background-color: #FFF3"
+			onAction="#flip">
+		<graphic>
+			<ImageView fitHeight="16.0" fitWidth="16.0">
+				<Image url="@flip_front.png"/>
+			</ImageView>
+		</graphic>
+	</Button>
+
+	<Button StackPane.alignment="BOTTOM_LEFT"
+			style="-fx-background-radius: 100px; -fx-background-color: #FFF3"
+			onAction="#spinLeft">
+		<graphic>
+			<ImageView fitHeight="16.0" fitWidth="16.0">
+				<Image url="@spin_left.png"/>
+			</ImageView>
+		</graphic>
+	</Button>
+
+</fx:root>

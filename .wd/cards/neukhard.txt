@@ -1,8 +1,0 @@
-#Tue Nov 01 11:28:51 EDT 2022
-art=https\://cards.scryfall.io/art_crop/front/8/0/80ee7e6b-ae36-41e2-9f5f-273e8aa6cb06.jpg?1562871533
-name=Neu kh'ard
-developer=Developer\: Alver415
-text=When Neucahrd enters the battlefield, each player may cast a spell they own from exile without paying its mana cost.
-type=Legendary Creature - Elder
-first=C\:\\Users\\Alver\\Development\\projects\\Fatefall\\.wd\\..\\template-mtg\\src\\main\\resources\\com\\alver\\fatefall\\template\\mtg\\images\\gcard.jpg
-second=C\:\\Users\\Alver\\Development\\projects\\Fatefall\\.wd\\..\\template-mtg\\src\\main\\resources\\com\\alver\\fatefall\\template\\mtg\\images\\rcard.jpg

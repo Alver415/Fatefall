@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.alver.fatefall.plugin.implementations.cardview.DefaultCardView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import org.controlsfx.control.PropertySheet?>
+<fx:root type="BorderPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+		 fx:controller="com.alver.fatefall.app.fx.components.cardinfo.CardInfo">
+	<top>
+		<DefaultCardView fx:id="cardView"/>
+	</top>
+	<center>
+		<PropertySheet fx:id="propertySheet"/>
+	</center>
+</fx:root>
