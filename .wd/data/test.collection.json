@@ -5,7 +5,7 @@
 	"id": 1,
 	"name": "card",
 	"frontUrl":"https://cards.scryfall.io/large/front/4/4/4455b2fd-3b44-4100-9573-5d2ba4507b6c.jpg?1581103649",
-	"backUrl":"file:C:/Users/Alver/Development/projects/fatefall/scryfall-api-client/src/main/resources/com/alver/scryfall/api/magic_card_back.png"
+	"backUrl":"file:C:/Users/Alver/Development/projects/Fatefall/plugin-modules/scryfall-plugin/src/main/resources/com/alver/fatefall/scryfall/plugin/api/magic_card_back.png"
   }],
   "data": {
 
