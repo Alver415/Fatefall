@@ -1,9 +1,9 @@
 package com.alver.fatefall.scryfall.plugin.component;
 
 
-import com.alver.fatefall.plugin.implementations.DefaultPlugin;
-import com.alver.fatefall.plugin.interfaces.ComponentFactory;
-import com.alver.fatefall.plugin.interfaces.ContextMenuFactory;
+import com.alver.fatefall.app.plugin.implementations.DefaultPlugin;
+import com.alver.fatefall.app.plugin.interfaces.ComponentFactory;
+import com.alver.fatefall.app.plugin.interfaces.ContextMenuFactory;
 
 public class ScryfallPlugin extends DefaultPlugin {
 

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.alver.fatefall.app.plugin.PluginManager?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Button?>
+<fx:root type="PluginManager" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+         prefHeight="400.0" prefWidth="600.0">
+    <center>
+        <TabPane fx:id="tabPane">
+            <Tab text="Test"/>
+        </TabPane>
+    </center>
+    <bottom>
+        <ButtonBar>
+            <buttons>
+                <Button text="Rerefresh"/>
+            </buttons>
+        </ButtonBar>
+    </bottom>
+</fx:root>

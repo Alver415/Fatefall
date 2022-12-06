@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import com.alver.fatefall.app.plugin.implementations.cardcollectionview.DefaultCardCollectionView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.FlowPane?>
+<fx:root xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+         type="DefaultCardCollectionView"
+         fitToWidth="true" fitToHeight="true">
+    <FlowPane fx:id="flowPane" hgap="5" vgap="5">
+        <padding>
+            <Insets bottom="10" left="10" right="10" top="10"/>
+        </padding>
+    </FlowPane>
+</fx:root>

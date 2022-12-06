@@ -1,33 +1,49 @@
 package com.alver.fatefall.app;
 
-import com.alver.fatefall.app.fx.components.mainstage.MainStage;
-import com.alver.fatefall.app.fx.components.settings.Settings;
+import com.alver.fatefall.app.fx.components.mainstage.ApplicationView;
 import javafx.application.Application;
-import javafx.scene.image.Image;
+import javafx.application.HostServices;
+import javafx.application.Platform;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.util.Objects;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.GenericApplicationContext;
 
 public class FatefallApplication extends Application {
 
-	public static class Launcher {
-		public static void main(String... args) {
-			Application.launch(FatefallApplication.class);
-		}
-	}
+    private ConfigurableApplicationContext context;
 
-	private Settings settings;
+    @Autowired
+    protected ApplicationView applicationView;
 
-	@Override
-	public void start(Stage primaryStage) {
-		//Disregard the original stage, create our own.
+    @Override
+    public void init() {
+        ApplicationContextInitializer<GenericApplicationContext> initializer = ac -> {
+            ac.registerBean(FatefallApplication.class, () -> FatefallApplication.this);
+            ac.registerBean(HostServices.class, this::getHostServices);
+            ac.registerBean(Parameters.class, this::getParameters);
+        };
 
-		Stage mainStage = new MainStage();
-//		mainStage.getScene().getStylesheets().add(settings.getStylesheet());
-		mainStage.setTitle("Fatefall");
-		mainStage.getIcons().add(new Image(Objects.requireNonNull(
-				FatefallApplication.class.getResource("icon.png")).toExternalForm()));
-		mainStage.show();
-	}
+        this.context = new SpringApplicationBuilder()
+                .sources(FatefallLauncher.class)
+                .initializers(initializer)
+                .run(getParameters().getRaw().toArray(new String[0]));
+    }
+
+    @Override
+    public void start(Stage primaryStage) {
+        Scene scene = new Scene(applicationView);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    @Override
+    public void stop() {
+        this.context.close();
+        Platform.exit();
+    }
 
 }

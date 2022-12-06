@@ -1,6 +1,6 @@
 package com.alver.fatefall.scryfall.plugin.api;
 
-import com.alver.fatefall.plugin.models.Card;
+import com.alver.fatefall.app.plugin.models.Card;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.http.MediaType;

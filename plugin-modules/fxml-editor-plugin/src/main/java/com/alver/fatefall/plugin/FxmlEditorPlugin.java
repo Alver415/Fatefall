@@ -1,9 +1,9 @@
 package com.alver.fatefall.plugin;
 
-import com.alver.fatefall.plugin.implementations.DefaultComponentFactory;
-import com.alver.fatefall.plugin.implementations.DefaultPlugin;
-import com.alver.fatefall.plugin.interfaces.CardView;
-import com.alver.fatefall.plugin.interfaces.ComponentFactory;
+import com.alver.fatefall.app.plugin.implementations.DefaultComponentFactory;
+import com.alver.fatefall.app.plugin.implementations.DefaultPlugin;
+import com.alver.fatefall.app.plugin.interfaces.CardView;
+import com.alver.fatefall.app.plugin.interfaces.ComponentFactory;
 
 public class FxmlEditorPlugin extends DefaultPlugin {
 

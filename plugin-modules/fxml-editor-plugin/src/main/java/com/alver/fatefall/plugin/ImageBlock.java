@@ -1,7 +1,7 @@
 package com.alver.fatefall.plugin;
 
 import com.alver.fatefall.app.editor.image.StringImageConverter;
-import com.alver.fatefall.app.fx.components.FxComponent;
+import com.alver.fatefall.app.fx.components.FXMLLoadable;
 import javafx.beans.DefaultProperty;
 import javafx.beans.property.*;
 import javafx.fxml.FXML;
@@ -9,14 +9,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 @DefaultProperty("image")
-public class ImageBlock extends Block<Image> implements FxComponent {
+public class ImageBlock extends Block<Image> implements FXMLLoadable {
 
     @FXML
     protected ImageView imageView;
 
     public ImageBlock() {
         super();
-        initFxml();
+        loadFxml();
         imageProperty().bindBidirectional(imageView.imageProperty());
         urlProperty().bindBidirectional(imageProperty(), new StringImageConverter());
 

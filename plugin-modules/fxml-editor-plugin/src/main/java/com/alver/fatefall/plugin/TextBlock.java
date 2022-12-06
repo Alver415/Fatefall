@@ -1,6 +1,6 @@
 package com.alver.fatefall.plugin;
 
-import com.alver.fatefall.app.fx.components.FxComponent;
+import com.alver.fatefall.app.fx.components.FXMLLoadable;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
@@ -12,14 +12,14 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public class TextBlock extends Block<String> implements FxComponent {
+public class TextBlock extends Block<String> implements FXMLLoadable {
 
 	@FXML
 	protected TextArea textArea;
 	
 	public TextBlock() {
 		super();
-		initFxml();
+		loadFxml();
 		setViewOrder(-1); //Bump back so it is drawn on top.
 
 		textArea.textProperty().bindBidirectional(valueProperty());

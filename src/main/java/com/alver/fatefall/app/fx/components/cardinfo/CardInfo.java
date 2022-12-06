@@ -1,8 +1,8 @@
 package com.alver.fatefall.app.fx.components.cardinfo;
 
-import com.alver.fatefall.app.fx.components.FxComponent;
-import com.alver.fatefall.plugin.interfaces.CardView;
-import com.alver.fatefall.plugin.models.Card;
+import com.alver.fatefall.app.fx.components.FXMLLoadable;
+import com.alver.fatefall.app.plugin.interfaces.CardView;
+import com.alver.fatefall.app.plugin.models.Card;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
@@ -10,7 +10,7 @@ import javafx.scene.layout.BorderPane;
 import org.controlsfx.control.PropertySheet;
 import org.controlsfx.property.BeanPropertyUtils;
 
-public class CardInfo extends BorderPane implements FxComponent {
+public class CardInfo extends BorderPane implements FXMLLoadable {
 
 	@FXML
 	protected CardView cardView;
@@ -35,7 +35,7 @@ public class CardInfo extends BorderPane implements FxComponent {
 	}
 
 	public CardInfo() {
-		initFxml();
+		loadFxml();
 	}
 
 	@FXML

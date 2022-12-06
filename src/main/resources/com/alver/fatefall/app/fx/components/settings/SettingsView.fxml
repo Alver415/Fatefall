@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.alver.fatefall.app.fx.components.settings.SettingsView?>
+<?import javafx.scene.control.*?>
+<?import org.controlsfx.control.PropertySheet?>
+<fx:root xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+         type="SettingsView">
+    <center>
+        <PropertySheet fx:id="propertySheet" modeSwitcherVisible="false" searchBoxVisible="false"/>
+    </center>
+    <bottom>
+        <ButtonBar>
+            <buttons>
+                <Button text="Load" ButtonBar.buttonData="LEFT" onAction="#loadSettings"/>
+                <Button text="Save" ButtonBar.buttonData="RIGHT" onAction="#saveSettings"/>
+            </buttons>
+        </ButtonBar>
+    </bottom>
+</fx:root>

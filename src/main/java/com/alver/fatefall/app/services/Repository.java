@@ -1,6 +1,6 @@
 package com.alver.fatefall.app.services;
 
-import com.alver.fatefall.plugin.models.CardCollection;
+import com.alver.fatefall.app.plugin.models.CardCollection;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;

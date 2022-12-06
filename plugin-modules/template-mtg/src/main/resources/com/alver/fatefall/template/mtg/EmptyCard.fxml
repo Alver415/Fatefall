@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.alver.fatefall.plugin.implementations.cardview.CardPane?>
-<?import com.alver.fatefall.plugin.implementations.cardview.CardFace?>
+<?import com.alver.fatefall.app.plugin.implementations.cardview.CardPane?>
+<?import com.alver.fatefall.app.plugin.implementations.cardview.CardFace?>
 <?import com.alver.fatefall.plugins.TextBlock?>
 <CardPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
           cardWidth="375" cardHeight="523">

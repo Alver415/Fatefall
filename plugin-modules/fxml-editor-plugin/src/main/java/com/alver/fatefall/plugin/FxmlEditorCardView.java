@@ -1,6 +1,6 @@
 package com.alver.fatefall.plugin;
 
-import com.alver.fatefall.plugin.implementations.cardview.DefaultCardView;
+import com.alver.fatefall.app.plugin.implementations.cardview.DefaultCardView;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;

@@ -1,6 +1,6 @@
 package com.alver.fatefall.scryfall.plugin.api;
 
-import com.alver.fatefall.plugin.models.Card;
+import com.alver.fatefall.app.plugin.models.Card;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;

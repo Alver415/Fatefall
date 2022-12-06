@@ -26,15 +26,16 @@
         <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
         <javafx-maven-plugin.version>0.0.8</javafx-maven-plugin.version>
         <maven-model.version>3.8.5</maven-model.version>
+        <spring-core.version>6.0.2</spring-core.version>
+        <spring-boot-starter.version>3.0.0</spring-boot-starter.version>
     </properties>
 
     <dependencies>
-        <!-- Testing -->
+        <!-- Spring -->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <version>${spring-boot-starter.version}</version>
         </dependency>
 
         <!-- Logging -->
@@ -88,6 +89,14 @@
             <groupId>org.controlsfx</groupId>
             <artifactId>controlsfx</artifactId>
             <version>${controlsfx.version}</version>
+        </dependency>
+
+        <!-- Testing -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

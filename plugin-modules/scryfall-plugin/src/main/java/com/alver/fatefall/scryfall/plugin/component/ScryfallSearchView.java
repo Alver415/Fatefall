@@ -1,10 +1,10 @@
 package com.alver.fatefall.scryfall.plugin.component;
 
-import com.alver.fatefall.plugin.PluginManager;
-import com.alver.fatefall.plugin.interfaces.CardCollectionView;
-import com.alver.fatefall.plugin.interfaces.CardView;
-import com.alver.fatefall.plugin.models.Card;
-import com.alver.fatefall.plugin.models.CardCollection;
+import com.alver.fatefall.app.plugin.PluginManager;
+import com.alver.fatefall.app.plugin.interfaces.CardCollectionView;
+import com.alver.fatefall.app.plugin.interfaces.CardView;
+import com.alver.fatefall.app.plugin.models.Card;
+import com.alver.fatefall.app.plugin.models.CardCollection;
 import com.alver.fatefall.scryfall.plugin.api.ScryfallApiClient;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
