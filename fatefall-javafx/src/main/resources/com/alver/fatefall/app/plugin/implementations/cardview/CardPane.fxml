@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.alver.fatefall.app.plugin.implementations.cardview.CardPane?>
+<?import javafx.scene.shape.Rectangle?>
+<fx:root type="CardPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+		 fx:id="cardPane">
+	<clip>
+		<Rectangle width="${cardPane.cardWidth}" height="${cardPane.cardHeight}"/>
+	</clip>
+</fx:root>

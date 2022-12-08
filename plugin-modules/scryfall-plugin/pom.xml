@@ -18,10 +18,15 @@
     <dependencies>
         <dependency>
             <groupId>com.alver.fatefall</groupId>
-            <artifactId>javafx-app</artifactId>
+            <artifactId>fatefall-api</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.alver.fatefall</groupId>
+            <artifactId>fatefall-javafx</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webflux</artifactId>

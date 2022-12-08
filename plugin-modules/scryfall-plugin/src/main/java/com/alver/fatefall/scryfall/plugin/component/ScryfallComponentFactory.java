@@ -1,10 +1,10 @@
 package com.alver.fatefall.scryfall.plugin.component;
 
-import com.alver.fatefall.app.fx.components.mainstage.ApplicationView;
+
+import com.alver.fatefall.api.interfaces.CardCollectionView;
+import com.alver.fatefall.api.interfaces.CardView;
+import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.app.plugin.implementations.DefaultComponentFactory;
-import com.alver.fatefall.app.plugin.interfaces.CardCollectionView;
-import com.alver.fatefall.app.plugin.interfaces.CardView;
-import com.alver.fatefall.app.plugin.models.Card;
 import com.fasterxml.jackson.databind.JsonNode;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
@@ -14,7 +14,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.web.WebView;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.net.URI;
@@ -23,8 +22,6 @@ import java.net.URISyntaxException;
 
 public class ScryfallComponentFactory extends DefaultComponentFactory {
 
-    @Autowired
-    protected ApplicationView applicationView;
 
     @Override
     public CardView buildCardView() {
@@ -54,7 +51,7 @@ public class ScryfallComponentFactory extends DefaultComponentFactory {
                 MenuItem menuItem = new MenuItem();
                 menuItem.setText("Open in WebView.");
                 menuItem.setOnAction(a -> {
-                    TabPane tabPane = applicationView.getTabPane();
+                    TabPane tabPane = new TabPane(); //TODO: This should the main applicationView's tabPane...
                     Tab tab = new Tab("Scryfall - " + card.getName());
                     WebView webView = new WebView();
                     webView.getEngine().load(url);

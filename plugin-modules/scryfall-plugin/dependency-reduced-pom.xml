@@ -49,10 +49,6 @@
       <scope>test</scope>
       <exclusions>
         <exclusion>
-          <artifactId>spring-boot-starter</artifactId>
-          <groupId>org.springframework.boot</groupId>
-        </exclusion>
-        <exclusion>
           <artifactId>spring-boot-starter-json</artifactId>
           <groupId>org.springframework.boot</groupId>
         </exclusion>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import com.alver.fatefall.app.fx.components.mainstage.ApplicationView?>
+<?import javafx.scene.control.*?>
+<fx:root type="ApplicationView" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+        <MenuBar>
+            <Menu text="File">
+                <MenuItem text="New" onAction="#newCollection"/>
+                <MenuItem text="Save" onAction="#saveCollection"/>
+            </Menu>
+            <Menu text="Edit">
+                <MenuItem text="Settings" onAction="#openSettingsView"/>
+            </Menu>
+            <Menu text="Plugin" fx:id="pluginMenu">
+                <MenuItem text="Manage Plugins" fx:id="managePlugins" onAction="#openPluginManagerView"/>
+            </Menu>
+            <Menu text="Help">
+                <SeparatorMenuItem/>
+                <MenuItem text="About" onAction="#openAboutView"/>
+            </Menu>
+        </MenuBar>
+    </top>
+    <left>
+        <ScrollPane fitToHeight="true">
+            <ListView fx:id="collectionsList"/>
+        </ScrollPane>
+    </left>
+    <center>
+        <TabPane fx:id="tabPane" prefWidth="600"/>
+    </center>
+</fx:root>
