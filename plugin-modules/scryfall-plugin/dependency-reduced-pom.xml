@@ -37,17 +37,36 @@
         <version>2.3.1</version>
         <configuration>
           <outputDirectory>../../.wd/plugins</outputDirectory>
+          <archive>
+            <manifestEntries>
+              <Plugin-Class>com.alver.fatefall.scryfall.plugin.ScryfallPlugin</Plugin-Class>
+              <Plugin-Dependencies />
+              <Plugin-Id>Scryfall Plugin</Plugin-Id>
+              <Plugin-Provider>Alver415</Plugin-Provider>
+              <Plugin-Version>${version}</Plugin-Version>
+            </manifestEntries>
+          </archive>
         </configuration>
       </plugin>
     </plugins>
   </build>
   <dependencies>
     <dependency>
+      <groupId>org.pf4j</groupId>
+      <artifactId>pf4j</artifactId>
+      <version>3.8.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-webflux</artifactId>
       <version>3.0.0</version>
       <scope>test</scope>
       <exclusions>
+        <exclusion>
+          <artifactId>spring-boot-starter</artifactId>
+          <groupId>org.springframework.boot</groupId>
+        </exclusion>
         <exclusion>
           <artifactId>spring-boot-starter-json</artifactId>
           <groupId>org.springframework.boot</groupId>

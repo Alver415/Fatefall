@@ -1,23 +1,11 @@
 package com.alver.fatefall.plugin;
 
-import com.alver.fatefall.app.plugin.implementations.DefaultComponentFactory;
-import com.alver.fatefall.app.plugin.implementations.SpringPlugin;
-import com.alver.fatefall.app.plugin.interfaces.CardView;
-import com.alver.fatefall.app.plugin.interfaces.ComponentFactory;
+import org.pf4j.Plugin;
+import org.pf4j.PluginWrapper;
 
-public class FxmlEditorPlugin extends SpringPlugin {
+public class FxmlEditorPlugin extends Plugin {
 
-    public FxmlEditorPlugin(){
-        super("Fxml Editor", "v1.0");
+    public FxmlEditorPlugin(PluginWrapper wrapper) {
+        super(wrapper);
     }
-    @Override
-    public ComponentFactory getComponentFactory() {
-        return new DefaultComponentFactory(){
-            @Override
-            public CardView buildCardView(){
-                return new FxmlEditorCardView();
-            }
-        };
-    }
-
 }

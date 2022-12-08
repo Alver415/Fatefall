@@ -22,6 +22,18 @@
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.pf4j</groupId>
+            <artifactId>pf4j</artifactId>
+            <version>3.8.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.alver.fatefall</groupId>
+            <artifactId>fatefall-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -32,6 +44,14 @@
                 <version>2.3.1</version>
                 <configuration>
                     <outputDirectory>../../.wd/plugins</outputDirectory>
+                    <archive>
+                        <manifestEntries>
+                            <Plugin-Class>com.alver.fatefall.plugin.FxmlEditorPlugin</Plugin-Class>
+                            <Plugin-Id>FXML Editor Plugin</Plugin-Id>
+                            <Plugin-Provider>Alver415</Plugin-Provider>
+                            <Plugin-Version>${version}</Plugin-Version>
+                        </manifestEntries>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>

@@ -1,5 +1,6 @@
 package com.alver.fatefall.app.fx.components.mainstage;
 
+import com.alver.fatefall.api.interfaces.ActionEventHandler;
 import com.alver.fatefall.api.interfaces.CardCollectionView;
 import com.alver.fatefall.api.interfaces.ComponentFactory;
 import com.alver.fatefall.api.models.CardCollection;
@@ -8,14 +9,14 @@ import com.alver.fatefall.app.fx.components.about.AboutView;
 import com.alver.fatefall.app.fx.components.plugins.PluginManagerView;
 import com.alver.fatefall.app.fx.components.settings.SettingsView;
 import com.alver.fatefall.app.services.Repository;
-import com.alver.fatefall.plugin.PluginManager;
-import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
+import org.pf4j.PluginManager;
+import org.pf4j.PluginWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -57,23 +58,26 @@ public class ApplicationView extends BorderPane {
         collectionsList.setCellFactory(cardCollectionCellFactory);
         collectionsList.setItems(FXCollections.observableList(repository.getCardCollections()));
 
-        pluginManager.getPlugins().addListener((InvalidationListener) invalidation -> {
-            List<MenuItem> menuItemList = new ArrayList<>();
-            menuItemList.add(managePlugins);
-            menuItemList.addAll(pluginManager.getPlugins().stream()
-                    .map(plugin -> {
-                        Menu menu = new Menu(plugin.getName());
-                        List<MenuItem> menuItems = plugin.getActions().stream()
-                                .map(action -> {
-                                    MenuItem menuItem = new MenuItem(action.getName());
-                                    menuItem.setOnAction(event -> action.execute());
-                                    return menuItem;
-                                }).toList();
-                        menu.getItems().setAll(menuItems);
-                        return menu;
-                    }).toList());
-            pluginMenu.getItems().setAll(menuItemList);
-        });
+        List<MenuItem> menuItemList = new ArrayList<>();
+        menuItemList.add(managePlugins);
+        menuItemList.addAll(pluginManager.getPlugins().stream()
+                .map(this::buildMenu).toList());
+        pluginMenu.getItems().setAll(menuItemList);
+    }
+
+    private Menu buildMenu(PluginWrapper plugin) {
+        Menu menu = new Menu(plugin.getPluginId());
+        List<MenuItem> menuItems = pluginManager
+                .getExtensions(ActionEventHandler.class, plugin.getPluginId())
+                .stream().map(this::buildMenuItem).toList();
+        menu.getItems().setAll(menuItems);
+        return menu;
+    }
+
+    private MenuItem buildMenuItem(ActionEventHandler action) {
+        MenuItem menuItem = new MenuItem(action.getName());
+        menuItem.setOnAction(action);
+        return menuItem;
     }
 
     public TabPane getTabPane() {

@@ -12,4 +12,13 @@
     <artifactId>fatefall-api</artifactId>
     <name>Fatefall API</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.pf4j</groupId>
+            <artifactId>pf4j</artifactId>
+            <version>3.8.0</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
 </project>

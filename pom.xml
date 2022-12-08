@@ -28,32 +28,30 @@
         <javafx.version>19</javafx.version>
         <controlsfx.version>11.1.2</controlsfx.version>
 
+        <pf4j.version>3.8.0</pf4j.version>
+        <pf4j-spring.version>0.8.0</pf4j-spring.version>
+
         <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
         <javafx-maven-plugin.version>0.0.8</javafx-maven-plugin.version>
         <maven-model.version>3.8.5</maven-model.version>
         <spring-core.version>6.0.2</spring-core.version>
         <spring-boot-starter.version>3.0.0</spring-boot-starter.version>
+        <spring.version>5.2.9.RELEASE</spring.version>
+
     </properties>
 
     <dependencies>
         <!-- Spring -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-            <version>${spring-boot-starter.version}</version>
-        </dependency>
-
-        <!-- Logging -->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>${log4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>${log4j.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter</artifactId>-->
+<!--            <version>${spring-boot-starter.version}</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter</artifactId>-->
+<!--            <version>${spring-boot-starter.version}</version>-->
+<!--        </dependency>-->
 
         <!-- Serialization -->
         <dependency>
