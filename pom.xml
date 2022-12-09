@@ -21,6 +21,10 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
+        <javafx-maven-plugin.version>0.0.8</javafx-maven-plugin.version>
+        <maven-model.version>3.8.5</maven-model.version>
+
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <junit.version>5.9.0</junit.version>
         <log4j.version>2.19.0</log4j.version>
@@ -29,29 +33,14 @@
         <controlsfx.version>11.1.2</controlsfx.version>
 
         <pf4j.version>3.8.0</pf4j.version>
-        <pf4j-spring.version>0.8.0</pf4j-spring.version>
-
-        <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
-        <javafx-maven-plugin.version>0.0.8</javafx-maven-plugin.version>
-        <maven-model.version>3.8.5</maven-model.version>
+        <pf4j-spring.version>0.9.0-SNAPSHOT</pf4j-spring.version>
         <spring-core.version>6.0.2</spring-core.version>
+        <spring-webflux.version>6.0.2</spring-webflux.version>
         <spring-boot-starter.version>3.0.0</spring-boot-starter.version>
-        <spring.version>5.2.9.RELEASE</spring.version>
-
+        <spring-boot-starter-webflux.version>3.0.0</spring-boot-starter-webflux.version>
     </properties>
 
     <dependencies>
-        <!-- Spring -->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter</artifactId>-->
-<!--            <version>${spring-boot-starter.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter</artifactId>-->
-<!--            <version>${spring-boot-starter.version}</version>-->
-<!--        </dependency>-->
 
         <!-- Serialization -->
         <dependency>

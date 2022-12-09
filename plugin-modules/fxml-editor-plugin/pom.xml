@@ -10,29 +10,30 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <pf4j.spring.version>0.9.0-SNAPSHOT</pf4j.spring.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.alver.fatefall</groupId>
-            <artifactId>javafx-app</artifactId>
+            <artifactId>fatefall-api</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.pf4j</groupId>
-            <artifactId>pf4j</artifactId>
-            <version>3.8.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.alver.fatefall</groupId>
-            <artifactId>fatefall-api</artifactId>
+            <artifactId>fatefall-javafx</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.pf4j</groupId>
+            <artifactId>pf4j-spring</artifactId>
+            <version>${pf4j.spring.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

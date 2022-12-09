@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import org.pf4j.PluginManager;
+import org.pf4j.PluginState;
 import org.pf4j.PluginWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,10 +21,11 @@ public class PluginManagerView extends BorderPane {
     protected TableView<PluginRow> tableView;
 
     @FXML
-    public void initialize(){
+    public void initialize() {
         tableView.getItems().setAll(pluginManager.getPlugins()
                 .stream().map(PluginRow::new).toList());
     }
+
     @FXML
     public void reload() {
         pluginManager.unloadPlugins();
@@ -35,19 +37,25 @@ public class PluginManagerView extends BorderPane {
 
     public record PluginRow(PluginWrapper pluginWrapper) {
         public String getId() {
-                return pluginWrapper.getPluginId();
-            }
+            return pluginWrapper.getPluginId();
+        }
 
         public String getVersion() {
-                return pluginWrapper.getDescriptor().getVersion();
-            }
+            return pluginWrapper.getDescriptor().getVersion();
+        }
 
         public String getDescription() {
-                return pluginWrapper.getDescriptor().getPluginDescription();
-            }
+            return pluginWrapper.getDescriptor().getPluginDescription();
+        }
 
         public String getState() {
-                return pluginWrapper.getPluginState().name();
+
+            PluginState state = pluginWrapper.getPluginState();
+            String message = state.name();
+            if (state.equals(PluginState.FAILED)){
+                message += " - " + pluginWrapper.getFailedException().getMessage();
             }
+            return message;
         }
+    }
 }

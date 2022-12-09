@@ -1,12 +1,13 @@
 package com.alver.fatefall.api.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CardCollection {
 
 	private String id;
 	private String name;
-	private List<Card> cards;
+	private List<Card> cards = new ArrayList<>();
 	private Object data;
 
 	public String getId() {

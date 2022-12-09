@@ -40,7 +40,6 @@
           <archive>
             <manifestEntries>
               <Plugin-Class>com.alver.fatefall.scryfall.plugin.ScryfallPlugin</Plugin-Class>
-              <Plugin-Dependencies />
               <Plugin-Id>Scryfall Plugin</Plugin-Id>
               <Plugin-Provider>Alver415</Plugin-Provider>
               <Plugin-Version>${version}</Plugin-Version>
@@ -52,35 +51,17 @@
   </build>
   <dependencies>
     <dependency>
-      <groupId>org.pf4j</groupId>
-      <artifactId>pf4j</artifactId>
-      <version>3.8.0</version>
+      <groupId>com.alver.fatefall</groupId>
+      <artifactId>fatefall-javafx</artifactId>
+      <version>1.0-SNAPSHOT</version>
       <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-webflux</artifactId>
-      <version>3.0.0</version>
-      <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>spring-boot-starter</artifactId>
-          <groupId>org.springframework.boot</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>spring-boot-starter-json</artifactId>
-          <groupId>org.springframework.boot</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>spring-boot-starter-reactor-netty</artifactId>
-          <groupId>org.springframework.boot</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
   </dependencies>
   <properties>
+    <spring-webflux.version>5.2.0.RELEASE</spring-webflux.version>
     <maven.compiler.target>17</maven.compiler.target>
     <maven.compiler.source>17</maven.compiler.source>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <spring-boot-starter-webflux.version>2.7.6</spring-boot-starter-webflux.version>
   </properties>
 </project>

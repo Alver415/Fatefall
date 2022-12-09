@@ -5,6 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 
+
 public class ScryfallApiClient {
 
     private static final String DEFAULT_BASE_URL = "https://api.scryfall.com";

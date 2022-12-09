@@ -2,10 +2,11 @@ package com.alver.fatefall.scryfall.plugin.component;
 
 import com.alver.fatefall.api.interfaces.CardCollectionView;
 import com.alver.fatefall.api.interfaces.CardView;
-import com.alver.fatefall.api.interfaces.ComponentFactory;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.CardCollection;
+import com.alver.fatefall.app.plugin.implementations.cardview.DefaultCardView;
 import com.alver.fatefall.scryfall.api.ScryfallApiClient;
+import com.alver.fatefall.scryfall.plugin.ScryfallPlugin;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
@@ -15,22 +16,26 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
+@Component
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ScryfallSearchView extends BorderPane implements CardCollectionView {
 
     protected ScryfallApiClient client = new ScryfallApiClient();
-
-    @Autowired
-    protected ComponentFactory componentFactory;
 
     @FXML
     protected TextField queryInput;
     @FXML
     protected FlowPane flowPane;
+    @Autowired
+    ScryfallPlugin scryfallPlugin;
 
     public ScryfallSearchView() {
         loadFXML();
@@ -73,7 +78,7 @@ public class ScryfallSearchView extends BorderPane implements CardCollectionView
     protected void refresh() {
         flowPane.getChildren().clear();
         for (Card card : getCardCollection().getCards()) {
-            CardView cardView = componentFactory.buildCardView();
+            CardView cardView = scryfallPlugin.getApplicationContext().getBean(DefaultCardView.class);
             cardView.setCard(card);
             Node cardViewNode = cardView.getFxViewNode();
             flowPane.getChildren().add(cardViewNode);

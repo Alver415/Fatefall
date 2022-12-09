@@ -5,8 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Window;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.controlsfx.control.PropertySheet;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +16,14 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.*;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
 @FXMLAutoLoad
 @Component
 public class SettingsView extends BorderPane implements ApplicationContextAware {
-
-    private static final Logger log = LogManager.getLogger(SettingsView.class);
 
     @Autowired
     protected ApplicationContext context;
@@ -43,8 +41,9 @@ public class SettingsView extends BorderPane implements ApplicationContextAware 
         registerSetting(fxBase);
         loadSettings();
     }
+
     @FXML
-    protected void initialize(){
+    protected void initialize() {
         propertySheet.getItems().setAll(settingsMap.values());
     }
 
@@ -104,7 +103,7 @@ public class SettingsView extends BorderPane implements ApplicationContextAware 
                 }
             });
         } catch (IOException e) {
-            log.error("Error saving Fatefall application settings.", e);
+            e.printStackTrace();
         }
     }
 
@@ -116,7 +115,7 @@ public class SettingsView extends BorderPane implements ApplicationContextAware 
             });
             properties.store(output, "Fatefall Application Properties");
         } catch (IOException e) {
-            log.error("Error saving Fatefall application settings.", e);
+            e.printStackTrace();
         }
     }
 
