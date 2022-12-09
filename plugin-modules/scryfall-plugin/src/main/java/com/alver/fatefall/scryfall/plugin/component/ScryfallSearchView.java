@@ -5,6 +5,7 @@ import com.alver.fatefall.api.interfaces.CardView;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.CardCollection;
 import com.alver.fatefall.app.plugin.implementations.cardview.DefaultCardView;
+import com.alver.fatefall.scryfall.api.CardApiResult;
 import com.alver.fatefall.scryfall.api.ScryfallApiClient;
 import com.alver.fatefall.scryfall.plugin.ScryfallPlugin;
 import javafx.beans.property.ObjectProperty;
@@ -22,13 +23,13 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ScryfallSearchView extends BorderPane implements CardCollectionView {
 
-    protected ScryfallApiClient client = new ScryfallApiClient();
+    @Autowired
+    protected ScryfallApiClient client;
 
     @FXML
     protected TextField queryInput;
@@ -67,10 +68,10 @@ public class ScryfallSearchView extends BorderPane implements CardCollectionView
     @FXML
     public void executeQuery() {
         String query = queryInput.getText();
-        List<Card> results = client.getCardApi().search(query);
+        CardApiResult result = client.getCardApi().search(query);
 
         CardCollection newCollection = new CardCollection();
-        newCollection.setCards(results);
+        newCollection.setCards(result.data());
 
         setCardCollection(newCollection);
     }

@@ -13,26 +13,13 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <pf4j.spring.version>0.9.0-SNAPSHOT</pf4j.spring.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.alver.fatefall</groupId>
-            <artifactId>fatefall-api</artifactId>
+            <artifactId>fatefall</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.alver.fatefall</groupId>
-            <artifactId>fatefall-javafx</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.pf4j</groupId>
-            <artifactId>pf4j-spring</artifactId>
-            <version>${pf4j.spring.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -63,7 +50,6 @@
                     </archive>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 </project>

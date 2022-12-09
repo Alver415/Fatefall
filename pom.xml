@@ -7,12 +7,7 @@
     <groupId>com.alver.fatefall</groupId>
     <artifactId>fatefall</artifactId>
     <version>${revision}</version>
-    <packaging>pom</packaging>
     <name>Fatefall</name>
-    <modules>
-        <module>fatefall-api</module>
-        <module>fatefall-javafx</module>
-    </modules>
 
     <properties>
         <revision>1.0-SNAPSHOT</revision>
@@ -41,6 +36,38 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.pf4j</groupId>
+            <artifactId>pf4j-spring</artifactId>
+            <version>${pf4j-spring.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <version>${spring-boot-starter.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webflux</artifactId>
+            <version>${spring-webflux.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+            <version>${spring-boot-starter-webflux.version}</version>
+        </dependency>
 
         <!-- Serialization -->
         <dependency>
@@ -92,21 +119,6 @@
         </dependency>
     </dependencies>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.alver.fatefall</groupId>
-                <artifactId>fatefall-api</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alver.fatefall</groupId>
-                <artifactId>fatefall-javafx</artifactId>
-                <version>${revision}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <build>
         <plugins>
             <plugin>
@@ -117,21 +129,6 @@
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>flatten-maven-plugin</artifactId>
-                <configuration>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>flatten</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>flatten</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
