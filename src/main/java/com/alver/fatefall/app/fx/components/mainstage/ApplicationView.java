@@ -84,6 +84,10 @@ public class ApplicationView extends BorderPane {
         return tabPane;
     }
 
+    public ListView<CardCollection> getCardCollectionList() {
+        return collectionsList;
+    }
+
     private void createTab(String text, Node node) {
         Tab tab = new Tab();
         tab.setText(text);

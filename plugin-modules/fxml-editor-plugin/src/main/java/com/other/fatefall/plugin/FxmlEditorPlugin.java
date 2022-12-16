@@ -1,16 +1,13 @@
 package com.other.fatefall.plugin;
 
+import com.alver.fatefall.api.FatefallPlugin;
 import com.other.fatefall.FxmlEditorConfiguration;
-import com.alver.fatefall.api.FatefallPluginManager;
-import javafx.scene.Node;
-import org.pf4j.PluginManager;
 import org.pf4j.PluginWrapper;
-import org.pf4j.spring.SpringPlugin;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 
-public class FxmlEditorPlugin extends SpringPlugin {
+public class FxmlEditorPlugin extends FatefallPlugin {
 
     public FxmlEditorPlugin(PluginWrapper wrapper) {
         super(wrapper);
@@ -38,10 +35,4 @@ public class FxmlEditorPlugin extends SpringPlugin {
         return applicationContext;
     }
 
-    public void createToolTab(String name, Node content){
-        PluginManager pluginManager = getWrapper().getPluginManager();
-        if (pluginManager instanceof FatefallPluginManager fatefallPluginManager){
-            fatefallPluginManager.createToolTab(name, content);
-        }
-    }
 }

@@ -84,7 +84,7 @@ public class SettingsView extends BorderPane implements ApplicationContextAware 
 //        {
 //            addListener(listener -> {
 //                Locale.setDefault(Locale.forLanguageTag(locale.get()));
-//                if (context != null)
+//                if (context != mseImport.json)
 //                    context.getBeansOfType(FXMLLoadable.class).values().forEach(FXMLLoadable::loadFxml);
 //            });
 //        }

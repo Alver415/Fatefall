@@ -1,16 +1,13 @@
 package com.alver.fatefall.scryfall.plugin;
 
 
-import com.alver.fatefall.api.FatefallPluginManager;
+import com.alver.fatefall.api.FatefallPlugin;
 import com.alver.fatefall.scryfall.ScryfallConfiguration;
-import javafx.scene.Node;
-import org.pf4j.PluginManager;
 import org.pf4j.PluginWrapper;
-import org.pf4j.spring.SpringPlugin;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-public class ScryfallPlugin extends SpringPlugin {
+public class ScryfallPlugin extends FatefallPlugin {
 
     public ScryfallPlugin(PluginWrapper wrapper) {
         super(wrapper);
@@ -39,12 +36,6 @@ public class ScryfallPlugin extends SpringPlugin {
         return applicationContext;
     }
 
-    public void createToolTab(String name, Node content){
-        PluginManager pluginManager = getWrapper().getPluginManager();
-        if (pluginManager instanceof FatefallPluginManager fatefallPluginManager){
-            fatefallPluginManager.createToolTab(name, content);
-        }
-    }
 
 }
 
