@@ -14,17 +14,6 @@ public class FxmlEditorPlugin extends FatefallPlugin {
     }
 
     @Override
-    public void start() {
-        System.out.println("FxmlEditorPlugin.start()");
-    }
-
-    @Override
-    public void stop() {
-        System.out.println("FxmlEditorPlugin.stop()");
-        super.stop(); // to close applicationContext
-    }
-
-    @Override
     protected ApplicationContext createApplicationContext() {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
         applicationContext.setClassLoader(getWrapper().getPluginClassLoader());

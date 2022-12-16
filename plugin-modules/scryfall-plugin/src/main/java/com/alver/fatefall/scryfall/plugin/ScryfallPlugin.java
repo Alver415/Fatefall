@@ -13,18 +13,6 @@ public class ScryfallPlugin extends FatefallPlugin {
         super(wrapper);
     }
 
-
-    @Override
-    public void start() {
-        System.out.println("ScryfallPlugin.start()");
-    }
-
-    @Override
-    public void stop() {
-        System.out.println("ScryfallPlugin.stop()");
-        super.stop(); // to close applicationContext
-    }
-
     @Override
     protected ApplicationContext createApplicationContext() {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();

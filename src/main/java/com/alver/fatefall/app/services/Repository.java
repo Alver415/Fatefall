@@ -33,7 +33,7 @@ public class Repository {
 
 	public void save(CardCollection cardCollection) {
 		try {
-			String json = mapper.writeValueAsString(cardCollection);
+			String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(cardCollection);
 			Files.writeString(Path.of("data/" + cardCollection.getId()), json);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
