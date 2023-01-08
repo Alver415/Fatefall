@@ -149,9 +149,9 @@ public class SetManager {
             Image left = splitImage.getLeft();
             Image right = splitImage.getRight();
             ImageIO.write(SwingFXUtils.fromFXImage(left, null), "png",
-                    path.resolveSibling(baseFileName + ".front.png").toFile());
+                    path.resolveSibling(baseFileName + ".card_front.png").toFile());
             ImageIO.write(SwingFXUtils.fromFXImage(right, null), "png",
-                    path.resolveSibling(baseFileName + ".back.png").toFile());
+                    path.resolveSibling(baseFileName + ".card_back.png").toFile());
 
         } catch (IOException e) {
             e.printStackTrace();

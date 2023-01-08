@@ -1,0 +1,5 @@
+{
+    name:"Card Name",
+    type:"Type of Card",
+    rules_text:"The game rules written on the card"
+}

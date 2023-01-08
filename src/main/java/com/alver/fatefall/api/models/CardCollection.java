@@ -1,8 +1,11 @@
 package com.alver.fatefall.api.models;
 
+import com.alver.fatefall.persistence.FileExtension;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@FileExtension(".collection")
 public class CardCollection {
 
 	protected String id;

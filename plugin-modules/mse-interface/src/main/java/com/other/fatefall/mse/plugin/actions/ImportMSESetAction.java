@@ -67,8 +67,8 @@ public class ImportMSESetAction implements ActionEventHandler {
                     card.setFrontUrl("file:" + setManager.getImagesPath().resolve(cardImageFileName + ".png"));
                     card.setBackUrl(SetManager.DEFAULT_CARD_BACK_FACE);
                 } else {
-                    card.setFrontUrl("file:" + setManager.getImagesPath().resolve(cardImageFileName + ".front.png"));
-                    card.setBackUrl("file:" + setManager.getImagesPath().resolve(cardImageFileName + ".back.png"));
+                    card.setFrontUrl("file:" + setManager.getImagesPath().resolve(cardImageFileName + ".card_front.png"));
+                    card.setBackUrl("file:" + setManager.getImagesPath().resolve(cardImageFileName + ".card_back.png"));
                 }
                 cardCollection.getCards().add(card);
             });

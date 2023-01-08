@@ -1,5 +1,8 @@
 package com.alver.fatefall.api.models;
 
+import com.alver.fatefall.persistence.FileExtension;
+
+@FileExtension(".card")
 public class Card {
 
     protected String id;
