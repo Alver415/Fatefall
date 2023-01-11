@@ -19,7 +19,6 @@ public class FxmlEditorPlugin extends FatefallPlugin {
         applicationContext.setClassLoader(getWrapper().getPluginClassLoader());
         applicationContext.registerBean(FxmlEditorPlugin.class, () -> FxmlEditorPlugin.this);
         applicationContext.register(FxmlEditorConfiguration.class);
-        applicationContext.refresh();
 
         return applicationContext;
     }

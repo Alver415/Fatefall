@@ -1,17 +1,24 @@
 package com.alver.fatefall.api.models;
 
-import com.alver.fatefall.persistence.FileExtension;
+
+import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@FileExtension(".collection")
+@Entity
+@Table(name = "card_collection")
 public class CardCollection {
 
+	@Id
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	protected String id;
 	protected String name;
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	protected List<Card> cards = new ArrayList<>();
-	protected Object data;
+	protected String data;
 
 	public String getId() {
 		return id;
@@ -31,10 +38,10 @@ public class CardCollection {
 	public void setCards(List<Card> cards) {
 		this.cards = cards;
 	}
-	public Object getData() {
+	public String getData() {
 		return data;
 	}
-	public void setData(Object data) {
+	public void setData(String data) {
 		this.data = data;
 	}
 }

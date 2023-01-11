@@ -3,6 +3,7 @@ package com.alver.fatefall.scryfall.api;
 import com.alver.fatefall.api.models.Card;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ public class CardDeserializer extends StdDeserializer<Card> {
             throws IOException {
         Card card = new Card();
         ObjectNode source = parser.getCodec().readTree(parser);
+        card.setName(source.findValue("name").asText());
         if (!source.path("card_faces").isEmpty()) {
             card.setFrontUrl(source.path("card_faces").get(0).path("image_uris").path("normal").asText());
             card.setBackUrl(source.path("card_faces").get(1).path("image_uris").path("normal").asText());
@@ -36,7 +38,7 @@ public class CardDeserializer extends StdDeserializer<Card> {
             card.setFrontUrl(source.path("image_uris").path("normal").asText());
             card.setBackUrl(defaultCardBackFaceUrl);
         }
-        card.setData(source);
+        card.setData(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(source));
         return card;
     }
 }

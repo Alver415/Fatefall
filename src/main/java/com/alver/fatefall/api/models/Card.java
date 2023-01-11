@@ -1,15 +1,21 @@
 package com.alver.fatefall.api.models;
 
-import com.alver.fatefall.persistence.FileExtension;
+import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
-@FileExtension(".card")
+@Entity
+@Table(name = "card")
 public class Card {
 
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     protected String id;
     protected String name;
     protected String frontUrl;
     protected String backUrl;
-    protected Object data;
+    @Lob
+    protected String data;
 
     public String getId() {
         return id;
@@ -43,11 +49,11 @@ public class Card {
         this.backUrl = backUrl;
     }
 
-    public Object getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(String data) {
         this.data = data;
     }
 }

@@ -30,12 +30,22 @@
         <pf4j.version>3.8.0</pf4j.version>
         <pf4j-spring.version>0.9.0-SNAPSHOT</pf4j-spring.version>
         <spring-core.version>6.0.2</spring-core.version>
-        <spring-webflux.version>6.0.2</spring-webflux.version>
-        <spring-boot-starter.version>3.0.0</spring-boot-starter.version>
-        <spring-boot-starter-webflux.version>3.0.0</spring-boot-starter-webflux.version>
+        <spring-webflux.version>6.0.3</spring-webflux.version>
+        <spring-boot-starter.version>3.0.1</spring-boot-starter.version>
+        <hsqldb.version>2.7.1</hsqldb.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>${spring-boot-starter.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>${hsqldb.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.pf4j</groupId>
             <artifactId>pf4j-spring</artifactId>
@@ -66,7 +76,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
-            <version>${spring-boot-starter-webflux.version}</version>
+            <version>${spring-boot-starter.version}</version>
         </dependency>
 
         <!-- Serialization -->

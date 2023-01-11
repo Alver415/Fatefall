@@ -4,7 +4,6 @@ import com.alver.fatefall.api.interfaces.CardCollectionView;
 import com.alver.fatefall.api.interfaces.CardView;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.CardCollection;
-import com.alver.fatefall.app.plugin.implementations.cardview.DefaultCardView;
 import com.alver.fatefall.scryfall.api.CardApiResult;
 import com.alver.fatefall.scryfall.api.ScryfallApiClient;
 import com.alver.fatefall.scryfall.plugin.ScryfallPlugin;
@@ -30,13 +29,15 @@ public class ScryfallSearchView extends BorderPane implements CardCollectionView
 
     @Autowired
     protected ScryfallApiClient client;
+    @Autowired
+    protected ScryfallPlugin scryfallPlugin;
+    @Autowired
+    protected ScryfallComponentFactory componentFactory;
 
     @FXML
     protected TextField queryInput;
     @FXML
     protected FlowPane flowPane;
-    @Autowired
-    ScryfallPlugin scryfallPlugin;
 
     public ScryfallSearchView() {
         loadFXML();
@@ -79,7 +80,7 @@ public class ScryfallSearchView extends BorderPane implements CardCollectionView
     protected void refresh() {
         flowPane.getChildren().clear();
         for (Card card : getCardCollection().getCards()) {
-            CardView cardView = scryfallPlugin.getApplicationContext().getBean(DefaultCardView.class);
+            CardView cardView = componentFactory.buildCardView();
             cardView.setCard(card);
             Node cardViewNode = cardView.getFxViewNode();
             flowPane.getChildren().add(cardViewNode);

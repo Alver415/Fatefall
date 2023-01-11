@@ -8,8 +8,8 @@ import com.alver.fatefall.app.fx.components.FXMLAutoLoad;
 import com.alver.fatefall.app.fx.components.about.AboutView;
 import com.alver.fatefall.app.fx.components.plugins.PluginManagerView;
 import com.alver.fatefall.app.fx.components.settings.SettingsView;
-import com.alver.fatefall.app.services.Repository;
-import javafx.collections.FXCollections;
+import com.alver.fatefall.app.services.CardCollectionRepository;
+import com.alver.fatefall.app.services.CardRepository;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -38,6 +38,11 @@ public class ApplicationView extends BorderPane {
     protected AboutView aboutView;
     @Autowired
     protected ComponentFactory componentFactory;
+    @Autowired
+    protected CardRepository cardRepository;
+    @Autowired
+    protected CardCollectionRepository cardCollectionRepository;
+
 
     /**
      * FXML Injection
@@ -51,12 +56,10 @@ public class ApplicationView extends BorderPane {
     @FXML
     protected MenuItem managePlugins;
 
-    protected Repository repository = new Repository();
-
     @FXML
     public void initialize() {
         collectionsList.setCellFactory(cardCollectionCellFactory);
-        collectionsList.setItems(FXCollections.observableList(repository.getCardCollections()));
+        cardCollectionRepository.findAll().forEach(cardCollection -> collectionsList.getItems().add(cardCollection));
 
         List<MenuItem> menuItemList = new ArrayList<>();
         menuItemList.add(managePlugins);
@@ -143,7 +146,7 @@ public class ApplicationView extends BorderPane {
 
     public void saveCollection() {
         CardCollection selectedItem = collectionsList.getSelectionModel().getSelectedItem();
-        repository.save(selectedItem);
+        cardCollectionRepository.save(selectedItem);
     }
 
     private Callback<ListView<CardCollection>, ListCell<CardCollection>> cardCollectionCellFactory = (z) -> {
@@ -162,7 +165,7 @@ public class ApplicationView extends BorderPane {
         });
         ContextMenu contextMenu = new ContextMenu();
         MenuItem save = new MenuItem("Save");
-        save.setOnAction(a -> repository.save(cell.getItem()));
+        save.setOnAction(a -> cardCollectionRepository.save(cell.getItem()));
         contextMenu.getItems().add(save);
 
         cell.setContextMenu(contextMenu);

@@ -3,7 +3,9 @@ package com.other.fatefall.mse.plugin.actions;
 import com.alver.fatefall.api.interfaces.ActionEventHandler;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.CardCollection;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.other.fatefall.mse.SetManager;
@@ -55,7 +57,11 @@ public class ImportMSESetAction implements ActionEventHandler {
             ArrayNode cards = (ArrayNode) set.get("card");
             cards.elements().forEachRemaining(c -> {
                 Card card = new Card();
-                card.setData(c);
+                try {
+                    card.setData(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(c));
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException(e);
+                }
                 String cardName = c.get("name").asText();
                 card.setName(cardName);
 

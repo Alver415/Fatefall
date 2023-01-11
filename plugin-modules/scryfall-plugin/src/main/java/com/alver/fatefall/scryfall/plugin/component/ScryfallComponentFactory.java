@@ -3,67 +3,36 @@ package com.alver.fatefall.scryfall.plugin.component;
 
 import com.alver.fatefall.api.interfaces.CardCollectionView;
 import com.alver.fatefall.api.interfaces.CardView;
-import com.alver.fatefall.api.models.Card;
+import com.alver.fatefall.app.fx.components.mainstage.ApplicationView;
 import com.alver.fatefall.app.plugin.implementations.DefaultComponentFactory;
-import com.fasterxml.jackson.databind.JsonNode;
-import javafx.scene.Node;
+import javafx.geometry.Side;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.web.WebView;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.util.Collection;
 
-
+@Component
 public class ScryfallComponentFactory extends DefaultComponentFactory {
 
+    @Autowired
+    @Lazy
+    protected ApplicationView applicationView;
+    @Autowired
+    @Lazy
+    protected ScryfallContextMenuFactory contextMenuFactory;
 
     @Override
     public CardView buildCardView() {
         CardView cardView = super.buildCardView();
-        Node cardViewNode = cardView.getFxViewNode();
-
-        cardViewNode.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if (event.getButton() == MouseButton.SECONDARY) {
-                Card card = cardView.getCard();
-                ContextMenu contextMenu = new ContextMenu();
-                JsonNode data = (JsonNode) card.getData();
-                String url = data.findValue("scryfall_uri").asText();
-
-                if (java.awt.Desktop.isDesktopSupported()) {
-                    MenuItem menuItem = new MenuItem();
-                    menuItem.setText("Open in default browser.");
-                    menuItem.setOnAction(a -> {
-                        try {
-                            java.awt.Desktop.getDesktop().browse(new URI(url));
-                        } catch (IOException | URISyntaxException e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
-                    contextMenu.getItems().add(menuItem);
-                }
-
-                MenuItem menuItem = new MenuItem();
-                menuItem.setText("Open in WebView.");
-                menuItem.setOnAction(a -> {
-                    TabPane tabPane = new TabPane(); //TODO: This should the main applicationView's tabPane...
-                    Tab tab = new Tab("Scryfall - " + card.getName());
-                    WebView webView = new WebView();
-                    webView.getEngine().load(url);
-                    tab.setContent(webView);
-                    tabPane.getTabs().add(tab);
-                    tabPane.getSelectionModel().select(tab);
-                });
-                contextMenu.getItems().add(menuItem);
-                contextMenu.show(cardViewNode, event.getScreenX(), event.getScreenY());
-            }
+        cardView.getFxViewNode().setOnContextMenuRequested(e -> {
+            Collection<MenuItem> menuItems = contextMenuFactory.buildCardViewMenuItems(cardView.getCard());
+            ContextMenu contextMenu = new ContextMenu();
+            contextMenu.getItems().addAll(menuItems);
+            contextMenu.show(cardView.getFxViewNode(), Side.RIGHT, 0, 0);
         });
-
         return cardView;
     }
 

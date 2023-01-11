@@ -19,7 +19,6 @@ public class MSEPlugin extends FatefallPlugin {
         applicationContext.setClassLoader(getWrapper().getPluginClassLoader());
         applicationContext.registerBean(MSEPlugin.class, () -> MSEPlugin.this);
         applicationContext.register(MSEConfiguration.class);
-        applicationContext.refresh();
 
         return applicationContext;
     }

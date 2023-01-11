@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import org.pf4j.PluginManager;
 import org.pf4j.PluginWrapper;
 import org.pf4j.spring.SpringPlugin;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public abstract class FatefallPlugin extends SpringPlugin {
 
@@ -17,6 +18,7 @@ public abstract class FatefallPlugin extends SpringPlugin {
     @Override
     public void start() {
         System.out.println("START: " + getWrapper().getPluginId());
+        ((AnnotationConfigApplicationContext) getApplicationContext()).refresh();
     }
 
     @Override
