@@ -8,6 +8,7 @@ import com.alver.fatefall.api.models.CardCollection;
 import com.alver.fatefall.app.fx.components.FXMLAutoLoad;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
@@ -36,12 +37,24 @@ public class DefaultCardCollectionView extends ScrollPane implements CardCollect
     public DefaultCardCollectionView() {
         super();
         cardCollectionProperty.addListener((observable, oldValue, newValue) -> {
-            flowPane.getChildren().clear();
-            for (Card card : newValue.getCards()) {
-                CardView cardView = componentFactory.buildCardView();
-                cardView.setCard(card);
-                flowPane.getChildren().add(cardView.getFxViewNode());
+            if (oldValue != null){
+                oldValue.getObservableCards().removeListener(cardListChangeListener);
             }
+            if (newValue != null){
+                newValue.getObservableCards().addListener(cardListChangeListener);
+            }
+            refresh();
         });
+    }
+
+    ListChangeListener<? super Card> cardListChangeListener = l -> refresh();
+
+    public void refresh(){
+        flowPane.getChildren().clear();
+        for (Card card : getCardCollection().getCards()) {
+            CardView cardView = componentFactory.buildCardView();
+            cardView.setCard(card);
+            flowPane.getChildren().add(cardView.getFxViewNode());
+        }
     }
 }

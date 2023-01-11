@@ -1,8 +1,14 @@
 package com.alver.fatefall.app;
 
+import com.alver.fatefall.api.models.CardCollection;
+import com.alver.fatefall.app.services.CardCollectionRepository;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
@@ -13,6 +19,16 @@ public class FatefallConfiguration implements ApplicationContextAware {
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.context = applicationContext;
+    }
+
+    @Autowired
+    public CardCollectionRepository cardCollectionRepository;
+
+    @Bean
+    public ObservableList<CardCollection> getCardCollections() {
+        ObservableList<CardCollection> list = FXCollections.observableArrayList();
+        cardCollectionRepository.findAll().forEach(list::add);
+        return list;
     }
 
 }

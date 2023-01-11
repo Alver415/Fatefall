@@ -9,7 +9,7 @@ import com.alver.fatefall.app.fx.components.about.AboutView;
 import com.alver.fatefall.app.fx.components.plugins.PluginManagerView;
 import com.alver.fatefall.app.fx.components.settings.SettingsView;
 import com.alver.fatefall.app.services.CardCollectionRepository;
-import com.alver.fatefall.app.services.CardRepository;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -39,7 +39,7 @@ public class ApplicationView extends BorderPane {
     @Autowired
     protected ComponentFactory componentFactory;
     @Autowired
-    protected CardRepository cardRepository;
+    protected ObservableList<CardCollection> cardCollectionList;
     @Autowired
     protected CardCollectionRepository cardCollectionRepository;
 
@@ -48,7 +48,7 @@ public class ApplicationView extends BorderPane {
      * FXML Injection
      */
     @FXML
-    protected ListView<CardCollection> collectionsList;
+    protected ListView<CardCollection> cardCollectionListView;
     @FXML
     protected TabPane tabPane;
     @FXML
@@ -58,8 +58,8 @@ public class ApplicationView extends BorderPane {
 
     @FXML
     public void initialize() {
-        collectionsList.setCellFactory(cardCollectionCellFactory);
-        cardCollectionRepository.findAll().forEach(cardCollection -> collectionsList.getItems().add(cardCollection));
+        cardCollectionListView.setCellFactory(cardCollectionCellFactory);
+        cardCollectionListView.setItems(cardCollectionList);
 
         List<MenuItem> menuItemList = new ArrayList<>();
         menuItemList.add(managePlugins);
@@ -88,7 +88,7 @@ public class ApplicationView extends BorderPane {
     }
 
     public ListView<CardCollection> getCardCollectionList() {
-        return collectionsList;
+        return cardCollectionListView;
     }
 
     private void createTab(String text, Node node) {
@@ -132,7 +132,7 @@ public class ApplicationView extends BorderPane {
     }
 
     private CardCollection createCollection(String name) {
-        boolean nameAlreadyExists = collectionsList.getItems().stream()
+        boolean nameAlreadyExists = cardCollectionListView.getItems().stream()
                 .map(CardCollection::getName)
                 .anyMatch(n -> Objects.equals(n, name));
         if (nameAlreadyExists) {
@@ -140,12 +140,12 @@ public class ApplicationView extends BorderPane {
         }
         CardCollection cardCollection = new CardCollection();
         cardCollection.setName(name);
-        collectionsList.getItems().add(cardCollection);
+        cardCollectionListView.getItems().add(cardCollection);
         return cardCollection;
     }
 
     public void saveCollection() {
-        CardCollection selectedItem = collectionsList.getSelectionModel().getSelectedItem();
+        CardCollection selectedItem = cardCollectionListView.getSelectionModel().getSelectedItem();
         cardCollectionRepository.save(selectedItem);
     }
 

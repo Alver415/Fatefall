@@ -24,7 +24,7 @@
     </top>
     <left>
         <ScrollPane fitToHeight="true">
-            <ListView fx:id="collectionsList"/>
+            <ListView fx:id="cardCollectionListView"/>
         </ScrollPane>
     </left>
     <center>

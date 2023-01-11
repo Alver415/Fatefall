@@ -1,10 +1,14 @@
 package com.alver.fatefall.app;
 
 import com.alver.fatefall.FatefallLauncher;
+import com.alver.fatefall.api.models.CardCollection;
 import com.alver.fatefall.app.fx.components.mainstage.ApplicationView;
+import com.alver.fatefall.app.services.CardCollectionRepository;
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -13,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.GenericApplicationContext;
 
 import java.util.Objects;
