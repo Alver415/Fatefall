@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -72,7 +73,8 @@ public class ScryfallSearchView extends BorderPane implements CardCollectionView
         CardApiResult result = client.getCardApi().search(query);
 
         CardCollection newCollection = new CardCollection();
-        newCollection.setCards(result.data());
+        List<Card> cards = result.data();
+        newCollection.getCards().addAll(cards);
 
         setCardCollection(newCollection);
     }

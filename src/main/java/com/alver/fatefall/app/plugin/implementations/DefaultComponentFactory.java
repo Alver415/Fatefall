@@ -29,7 +29,7 @@ public class DefaultComponentFactory implements ComponentFactory {
         cardCollectionList.forEach(c -> {
             MenuItem item = new MenuItem(c.getName());
             item.setOnAction(a -> {
-                c.getCards().add(card);
+                c.getObservableCards().add(card);
             });
             menu.getItems().add(item);
         });
