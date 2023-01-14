@@ -5,6 +5,7 @@ import com.alver.fatefall.api.models.Card;
 import com.other.fatefall.components.FxmlEditorCardView;
 import com.other.fatefall.plugin.FxmlEditorPlugin;
 import javafx.event.ActionEvent;
+import javafx.scene.layout.StackPane;
 import org.pf4j.Extension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,7 +26,9 @@ public class CreateFXMLEditorCardViewAction implements ActionEventHandler {
     public void handle(ActionEvent event) {
         FxmlEditorCardView cardView = plugin.getApplicationContext().getBean(FxmlEditorCardView.class);
         cardView.setCard(new Card());
-        cardView.setStyle("-fx-border-color:red;");
-        plugin.createToolTab(getName(), cardView);
+        StackPane stackPane = new StackPane();
+        stackPane.setStyle("-fx-border-color:red;");
+        stackPane.getChildren().add(cardView);
+        plugin.createToolTab(getName(), stackPane);
     }
 }

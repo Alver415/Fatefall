@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 @FXMLAutoLoad
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class DefaultCardCollectionView extends ScrollPane implements CardCollectionView {
+public class DefaultCardCollectionView extends ScrollPane implements CardCollectionView<DefaultCardCollectionView> {
 
     @Autowired
     protected ComponentFactory componentFactory;
@@ -52,7 +52,7 @@ public class DefaultCardCollectionView extends ScrollPane implements CardCollect
     public void refresh(){
         flowPane.getChildren().clear();
         for (Card card : getCardCollection().getCards()) {
-            CardView cardView = componentFactory.buildCardView();
+            CardView<?> cardView = componentFactory.buildCardView();
             cardView.setCard(card);
             flowPane.getChildren().add(cardView.getFxViewNode());
         }

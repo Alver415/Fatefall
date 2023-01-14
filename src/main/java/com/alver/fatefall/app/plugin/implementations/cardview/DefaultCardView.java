@@ -3,6 +3,7 @@ package com.alver.fatefall.app.plugin.implementations.cardview;
 import com.alver.fatefall.api.interfaces.CardView;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.app.fx.components.FXMLAutoLoad;
+import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Component;
 @FXMLAutoLoad
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class DefaultCardView extends StackPane implements CardView {
+public class DefaultCardView extends StackPane implements CardView<DefaultCardView> {
 
     @FXML
     protected CardPane cardPane;
@@ -46,7 +47,7 @@ public class DefaultCardView extends StackPane implements CardView {
         super();
         //Whenever card property changes, update the images.
         cardProperty().addListener((observable, oldValue, newValue) -> {
-            setupCardFaces(newValue);
+            Platform.runLater(() -> setupCardFaces(newValue));
         });
     }
 
@@ -67,8 +68,8 @@ public class DefaultCardView extends StackPane implements CardView {
 
     protected void setupCardFaces(Card card) {
 
-        ImageView frontImageView = new ImageView(new Image(card.getFrontUrl()));
-        ImageView backImageView = new ImageView(new Image(card.getBackUrl()));
+        ImageView frontImageView = new ImageView(new Image(card.getFrontUrl(), true));
+        ImageView backImageView = new ImageView(new Image(card.getBackUrl(), true));
 
         CardFace frontFace = new CardFace(frontImageView);
         CardFace backFace = new CardFace(backImageView);

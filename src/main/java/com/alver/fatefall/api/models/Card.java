@@ -7,16 +7,15 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "card")
 public class Card {
 
-    @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
     protected String id;
     protected String name;
     protected String frontUrl;
     protected String backUrl;
-    @Lob
     protected String data;
 
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     public String getId() {
         return id;
     }
@@ -49,6 +48,7 @@ public class Card {
         this.backUrl = backUrl;
     }
 
+    @Lob
     public String getData() {
         return data;
     }

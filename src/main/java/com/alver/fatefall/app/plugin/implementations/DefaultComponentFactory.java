@@ -7,6 +7,7 @@ import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.CardCollection;
 import com.alver.fatefall.app.plugin.implementations.cardcollectionview.DefaultCardCollectionView;
 import com.alver.fatefall.app.plugin.implementations.cardview.DefaultCardView;
+import com.alver.fatefall.app.services.CardRepository;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
@@ -22,6 +23,8 @@ public class DefaultComponentFactory implements ComponentFactory {
     @Autowired
     protected ObservableList<CardCollection> cardCollectionList;
     @Autowired
+    protected CardRepository cardRepository;
+    @Autowired
     protected BeanFactory beanFactory;
 
     public MenuItem buildAddToCollectionMenuItem(Card card) {
@@ -36,8 +39,16 @@ public class DefaultComponentFactory implements ComponentFactory {
         return menu;
     }
 
-    public CardView buildCardView() {
-        CardView cardView = beanFactory.getBean(DefaultCardView.class);
+    public MenuItem buildDeleteCardMenuItem(Card card) {
+        MenuItem item = new MenuItem("Delete");
+        item.setOnAction(a -> cardCollectionList.stream()
+                .map(CardCollection::getObservableCards)
+                .forEach(cards -> cards.remove(card)));
+        return item;
+    }
+
+    public CardView<?> buildCardView() {
+        CardView<?> cardView = beanFactory.getBean(DefaultCardView.class);
         Node node = cardView.getFxViewNode();
         node.setOnContextMenuRequested(e -> {
             ContextMenu contextMenu = buildCardViewContextMenu(cardView.getCard());
@@ -49,10 +60,11 @@ public class DefaultComponentFactory implements ComponentFactory {
     public ContextMenu buildCardViewContextMenu(Card card) {
         ContextMenu contextMenu = new ContextMenu();
         contextMenu.getItems().add(buildAddToCollectionMenuItem(card));
+        contextMenu.getItems().add(buildDeleteCardMenuItem(card));
         return contextMenu;
     }
 
-    public CardCollectionView buildCardCollectionView() {
+    public CardCollectionView<?> buildCardCollectionView() {
         return beanFactory.getBean(DefaultCardCollectionView.class);
     }
 }

@@ -4,12 +4,10 @@ import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.app.fx.components.FXMLAutoLoad;
 import com.alver.fatefall.app.plugin.implementations.cardview.CardFace;
 import com.alver.fatefall.app.plugin.implementations.cardview.DefaultCardView;
-import com.other.fatefall.plugin.FxmlEditorPlugin;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -20,9 +18,6 @@ import java.util.Optional;
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class FxmlEditorCardView extends DefaultCardView implements EventHandler<MouseEvent> {
-
-    @Autowired
-    protected FxmlEditorPlugin plugin;
 
     public FxmlEditorCardView() {
         super();

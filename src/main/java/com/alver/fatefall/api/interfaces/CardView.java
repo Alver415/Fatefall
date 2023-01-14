@@ -2,9 +2,10 @@ package com.alver.fatefall.api.interfaces;
 
 import com.alver.fatefall.api.models.Card;
 import javafx.beans.property.ObjectProperty;
+import javafx.scene.Node;
 
 
-public interface CardView extends FxView {
+public interface CardView<T extends Node> extends FxView<T> {
 
     ObjectProperty<Card> cardProperty();
 
