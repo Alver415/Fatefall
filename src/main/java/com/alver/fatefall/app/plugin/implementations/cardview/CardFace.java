@@ -6,21 +6,9 @@ import javafx.scene.layout.AnchorPane;
 public class CardFace extends AnchorPane {
 
     public CardFace(){
-        AnchorPane.setTopAnchor(this, 0.0);
-        AnchorPane.setRightAnchor(this, 0.0);
-        AnchorPane.setBottomAnchor(this, 0.0);
-        AnchorPane.setLeftAnchor(this, 0.0);
-        parentProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue instanceof CardPane) {
-                CardPane cardPane = (CardPane) newValue;
-                minWidthProperty().bind(cardPane.cardWidthProperty());
-                minHeightProperty().bind(cardPane.cardHeightProperty());
-                maxWidthProperty().bind(cardPane.cardWidthProperty());
-                maxHeightProperty().bind(cardPane.cardHeightProperty());
-                prefWidthProperty().bind(cardPane.cardWidthProperty());
-                prefHeightProperty().bind(cardPane.cardHeightProperty());
-            }
-        });
+        super();
+        setPrefWidth(250);
+        setPrefHeight(350);
     }
 
     public CardFace(Node... children){

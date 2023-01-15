@@ -82,7 +82,7 @@ public class ScryfallSearchView extends BorderPane implements CardCollectionView
     protected void refresh() {
         flowPane.getChildren().clear();
         for (Card card : getCardCollection().getCards()) {
-            CardView cardView = componentFactory.buildCardView();
+            CardView cardView = componentFactory.buildFlipFacesCardView();
             cardView.setCard(card);
             Node cardViewNode = cardView.getFxViewNode();
             flowPane.getChildren().add(cardViewNode);

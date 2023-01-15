@@ -10,8 +10,9 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
+import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -27,6 +28,8 @@ public class DefaultCardCollectionView extends ScrollPane implements CardCollect
 
     @FXML
     protected FlowPane flowPane;
+    @FXML
+    protected TreeTableView<Card> treeTable;
 
     protected ObjectProperty<CardCollection> cardCollectionProperty = new SimpleObjectProperty<>();
 
@@ -36,11 +39,39 @@ public class DefaultCardCollectionView extends ScrollPane implements CardCollect
 
     public DefaultCardCollectionView() {
         super();
+    }
+
+    @FXML
+    private void initialize() {
+        TreeTableColumn<Card, CardView<?>> card = new TreeTableColumn<>("Card");
+        card.setCellFactory(new Callback<>() {
+            @Override
+            public TreeTableCell<Card, CardView<?>> call(TreeTableColumn<Card, CardView<?>> param) {
+                return new TreeTableCell<>() {
+                    @Override
+                    protected void updateItem(CardView<?> item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            Card card = getTableRow().getTreeItem().getValue();
+                            CardView<?> cardView = componentFactory.buildRandomCardView();
+                            cardView.setCard(card);
+                            setGraphic(cardView.getFxViewNode());
+                        }
+                    }
+                };
+            }
+        });
+
+        treeTable.getColumns().add(card);
+
+
         cardCollectionProperty.addListener((observable, oldValue, newValue) -> {
-            if (oldValue != null){
+            if (oldValue != null) {
                 oldValue.getObservableCards().removeListener(cardListChangeListener);
             }
-            if (newValue != null){
+            if (newValue != null) {
                 newValue.getObservableCards().addListener(cardListChangeListener);
             }
             refresh();
@@ -49,12 +80,15 @@ public class DefaultCardCollectionView extends ScrollPane implements CardCollect
 
     ListChangeListener<? super Card> cardListChangeListener = l -> refresh();
 
-    public void refresh(){
+    public void refresh() {
         flowPane.getChildren().clear();
+        treeTable.setRoot(new TreeItem<>());
         for (Card card : getCardCollection().getCards()) {
-            CardView<?> cardView = componentFactory.buildCardView();
+            CardView<?> cardView = componentFactory.buildFlipFacesCardView();
             cardView.setCard(card);
             flowPane.getChildren().add(cardView.getFxViewNode());
+            treeTable.getRoot().getChildren().add(new TreeItem<>(card));
         }
     }
+
 }

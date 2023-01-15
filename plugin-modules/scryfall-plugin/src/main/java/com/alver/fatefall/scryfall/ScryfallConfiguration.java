@@ -35,7 +35,7 @@ public class ScryfallConfiguration {
     @Bean
     @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     public CardView getCardView() {
-        return componentFactory.buildCardView();
+        return componentFactory.buildFlipFacesCardView();
     }
 
     @Bean

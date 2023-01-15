@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.alver.fatefall.app.plugin.implementations.cardview.AdjacentFacesCardView?>
+<?import com.alver.fatefall.app.plugin.implementations.cardview.CardFace?>
+<?import javafx.scene.layout.HBox?>
+<fx:root xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+         type="AdjacentFacesCardView">
+
+    <HBox spacing="3">
+        <CardFace fx:id="frontFace" prefWidth="250" prefHeight="350"/>
+        <CardFace fx:id="backFace" prefWidth="250" prefHeight="350"/>
+    </HBox>
+</fx:root>

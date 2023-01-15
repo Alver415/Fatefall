@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.alver.fatefall.app.plugin.implementations.cardview.CardFace?>
+<?import com.alver.fatefall.app.plugin.implementations.cardview.StackedFacesCardView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.StackPane?>
+<fx:root xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+         type="StackedFacesCardView"
+         minWidth="300" minHeight="400"
+         prefWidth="300" prefHeight="400"
+         maxWidth="300" maxHeight="400">
+
+    <CardFace fx:id="backFace" prefWidth="250" prefHeight="350">
+        <StackPane.margin>
+            <Insets top="0" right="0" bottom="50" left="50"/>
+        </StackPane.margin>
+    </CardFace>
+
+    <CardFace fx:id="frontFace" prefWidth="250" prefHeight="350">
+        <StackPane.margin>
+            <Insets top="50" right="50" bottom="0" left="0"/>
+        </StackPane.margin>
+    </CardFace>
+
+</fx:root>

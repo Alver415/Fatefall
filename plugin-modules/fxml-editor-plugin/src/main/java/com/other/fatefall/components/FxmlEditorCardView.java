@@ -1,9 +1,7 @@
 package com.other.fatefall.components;
 
-import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.app.fx.components.FXMLAutoLoad;
-import com.alver.fatefall.app.plugin.implementations.cardview.CardFace;
-import com.alver.fatefall.app.plugin.implementations.cardview.DefaultCardView;
+import com.alver.fatefall.app.plugin.implementations.cardview.FlipFacesCardView;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
@@ -14,26 +12,14 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-@FXMLAutoLoad(location = "com/alver/fatefall/app/plugin/implementations/cardview/DefaultCardView.fxml")
+@FXMLAutoLoad(location = "com/alver/fatefall/app/plugin/implementations/cardview/FlipFacesCardView.fxml")
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class FxmlEditorCardView extends DefaultCardView implements EventHandler<MouseEvent> {
+public class FxmlEditorCardView extends FlipFacesCardView implements EventHandler<MouseEvent> {
 
     public FxmlEditorCardView() {
         super();
         addEventFilter(MouseEvent.ANY, this);
-    }
-
-    @Override
-    protected void setupCardFaces(Card card) {
-        TextBlock frontImageBlock = new TextBlock("Front");
-        TextBlock backImageBlock = new TextBlock("Back");
-
-        CardFace frontFace = new CardFace(frontImageBlock);
-        CardFace backFace = new CardFace(backImageBlock);
-
-        cardPane.setFront(frontFace);
-        cardPane.setBack(backFace);
     }
 
     private enum Mode {
@@ -70,7 +56,7 @@ public class FxmlEditorCardView extends DefaultCardView implements EventHandler<
             newTextBlock.setText("New TextBlock");
             newTextBlock.setTranslateX(e.getX());
             newTextBlock.setTranslateY(e.getY());
-            getCardPane().getFront().getChildren().add(newTextBlock);
+            getFront().getChildren().add(newTextBlock);
         }
         if (!e.getButton().equals(MouseButton.PRIMARY)) {
             return;
