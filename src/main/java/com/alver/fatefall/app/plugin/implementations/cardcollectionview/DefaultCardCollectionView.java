@@ -10,6 +10,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.util.Callback;
@@ -47,7 +48,7 @@ public class DefaultCardCollectionView extends ScrollPane implements CardCollect
         card.setCellFactory(new Callback<>() {
             @Override
             public TreeTableCell<Card, CardView<?>> call(TreeTableColumn<Card, CardView<?>> param) {
-                return new TreeTableCell<>() {
+                TreeTableCell<Card, CardView<?>> cell = new TreeTableCell<>() {
                     @Override
                     protected void updateItem(CardView<?> item, boolean empty) {
                         super.updateItem(item, empty);
@@ -61,6 +62,8 @@ public class DefaultCardCollectionView extends ScrollPane implements CardCollect
                         }
                     }
                 };
+                cell.setAlignment(Pos.CENTER);
+                return cell;
             }
         });
 

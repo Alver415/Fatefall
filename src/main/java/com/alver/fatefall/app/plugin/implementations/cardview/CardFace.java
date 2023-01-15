@@ -7,6 +7,10 @@ public class CardFace extends AnchorPane {
 
     public CardFace(){
         super();
+        setMinWidth(250);
+        setMinHeight(350);
+        setMaxWidth(250);
+        setMaxHeight(350);
         setPrefWidth(250);
         setPrefHeight(350);
     }

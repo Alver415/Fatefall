@@ -6,7 +6,7 @@
 <fx:root xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
          type="AdjacentFacesCardView">
 
-    <HBox spacing="3">
+    <HBox spacing="3" alignment="CENTER">
         <CardFace fx:id="frontFace" prefWidth="250" prefHeight="350"/>
         <CardFace fx:id="backFace" prefWidth="250" prefHeight="350"/>
     </HBox>

@@ -11,8 +11,8 @@
          maxWidth="250" maxHeight="350">
 
     <StackPane fx:id="wrapper">
-        <CardFace fx:id="backFace" prefWidth="250" prefHeight="350" maxWidth="250" maxHeight="350"/>
-        <CardFace fx:id="frontFace" prefWidth="250" prefHeight="350" maxWidth="250" maxHeight="350"/>
+        <CardFace fx:id="backFace" prefWidth="250" prefHeight="350"/>
+        <CardFace fx:id="frontFace" prefWidth="250" prefHeight="350"/>
     </StackPane>
 
     <Button StackPane.alignment="BOTTOM_LEFT" onAction="#spinLeft"/>

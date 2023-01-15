@@ -103,9 +103,7 @@ public class FlipFacesCardView extends AbstractCardView<FlipFacesCardView> {
         spinTimeline.getKeyFrames().setAll(
                 new KeyFrame(start, new KeyValue(wrapper.rotateProperty(), rotationStart)),
                 new KeyFrame(end, new KeyValue(wrapper.rotateProperty(), rotationEnd)));
-
         spinTimeline.setOnFinished((event) -> wrapper.setRotate(getSpin().ordinal() * 90));
-
         spinTimeline.playFromStart();
     }
 
