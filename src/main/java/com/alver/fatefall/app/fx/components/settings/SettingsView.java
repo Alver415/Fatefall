@@ -25,6 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class SettingsView extends BorderPane implements ApplicationContextAware {
 
+    public static SettingsView INSTANCE;
     @Autowired
     protected ApplicationContext context;
 
@@ -36,9 +37,12 @@ public class SettingsView extends BorderPane implements ApplicationContextAware 
     private final Properties properties = new Properties();
 
     protected SettingsView() {
+        INSTANCE = this;
         registerSetting(styleSheet);
         registerSetting(locale);
         registerSetting(fxBase);
+        registerSetting(cardWidth);
+        registerSetting(cardHeight);
         loadSettings();
     }
 
@@ -50,6 +54,9 @@ public class SettingsView extends BorderPane implements ApplicationContextAware 
     public void registerSetting(Setting<?> setting) {
         settingsMap.put(setting.getName(), setting);
     }
+
+    public final IntegerSetting cardWidth = new IntegerSetting(this, "cardWidth", "", 250);
+    public final IntegerSetting cardHeight = new IntegerSetting(this, "cardHeight", "", 350);
 
     public final Setting<Color> fxBase = new SettingBase<>(this, "fxBase", "", null) {
         {

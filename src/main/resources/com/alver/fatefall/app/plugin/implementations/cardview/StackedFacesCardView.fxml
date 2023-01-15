@@ -5,20 +5,17 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.StackPane?>
 <fx:root xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-         type="StackedFacesCardView"
-         minWidth="300" minHeight="400"
-         prefWidth="300" prefHeight="400"
-         maxWidth="300" maxHeight="400">
+         type="StackedFacesCardView">
 
-    <CardFace fx:id="backFace" prefWidth="250" prefHeight="350">
+    <CardFace fx:id="backFace">
         <StackPane.margin>
-            <Insets top="0" right="0" bottom="50" left="50"/>
+            <Insets bottom="20" left="20"/>
         </StackPane.margin>
     </CardFace>
 
-    <CardFace fx:id="frontFace" prefWidth="250" prefHeight="350">
+    <CardFace fx:id="frontFace">
         <StackPane.margin>
-            <Insets top="50" right="50" bottom="0" left="0"/>
+            <Insets top="20" right="20"/>
         </StackPane.margin>
     </CardFace>
 

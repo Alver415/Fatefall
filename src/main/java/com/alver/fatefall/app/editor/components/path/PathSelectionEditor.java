@@ -1,4 +1,4 @@
-package com.alver.fatefall.app.editor.path;
+package com.alver.fatefall.app.editor.components.path;
 
 import javafx.beans.value.ObservableValue;
 import org.controlsfx.control.PropertySheet;

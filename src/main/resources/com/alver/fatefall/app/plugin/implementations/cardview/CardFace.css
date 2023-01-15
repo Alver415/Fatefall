@@ -1,9 +1,3 @@
-CardFace {
-    -fx-border-color: rgba(150,100,200, 0.5);
-    -fx-border-width: 10;
-    -fx-border-radius: 10;
-    -fx-border-insets: -10;
-}
 
 * {
   -fx-text-fill: black;

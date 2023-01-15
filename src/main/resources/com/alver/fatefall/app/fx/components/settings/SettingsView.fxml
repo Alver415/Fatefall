@@ -2,7 +2,6 @@
 
 <?import com.alver.fatefall.app.fx.components.settings.SettingsView?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.VBox?>
 <?import org.controlsfx.control.PropertySheet?>
 <fx:root xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
          type="SettingsView">

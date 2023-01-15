@@ -1,6 +1,6 @@
-package com.other.fatefall.components;
+package com.alver.fatefall.app.editor.components;
 
-import com.alver.fatefall.app.editor.image.StringImageConverter;
+import com.alver.fatefall.app.editor.components.image.StringImageConverter;
 import javafx.beans.DefaultProperty;
 import javafx.beans.property.*;
 import javafx.scene.image.Image;

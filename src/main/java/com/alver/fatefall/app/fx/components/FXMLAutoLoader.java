@@ -36,23 +36,27 @@ public class FXMLAutoLoader implements BeanPostProcessor, ApplicationContextAwar
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         FXMLAutoLoad annotation = bean.getClass().getAnnotation(FXMLAutoLoad.class);
         if (annotation != null) {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getLocation(bean, annotation));
-            loader.setRoot(getRoot(bean, annotation));
-            loader.setController(getController(bean, annotation));
-            loader.setControllerFactory(getControllerFactory(bean, annotation));
-            loader.setBuilderFactory(getBuilderFactory(bean, annotation));
-            loader.setResources(getResources(bean, annotation));
-            loader.setLoadListener(getLoadListener(bean, annotation));
-            loader.setClassLoader(getClassLoader(bean, annotation));
-            loader.setCharset(getCharset(bean, annotation));
-            try {
-                loader.load();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            loadFxml(bean, annotation);
         }
         return bean;
+    }
+
+    private void loadFxml(Object bean, FXMLAutoLoad annotation) {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getLocation(bean, annotation));
+        loader.setRoot(getRoot(bean, annotation));
+        loader.setController(getController(bean, annotation));
+        loader.setControllerFactory(getControllerFactory(bean, annotation));
+        loader.setBuilderFactory(getBuilderFactory(bean, annotation));
+        loader.setResources(getResources(bean, annotation));
+        loader.setLoadListener(getLoadListener(bean, annotation));
+        loader.setClassLoader(getClassLoader(bean, annotation));
+        loader.setCharset(getCharset(bean, annotation));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private URL getLocation(Object bean, FXMLAutoLoad annotation) {

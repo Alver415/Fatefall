@@ -2,12 +2,12 @@ package com.alver.fatefall.app.plugin.implementations.cardview;
 
 import com.alver.fatefall.api.interfaces.CardView;
 import com.alver.fatefall.api.models.Card;
+import com.alver.fatefall.app.editor.components.ImageBlock;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
 public abstract class AbstractCardView<T extends Node> extends StackPane implements CardView<T> {
@@ -51,17 +51,17 @@ public abstract class AbstractCardView<T extends Node> extends StackPane impleme
                 return;
             }
 
-            ImageView frontImageView = new ImageView(new Image(newValue.getFrontUrl(), true));
-            ImageView backImageView = new ImageView(new Image(newValue.getBackUrl(), true));
+            ImageBlock frontImageBlock = new ImageBlock(new Image(newValue.getFrontUrl(), true));
+            ImageBlock backImageBlock = new ImageBlock(new Image(newValue.getBackUrl(), true));
 
-            frontImageView.fitHeightProperty().bind(frontFace.heightProperty());
-            frontImageView.fitWidthProperty().bind(frontFace.widthProperty());
+            frontImageBlock.prefHeightProperty().bind(frontFace.heightProperty());
+            frontImageBlock.prefWidthProperty().bind(frontFace.widthProperty());
 
-            backImageView.fitHeightProperty().bind(backFace.heightProperty());
-            backImageView.fitWidthProperty().bind(backFace.widthProperty());
+            backImageBlock.prefHeightProperty().bind(backFace.heightProperty());
+            backImageBlock.prefWidthProperty().bind(backFace.widthProperty());
 
-            frontFace.getChildren().setAll(frontImageView);
-            backFace.getChildren().setAll(backImageView);
+            frontFace.getChildren().setAll(frontImageBlock);
+            backFace.getChildren().setAll(backImageBlock);
         });
     }
 

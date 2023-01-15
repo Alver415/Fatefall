@@ -1,4 +1,4 @@
-package com.alver.fatefall.app.editor.directory;
+package com.alver.fatefall.app.editor.components.directory;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

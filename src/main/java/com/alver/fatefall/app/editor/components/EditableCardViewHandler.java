@@ -1,25 +1,21 @@
-package com.other.fatefall.components;
+package com.alver.fatefall.app.editor.components;
 
-import com.alver.fatefall.app.fx.components.FXMLAutoLoad;
-import com.alver.fatefall.app.plugin.implementations.cardview.FlipFacesCardView;
+import com.alver.fatefall.api.interfaces.CardView;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-@FXMLAutoLoad(location = "com/alver/fatefall/app/plugin/implementations/cardview/FlipFacesCardView.fxml")
-@Component
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class FxmlEditorCardView extends FlipFacesCardView implements EventHandler<MouseEvent> {
 
-    public FxmlEditorCardView() {
-        super();
-        addEventFilter(MouseEvent.ANY, this);
+public class EditableCardViewHandler implements EventHandler<MouseEvent> {
+
+    protected CardView<?> cardView;
+
+    public EditableCardViewHandler(CardView<?> cardView) {
+        this.cardView = cardView;
+        cardView.getFxViewNode().addEventFilter(MouseEvent.ANY, this);
     }
 
     private enum Mode {
@@ -56,7 +52,7 @@ public class FxmlEditorCardView extends FlipFacesCardView implements EventHandle
             newTextBlock.setText("New TextBlock");
             newTextBlock.setTranslateX(e.getX());
             newTextBlock.setTranslateY(e.getY());
-            getFront().getChildren().add(newTextBlock);
+            cardView.getFrontFace().getChildren().add(newTextBlock);
         }
         if (!e.getButton().equals(MouseButton.PRIMARY)) {
             return;
@@ -77,12 +73,13 @@ public class FxmlEditorCardView extends FlipFacesCardView implements EventHandle
     }
 
     private Optional<Block<?>> findAncestorBlock(MouseEvent e) {
+        Node base = cardView.getFxViewNode();
         Node node = e.getPickResult().getIntersectedNode();
-        while (node != null && node != this) {
+        while (node != null && node != base) {
             if (node instanceof Block<?> found) {
                 while (node != null) {
                     node = node.getParent();
-                    if (node == this) {
+                    if (node == base) {
                         return Optional.of(found);
                     }
                 }

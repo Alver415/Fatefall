@@ -3,3 +3,5 @@
 styleSheet=
 fxBase=0x000000ff
 locale=en
+cardWidth=250
+cardHeight=350

@@ -1,5 +1,5 @@
 
-package com.alver.fatefall.app.editor.path;
+package com.alver.fatefall.app.editor.components.path;
 
 import javafx.util.StringConverter;
 

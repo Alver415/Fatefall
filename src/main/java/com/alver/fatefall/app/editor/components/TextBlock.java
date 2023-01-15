@@ -1,4 +1,4 @@
-package com.other.fatefall.components;
+package com.alver.fatefall.app.editor.components;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;

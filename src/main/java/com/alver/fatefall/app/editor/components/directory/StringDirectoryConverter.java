@@ -1,4 +1,4 @@
-package com.alver.fatefall.app.editor.directory;
+package com.alver.fatefall.app.editor.components.directory;
 
 import javafx.util.StringConverter;
 

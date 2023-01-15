@@ -1,4 +1,4 @@
-package com.alver.fatefall.app.editor.image;
+package com.alver.fatefall.app.editor.components.image;
 
 import javafx.beans.value.ObservableValue;
 import javafx.scene.image.Image;

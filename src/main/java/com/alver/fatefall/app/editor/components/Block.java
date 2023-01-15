@@ -1,4 +1,4 @@
-package com.other.fatefall.components;
+package com.alver.fatefall.app.editor.components;
 
 import javafx.beans.property.*;
 import javafx.scene.Node;
@@ -15,7 +15,7 @@ import java.nio.file.PathMatcher;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static com.other.fatefall.components.Block.AnchorProperty.Anchor.*;
+import static com.alver.fatefall.app.editor.components.Block.AnchorProperty.Anchor.*;
 
 public class Block<T> extends AnchorPane {
 

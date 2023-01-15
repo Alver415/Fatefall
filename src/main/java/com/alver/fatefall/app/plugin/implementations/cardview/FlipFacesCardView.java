@@ -1,12 +1,11 @@
 package com.alver.fatefall.app.plugin.implementations.cardview;
 
 import com.alver.fatefall.app.fx.components.FXMLAutoLoad;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
@@ -25,6 +24,33 @@ public class FlipFacesCardView extends AbstractCardView<FlipFacesCardView> {
 
     @FXML
     private StackPane wrapper;
+    @FXML
+    private Node buttons;
+    @FXML
+    private void initialize(){
+        buttons.setOpacity(0);
+        setOnMouseEntered(e -> fade(buttons, true));
+        setOnMouseExited(e -> fade(buttons, false));
+    }
+
+    private void fade(Node node, boolean direction){
+        FadeTransition fade = new FadeTransition();
+        fade.setToValue(direction ? 1 : 0);
+
+        TranslateTransition move = new TranslateTransition();
+        move.setToY(direction ? 0 : 20);
+
+        ScaleTransition scale = new ScaleTransition();
+        scale.setToX(direction ? 1 : 0);
+        scale.setToY(direction ? 1 : 0);
+
+        ParallelTransition parallelTransition = new ParallelTransition();
+        parallelTransition.setNode(node);
+        parallelTransition.getChildren().setAll(fade, move, scale);
+        parallelTransition.setRate(2);
+        parallelTransition.play();
+
+    }
 
     /**
      * === Card Spin Property ==
@@ -49,10 +75,8 @@ public class FlipFacesCardView extends AbstractCardView<FlipFacesCardView> {
     protected ObjectProperty<Side> sideProperty = new SimpleObjectProperty<>(Side.FRONT) {
         {
             addListener((observable, oldValue, newValue) -> {
-                CardFace shown = newValue == Side.FRONT ? getFrontFace() : getBackFace();
-                CardFace hidden = newValue == Side.BACK ? getFrontFace() : getBackFace();
-                shown.setVisible(true);
-                hidden.setVisible(false);
+                getFrontFace().setVisible(newValue == Side.FRONT);
+                getBackFace().setVisible(newValue == Side.BACK);
             });
         }
     };
