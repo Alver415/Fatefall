@@ -17,7 +17,6 @@
                 <MenuItem text="Manage Plugins" fx:id="managePlugins" onAction="#openPluginManagerView"/>
             </Menu>
             <Menu text="Help">
-                <SeparatorMenuItem/>
                 <MenuItem text="About" onAction="#openAboutView"/>
             </Menu>
         </MenuBar>

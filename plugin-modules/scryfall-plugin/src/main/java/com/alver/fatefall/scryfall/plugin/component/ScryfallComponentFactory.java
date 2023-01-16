@@ -8,7 +8,6 @@ import com.alver.fatefall.app.plugin.implementations.DefaultComponentFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -20,6 +19,8 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class ScryfallComponentFactory extends DefaultComponentFactory {
@@ -29,11 +30,11 @@ public class ScryfallComponentFactory extends DefaultComponentFactory {
     protected ApplicationView applicationView;
 
 
-    public ContextMenu buildCardViewContextMenu(Card card) {
-        ContextMenu contextMenu = super.buildCardViewContextMenu(card);
-        contextMenu.getItems().add(buildOpenInBrowserMenuItem(card));
-        contextMenu.getItems().add(buildOpenInWebViewMenuItem(card));
-        return contextMenu;
+    public List<MenuItem> buildCardViewContextMenuItems(Card card) {
+        ArrayList<MenuItem> items = new ArrayList<>(super.buildCardViewContextMenuItems(card));
+        items.add(buildOpenInBrowserMenuItem(card));
+        items.add(buildOpenInWebViewMenuItem(card));
+        return items;
     }
 
     private MenuItem buildOpenInWebViewMenuItem(Card card) {

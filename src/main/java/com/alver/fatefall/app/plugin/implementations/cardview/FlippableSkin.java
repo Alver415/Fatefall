@@ -1,56 +1,79 @@
 package com.alver.fatefall.app.plugin.implementations.cardview;
 
-import com.alver.fatefall.app.fx.components.FXMLAutoLoad;
 import javafx.animation.*;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
-@FXMLAutoLoad
-@Component
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class FlipFacesCardView extends AbstractCardView<FlipFacesCardView> {
+import java.util.Objects;
+
+
+public class FlippableSkin extends CardViewSkin {
+
+    private static final Image spinLeft = loadImage("spinLeft.png");
+    private static final Image flipOver = loadImage("flipOver.png");
+    private static final Image spinRight = loadImage("spinRight.png");
 
     public enum Side {FRONT, BACK}
 
     public enum Spin {UP, RIGHT, DOWN, LEFT}
 
-    @FXML
-    private StackPane wrapper;
-    @FXML
-    private Node buttons;
-    @FXML
-    private void initialize(){
+    protected StackPane wrapper;
+    protected HBox buttons;
+
+    public FlippableSkin(CardViewImpl control) {
+        super(control);
+        wrapper = new StackPane();
+        frontWrapper = new StackPane(control.getFront());
+        backWrapper = new StackPane(control.getBack());
+        wrapper.getChildren().setAll(frontWrapper, backWrapper);
+
+        buttons = new HBox();
+        buttons.setAlignment(Pos.BOTTOM_CENTER);
+        StackPane.setAlignment(buttons, Pos.BOTTOM_CENTER);
+
+        //Initial state
         buttons.setOpacity(0);
-        setOnMouseEntered(e -> fade(buttons, true));
-        setOnMouseExited(e -> fade(buttons, false));
+        frontWrapper.setVisible(true);
+        backWrapper.setVisible(false);
+
+        buttons.getChildren().setAll(
+                buildButton(spinLeft, this::spinLeft),
+                buildButton(flipOver, this::flip),
+                buildButton(spinRight, this::spinRight)
+        );
+
+        control.setOnMouseEntered(e -> animateButtons(true));
+        control.setOnMouseExited(e -> animateButtons(false));
+
+        getChildren().setAll(wrapper, buttons);
     }
 
-    private void fade(Node node, boolean direction){
-        FadeTransition fade = new FadeTransition();
-        fade.setToValue(direction ? 1 : 0);
 
-        TranslateTransition move = new TranslateTransition();
-        move.setToY(direction ? 0 : 20);
-
-        ScaleTransition scale = new ScaleTransition();
-        scale.setToX(direction ? 1 : 0);
-        scale.setToY(direction ? 1 : 0);
-
-        ParallelTransition parallelTransition = new ParallelTransition();
-        parallelTransition.setNode(node);
-        parallelTransition.getChildren().setAll(fade, move, scale);
-        parallelTransition.setRate(2);
-        parallelTransition.play();
-
+    private static Image loadImage(String url) {
+        return new Image(Objects.requireNonNull(FlippableSkin.class.getResourceAsStream(url)));
     }
+
+    private Button buildButton(Image image, Runnable runnable) {
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(20);
+        imageView.setFitWidth(20);
+
+        Button button = new Button();
+        button.setOpacity(0.5);
+        button.setGraphic(imageView);
+        button.setOnAction(a -> runnable.run());
+        return button;
+    }
+
 
     /**
      * === Card Spin Property ==
@@ -75,8 +98,8 @@ public class FlipFacesCardView extends AbstractCardView<FlipFacesCardView> {
     protected ObjectProperty<Side> sideProperty = new SimpleObjectProperty<>(Side.FRONT) {
         {
             addListener((observable, oldValue, newValue) -> {
-                getFrontFace().setVisible(newValue == Side.FRONT);
-                getBackFace().setVisible(newValue == Side.BACK);
+                frontWrapper.setVisible(newValue == Side.FRONT);
+                backWrapper.setVisible(newValue == Side.BACK);
             });
         }
     };
@@ -155,6 +178,22 @@ public class FlipFacesCardView extends AbstractCardView<FlipFacesCardView> {
                         new KeyValue(wrapper.rotateProperty(), 0))
         );
         flipTimeline.playFromStart();
+    }
+
+
+    protected void animateButtons(boolean show) {
+        FadeTransition fade = new FadeTransition();
+        fade.setToValue(show ? 1 : 0);
+
+        TranslateTransition move = new TranslateTransition();
+        move.setToY(show ? 0 : 20);
+
+        ParallelTransition parallelTransition = new ParallelTransition();
+        parallelTransition.setNode(buttons);
+        parallelTransition.getChildren().setAll(fade, move);
+        parallelTransition.setRate(2);
+        parallelTransition.play();
+
     }
 
 

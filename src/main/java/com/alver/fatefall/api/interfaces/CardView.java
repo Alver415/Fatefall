@@ -10,15 +10,33 @@ public interface CardView<T extends Node> extends FxView<T> {
 
     ObjectProperty<Card> cardProperty();
 
-    default Card getCard(){
+    default Card getCard() {
         return cardProperty().get();
     }
 
-    default void setCard(Card card){
+    default void setCard(Card card) {
         cardProperty().set(card);
     }
 
-    CardFace getFrontFace();
-    CardFace getBackFace();
 
+    ObjectProperty<CardFace> frontProperty();
+
+    default CardFace getFront() {
+        return frontProperty().get();
+    }
+
+    default void setCard(CardFace front) {
+        frontProperty().set(front);
+    }
+
+
+    ObjectProperty<CardFace> backProperty();
+
+    default CardFace getBack() {
+        return backProperty().get();
+    }
+
+    default void setBack(CardFace back) {
+        backProperty().set(back);
+    }
 }

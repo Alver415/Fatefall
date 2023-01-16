@@ -56,7 +56,7 @@ public class DefaultCardCollectionView extends ScrollPane implements CardCollect
                             setGraphic(null);
                         } else {
                             Card card = getTableRow().getTreeItem().getValue();
-                            CardView<?> cardView = componentFactory.buildRandomCardView();
+                            CardView<?> cardView = componentFactory.buildCardView();
                             cardView.setCard(card);
                             setGraphic(cardView.getFxViewNode());
                         }
@@ -87,7 +87,7 @@ public class DefaultCardCollectionView extends ScrollPane implements CardCollect
         flowPane.getChildren().clear();
         treeTable.setRoot(new TreeItem<>());
         for (Card card : getCardCollection().getCards()) {
-            CardView<?> cardView = componentFactory.buildFlipFacesCardView();
+            CardView<?> cardView = componentFactory.buildCardView();
             cardView.setCard(card);
             flowPane.getChildren().add(cardView.getFxViewNode());
             treeTable.getRoot().getChildren().add(new TreeItem<>(card));
