@@ -5,6 +5,7 @@ import com.alver.fatefall.scryfall.plugin.ScryfallPlugin;
 import com.alver.fatefall.scryfall.plugin.component.ScryfallSearchView;
 import javafx.event.ActionEvent;
 import org.pf4j.Extension;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,15 +13,21 @@ import org.springframework.stereotype.Component;
 @Extension
 public class CreateScryfallSearchViewAction implements ActionEventHandler {
 
+    private static final String name = "New Scryfall Search Tab";
+
     @Autowired
     protected ScryfallPlugin plugin;
+    @Autowired
+    protected BeanFactory beanFactory;
+
+
     @Override
     public String getName() {
-        return "New Scryfall Search Tab";
+        return name;
     }
 
     @Override
     public void handle(ActionEvent event) {
-        plugin.createToolTab(getName(), plugin.getApplicationContext().getBean(ScryfallSearchView.class));
+        plugin.createToolTab(getName(), beanFactory.getBean(ScryfallSearchView.class));
     }
 }

@@ -3,23 +3,16 @@
 
 <?import com.alver.fatefall.app.plugin.implementations.cardcollectionview.DefaultCardCollectionView?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.cell.TreeItemPropertyValueFactory?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.FlowPane?>
 <fx:root xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
          type="DefaultCardCollectionView"
          fitToWidth="true" fitToHeight="true">
     <TabPane>
         <Tab text="Table">
-            <TreeTableView fx:id="treeTable" showRoot="false">
-                <columns>
-                    <TreeTableColumn text="Name">
-                        <cellValueFactory>
-                            <TreeItemPropertyValueFactory property="name"/>
-                        </cellValueFactory>
-                    </TreeTableColumn>
-                </columns>
-            </TreeTableView>
+            <TreeTableView fx:id="treeTable" showRoot="false"/>
         </Tab>
         <Tab text="Grid">
             <FlowPane fx:id="flowPane" hgap="5" vgap="5">

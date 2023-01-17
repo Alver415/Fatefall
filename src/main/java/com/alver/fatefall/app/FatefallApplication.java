@@ -1,14 +1,13 @@
 package com.alver.fatefall.app;
 
 import com.alver.fatefall.FatefallLauncher;
-import com.alver.fatefall.api.models.CardCollection;
 import com.alver.fatefall.app.fx.components.mainstage.ApplicationView;
-import com.alver.fatefall.app.services.CardCollectionRepository;
+import com.sun.javafx.css.StyleManager;
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.css.CssParser;
+import javafx.css.Stylesheet;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -17,14 +16,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.GenericApplicationContext;
 
+import java.io.IOException;
 import java.util.Objects;
 
 public class FatefallApplication extends Application {
 
-    protected static final Image ICON = new Image(Objects.requireNonNull(FatefallApplication.class.getResourceAsStream("icon.png")));
+    static final String APPLICATION_CSS = Objects.requireNonNull(FatefallApplication.class.getResource("application.css")).toExternalForm();
+    static final Image ICON = new Image(Objects.requireNonNull(FatefallApplication.class.getResourceAsStream("icon.png")));
 
     private ConfigurableApplicationContext context;
 
@@ -50,6 +50,7 @@ public class FatefallApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        StyleManager.getInstance().addUserAgentStylesheet(APPLICATION_CSS);
         Scene scene = new Scene(applicationView);
         primaryStage.setScene(scene);
         primaryStage.getIcons().add(ICON);
@@ -61,6 +62,17 @@ public class FatefallApplication extends Application {
     public void stop() {
         this.context.close();
         Platform.exit();
+    }
+
+
+    public static void setUserAgentStylesheet(String id, String css) {
+        try {
+            Stylesheet stylesheet = new CssParser().parse(id, css);
+            StyleManager.getInstance().removeUserAgentStylesheet(id);
+            StyleManager.getInstance().addUserAgentStylesheet(null, stylesheet);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

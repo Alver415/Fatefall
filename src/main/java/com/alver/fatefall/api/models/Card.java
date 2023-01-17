@@ -1,6 +1,8 @@
 package com.alver.fatefall.api.models;
 
 import jakarta.persistence.*;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -11,7 +13,7 @@ public class Card {
     protected String name;
     protected String frontUrl;
     protected String backUrl;
-    protected String data;
+    protected StringProperty dataProperty = new SimpleStringProperty(this, "data");
 
     @Id
     @GeneratedValue(generator = "uuid")
@@ -50,10 +52,13 @@ public class Card {
 
     @Lob
     public String getData() {
-        return data;
+        return dataProperty.get();
     }
 
     public void setData(String data) {
-        this.data = data;
+        this.dataProperty.set(data);
+    }
+    public StringProperty dataProperty(){
+        return dataProperty;
     }
 }

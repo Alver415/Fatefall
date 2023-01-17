@@ -1,18 +1,18 @@
 
-* {
-  -fx-text-fill: black;
-  -fx-display-caret: false;
-}
-
 CardFace {
     -fx-background-color: rgba(0, 0, 0, 0.2);
 }
 
-.outlined * {
+CardFace * {
+  -fx-text-fill: black;
+  -fx-display-caret: false;
+}
+
+CardFace .outlined * {
   -fx-display-caret: true;
 }
 
-.outlined *.block {
+CardFace .outlined *.block {
     -fx-background-color: transparent;
 
     -fx-border-color: rgba(0,0,0,0.2), rgba(255,255,255,0.2);
@@ -21,7 +21,7 @@ CardFace {
     -fx-border-insets: -2, -2;
 }
 
-.outlined *.block:hover {
+CardFace .outlined *.block:hover {
     -fx-background-color: rgba(230,200,255,0.2);
 
     -fx-border-color: rgba(0,0,0,0.5), rgba(255,255,255,0.5);

@@ -47,9 +47,10 @@ public class DefaultComponentFactory implements ComponentFactory {
         return item;
     }
 
-    public CardView<?> buildCardView() {
+    public CardView<?> buildCardView(Card card) {
         CardViewImpl cardView = beanFactory.getBean(CardViewImpl.class);
-        cardView.getContextMenu().getItems().addAll(buildCardViewContextMenuItems(cardView.getCard()));
+        cardView.setCard(card);
+        cardView.getContextMenu().getItems().addAll(buildCardViewContextMenuItems(card));
         return cardView;
     }
 

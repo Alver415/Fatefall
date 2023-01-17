@@ -12,16 +12,18 @@ import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.layout.FlowPane;
 import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
+
 @FXMLAutoLoad
 @Component
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@Scope(SCOPE_PROTOTYPE)
 public class DefaultCardCollectionView extends ScrollPane implements CardCollectionView<DefaultCardCollectionView> {
 
     @Autowired
@@ -44,8 +46,8 @@ public class DefaultCardCollectionView extends ScrollPane implements CardCollect
 
     @FXML
     private void initialize() {
-        TreeTableColumn<Card, CardView<?>> card = new TreeTableColumn<>("Card");
-        card.setCellFactory(new Callback<>() {
+        TreeTableColumn<Card, CardView<?>> cardColumn = new TreeTableColumn<>("Card");
+        cardColumn.setCellFactory(new Callback<>() {
             @Override
             public TreeTableCell<Card, CardView<?>> call(TreeTableColumn<Card, CardView<?>> param) {
                 TreeTableCell<Card, CardView<?>> cell = new TreeTableCell<>() {
@@ -56,8 +58,7 @@ public class DefaultCardCollectionView extends ScrollPane implements CardCollect
                             setGraphic(null);
                         } else {
                             Card card = getTableRow().getTreeItem().getValue();
-                            CardView<?> cardView = componentFactory.buildCardView();
-                            cardView.setCard(card);
+                            CardView<?> cardView = componentFactory.buildCardView(card);
                             setGraphic(cardView.getFxViewNode());
                         }
                     }
@@ -67,7 +68,16 @@ public class DefaultCardCollectionView extends ScrollPane implements CardCollect
             }
         });
 
-        treeTable.getColumns().add(card);
+        TreeTableColumn<Card, String> dataColumn = new TreeTableColumn<>("Data");
+        dataColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("data"));
+        dataColumn.setCellFactory(TextAreaTreeTableCell.forTreeTableColumn());
+        dataColumn.setEditable(true);
+        treeTable.setEditable(true);
+        treeTable.setTableMenuButtonVisible(true);
+
+
+        treeTable.getColumns().add(cardColumn);
+        treeTable.getColumns().add(dataColumn);
 
 
         cardCollectionProperty.addListener((observable, oldValue, newValue) -> {
@@ -87,8 +97,7 @@ public class DefaultCardCollectionView extends ScrollPane implements CardCollect
         flowPane.getChildren().clear();
         treeTable.setRoot(new TreeItem<>());
         for (Card card : getCardCollection().getCards()) {
-            CardView<?> cardView = componentFactory.buildCardView();
-            cardView.setCard(card);
+            CardView<?> cardView = componentFactory.buildCardView(card);
             flowPane.getChildren().add(cardView.getFxViewNode());
             treeTable.getRoot().getChildren().add(new TreeItem<>(card));
         }

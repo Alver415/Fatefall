@@ -25,7 +25,7 @@ public interface CardView<T extends Node> extends FxView<T> {
         return frontProperty().get();
     }
 
-    default void setCard(CardFace front) {
+    default void setFront(CardFace front) {
         frontProperty().set(front);
     }
 

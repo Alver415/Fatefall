@@ -1,18 +1,17 @@
 package com.alver.fatefall.scryfall;
 
-import com.alver.fatefall.api.interfaces.CardView;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.app.fx.components.FXMLAutoLoader;
 import com.alver.fatefall.scryfall.api.CardApi;
 import com.alver.fatefall.scryfall.api.CardDeserializer;
 import com.alver.fatefall.scryfall.plugin.component.ScryfallComponentFactory;
+import com.dlsc.preferencesfx.model.Category;
+import com.dlsc.preferencesfx.model.Group;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
@@ -30,13 +29,6 @@ public class ScryfallConfiguration {
     protected ScryfallComponentFactory componentFactory;
     @Autowired
     protected CardDeserializer cardDeserializer;
-
-
-    @Bean
-    @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    public CardView getCardView() {
-        return componentFactory.buildFlipFacesCardView();
-    }
 
     @Bean
     public FXMLAutoLoader getFXMLAutoLoader() {
@@ -74,6 +66,11 @@ public class ScryfallConfiguration {
                                 })
                         .build())
                 .build();
+    }
+
+    @Bean
+    public Category getScryfallCategory() {
+        return Category.of("Scryfall Plugin", Group.of("Greetings from Scryfall"));
     }
 
 }

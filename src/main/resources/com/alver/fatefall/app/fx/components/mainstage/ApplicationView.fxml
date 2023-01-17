@@ -7,18 +7,13 @@
     <top>
         <MenuBar>
             <Menu text="File">
-                <MenuItem text="New" onAction="#newCollection"/>
-                <MenuItem text="Save" onAction="#saveCollection"/>
+                <MenuItem text="New" onAction="#openCreateCollectionDialog"/>
+                <MenuItem text="Save" onAction="#saveSelectedCollection"/>
             </Menu>
             <Menu text="Edit">
-                <MenuItem text="Settings" onAction="#openSettingsView"/>
+                <MenuItem text="Preferences" onAction="#openPreferences"/>
             </Menu>
-            <Menu text="Plugin" fx:id="pluginMenu">
-                <MenuItem text="Manage Plugins" fx:id="managePlugins" onAction="#openPluginManagerView"/>
-            </Menu>
-            <Menu text="Help">
-                <MenuItem text="About" onAction="#openAboutView"/>
-            </Menu>
+            <Menu text="Plugins" fx:id="pluginMenu"/>
         </MenuBar>
     </top>
     <left>

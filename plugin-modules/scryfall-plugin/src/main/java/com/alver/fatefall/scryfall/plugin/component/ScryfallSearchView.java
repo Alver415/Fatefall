@@ -6,7 +6,6 @@ import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.CardCollection;
 import com.alver.fatefall.scryfall.api.CardApiResult;
 import com.alver.fatefall.scryfall.api.ScryfallApiClient;
-import com.alver.fatefall.scryfall.plugin.ScryfallPlugin;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
@@ -16,7 +15,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -24,14 +22,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
+import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
+
 @Component
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class ScryfallSearchView extends BorderPane implements CardCollectionView {
+@Scope(SCOPE_PROTOTYPE)
+public class ScryfallSearchView extends BorderPane implements CardCollectionView<ScryfallSearchView> {
 
     @Autowired
     protected ScryfallApiClient client;
-    @Autowired
-    protected ScryfallPlugin scryfallPlugin;
     @Autowired
     protected ScryfallComponentFactory componentFactory;
 
@@ -82,8 +80,7 @@ public class ScryfallSearchView extends BorderPane implements CardCollectionView
     protected void refresh() {
         flowPane.getChildren().clear();
         for (Card card : getCardCollection().getCards()) {
-            CardView cardView = componentFactory.buildFlipFacesCardView();
-            cardView.setCard(card);
+            CardView<?> cardView = componentFactory.buildCardView(card);
             Node cardViewNode = cardView.getFxViewNode();
             flowPane.getChildren().add(cardViewNode);
         }

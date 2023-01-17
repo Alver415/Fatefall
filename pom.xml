@@ -33,6 +33,7 @@
         <spring-webflux.version>6.0.3</spring-webflux.version>
         <spring-boot-starter.version>3.0.1</spring-boot-starter.version>
         <hsqldb.version>2.7.1</hsqldb.version>
+        <preferencesfx-core.version>11.11.0</preferencesfx-core.version>
     </properties>
 
     <dependencies>
@@ -55,6 +56,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
             <version>${spring-boot-starter.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -104,6 +111,13 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-swing</artifactId>
             <version>${javafx.version}</version>
+        </dependency>
+
+        <!-- PreferencesFX -->
+        <dependency>
+            <groupId>com.dlsc.preferencesfx</groupId>
+            <artifactId>preferencesfx-core</artifactId>
+            <version>${preferencesfx-core.version}</version>
         </dependency>
 
         <!-- JavaFX Extension Library -->
