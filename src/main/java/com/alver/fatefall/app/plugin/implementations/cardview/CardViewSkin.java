@@ -1,19 +1,25 @@
 package com.alver.fatefall.app.plugin.implementations.cardview;
 
+import com.alver.fatefall.app.fx.components.settings.FatefallProperties;
 import javafx.scene.control.SkinBase;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 
 public abstract class CardViewSkin extends SkinBase<CardViewImpl> {
 
     protected StackPane frontWrapper;
     protected StackPane backWrapper;
 
-    protected CardViewSkin(CardViewImpl control) {
+    protected CardViewSkin(CardViewImpl control, FatefallProperties properties) {
         super(control);
         frontWrapper = new StackPane(control.getFront());
         backWrapper = new StackPane(control.getBack());
-        frontWrapper.getStyleClass().add("cardFaceWrapper");
-        backWrapper.getStyleClass().add("cardFaceWrapper");
-        getNode().getStyleClass().add("cardViewSkin");
+        frontWrapper.setEffect(properties.getCardFaceShadow());
+        backWrapper.setEffect(properties.getCardFaceShadow());
+        frontWrapper.setPickOnBounds(false);
+        backWrapper.setPickOnBounds(false);
     }
+
+
 }

@@ -1,5 +1,6 @@
 package com.alver.fatefall.app.plugin.implementations.cardview;
 
+import com.alver.fatefall.app.fx.components.settings.FatefallProperties;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -12,8 +13,8 @@ import java.util.List;
 
 public class StackedSkin extends CardViewSkin {
 
-    protected StackedSkin(CardViewImpl cardView) {
-        super(cardView);
+    protected StackedSkin(CardViewImpl control, FatefallProperties properties) {
+        super(control, properties);
 
         StackPane wrapper = new StackPane(backWrapper, frontWrapper);
         wrapper.setMaxSize(0, 0);

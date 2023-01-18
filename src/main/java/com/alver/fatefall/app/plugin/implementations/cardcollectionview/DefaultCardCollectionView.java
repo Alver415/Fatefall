@@ -6,6 +6,8 @@ import com.alver.fatefall.api.interfaces.ComponentFactory;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.CardCollection;
 import com.alver.fatefall.app.fx.components.FXMLAutoLoad;
+import com.alver.fatefall.app.fx.components.settings.FatefallProperties;
+import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ListChangeListener;
@@ -28,6 +30,8 @@ public class DefaultCardCollectionView extends ScrollPane implements CardCollect
 
     @Autowired
     protected ComponentFactory componentFactory;
+    @Autowired
+    protected FatefallProperties properties;
 
     @FXML
     protected FlowPane flowPane;
@@ -46,7 +50,14 @@ public class DefaultCardCollectionView extends ScrollPane implements CardCollect
 
     @FXML
     private void initialize() {
+        treeTable.setEditable(true);
+        treeTable.setTableMenuButtonVisible(true);
+
         TreeTableColumn<Card, CardView<?>> cardColumn = new TreeTableColumn<>("Card");
+        DoubleBinding columnWidth = properties.getCardScaledWidth().multiply(2).add(20);
+        cardColumn.minWidthProperty().bind(columnWidth);
+        cardColumn.maxWidthProperty().bind(columnWidth);
+        cardColumn.prefWidthProperty().bind(columnWidth);
         cardColumn.setCellFactory(new Callback<>() {
             @Override
             public TreeTableCell<Card, CardView<?>> call(TreeTableColumn<Card, CardView<?>> param) {
@@ -72,13 +83,9 @@ public class DefaultCardCollectionView extends ScrollPane implements CardCollect
         dataColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("data"));
         dataColumn.setCellFactory(TextAreaTreeTableCell.forTreeTableColumn());
         dataColumn.setEditable(true);
-        treeTable.setEditable(true);
-        treeTable.setTableMenuButtonVisible(true);
-
 
         treeTable.getColumns().add(cardColumn);
         treeTable.getColumns().add(dataColumn);
-
 
         cardCollectionProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null) {

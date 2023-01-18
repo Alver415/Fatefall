@@ -45,7 +45,7 @@ public class FatefallApplication extends Application {
         this.context = new SpringApplicationBuilder()
                 .sources(FatefallLauncher.class)
                 .initializers(initializer)
-                .run(getParameters().getRaw().toArray(new String[0]));
+                .run(getParameters().getRaw().toArray(String[]::new));
     }
 
     @Override

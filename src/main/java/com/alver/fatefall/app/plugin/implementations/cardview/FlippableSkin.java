@@ -1,5 +1,6 @@
 package com.alver.fatefall.app.plugin.implementations.cardview;
 
+import com.alver.fatefall.app.fx.components.settings.FatefallProperties;
 import javafx.animation.*;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -29,11 +30,11 @@ public class FlippableSkin extends CardViewSkin {
     protected StackPane wrapper;
     protected HBox buttons;
 
-    public FlippableSkin(CardViewImpl control) {
-        super(control);
+    public FlippableSkin(CardViewImpl control, FatefallProperties properties) {
+        super(control, properties);
         wrapper = new StackPane();
-        frontWrapper = new StackPane(control.getFront());
-        backWrapper = new StackPane(control.getBack());
+        wrapper.setMaxWidth(0);
+        wrapper.setMaxHeight(0);
         wrapper.getChildren().setAll(frontWrapper, backWrapper);
 
         buttons = new HBox();

@@ -1,6 +1,9 @@
 
+
 CardFace {
-    -fx-background-color: rgba(0, 0, 0, 0.2);
+    -fx-background-color: rgba(0,0,0,0.3);
+    -fx-border-color: rgba(0,0,0,0.7);
+    -fx-border-width: 10px;
 }
 
 CardFace * {

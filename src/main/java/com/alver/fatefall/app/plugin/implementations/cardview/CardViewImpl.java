@@ -66,9 +66,9 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
         setFront(beanFactory.getBean(CardFace.class));
         setBack(beanFactory.getBean(CardFace.class));
 
-        MenuItem adjacent = buildMenuItem("Adjacent", adjacentImage, () -> setSkin(new AdjacentSkin(this)));
-        MenuItem stacked = buildMenuItem("Stacked", stackedImage, () -> setSkin(new StackedSkin(this)));
-        MenuItem flippable = buildMenuItem("Flippable", flippableImage, () -> setSkin(new FlippableSkin(this)));
+        MenuItem adjacent = buildMenuItem("Adjacent", adjacentImage, () -> setSkin(new AdjacentSkin(this, properties)));
+        MenuItem stacked = buildMenuItem("Stacked", stackedImage, () -> setSkin(new StackedSkin(this, properties)));
+        MenuItem flippable = buildMenuItem("Flippable", flippableImage, () -> setSkin(new FlippableSkin(this, properties)));
         Menu menu = new Menu("View Mode");
         menu.getItems().setAll(adjacent, stacked, flippable);
 
@@ -85,13 +85,15 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
             }
 
             if (newValue.getFrontUrl() != null) {
-                ImageBlock frontImageBlock = new ImageBlock(new Image(newValue.getFrontUrl(), true));
-                bindDimensions(frontImageBlock, getFront());
+                Image frontImage = new Image(newValue.getFrontUrl(), true);
+                ImageBlock frontImageBlock = new ImageBlock(frontImage);
+                bindRegionDimensions(frontImageBlock, getFront());
                 getFront().getChildren().setAll(frontImageBlock);
             }
             if (newValue.getBackUrl() != null) {
-                ImageBlock backImageBlock = new ImageBlock(new Image(newValue.getBackUrl(), true));
-                bindDimensions(backImageBlock, getBack());
+                Image backImage = new Image(newValue.getBackUrl(), true);
+                ImageBlock backImageBlock = new ImageBlock(backImage);
+                bindRegionDimensions(backImageBlock, getBack());
                 getBack().getChildren().setAll(backImageBlock);
             }
         });
@@ -101,7 +103,7 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
         });
     }
 
-    private void bindDimensions(Region first, Region second) {
+    private void bindRegionDimensions(Region first, Region second) {
         first.minHeightProperty().bind(second.heightProperty());
         first.minWidthProperty().bind(second.widthProperty());
         first.maxHeightProperty().bind(second.heightProperty());
@@ -128,11 +130,11 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
     private Skin<CardViewImpl> buildSkin(String skinName) {
         return switch (skinName) {
             case "Flippable":
-                yield new FlippableSkin(this);
+                yield new FlippableSkin(this, properties);
             case "Stackable":
-                yield new StackedSkin(this);
+                yield new StackedSkin(this, properties);
             case "Adjacent":
-                yield new AdjacentSkin(this);
+                yield new AdjacentSkin(this, properties);
             default:
                 throw new RuntimeException();
         };

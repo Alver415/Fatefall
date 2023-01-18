@@ -2,6 +2,7 @@ package com.alver.fatefall.app.plugin.implementations.cardview;
 
 import com.alver.fatefall.app.fx.components.settings.FatefallProperties;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BackgroundImage;
 import javafx.scene.shape.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -15,15 +16,12 @@ import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROT
 @Scope(SCOPE_PROTOTYPE)
 public class CardFace extends AnchorPane {
 
-    private static final String styleSheet = Objects.requireNonNull(CardFace.class.getResource("CardFace.css")).toExternalForm();
-
     protected FatefallProperties properties;
 
     @Autowired
     public CardFace(FatefallProperties properties) {
         super();
         this.properties = properties;
-        getStylesheets().add(styleSheet);
 
         minWidthProperty().bind(properties.getCardScaledWidth());
         maxWidthProperty().bind(properties.getCardScaledWidth());
