@@ -36,6 +36,9 @@ public class FatefallApplication extends Application {
 
     @Override
     public void init() {
+        // Eager initialize UserAgentStylesheet so that it doesn't trigger later and undo user preferences.
+        setUserAgentStylesheet(Application.STYLESHEET_MODENA);
+
         ApplicationContextInitializer<GenericApplicationContext> initializer = ac -> {
             ac.registerBean(FatefallApplication.class, () -> FatefallApplication.this);
             ac.registerBean(HostServices.class, this::getHostServices);

@@ -52,7 +52,7 @@ public class FatefallProperties {
 
 	@Bean
 	public ObjectProperty<Color> getBaseColor() {
-		SimpleObjectProperty<Color> baseColor = new SimpleObjectProperty<>(Color.BLACK);
+		SimpleObjectProperty<Color> baseColor = new SimpleObjectProperty<>();
 		baseColor.addListener((ChangeListener<? super Color>) (obs, oldValue, newValue) -> {
 			setUserAgentStylesheet("baseColor", """
 					.root{
@@ -65,6 +65,8 @@ public class FatefallProperties {
 					(int) (newValue.getGreen() * 255),
 					(int) (newValue.getBlue() * 255)));
 		});
+		// Set default after adding listener so that it triggers and applies the change.
+		baseColor.set(Color.BLACK);
 		return baseColor;
 	}
 
