@@ -1,13 +1,11 @@
 
 package com.alver.fatefall.app.fx.components.settings;
 
-import com.alver.fatefall.api.interfaces.CardView;
 import com.alver.fatefall.api.interfaces.ComponentFactory;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.app.FatefallApplication;
 import com.alver.fatefall.app.fx.components.about.AboutView;
 import com.alver.fatefall.app.fx.components.plugins.PluginManagerView;
-import com.dlsc.formsfx.model.structure.DoubleField;
 import com.dlsc.formsfx.model.structure.Field;
 import com.dlsc.formsfx.model.structure.StringField;
 import com.dlsc.preferencesfx.PreferencesFx;
@@ -17,7 +15,6 @@ import com.dlsc.preferencesfx.model.Category;
 import com.dlsc.preferencesfx.model.Group;
 import com.dlsc.preferencesfx.model.Setting;
 import javafx.application.Platform;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -85,9 +82,9 @@ public class FatefallPreferences {
 
 		return Category.of("Appearance",
 						Group.of("Application Theme",
-								Setting.of("Stylesheet", properties.getStylesheetOptions(), properties.getStylesheetSelection()),
-								Setting.of("Custom CSS", multiline(properties.getCustomCss()), properties.getCustomCss()),
-								Setting.of("Base Color", properties.getBaseColor())))
+								Setting.of("Base Color", properties.getBaseColor()),
+								Setting.of("User Agent Stylesheet", properties.getStylesheetOptions(), properties.getStylesheetSelection()),
+								Setting.of("Additional Stylesheets", properties.getAdditionalStylesheetsOptions(), properties.getAdditionalStylesheetsSelections())))
 				.subCategories(Category.of("Card View",
 						Group.of("Example", Setting.of(exampleCardViewNode)),
 						Group.of("Card Dimensions",

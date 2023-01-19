@@ -1,23 +1,65 @@
 package com.alver.fatefall.app.fx.components.settings;
 
+import com.alver.fatefall.app.FatefallApplication;
 import com.sun.javafx.css.StyleManager;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static com.alver.fatefall.app.FatefallApplication.setUserAgentStylesheet;
 
 @Configuration
 public class FatefallProperties {
+
+	@Bean
+	public ListProperty<String> getAdditionalStylesheetsOptions() {
+		Path styleSheetsDirectory = Path.of("stylesheets");
+		try {
+			Files.createDirectories(styleSheetsDirectory);
+			try (Stream<Path> paths = Files.walk(styleSheetsDirectory)) {
+				return new SimpleListProperty<>(FXCollections.observableArrayList(paths
+						.filter(p -> Files.isRegularFile(p) && p.toString().endsWith(".css"))
+						.map(Path::toString)
+						.toList()));
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Bean
+	public ListProperty<String> getAdditionalStylesheetsSelections() {
+		ListProperty<String> customCss = new SimpleListProperty<>(FXCollections.observableArrayList());
+		customCss.addListener((ListChangeListener<? super String>) c -> {
+			while (c.next()) {
+				for (String removed : c.getRemoved()) {
+					FatefallApplication.setUserAgentStylesheet(removed, "");
+				}
+				for (String added : c.getAddedSubList()) {
+					try {
+						FatefallApplication.setUserAgentStylesheet(added, Files.readString(Path.of(added)));
+					} catch (IOException e) {
+						System.out.println(e);
+					}
+				}
+			}
+		});
+		return customCss;
+	}
 
 	@Bean
 	public static Map<String, String> getStylesheetByNameMap() {
