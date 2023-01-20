@@ -4,6 +4,8 @@ import com.alver.fatefall.api.interfaces.CardCollectionView;
 import com.alver.fatefall.api.interfaces.CardView;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.CardCollection;
+import com.alver.fatefall.app.Prototype;
+import com.alver.fatefall.app.plugin.implementations.cardview.CardViewImpl;
 import com.alver.fatefall.scryfall.api.CardApiResult;
 import com.alver.fatefall.scryfall.api.ScryfallApiClient;
 import javafx.beans.property.ObjectProperty;
@@ -14,15 +16,12 @@ import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-
-import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 
 @Prototype
 public class ScryfallSearchView extends BorderPane implements CardCollectionView<ScryfallSearchView> {
@@ -31,6 +30,8 @@ public class ScryfallSearchView extends BorderPane implements CardCollectionView
     protected ScryfallApiClient client;
     @Autowired
     protected ScryfallComponentFactory componentFactory;
+    @Autowired
+    protected BeanFactory beanFactory;
 
     @FXML
     protected TextField queryInput;
@@ -71,15 +72,16 @@ public class ScryfallSearchView extends BorderPane implements CardCollectionView
 
         CardCollection newCollection = new CardCollection();
         List<Card> cards = result.data();
-        newCollection.getCards().addAll(cards);
+        newCollection.getCardList().addAll(cards);
 
         setCardCollection(newCollection);
     }
 
     protected void refresh() {
         flowPane.getChildren().clear();
-        for (Card card : getCardCollection().getCards()) {
-            CardView<?> cardView = componentFactory.buildCardView(card);
+        for (Card card : getCardCollection().getCardList()) {
+            CardView<?> cardView = beanFactory.getBean(CardViewImpl.class);
+            cardView.setCard(card);
             Node cardViewNode = cardView.getFxViewNode();
             flowPane.getChildren().add(cardViewNode);
         }

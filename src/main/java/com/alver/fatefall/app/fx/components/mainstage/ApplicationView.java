@@ -6,7 +6,6 @@ import com.alver.fatefall.api.interfaces.ComponentFactory;
 import com.alver.fatefall.api.models.CardCollection;
 import com.alver.fatefall.app.fx.components.FXMLAutoLoad;
 import com.alver.fatefall.app.fx.components.settings.FatefallPreferences;
-import com.alver.fatefall.app.services.CardCollectionRepository;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -17,6 +16,7 @@ import org.pf4j.PluginManager;
 import org.pf4j.PluginWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import com.alver.fatefall.app.persistence.repositories.CardCollectionRepository;
 
 import java.util.List;
 import java.util.Objects;
@@ -54,6 +54,11 @@ public class ApplicationView extends BorderPane {
 
         List<Menu> menuList = pluginManager.getPlugins().stream().map(this::buildMenu).toList();
         pluginMenu.getItems().setAll(menuList);
+        MenuItem testItem = new MenuItem("Test");
+        testItem.setOnAction(a -> {
+            cardCollectionRepository.findAll().forEach(cardCollectionList::add);
+        });
+        pluginMenu.getItems().add(testItem);
     }
 
     private Menu buildMenu(PluginWrapper plugin) {

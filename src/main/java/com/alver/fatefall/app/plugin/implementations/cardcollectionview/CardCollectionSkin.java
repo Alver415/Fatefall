@@ -2,7 +2,6 @@ package com.alver.fatefall.app.plugin.implementations.cardcollectionview;
 
 import com.alver.fatefall.api.interfaces.CardView;
 import com.alver.fatefall.api.models.Card;
-import com.alver.fatefall.api.models.CardCollection;
 import com.alver.fatefall.app.Prototype;
 import com.alver.fatefall.app.fx.components.settings.FatefallProperties;
 import com.alver.fatefall.app.plugin.implementations.cardview.CardViewImpl;
@@ -10,12 +9,10 @@ import javafx.beans.binding.DoubleBinding;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import org.springframework.beans.factory.BeanFactory;
@@ -87,10 +84,10 @@ public class CardCollectionSkin extends SkinBase<CardCollectionViewImpl> {
 
 		control.cardCollectionProperty.addListener((observable, oldValue, newValue) -> {
 			if (oldValue != null) {
-				oldValue.getObservableCards().removeListener(refreshListener);
+				oldValue.getCardList().removeListener(refreshListener);
 			}
 			if (newValue != null) {
-				newValue.getObservableCards().addListener(refreshListener);
+				newValue.getCardList().addListener(refreshListener);
 			}
 		});
 		refresh();
@@ -99,7 +96,7 @@ public class CardCollectionSkin extends SkinBase<CardCollectionViewImpl> {
 	private final ListChangeListener<? super Card> refreshListener = l -> refresh();
 
 	private void refresh() {
-		ObservableList<Card> cards = getSkinnable().getCardCollection().getObservableCards();
+		ObservableList<Card> cards = getSkinnable().getCardCollection().getCardList();
 		FilteredList<Card> filteredList = new FilteredList<>(cards, f -> true);
 		filterField.textProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue != null) {

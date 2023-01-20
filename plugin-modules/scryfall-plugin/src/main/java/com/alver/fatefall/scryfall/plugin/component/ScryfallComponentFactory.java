@@ -4,7 +4,7 @@ package com.alver.fatefall.scryfall.plugin.component;
 import com.alver.fatefall.api.interfaces.CardCollectionView;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.app.fx.components.mainstage.ApplicationView;
-import com.alver.fatefall.app.plugin.implementations.DefaultComponentFactory;
+import com.alver.fatefall.app.plugin.implementations.ComponentFactoryImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class ScryfallComponentFactory extends DefaultComponentFactory {
+public class ScryfallComponentFactory extends ComponentFactoryImpl {
 
     @Autowired
     @Lazy

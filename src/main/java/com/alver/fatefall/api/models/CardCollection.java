@@ -2,60 +2,58 @@ package com.alver.fatefall.api.models;
 
 
 import jakarta.persistence.*;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.List;
 
-@Entity
-@Table(name = "card_collection")
 public class CardCollection {
 
-    protected String id;
-    protected String name;
-    protected ObservableList<Card> cards = FXCollections.observableArrayList();
-    protected String data;
+    protected StringProperty id = new SimpleStringProperty();
+    protected StringProperty name = new SimpleStringProperty();
+    protected ListProperty<Card> cardList = new SimpleListProperty<>(FXCollections.observableArrayList());
+    protected StringProperty data = new SimpleStringProperty();
 
-    @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
     public String getId() {
+        return id.get();
+    }
+    public StringProperty idProperty() {
         return id;
     }
-
     public void setId(String id) {
-        this.id = id;
+        this.id.set(id);
     }
-
     public String getName() {
+        return name.get();
+    }
+    public StringProperty nameProperty() {
         return name;
     }
-
     public void setName(String name) {
-        this.name = name;
+        this.name.set(name);
     }
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    public List<Card> getCards() {
-        return cards;
+    public ObservableList<Card> getCardList() {
+        return cardList.get();
     }
-
-    @Transient
-    public ObservableList<Card> getObservableCards() {
-        return cards;
+    public ListProperty<Card> cardListProperty() {
+        return cardList;
     }
-
-    private void setCards(List<Card> cards) {
-        this.cards = FXCollections.observableArrayList(cards);
+    public void setCardList(ObservableList<Card> cardList) {
+        this.cardList.set(cardList);
     }
-
     public String getData() {
+        return data.get();
+    }
+    public StringProperty dataProperty() {
         return data;
     }
-
     public void setData(String data) {
-        this.data = data;
+        this.data.set(data);
     }
-
 }

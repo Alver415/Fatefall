@@ -2,6 +2,7 @@ package com.other.fatefall.mse.plugin.actions;
 
 import com.alver.fatefall.api.interfaces.ActionEventHandler;
 import com.alver.fatefall.api.models.Card;
+import com.alver.fatefall.api.models.CardAttribute;
 import com.alver.fatefall.api.models.CardCollection;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Iterator;
 
 @Component
 @Extension
@@ -64,6 +66,13 @@ public class ImportMSESetAction implements ActionEventHandler {
                 }
                 String cardName = c.get("name").asText();
                 card.setName(cardName);
+                for (Iterator<String> it = c.fieldNames(); it.hasNext(); ) {
+                    String field = it.next();
+                    CardAttribute<String> attribute = new CardAttribute<>();
+                    attribute.setName(field);
+                    attribute.getProperty().setValue(c.asText(field));
+                    card.getAttributeList().add(attribute);
+                }
 
                 String cardImageFileName = cardName
                         .replace(" ", "_")
@@ -76,7 +85,7 @@ public class ImportMSESetAction implements ActionEventHandler {
                     card.setFrontUrl("file:" + setManager.getImagesPath().resolve(cardImageFileName + ".card_front.png"));
                     card.setBackUrl("file:" + setManager.getImagesPath().resolve(cardImageFileName + ".card_back.png"));
                 }
-                cardCollection.getCards().add(card);
+                cardCollection.getCardList().add(card);
             });
             plugin.createCardCollection(cardCollection);
         } catch (IOException e) {

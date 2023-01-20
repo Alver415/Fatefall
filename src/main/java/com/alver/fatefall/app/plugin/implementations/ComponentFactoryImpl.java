@@ -1,26 +1,20 @@
 package com.alver.fatefall.app.plugin.implementations;
 
 import com.alver.fatefall.api.interfaces.CardCollectionView;
-import com.alver.fatefall.api.interfaces.CardView;
 import com.alver.fatefall.api.interfaces.ComponentFactory;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.CardCollection;
 import com.alver.fatefall.app.Prototype;
 import com.alver.fatefall.app.plugin.implementations.cardcollectionview.CardCollectionViewImpl;
-import com.alver.fatefall.app.plugin.implementations.cardview.CardViewImpl;
-import com.alver.fatefall.app.services.CardRepository;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
+import com.alver.fatefall.app.persistence.repositories.CardRepository;
 
 import java.util.List;
-
-import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 
 @Configuration
 public class ComponentFactoryImpl implements ComponentFactory {
@@ -37,7 +31,7 @@ public class ComponentFactoryImpl implements ComponentFactory {
         cardCollectionList.forEach(c -> {
             MenuItem item = new MenuItem(c.getName());
             item.setOnAction(a -> {
-                c.getObservableCards().add(card);
+                c.getCardList().add(card);
             });
             menu.getItems().add(item);
         });
@@ -47,7 +41,7 @@ public class ComponentFactoryImpl implements ComponentFactory {
     public MenuItem buildDeleteCardMenuItem(Card card) {
         MenuItem item = new MenuItem("Delete");
         item.setOnAction(a -> cardCollectionList.stream()
-                .map(CardCollection::getObservableCards)
+                .map(CardCollection::getCardList)
                 .forEach(cards -> cards.remove(card)));
         return item;
     }
