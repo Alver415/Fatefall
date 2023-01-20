@@ -14,6 +14,7 @@ import javafx.scene.control.Skin;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
+import javafx.stage.Screen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +30,7 @@ import static com.alver.fatefall.app.FatefallApplication.setUserAgentStylesheet;
 
 @Configuration
 public class FatefallProperties {
+
 
 	@Bean
 	public ListProperty<String> getAdditionalStylesheetsOptions() {

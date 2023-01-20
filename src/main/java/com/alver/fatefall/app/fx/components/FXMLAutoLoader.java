@@ -60,8 +60,7 @@ public class FXMLAutoLoader implements BeanPostProcessor, ApplicationContextAwar
     }
 
     private URL getLocation(Object bean, FXMLAutoLoad annotation) {
-        boolean locationNotProvided = Objects.equals(annotation.location(), FXMLAutoLoad.NOT_PROVIDED);
-        String location = locationNotProvided ?
+        String location = annotation.location().isBlank() ?
                 bean.getClass().getName().replace(".", "/") + ".fxml" :
                 annotation.location();
         URL resource = bean.getClass().getClassLoader().getResource(location);

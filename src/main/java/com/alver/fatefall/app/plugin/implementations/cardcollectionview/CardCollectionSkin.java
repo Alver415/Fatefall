@@ -1,7 +1,6 @@
 package com.alver.fatefall.app.plugin.implementations.cardcollectionview;
 
 import com.alver.fatefall.api.interfaces.CardView;
-import com.alver.fatefall.api.interfaces.ComponentFactory;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.CardCollection;
 import com.alver.fatefall.app.Prototype;
@@ -9,9 +8,15 @@ import com.alver.fatefall.app.fx.components.settings.FatefallProperties;
 import com.alver.fatefall.app.plugin.implementations.cardview.CardViewImpl;
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +27,8 @@ public class CardCollectionSkin extends SkinBase<CardCollectionViewImpl> {
 	private final FatefallProperties properties;
 	private final BeanFactory beanFactory;
 
-	private final TreeTableView<Card> tableView;
+	private final TextField filterField;
+	private final TableView<Card> tableView;
 
 	@Autowired
 	protected CardCollectionSkin(
@@ -33,26 +39,28 @@ public class CardCollectionSkin extends SkinBase<CardCollectionViewImpl> {
 		this.properties = properties;
 		this.beanFactory = beanFactory;
 
-		tableView = new TreeTableView<>(new TreeItem<>());
-		tableView.setShowRoot(false);
+		filterField = new TextField();
+		filterField.setPromptText("Filter");
+
+		tableView = new TableView<>();
 		tableView.setEditable(true);
 
-		TreeTableColumn<Card, CardView<?>> cardColumn = new TreeTableColumn<>("Card View");
+		TableColumn<Card, CardView<?>> cardColumn = new TableColumn<>("Card View");
 		DoubleBinding columnWidth = properties.getCardScaledWidth().multiply(2).add(20);
 		cardColumn.minWidthProperty().bind(columnWidth);
 		cardColumn.maxWidthProperty().bind(columnWidth);
 		cardColumn.prefWidthProperty().bind(columnWidth);
 		cardColumn.setCellFactory(new Callback<>() {
 			@Override
-			public TreeTableCell<Card, CardView<?>> call(TreeTableColumn<Card, CardView<?>> param) {
-				TreeTableCell<Card, CardView<?>> cell = new TreeTableCell<>() {
+			public TableCell<Card, CardView<?>> call(TableColumn<Card, CardView<?>> param) {
+				TableCell<Card, CardView<?>> cell = new TableCell<>() {
 					@Override
 					protected void updateItem(CardView<?> item, boolean empty) {
 						super.updateItem(item, empty);
 						if (empty) {
 							setGraphic(null);
 						} else {
-							Card card = getTableRow().getTreeItem().getValue();
+							Card card = getTableRow().getItem();
 							CardView<?> cardView = beanFactory.getBean(CardViewImpl.class);
 							cardView.setCard(card);
 							setGraphic(cardView.getFxViewNode());
@@ -64,15 +72,18 @@ public class CardCollectionSkin extends SkinBase<CardCollectionViewImpl> {
 			}
 		});
 
-		TreeTableColumn<Card, String> dataColumn = new TreeTableColumn<>("Data");
-		dataColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("data"));
-		dataColumn.setCellFactory(TextAreaTreeTableCell.forTreeTableColumn());
+		TableColumn<Card, String> dataColumn = new TableColumn<>("Data");
+		dataColumn.setCellValueFactory(new PropertyValueFactory<>("data"));
+		dataColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 		dataColumn.setEditable(true);
 
 		tableView.getColumns().add(cardColumn);
 		tableView.getColumns().add(dataColumn);
 
-		getChildren().add(tableView);
+		BorderPane borderPane = new BorderPane();
+		borderPane.setTop(filterField);
+		borderPane.setCenter(tableView);
+		getChildren().setAll(borderPane);
 
 		control.cardCollectionProperty.addListener((observable, oldValue, newValue) -> {
 			if (oldValue != null) {
@@ -83,19 +94,19 @@ public class CardCollectionSkin extends SkinBase<CardCollectionViewImpl> {
 			}
 		});
 		refresh();
-
 	}
 
 	private final ListChangeListener<? super Card> refreshListener = l -> refresh();
 
-	private void refresh(){
-		tableView.setRoot(new TreeItem<>());
-		CardCollection cardCollection = getSkinnable().cardCollectionProperty.get();
-		if (cardCollection == null){
-			return;
-		}
-		for (Card card : cardCollection.getCards()){
-			tableView.getRoot().getChildren().add(new TreeItem<>(card));
-		}
+	private void refresh() {
+		ObservableList<Card> cards = getSkinnable().getCardCollection().getObservableCards();
+		FilteredList<Card> filteredList = new FilteredList<>(cards, f -> true);
+		filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue != null) {
+				filteredList.setPredicate(card -> card.getName().contains(newValue));
+			}
+		});
+
+		tableView.setItems(filteredList);
 	}
 }
