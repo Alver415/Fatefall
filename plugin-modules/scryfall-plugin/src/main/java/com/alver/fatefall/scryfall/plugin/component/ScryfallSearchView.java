@@ -24,8 +24,7 @@ import java.util.List;
 
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 
-@Component
-@Scope(SCOPE_PROTOTYPE)
+@Prototype
 public class ScryfallSearchView extends BorderPane implements CardCollectionView<ScryfallSearchView> {
 
     @Autowired

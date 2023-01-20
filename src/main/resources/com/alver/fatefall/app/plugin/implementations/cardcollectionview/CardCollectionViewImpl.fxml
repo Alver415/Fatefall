@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
-<?import com.alver.fatefall.app.plugin.implementations.cardcollectionview.DefaultCardCollectionView?>
+<?import com.alver.fatefall.app.plugin.implementations.cardcollectionview.CardCollectionViewImpl?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.FlowPane?>
 <fx:root xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-         type="DefaultCardCollectionView"
+         type="CardCollectionViewImpl"
          fitToWidth="true" fitToHeight="true">
     <TabPane>
         <Tab text="Table">

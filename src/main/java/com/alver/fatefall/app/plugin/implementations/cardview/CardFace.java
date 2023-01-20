@@ -1,5 +1,6 @@
 package com.alver.fatefall.app.plugin.implementations.cardview;
 
+import com.alver.fatefall.app.Prototype;
 import com.alver.fatefall.app.fx.components.settings.FatefallProperties;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BackgroundImage;
@@ -12,8 +13,7 @@ import java.util.Objects;
 
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 
-@Component
-@Scope(SCOPE_PROTOTYPE)
+@Prototype
 public class CardFace extends AnchorPane {
 
     protected FatefallProperties properties;

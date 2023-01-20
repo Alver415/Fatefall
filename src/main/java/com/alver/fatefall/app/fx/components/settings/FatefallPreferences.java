@@ -1,8 +1,8 @@
 
 package com.alver.fatefall.app.fx.components.settings;
 
+import com.alver.fatefall.api.interfaces.CardView;
 import com.alver.fatefall.api.interfaces.ComponentFactory;
-import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.app.FatefallApplication;
 import com.alver.fatefall.app.fx.components.about.AboutView;
 import com.alver.fatefall.app.fx.components.plugins.PluginManagerView;
@@ -36,6 +36,7 @@ public class FatefallPreferences {
 	protected PluginManagerView pluginManagerView;
 	protected ComponentFactory componentFactory;
 	protected AboutView aboutView;
+	protected CardView<?> demoCard;
 
 	@Autowired
 	public FatefallPreferences(
@@ -43,12 +44,14 @@ public class FatefallPreferences {
 			PluginManager pluginManager,
 			PluginManagerView pluginManagerView,
 			ComponentFactory componentFactory,
-			AboutView aboutView) {
+			AboutView aboutView,
+			CardView<?> exampleCard) {
 		this.properties = properties;
 		this.pluginManager = pluginManager;
 		this.pluginManagerView = pluginManagerView;
 		this.componentFactory = componentFactory;
 		this.aboutView = aboutView;
+		this.demoCard = exampleCard;
 
 		//Initializes
 		Platform.runLater(this::buildPreferencesFX);
@@ -78,7 +81,6 @@ public class FatefallPreferences {
 			FXCollections.observableList(Arrays.stream(BlurType.values()).toList());
 
 	private Category buildAppearanceCategory() {
-		Node exampleCardViewNode = componentFactory.buildCardView(new Card()).getFxViewNode();
 
 		return Category.of("Appearance",
 						Group.of("Application Theme",
@@ -86,7 +88,7 @@ public class FatefallPreferences {
 								Setting.of("User Agent Stylesheet", properties.getStylesheetOptions(), properties.getStylesheetSelection()),
 								Setting.of("Additional Stylesheets", properties.getAdditionalStylesheetsOptions(), properties.getAdditionalStylesheetsSelections())))
 				.subCategories(Category.of("Card View",
-						Group.of("Example", Setting.of(exampleCardViewNode)),
+						Group.of("Example", Setting.of(demoCard.getFxViewNode())),
 						Group.of("Card Dimensions",
 								Setting.of("View Mode", properties.getCardViewSkinOptions(), properties.getCardViewSkinSelection()),
 								Setting.of("Scale", Field.ofDoubleType(properties.getCardViewScale()).render(new DoubleSliderControl(0.1, 2.0, 2)), properties.getCardViewScale()),

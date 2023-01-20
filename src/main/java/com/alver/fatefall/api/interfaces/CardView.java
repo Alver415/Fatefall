@@ -4,9 +4,9 @@ import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.app.plugin.implementations.cardview.CardFace;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.Node;
+import javafx.scene.control.Skinnable;
 
-
-public interface CardView<T extends Node> extends FxView<T> {
+public interface CardView<T extends Node> extends FxView<T>, Skinnable {
 
     ObjectProperty<Card> cardProperty();
 

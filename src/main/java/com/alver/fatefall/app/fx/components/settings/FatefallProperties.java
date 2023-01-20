@@ -1,6 +1,8 @@
 package com.alver.fatefall.app.fx.components.settings;
 
+import com.alver.fatefall.api.interfaces.CardView;
 import com.alver.fatefall.app.FatefallApplication;
+import com.alver.fatefall.app.plugin.implementations.cardview.*;
 import com.sun.javafx.css.StyleManager;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.*;
@@ -8,8 +10,11 @@ import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Skin;
+import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -80,6 +85,7 @@ public class FatefallProperties {
 			String stylesheetUrl = getStylesheetByNameMap().get(newValue);
 			StyleManager.getInstance().setDefaultUserAgentStylesheet(stylesheetUrl);
 		});
+		stylesheetSelection.set("Modena");
 		return stylesheetSelection;
 	}
 
@@ -114,7 +120,7 @@ public class FatefallProperties {
 
 	@Bean
 	public ObservableList<String> getCardViewSkinOptions() {
-		return FXCollections.observableList(List.of("Flippable", "Stackable", "Adjacent"));
+		return FXCollections.observableList(List.of("Flippable", "Stacked", "Adjacent"));
 	}
 
 	@Bean
@@ -161,6 +167,12 @@ public class FatefallProperties {
 
 	@Bean
 	public DropShadow getCardFaceShadow() {
-		return new DropShadow(20, Color.BLACK);
+		BlurType blurType = BlurType.GAUSSIAN;
+		Color color = new Color(0, 0, 0, 0.2);
+		int radius = 20;
+		double spread = 0.5;
+		int offsetX = 10;
+		int offsetY = 10;
+		return new DropShadow(blurType, color, radius, spread, offsetX, offsetY);
 	}
 }
