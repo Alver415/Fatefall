@@ -2,6 +2,7 @@ package com.alver.fatefall.app.plugin.implementations.cardcollectionview;
 
 import com.alver.fatefall.api.interfaces.CardView;
 import com.alver.fatefall.api.models.Card;
+import com.alver.fatefall.api.models.CardAttribute;
 import com.alver.fatefall.app.Prototype;
 import com.alver.fatefall.app.fx.components.settings.FatefallProperties;
 import com.alver.fatefall.app.plugin.implementations.cardview.CardViewImpl;
@@ -18,8 +19,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.stream.Collectors;
 
 @Prototype
 public class CardCollectionSkin extends SkinBase<CardCollectionViewImpl> {
@@ -73,6 +72,7 @@ public class CardCollectionSkin extends SkinBase<CardCollectionViewImpl> {
         });
 
         TableColumn<Card, Node> attributesColumn = new TableColumn<>("Attributes");
+        attributesColumn.setPrefWidth(600);
         attributesColumn.setEditable(true);
         attributesColumn.setCellFactory(new Callback<>() {
             @Override
@@ -85,11 +85,29 @@ public class CardCollectionSkin extends SkinBase<CardCollectionViewImpl> {
                             setGraphic(null);
                         } else if (getTableRow().getItem() != null){
                             Card card = getTableRow().getItem();
-                            TextArea textArea = new TextArea();
-                            textArea.setText(card.getAttributeList().stream()
-                                    .map(a -> a.getName() + ": " + a.getProperty().getValue())
-                                    .collect(Collectors.joining("\n")));
-                            setGraphic(textArea);
+                            CardAttributeTreeTableView view = new CardAttributeTreeTableView();
+                            TreeItem<CardAttribute<?>> root = new TreeItem<>();
+                            root.setExpanded(true);
+                            for (CardAttribute<?> childAttribute : card.getAttributeList()){
+                                TreeItem<CardAttribute<?>> childItem = new TreeItem<>(childAttribute);
+                                buildTreeItem(childItem);
+                                childItem.setExpanded(true);
+                                root.getChildren().add(childItem);
+                            }
+                            view.setRoot(root);
+                            ScrollPane scrollPane = new ScrollPane(view);
+                            scrollPane.setFitToWidth(true);
+                            setGraphic(scrollPane);
+                        }
+                    }
+
+                    private void buildTreeItem(TreeItem<CardAttribute<?>> parentItem) {
+                        CardAttribute<?> parentAttribute = parentItem.getValue();
+                        for (CardAttribute<?> childAttribute : parentAttribute.getChildren()){
+                            TreeItem<CardAttribute<?>> childItem = new TreeItem<>(childAttribute);
+                            childItem.setExpanded(true);
+                            buildTreeItem(childItem);
+                            parentItem.getChildren().add(childItem);
                         }
                     }
                 };
@@ -104,6 +122,7 @@ public class CardCollectionSkin extends SkinBase<CardCollectionViewImpl> {
 
         tableView.getColumns().add(cardColumn);
         tableView.getColumns().add(attributesColumn);
+//        tableView.getColumns().add(dataColumn);
 
         BorderPane borderPane = new BorderPane();
         borderPane.setTop(filterField);

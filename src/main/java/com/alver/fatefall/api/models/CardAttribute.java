@@ -1,13 +1,17 @@
 package com.alver.fatefall.api.models;
 
+import com.alver.fatefall.app.AbstractCardAttribute;
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
-public class CardAttribute<T> {
+public class CardAttribute<T> extends AbstractCardAttribute {
 
 	protected StringProperty id = new SimpleStringProperty();
 	protected StringProperty name = new SimpleStringProperty();
 	protected ObjectProperty<Class<T>> type = new SimpleObjectProperty<>();
 	protected Property<T> property = new SimpleObjectProperty<>();
+	protected ListProperty<CardAttribute> children = new SimpleListProperty<>(FXCollections.observableArrayList());
 	protected StringProperty data = new SimpleStringProperty();
 
 	public String getId() {
@@ -28,6 +32,7 @@ public class CardAttribute<T> {
 	public void setName(String name) {
 		this.name.set(name);
 	}
+	@Override
 	public Class<T> getType() {
 		return type.get();
 	}
@@ -56,4 +61,13 @@ public class CardAttribute<T> {
 		this.data.set(data);
 	}
 
+	public ObservableList<CardAttribute> getChildren() {
+		return children.get();
+	}
+	public ListProperty<CardAttribute> childrenProperty() {
+		return children;
+	}
+	public void setChildren(ObservableList<CardAttribute> children) {
+		this.children.set(children);
+	}
 }

@@ -3,6 +3,8 @@ package com.alver.fatefall.app.persistence.models;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.List;
+
 @Entity
 @Table(name = "card_attribute")
 public class CardAttributeRow {
@@ -17,6 +19,8 @@ public class CardAttributeRow {
 	private String value;
 	@Lob
 	private String data;
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<CardAttributeRow> children;
 
 	public String getId() {
 		return id;
@@ -47,5 +51,12 @@ public class CardAttributeRow {
 	}
 	public void setData(String data) {
 		this.data = data;
+	}
+
+	public List<CardAttributeRow> getChildren() {
+		return children;
+	}
+	public void setChildren(List<CardAttributeRow> children) {
+		this.children = children;
 	}
 }

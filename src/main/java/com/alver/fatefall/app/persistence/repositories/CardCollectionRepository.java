@@ -29,9 +29,9 @@ public class CardCollectionRepository extends ProxyRepository<CardCollection, Ca
 		CardCollectionRow row = new CardCollectionRow();
 		row.setId(collection.getId());
 		row.setName(collection.getName());
+		row.setData(collection.getData());
 		row.setCards(collection.getCardList().stream()
 				.map(cardRepository::toRow).toList());
-		row.setData(collection.getData());
 		return row;
 	}
 

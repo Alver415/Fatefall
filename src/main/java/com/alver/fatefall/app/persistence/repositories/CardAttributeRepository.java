@@ -2,10 +2,7 @@ package com.alver.fatefall.app.persistence.repositories;
 
 import com.alver.fatefall.api.models.CardAttribute;
 import com.alver.fatefall.app.persistence.models.CardAttributeRow;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.*;
 import org.apache.commons.lang.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -15,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 
 @Repository
 public class CardAttributeRepository implements CrudRepository<CardAttribute<?>, String> {
@@ -86,7 +84,6 @@ public class CardAttributeRepository implements CrudRepository<CardAttribute<?>,
         cardAttributeRowRepository.deleteAll();
     }
 
-
     <S extends CardAttribute<?>> CardAttributeRow toRow(S attribute) {
         CardAttributeRow row = new CardAttributeRow();
         row.setId(attribute.getId());
@@ -94,6 +91,8 @@ public class CardAttributeRepository implements CrudRepository<CardAttribute<?>,
         row.setData(attribute.getData());
         row.setType(attribute.getType().getName());
         row.setValue(String.valueOf(attribute.getProperty().getValue()));
+        row.setChildren(attribute.getChildren().stream()
+                .map(this::toRow).toList());
         return row;
     }
 
@@ -103,25 +102,41 @@ public class CardAttributeRepository implements CrudRepository<CardAttribute<?>,
         if (Objects.equals(type, String.class.getName())) {
             CardAttribute<String> stringAttribute = new CardAttribute<>();
             stringAttribute.setProperty(new SimpleStringProperty(row.getValue()));
+            stringAttribute.setType(String.class);
             cardAttribute = stringAttribute;
         } else if (Objects.equals(type, Double.class.getName())) {
             CardAttribute<Double> doubleAttribute = new CardAttribute<>();
             doubleAttribute.setProperty(new SimpleDoubleProperty(Double.parseDouble(row.getValue())).asObject());
+            doubleAttribute.setType(Double.class);
             cardAttribute = doubleAttribute;
         } else if (Objects.equals(type, Integer.class.getName())) {
             CardAttribute<Integer> integerAttribute = new CardAttribute<>();
             integerAttribute.setProperty(new SimpleIntegerProperty(Integer.parseInt(row.getValue())).asObject());
+            integerAttribute.setType(Integer.class);
             cardAttribute = integerAttribute;
         } else if (Objects.equals(type, Boolean.class.getName())) {
             CardAttribute<Boolean> booleanAttribute = new CardAttribute<>();
             booleanAttribute.setProperty(new SimpleBooleanProperty(Boolean.parseBoolean(row.getValue())));
+            booleanAttribute.setType(Boolean.class);
             cardAttribute = booleanAttribute;
+        } else if (Objects.equals(type, CardAttribute.class.getName())) {
+            CardAttribute<CardAttribute> parentAttribute = new CardAttribute<>();
+            parentAttribute.setProperty(new SimpleObjectProperty<>());
+            parentAttribute.setType(CardAttribute.class);
+            parentAttribute.childrenProperty().setAll(row.getChildren().stream().map(c -> (CardAttribute)fromRow(c)).toList());
+            cardAttribute = parentAttribute;
+        }else if (Objects.equals(type, List.class.getName())) {
+            CardAttribute<?> listAttribute = new CardAttribute<>();
+            cardAttribute = listAttribute;
         } else {
             throw new NotImplementedException("'" + type + "'");
         }
         cardAttribute.setId(row.getId());
         cardAttribute.setName(row.getName());
         cardAttribute.setData(row.getData());
+        cardAttribute.getChildren().setAll(row.getChildren().stream()
+                .map((Function<? super CardAttributeRow, ? extends CardAttribute<?>>)
+                        this::fromRow).toList());
         return (S) cardAttribute;
     }
 
