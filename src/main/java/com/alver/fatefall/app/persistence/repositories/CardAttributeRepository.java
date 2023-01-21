@@ -1,9 +1,8 @@
 package com.alver.fatefall.app.persistence.repositories;
 
 import com.alver.fatefall.api.models.CardAttribute;
+import com.alver.fatefall.api.models.CardAttributeImpl;
 import com.alver.fatefall.app.persistence.models.CardAttributeRow;
-import javafx.beans.property.*;
-import org.apache.commons.lang.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -12,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Function;
 
 @Repository
 public class CardAttributeRepository implements CrudRepository<CardAttribute<?>, String> {
@@ -89,55 +87,46 @@ public class CardAttributeRepository implements CrudRepository<CardAttribute<?>,
         row.setId(attribute.getId());
         row.setName(attribute.getName());
         row.setData(attribute.getData());
-        row.setType(attribute.getType().getName());
-        row.setValue(String.valueOf(attribute.getProperty().getValue()));
+        row.setType(attribute.getType() == null ? null : attribute.getType().getName());
+        row.setValue(String.valueOf(attribute.getValue()));
         row.setChildren(attribute.getChildren().stream()
                 .map(this::toRow).toList());
         return row;
     }
 
     <S extends CardAttribute<?>> S fromRow(CardAttributeRow row) {
-        CardAttribute<?> cardAttribute;
+        CardAttributeImpl<?> attribute;
         String type = row.getType();
         if (Objects.equals(type, String.class.getName())) {
-            CardAttribute<String> stringAttribute = new CardAttribute<>();
-            stringAttribute.setProperty(new SimpleStringProperty(row.getValue()));
+            CardAttributeImpl<String> stringAttribute = new CardAttributeImpl<>();
+            stringAttribute.set(row.getValue());
             stringAttribute.setType(String.class);
-            cardAttribute = stringAttribute;
+            attribute = stringAttribute;
         } else if (Objects.equals(type, Double.class.getName())) {
-            CardAttribute<Double> doubleAttribute = new CardAttribute<>();
-            doubleAttribute.setProperty(new SimpleDoubleProperty(Double.parseDouble(row.getValue())).asObject());
+            CardAttributeImpl<Double> doubleAttribute = new CardAttributeImpl<>();
+            doubleAttribute.set(Double.parseDouble(row.getValue()));
             doubleAttribute.setType(Double.class);
-            cardAttribute = doubleAttribute;
+            attribute = doubleAttribute;
         } else if (Objects.equals(type, Integer.class.getName())) {
-            CardAttribute<Integer> integerAttribute = new CardAttribute<>();
-            integerAttribute.setProperty(new SimpleIntegerProperty(Integer.parseInt(row.getValue())).asObject());
+            CardAttributeImpl<Integer> integerAttribute = new CardAttributeImpl<>();
+            integerAttribute.set(Integer.parseInt(row.getValue()));
             integerAttribute.setType(Integer.class);
-            cardAttribute = integerAttribute;
+            attribute = integerAttribute;
         } else if (Objects.equals(type, Boolean.class.getName())) {
-            CardAttribute<Boolean> booleanAttribute = new CardAttribute<>();
-            booleanAttribute.setProperty(new SimpleBooleanProperty(Boolean.parseBoolean(row.getValue())));
+            CardAttributeImpl<Boolean> booleanAttribute = new CardAttributeImpl<>();
+            booleanAttribute.set(Boolean.parseBoolean(row.getValue()));
             booleanAttribute.setType(Boolean.class);
-            cardAttribute = booleanAttribute;
-        } else if (Objects.equals(type, CardAttribute.class.getName())) {
-            CardAttribute<CardAttribute> parentAttribute = new CardAttribute<>();
-            parentAttribute.setProperty(new SimpleObjectProperty<>());
-            parentAttribute.setType(CardAttribute.class);
-            parentAttribute.childrenProperty().setAll(row.getChildren().stream().map(c -> (CardAttribute)fromRow(c)).toList());
-            cardAttribute = parentAttribute;
-        }else if (Objects.equals(type, List.class.getName())) {
-            CardAttribute<?> listAttribute = new CardAttribute<>();
-            cardAttribute = listAttribute;
+            attribute = booleanAttribute;
         } else {
-            throw new NotImplementedException("'" + type + "'");
+            attribute = new CardAttributeImpl<>();
         }
-        cardAttribute.setId(row.getId());
-        cardAttribute.setName(row.getName());
-        cardAttribute.setData(row.getData());
-        cardAttribute.getChildren().setAll(row.getChildren().stream()
-                .map((Function<? super CardAttributeRow, ? extends CardAttribute<?>>)
-                        this::fromRow).toList());
-        return (S) cardAttribute;
+
+        attribute.setId(row.getId());
+        attribute.setName(row.getName());
+        attribute.setData(row.getData());
+        attribute.childrenProperty().setAll(row.getChildren().stream().map(c -> (CardAttribute<?>) fromRow(c)).toList());
+
+        return (S) attribute;
     }
 
     private <S extends CardAttribute<?>> Iterable<CardAttributeRow> toRows(Iterable<S> entities) {

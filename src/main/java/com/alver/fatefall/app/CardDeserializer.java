@@ -2,6 +2,7 @@ package com.alver.fatefall.app;
 
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.CardAttribute;
+import com.alver.fatefall.api.models.CardAttributeImpl;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -10,7 +11,6 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.apache.commons.lang.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -50,8 +50,8 @@ public class CardDeserializer extends StdDeserializer<Card> {
         return card;
     }
 
-    protected CardAttribute<?> buildAttribute(String field, JsonNode json) {
-        CardAttribute<?> attribute = new CardAttribute<>();
+    protected <T> CardAttribute<T> buildAttribute(String field, JsonNode json) {
+        CardAttribute<T> attribute = new CardAttributeImpl<>();
         attribute.setType(convertType(json.getNodeType()));
         attribute.setName(field);
         attribute.setData(json.asText());
@@ -63,23 +63,30 @@ public class CardDeserializer extends StdDeserializer<Card> {
                 CardAttribute<?> child = buildAttribute(childField, childJson);
                 attribute.getChildren().add(child);
             }
-        } else if (json.getNodeType().equals(JsonNodeType.ARRAY)){
-            attribute.set("list");
         } else {
-            attribute.set(json.asText());
+            attribute.set(extractValue(attribute.getType(), json));
         }
         return attribute;
+    }
+
+    private <T> T extractValue(Class<T> clazz, JsonNode json) {
+        if (String.class.equals(clazz)){
+            return (T) json.asText();
+        } else if (Double.class.equals(clazz)){
+            return (T) (Double) json.asDouble();
+        } else if (Boolean.class.equals(clazz)){
+            return (T) (Boolean) json.asBoolean();
+        }
+        return null;
     }
 
     @SuppressWarnings("unchecked")
     protected <T> Class<T> convertType(JsonNodeType nodeType) {
         return switch (nodeType) {
-            case STRING, NULL -> (Class<T>) String.class;
             case NUMBER -> (Class<T>) Double.class;
             case BOOLEAN -> (Class<T>) Boolean.class;
-            case OBJECT -> (Class<T>) CardAttribute.class;
             case ARRAY -> (Class<T>) List.class;
-            default -> throw new NotImplementedException("Unexpected value: " + nodeType);
+            default -> (Class<T>) String.class;
         };
     }
 }

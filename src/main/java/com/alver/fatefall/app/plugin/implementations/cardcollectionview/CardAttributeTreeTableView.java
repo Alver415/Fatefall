@@ -20,7 +20,7 @@ public class CardAttributeTreeTableView extends TreeTableView<CardAttribute<?>> 
         TreeTableColumn<CardAttribute<?>, Object> valueColumn = new TreeTableColumn<>("Value");
         valueColumn.setCellValueFactory(cdf -> {
             try {
-                return (ObservableValue<Object>) cdf.getValue().getValue().propertyProperty();
+                return (ObservableValue<Object>) cdf.getValue().getValue();
             } catch (Exception e) {
                 return null;
             }

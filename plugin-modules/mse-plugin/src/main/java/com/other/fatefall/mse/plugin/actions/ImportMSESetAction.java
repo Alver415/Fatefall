@@ -3,6 +3,7 @@ package com.other.fatefall.mse.plugin.actions;
 import com.alver.fatefall.api.interfaces.ActionEventHandler;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.CardAttribute;
+import com.alver.fatefall.api.models.CardAttributeImpl;
 import com.alver.fatefall.api.models.CardCollection;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -68,10 +69,10 @@ public class ImportMSESetAction implements ActionEventHandler {
                 card.setName(cardName);
                 for (Iterator<String> it = c.fieldNames(); it.hasNext(); ) {
                     String field = it.next();
-                    CardAttribute<String> attribute = new CardAttribute<>();
+                    CardAttribute<String> attribute = new CardAttributeImpl<>();
                     attribute.setName(field);
                     attribute.setType(String.class);
-                    attribute.getProperty().setValue(c.get(field).asText());
+                    attribute.setValue(c.get(field).asText());
                     card.getAttributeList().add(attribute);
                 }
 

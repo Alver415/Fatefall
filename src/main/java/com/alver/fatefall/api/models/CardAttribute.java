@@ -1,72 +1,58 @@
 package com.alver.fatefall.api.models;
 
-import javafx.beans.property.*;
-import javafx.collections.FXCollections;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.Property;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 
-public class CardAttribute<T> extends AbstractCardAttribute {
+public interface CardAttribute<T> extends Property<T>{
 
-	protected StringProperty id = new SimpleStringProperty();
-	protected StringProperty name = new SimpleStringProperty();
-	protected ObjectProperty<Class<T>> type = new SimpleObjectProperty<>();
-	protected Property<T> property = new SimpleObjectProperty<>();
-	protected ListProperty<CardAttribute> children = new SimpleListProperty<>(FXCollections.observableArrayList());
-	protected StringProperty data = new SimpleStringProperty();
+    StringProperty idProperty();
+    default String getId() {
+        return idProperty().get();
+    }
+    default void setId(String id) {
+        idProperty().set(id);
+    }
 
-	public String getId() {
-		return id.get();
-	}
-	public StringProperty idProperty() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id.set(id);
-	}
-	public String getName() {
-		return name.get();
-	}
-	public StringProperty nameProperty() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name.set(name);
-	}
-	@Override
-	public Class<T> getType() {
-		return type.get();
-	}
-	public ObjectProperty<Class<T>> typeProperty() {
-		return type;
-	}
-	public void setType(Class<T> type) {
-		this.type.set(type);
-	}
-	public Property<T> getProperty() {
-		return property;
-	}
-	public Property<T> propertyProperty() {
-		return property;
-	}
-	public void setProperty(Property<T> property) {
-		this.property = property;
-	}
-	public String getData() {
-		return data.get();
-	}
-	public StringProperty dataProperty() {
-		return data;
-	}
-	public void setData(String data) {
-		this.data.set(data);
-	}
+    StringProperty nameProperty();
+    default String getName() {
+        return nameProperty().get();
+    }
+    default void setName(String name) {
+        nameProperty().set(name);
+    }
 
-	public ObservableList<CardAttribute> getChildren() {
-		return children.get();
-	}
-	public ListProperty<CardAttribute> childrenProperty() {
-		return children;
-	}
-	public void setChildren(ObservableList<CardAttribute> children) {
-		this.children.set(children);
-	}
+    ObjectProperty<Class<T>> typeProperty();
+    default Class<T> getType() {
+        return typeProperty().get();
+    }
+    default void setType(Class<T> type) {
+        typeProperty().set(type);
+    }
+
+    StringProperty dataProperty();
+    default String getData() {
+        return dataProperty().get();
+    }
+    default void setData(String data) {
+        this.dataProperty().set(data);
+    }
+
+    ListProperty<CardAttribute<?>> childrenProperty();
+    default ObservableList<CardAttribute<?>> getChildren() {
+        return childrenProperty().get();
+    }
+    default void setChildren(ObservableList<CardAttribute<?>> children) {
+        childrenProperty().set(children);
+    }
+
+    default T get() {
+        return getValue();
+    }
+
+    default void set(T value) {
+        setValue(value);
+    }
 }
