@@ -1,16 +1,14 @@
 package com.alver.fatefall.api.models;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 public class CardAttribute<T> {
 
 	protected StringProperty id = new SimpleStringProperty();
 	protected StringProperty name = new SimpleStringProperty();
-	protected StringProperty data = new SimpleStringProperty();
+	protected ObjectProperty<Class<T>> type = new SimpleObjectProperty<>();
 	protected Property<T> property = new SimpleObjectProperty<>();
+	protected StringProperty data = new SimpleStringProperty();
 
 	public String getId() {
 		return id.get();
@@ -30,14 +28,14 @@ public class CardAttribute<T> {
 	public void setName(String name) {
 		this.name.set(name);
 	}
-	public String getData() {
-		return data.get();
+	public Class<T> getType() {
+		return type.get();
 	}
-	public StringProperty dataProperty() {
-		return data;
+	public ObjectProperty<Class<T>> typeProperty() {
+		return type;
 	}
-	public void setData(String data) {
-		this.data.set(data);
+	public void setType(Class<T> type) {
+		this.type.set(type);
 	}
 	public Property<T> getProperty() {
 		return property;
@@ -48,4 +46,14 @@ public class CardAttribute<T> {
 	public void setProperty(Property<T> property) {
 		this.property = property;
 	}
+	public String getData() {
+		return data.get();
+	}
+	public StringProperty dataProperty() {
+		return data;
+	}
+	public void setData(String data) {
+		this.data.set(data);
+	}
+
 }

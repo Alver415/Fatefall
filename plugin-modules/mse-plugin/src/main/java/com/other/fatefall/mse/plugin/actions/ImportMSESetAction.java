@@ -70,7 +70,8 @@ public class ImportMSESetAction implements ActionEventHandler {
                     String field = it.next();
                     CardAttribute<String> attribute = new CardAttribute<>();
                     attribute.setName(field);
-                    attribute.getProperty().setValue(c.asText(field));
+                    attribute.setType(String.class);
+                    attribute.getProperty().setValue(c.get(field).asText());
                     card.getAttributeList().add(attribute);
                 }
 

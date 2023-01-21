@@ -12,9 +12,11 @@ public class CardAttributeRow {
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String id;
 	private String name;
+	private String type;
+	@Lob
+	private String value;
 	@Lob
 	private String data;
-	private String value;
 
 	public String getId() {
 		return id;
@@ -28,16 +30,22 @@ public class CardAttributeRow {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getData() {
-		return data;
+	public String getType() {
+		return type;
 	}
-	public void setData(String data) {
-		this.data = data;
+	public void setType(String type) {
+		this.type = type;
 	}
 	public String getValue() {
 		return value;
 	}
 	public void setValue(String value) {
 		this.value = value;
+	}
+	public String getData() {
+		return data;
+	}
+	public void setData(String data) {
+		this.data = data;
 	}
 }

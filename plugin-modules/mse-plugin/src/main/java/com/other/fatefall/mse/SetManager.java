@@ -38,7 +38,7 @@ public class SetManager {
     public static SetManager get(String setName) throws IOException {
         Path basePath = JMSE_SET_DIRECTORY.resolve(setName);
         //TODO: Just guesses based on the first filename in the directory...
-        String fileName = Objects.requireNonNull(basePath.toFile().list())[0].split("\\.")[0];
+        String fileName = setName.replace(".mse-set", "");
         return new SetManager(setName, fileName);
     }
 
@@ -49,7 +49,11 @@ public class SetManager {
         String fileName = sourceFileName.substring(0, index);
 
         //Create the directory to store everything in based on the given setName
-        Path basePath = createDirectory(JMSE_SET_DIRECTORY.resolve(setName));
+        Path basePath = JMSE_SET_DIRECTORY.resolve(setName);
+        if (Files.exists(basePath)){
+            return get(setName);
+        }
+        createDirectory(basePath);
 
         //Import the .mse-set file to the new directory (simple copy)
         Path importPath = basePath.resolve(sourceFileName);
