@@ -3,6 +3,7 @@ package com.alver.fatefall.app;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.CardAttribute;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -34,16 +35,17 @@ public class CardDeserializer extends StdDeserializer<Card> {
     @Override
     public Card deserialize(JsonParser parser, DeserializationContext context)
             throws IOException {
-        Card card = new Card();
-        ObjectNode json = parser.getCodec().readTree(parser);
+        return buildCard(parser.getCodec().readTree(parser));
+    }
 
+    protected Card buildCard(ObjectNode json) throws JsonProcessingException {
+        Card card = new Card();
         for (Iterator<String> it = json.fieldNames(); it.hasNext(); ) {
             String field = it.next();
             JsonNode value = json.get(field);
             CardAttribute<?> attribute = buildAttribute(field, value);
             card.getAttributeList().add(attribute);
         }
-
         card.setData(writer.writeValueAsString(json));
         return card;
     }
