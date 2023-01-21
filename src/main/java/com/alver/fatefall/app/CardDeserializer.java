@@ -1,11 +1,11 @@
-package com.alver.fatefall.scryfall.api;
+package com.alver.fatefall.app;
 
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.CardAttribute;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -21,7 +21,7 @@ import java.util.List;
 public class CardDeserializer extends StdDeserializer<Card> {
 
     @Autowired
-    protected String defaultCardBackFaceUrl;
+    protected ObjectWriter writer;
 
     public CardDeserializer() {
         this(Card.class);
@@ -35,30 +35,20 @@ public class CardDeserializer extends StdDeserializer<Card> {
     public Card deserialize(JsonParser parser, DeserializationContext context)
             throws IOException {
         Card card = new Card();
-        ObjectNode source = parser.getCodec().readTree(parser);
-        card.setName(source.findValue("name").asText());
-        if (!source.path("card_faces").isEmpty()) {
-            card.setFrontUrl(source.path("card_faces").get(0).path("image_uris").path("normal").asText());
-            card.setBackUrl(source.path("card_faces").get(1).path("image_uris").path("normal").asText());
-        } else {
-            card.setFrontUrl(source.path("image_uris").path("normal").asText());
-            card.setBackUrl(defaultCardBackFaceUrl);
-        }
-        createAttributes(card, source);
-        card.setData(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(source));
-        return card;
-    }
+        ObjectNode json = parser.getCodec().readTree(parser);
 
-    private static void createAttributes(Card card, JsonNode json) {
         for (Iterator<String> it = json.fieldNames(); it.hasNext(); ) {
             String field = it.next();
             JsonNode value = json.get(field);
             CardAttribute<?> attribute = buildAttribute(field, value);
             card.getAttributeList().add(attribute);
         }
+
+        card.setData(writer.writeValueAsString(json));
+        return card;
     }
 
-    private static CardAttribute<?> buildAttribute(String field, JsonNode json) {
+    protected CardAttribute<?> buildAttribute(String field, JsonNode json) {
         CardAttribute<?> attribute = new CardAttribute<>();
         attribute.setType(convertType(json.getNodeType()));
         attribute.setName(field);
@@ -80,7 +70,7 @@ public class CardDeserializer extends StdDeserializer<Card> {
     }
 
     @SuppressWarnings("unchecked")
-    private static <T> Class<T> convertType(JsonNodeType nodeType) {
+    protected <T> Class<T> convertType(JsonNodeType nodeType) {
         return switch (nodeType) {
             case STRING, NULL -> (Class<T>) String.class;
             case NUMBER -> (Class<T>) Double.class;

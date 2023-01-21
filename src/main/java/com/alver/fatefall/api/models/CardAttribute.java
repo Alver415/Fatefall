@@ -1,6 +1,5 @@
 package com.alver.fatefall.api.models;
 
-import com.alver.fatefall.app.AbstractCardAttribute;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

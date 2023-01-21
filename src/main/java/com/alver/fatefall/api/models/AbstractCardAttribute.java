@@ -1,4 +1,4 @@
-package com.alver.fatefall.app;
+package com.alver.fatefall.api.models;
 
 import javafx.beans.property.Property;
 import javafx.beans.value.ObservableValue;

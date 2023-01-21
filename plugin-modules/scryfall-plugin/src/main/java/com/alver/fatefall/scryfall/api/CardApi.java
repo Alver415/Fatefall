@@ -9,7 +9,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class CardApi extends AbstractApi {
 
     @Autowired
-    protected CardDeserializer cardDeserializer;
+    protected ScryfallCardDeserializer cardDeserializer;
 
     @Autowired
     protected CardApi(WebClient client) {
