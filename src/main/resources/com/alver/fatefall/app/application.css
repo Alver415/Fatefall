@@ -1,4 +1,14 @@
 
+.tree-table-view .scroll-bar{
+    -fx-background-color: transparent;
+}
+
+.tree-table-view{
+    -fx-border-width: 0;
+}
+
+.column-header-background { visibility: hidden; -fx-padding: -1em; }
+
 
 CardFace {
     -fx-background-color: rgba(0,0,0,0.3);

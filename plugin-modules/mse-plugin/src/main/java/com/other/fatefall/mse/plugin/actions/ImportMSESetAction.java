@@ -2,12 +2,11 @@ package com.other.fatefall.mse.plugin.actions;
 
 import com.alver.fatefall.api.interfaces.ActionEventHandler;
 import com.alver.fatefall.api.models.Card;
-import com.alver.fatefall.api.models.CardAttribute;
-import com.alver.fatefall.api.models.CardAttributeImpl;
-import com.alver.fatefall.api.models.CardCollection;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.alver.fatefall.api.models.Workspace;
+import com.alver.fatefall.api.models.attributes.AttributeFactory;
+import com.alver.fatefall.api.models.attributes.StringAttribute;
+import com.alver.fatefall.app.CardDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.other.fatefall.mse.SetManager;
@@ -22,7 +21,6 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Iterator;
 
 @Component
 @Extension
@@ -30,6 +28,10 @@ public class ImportMSESetAction implements ActionEventHandler {
 
     @Autowired
     protected MSEPlugin plugin;
+    @Autowired
+    protected AttributeFactory attributeFactory;
+    @Autowired
+    protected CardDeserializer cardDeserializer;
 
     @Override
     public String getName() {
@@ -51,45 +53,36 @@ public class ImportMSESetAction implements ActionEventHandler {
         try {
             SetManager setManager = SetManager.importMseSet(file.getName(), file.toPath());
             ObjectNode set = setManager.getSet();
-            CardCollection cardCollection = new CardCollection();
+            Workspace workspace = new Workspace();
 
             JsonNode setInfo = set.get("set_info");
             String setName = setInfo.get("title").asText();
-            cardCollection.setName(setName);
+            workspace.setName(setName);
 
             ArrayNode cards = (ArrayNode) set.get("card");
-            cards.elements().forEachRemaining(c -> {
-                Card card = new Card();
-                try {
-                    card.setData(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(c));
-                } catch (JsonProcessingException e) {
-                    throw new RuntimeException(e);
-                }
-                String cardName = c.get("name").asText();
+            cards.elements().forEachRemaining(json -> {
+                Card card = cardDeserializer.buildCard(json);
+
+                String cardName = json.get("name").asText();
                 card.setName(cardName);
-                for (Iterator<String> it = c.fieldNames(); it.hasNext(); ) {
-                    String field = it.next();
-                    CardAttribute<String> attribute = new CardAttributeImpl<>();
-                    attribute.setName(field);
-                    attribute.setType(String.class);
-                    attribute.setValue(c.get(field).asText());
-                    card.getAttributeList().add(attribute);
-                }
 
                 String cardImageFileName = cardName
                         .replace(" ", "_")
                         .replace(",", "");
-                String name_2 = c.findPath("name_2").asText();
+                String name_2 = json.findPath("name_2").asText();
                 if (name_2.isEmpty()) {
-                    card.setFrontUrl("file:" + setManager.getImagesPath().resolve(cardImageFileName + ".png"));
-                    card.setBackUrl(SetManager.DEFAULT_CARD_BACK_FACE);
+                    String frontUrl = "file:" + setManager.getImagesPath().resolve(cardImageFileName + ".png");
+                    card.addAttribute(attributeFactory.createAttribute("_front_", StringAttribute.class, frontUrl));
+                    card.addAttribute(attributeFactory.createAttribute("_back_", StringAttribute.class, SetManager.DEFAULT_CARD_BACK_FACE));
                 } else {
-                    card.setFrontUrl("file:" + setManager.getImagesPath().resolve(cardImageFileName + ".card_front.png"));
-                    card.setBackUrl("file:" + setManager.getImagesPath().resolve(cardImageFileName + ".card_back.png"));
+                    String frontUrl = "file:" + setManager.getImagesPath().resolve(cardImageFileName + ".card_front.png");
+                    String backUrl = "file:" + setManager.getImagesPath().resolve(cardImageFileName + ".card_back.png");
+                    card.addAttribute(attributeFactory.createAttribute("_front_", StringAttribute.class, frontUrl));
+                    card.addAttribute(attributeFactory.createAttribute("_back_", StringAttribute.class, backUrl));
                 }
-                cardCollection.getCardList().add(card);
+                workspace.getCards().add(card);
             });
-            plugin.createCardCollection(cardCollection);
+            plugin.createWorkspace(workspace);
         } catch (IOException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Failed to import file: " + file + "\n" + e.getMessage());

@@ -43,9 +43,9 @@
                     <archive>
                         <manifestEntries>
                             <Plugin-Class>com.alver.fatefall.scryfall.plugin.ScryfallPlugin</Plugin-Class>
-                            <Plugin-Id>${name}</Plugin-Id>
+                            <Plugin-Id>${project.name}</Plugin-Id>
                             <Plugin-Provider>Alver415</Plugin-Provider>
-                            <Plugin-Version>${version}</Plugin-Version>
+                            <Plugin-Version>${project.version}</Plugin-Version>
                         </manifestEntries>
                     </archive>
                 </configuration>

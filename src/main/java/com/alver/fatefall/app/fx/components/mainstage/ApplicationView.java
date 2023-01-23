@@ -1,9 +1,9 @@
 package com.alver.fatefall.app.fx.components.mainstage;
 
 import com.alver.fatefall.api.interfaces.ActionEventHandler;
-import com.alver.fatefall.api.interfaces.CardCollectionView;
+import com.alver.fatefall.api.interfaces.WorkspaceView;
 import com.alver.fatefall.api.interfaces.ComponentFactory;
-import com.alver.fatefall.api.models.CardCollection;
+import com.alver.fatefall.api.models.Workspace;
 import com.alver.fatefall.app.fx.components.FXMLAutoLoad;
 import com.alver.fatefall.app.fx.components.settings.FatefallPreferences;
 import javafx.collections.ObservableList;
@@ -16,7 +16,7 @@ import org.pf4j.PluginManager;
 import org.pf4j.PluginWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.alver.fatefall.app.persistence.repositories.CardCollectionRepository;
+import com.alver.fatefall.app.persistence.repositories.WorkspaceRepository;
 
 import java.util.List;
 import java.util.Objects;
@@ -30,9 +30,9 @@ public class ApplicationView extends BorderPane {
     @Autowired
     protected ComponentFactory componentFactory;
     @Autowired
-    protected ObservableList<CardCollection> cardCollectionList;
+    protected ObservableList<Workspace> workspaceList;
     @Autowired
-    protected CardCollectionRepository cardCollectionRepository;
+    protected WorkspaceRepository workspaceRepository;
     @Autowired
     protected FatefallPreferences preferences;
 
@@ -41,7 +41,7 @@ public class ApplicationView extends BorderPane {
      * FXML Injection
      */
     @FXML
-    protected ListView<CardCollection> cardCollectionListView;
+    protected ListView<Workspace> workspaceListView;
     @FXML
     protected TabPane tabPane;
     @FXML
@@ -49,14 +49,14 @@ public class ApplicationView extends BorderPane {
 
     @FXML
     private void initialize() {
-        cardCollectionListView.setCellFactory(cardCollectionCellFactory);
-        cardCollectionListView.setItems(cardCollectionList);
+        workspaceListView.setCellFactory(workspaceCellFactory);
+        workspaceListView.setItems(workspaceList);
 
         List<Menu> menuList = pluginManager.getPlugins().stream().map(this::buildMenu).toList();
         pluginMenu.getItems().setAll(menuList);
         MenuItem testItem = new MenuItem("Test");
         testItem.setOnAction(a -> {
-            cardCollectionRepository.findAll().forEach(cardCollectionList::add);
+            workspaceRepository.findAll().forEach(workspaceList::add);
         });
         pluginMenu.getItems().add(testItem);
     }
@@ -80,8 +80,8 @@ public class ApplicationView extends BorderPane {
         return tabPane;
     }
 
-    public ListView<CardCollection> getCardCollectionList() {
-        return cardCollectionListView;
+    public ListView<Workspace> getWorkspaceList() {
+        return workspaceListView;
     }
 
     private void createTab(String text, Node node) {
@@ -96,12 +96,12 @@ public class ApplicationView extends BorderPane {
         preferences.show();
     }
 
-    private Tab addCollectionTab(CardCollection cardCollection) {
-        CardCollectionView<?> cardCollectionView = componentFactory.buildCardCollectionView();
-        cardCollectionView.setCardCollection(cardCollection);
+    private Tab addCollectionTab(Workspace workspace) {
+        WorkspaceView<?> workspaceView = componentFactory.buildWorkspaceView();
+        workspaceView.setWorkspace(workspace);
 
-        Tab tab = new Tab(cardCollection.getName());
-        tab.setContent(cardCollectionView.getFxViewNode());
+        Tab tab = new Tab(workspace.getName());
+        tab.setContent(workspaceView.getFxViewNode());
 
         tabPane.getTabs().add(tab);
         return tab;
@@ -113,33 +113,33 @@ public class ApplicationView extends BorderPane {
         dialog.setHeaderText("Create a Collection");
         dialog.setContentText("Enter a name for the new collection.");
         dialog.showAndWait().ifPresent(name -> {
-            boolean nameAlreadyExists = cardCollectionListView.getItems().stream()
-                    .map(CardCollection::getName)
+            boolean nameAlreadyExists = workspaceListView.getItems().stream()
+                    .map(Workspace::getName)
                     .anyMatch(n -> Objects.equals(n, name));
             if (nameAlreadyExists) {
                 throw new RuntimeException("A collection with that name already exists.");
             }
-            CardCollection cardCollection = new CardCollection();
-            cardCollection.setName(name);
-            cardCollectionListView.getItems().add(cardCollection);
+            Workspace workspace = new Workspace();
+            workspace.setName(name);
+            workspaceListView.getItems().add(workspace);
         });
     }
 
     @FXML
     private void saveSelectedCollection() {
-        CardCollection selectedItem = cardCollectionListView.getSelectionModel().getSelectedItem();
-        cardCollectionRepository.save(selectedItem);
+        Workspace selectedItem = workspaceListView.getSelectionModel().getSelectedItem();
+        workspaceRepository.save(selectedItem);
     }
 
-    private Callback<ListView<CardCollection>, ListCell<CardCollection>> cardCollectionCellFactory = (z) -> {
-        ListCell<CardCollection> cell = new ListCell<>() {
+    private Callback<ListView<Workspace>, ListCell<Workspace>> workspaceCellFactory = (z) -> {
+        ListCell<Workspace> cell = new ListCell<>() {
             @Override
-            protected void updateItem(CardCollection item, boolean empty) {
+            protected void updateItem(Workspace item, boolean empty) {
                 super.updateItem(item, empty);
                 setText(empty ? null : item.getName());
             }
         };
-        //When double-clicked, open that cardCollection.
+        //When double-clicked, open that workspace.
         cell.setOnMouseClicked(e -> {
             if (!cell.isEmpty() && cell.getItem() != null && e.getClickCount() == 2) {
                 openCollection(cell.getItem());
@@ -147,21 +147,21 @@ public class ApplicationView extends BorderPane {
         });
         ContextMenu contextMenu = new ContextMenu();
         MenuItem save = new MenuItem("Save");
-        save.setOnAction(a -> cardCollectionRepository.save(cell.getItem()));
+        save.setOnAction(a -> workspaceRepository.save(cell.getItem()));
         contextMenu.getItems().add(save);
 
         cell.setContextMenu(contextMenu);
         return cell;
     };
 
-    private void openCollection(CardCollection cardCollection) {
+    private void openCollection(Workspace workspace) {
         tabPane.getTabs().stream()
-                .filter(tab -> tab.getText().equals(cardCollection.getName()))
+                .filter(tab -> tab.getText().equals(workspace.getName()))
                 .findFirst()
                 .ifPresentOrElse((tab) -> {
                     tabPane.getSelectionModel().select(tab);
                 }, () -> {
-                    tabPane.getSelectionModel().select(addCollectionTab(cardCollection));
+                    tabPane.getSelectionModel().select(addCollectionTab(workspace));
                 });
     }
 }

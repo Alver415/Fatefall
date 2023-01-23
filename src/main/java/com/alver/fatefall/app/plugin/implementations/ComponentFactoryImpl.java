@@ -1,11 +1,11 @@
 package com.alver.fatefall.app.plugin.implementations;
 
-import com.alver.fatefall.api.interfaces.CardCollectionView;
+import com.alver.fatefall.api.interfaces.WorkspaceView;
 import com.alver.fatefall.api.interfaces.ComponentFactory;
 import com.alver.fatefall.api.models.Card;
-import com.alver.fatefall.api.models.CardCollection;
+import com.alver.fatefall.api.models.Workspace;
 import com.alver.fatefall.app.Prototype;
-import com.alver.fatefall.app.plugin.implementations.cardcollectionview.CardCollectionViewImpl;
+import com.alver.fatefall.app.plugin.implementations.cardcollectionview.WorkspaceViewImpl;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -20,7 +20,7 @@ import java.util.List;
 public class ComponentFactoryImpl implements ComponentFactory {
 
     @Autowired
-    protected ObservableList<CardCollection> cardCollectionList;
+    protected ObservableList<Workspace> workspaceList;
     @Autowired
     protected CardRepository cardRepository;
     @Autowired
@@ -28,10 +28,10 @@ public class ComponentFactoryImpl implements ComponentFactory {
 
     public MenuItem buildAddToCollectionMenuItem(Card card) {
         Menu menu = new Menu("Add to...");
-        cardCollectionList.forEach(c -> {
+        workspaceList.forEach(c -> {
             MenuItem item = new MenuItem(c.getName());
             item.setOnAction(a -> {
-                c.getCardList().add(card);
+                c.getCards().add(card);
             });
             menu.getItems().add(item);
         });
@@ -40,8 +40,8 @@ public class ComponentFactoryImpl implements ComponentFactory {
 
     public MenuItem buildDeleteCardMenuItem(Card card) {
         MenuItem item = new MenuItem("Delete");
-        item.setOnAction(a -> cardCollectionList.stream()
-                .map(CardCollection::getCardList)
+        item.setOnAction(a -> workspaceList.stream()
+                .map(Workspace::getCards)
                 .forEach(cards -> cards.remove(card)));
         return item;
     }
@@ -53,8 +53,8 @@ public class ComponentFactoryImpl implements ComponentFactory {
                 buildDeleteCardMenuItem(card));
     }
 
-    public CardCollectionView<?> buildCardCollectionView() {
-        return beanFactory.getBean(CardCollectionViewImpl.class);
+    public WorkspaceView<?> buildWorkspaceView() {
+        return beanFactory.getBean(WorkspaceViewImpl.class);
     }
 
 }

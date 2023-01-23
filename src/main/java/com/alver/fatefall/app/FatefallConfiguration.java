@@ -1,7 +1,7 @@
 package com.alver.fatefall.app;
 
-import com.alver.fatefall.api.models.CardCollection;
-import com.alver.fatefall.app.persistence.repositories.CardCollectionRepository;
+import com.alver.fatefall.api.models.Workspace;
+import com.alver.fatefall.app.persistence.repositories.WorkspaceRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import javafx.collections.FXCollections;
@@ -24,12 +24,12 @@ public class FatefallConfiguration implements ApplicationContextAware {
     }
 
     @Autowired
-    public CardCollectionRepository cardCollectionRepository;
+    public WorkspaceRepository workspaceRepository;
 
     @Bean
-    public ObservableList<CardCollection> getCardCollections() {
-        ObservableList<CardCollection> list = FXCollections.observableArrayList();
-        cardCollectionRepository.findAll().forEach(list::add);
+    public ObservableList<Workspace> getWorkspaces() {
+        ObservableList<Workspace> list = FXCollections.observableArrayList();
+        workspaceRepository.findAll().forEach(list::add);
         return list;
     }
 

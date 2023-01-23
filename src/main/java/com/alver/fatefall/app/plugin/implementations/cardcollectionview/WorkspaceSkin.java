@@ -1,8 +1,8 @@
 package com.alver.fatefall.app.plugin.implementations.cardcollectionview;
 
 import com.alver.fatefall.api.interfaces.CardView;
+import com.alver.fatefall.api.models.Attribute;
 import com.alver.fatefall.api.models.Card;
-import com.alver.fatefall.api.models.CardAttribute;
 import com.alver.fatefall.app.Prototype;
 import com.alver.fatefall.app.fx.components.settings.FatefallProperties;
 import com.alver.fatefall.app.plugin.implementations.cardview.CardViewImpl;
@@ -10,6 +10,7 @@ import javafx.beans.binding.DoubleBinding;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -21,7 +22,7 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Prototype
-public class CardCollectionSkin extends SkinBase<CardCollectionViewImpl> {
+public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
 
     private final FatefallProperties properties;
     private final BeanFactory beanFactory;
@@ -30,8 +31,8 @@ public class CardCollectionSkin extends SkinBase<CardCollectionViewImpl> {
     private final TableView<Card> tableView;
 
     @Autowired
-    protected CardCollectionSkin(
-            CardCollectionViewImpl control,
+    protected WorkspaceSkin(
+            WorkspaceViewImpl control,
             FatefallProperties properties,
             BeanFactory beanFactory) {
         super(control);
@@ -43,12 +44,14 @@ public class CardCollectionSkin extends SkinBase<CardCollectionViewImpl> {
 
         tableView = new TableView<>();
         tableView.setEditable(true);
+        tableView.setBorder(null);
+        tableView.setPadding(Insets.EMPTY);
 
         TableColumn<Card, CardView<?>> cardColumn = new TableColumn<>("Card View");
-        DoubleBinding columnWidth = properties.getCardScaledWidth().multiply(2).add(20);
-        cardColumn.minWidthProperty().bind(columnWidth);
-        cardColumn.maxWidthProperty().bind(columnWidth);
-        cardColumn.prefWidthProperty().bind(columnWidth);
+        DoubleBinding cardViewMaxWidth = properties.getCardScaledWidth().multiply(2).add(20);
+        cardColumn.minWidthProperty().bind(cardViewMaxWidth);
+        cardColumn.maxWidthProperty().bind(cardViewMaxWidth);
+        cardColumn.prefWidthProperty().bind(cardViewMaxWidth);
         cardColumn.setCellFactory(new Callback<>() {
             @Override
             public TableCell<Card, CardView<?>> call(TableColumn<Card, CardView<?>> param) {
@@ -72,7 +75,7 @@ public class CardCollectionSkin extends SkinBase<CardCollectionViewImpl> {
         });
 
         TableColumn<Card, Node> attributesColumn = new TableColumn<>("Attributes");
-        attributesColumn.setPrefWidth(600);
+        attributesColumn.prefWidthProperty().bind(getSkinnable().widthProperty().subtract(cardColumn.widthProperty()));
         attributesColumn.setEditable(true);
         attributesColumn.setCellFactory(new Callback<>() {
             @Override
@@ -86,25 +89,28 @@ public class CardCollectionSkin extends SkinBase<CardCollectionViewImpl> {
                         } else if (getTableRow().getItem() != null){
                             Card card = getTableRow().getItem();
                             CardAttributeTreeTableView view = new CardAttributeTreeTableView();
-                            TreeItem<CardAttribute<?>> root = new TreeItem<>();
+                            TreeItem<Attribute> root = new TreeItem<>();
                             root.setExpanded(true);
-                            for (CardAttribute<?> childAttribute : card.getAttributeList()){
-                                TreeItem<CardAttribute<?>> childItem = new TreeItem<>(childAttribute);
+                            for (Attribute<?> childAttribute : card.getAttributes()){
+                                TreeItem<Attribute> childItem = new TreeItem<>(childAttribute);
                                 buildTreeItem(childItem);
                                 childItem.setExpanded(true);
                                 root.getChildren().add(childItem);
                             }
                             view.setRoot(root);
                             ScrollPane scrollPane = new ScrollPane(view);
+                            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+                            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
                             scrollPane.setFitToWidth(true);
                             setGraphic(scrollPane);
                         }
                     }
 
-                    private void buildTreeItem(TreeItem<CardAttribute<?>> parentItem) {
-                        CardAttribute<?> parentAttribute = parentItem.getValue();
-                        for (CardAttribute<?> childAttribute : parentAttribute.getChildren()){
-                            TreeItem<CardAttribute<?>> childItem = new TreeItem<>(childAttribute);
+                    private void buildTreeItem(TreeItem<Attribute> parentItem) {
+                        Attribute parentAttribute = parentItem.getValue();
+                        ObservableList<Attribute> list = parentAttribute.getAttributes();
+                        for (Attribute childAttribute : list){
+                            TreeItem<Attribute> childItem = new TreeItem<>(childAttribute);
                             childItem.setExpanded(true);
                             buildTreeItem(childItem);
                             parentItem.getChildren().add(childItem);
@@ -112,6 +118,8 @@ public class CardCollectionSkin extends SkinBase<CardCollectionViewImpl> {
                     }
                 };
                 cell.setAlignment(Pos.CENTER);
+                cell.setBorder(null);
+                cell.setPadding(Insets.EMPTY);
                 return cell;
             }
         });
@@ -129,12 +137,12 @@ public class CardCollectionSkin extends SkinBase<CardCollectionViewImpl> {
         borderPane.setCenter(tableView);
         getChildren().setAll(borderPane);
 
-        control.cardCollectionProperty.addListener((observable, oldValue, newValue) -> {
+        control.workspaceProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null) {
-                oldValue.getCardList().removeListener(refreshListener);
+                oldValue.getCards().removeListener(refreshListener);
             }
             if (newValue != null) {
-                newValue.getCardList().addListener(refreshListener);
+                newValue.getCards().addListener(refreshListener);
             }
         });
         refresh();
@@ -143,7 +151,7 @@ public class CardCollectionSkin extends SkinBase<CardCollectionViewImpl> {
     private final ListChangeListener<? super Card> refreshListener = l -> refresh();
 
     private void refresh() {
-        ObservableList<Card> cards = getSkinnable().getCardCollection().getCardList();
+        ObservableList<Card> cards = getSkinnable().getWorkspace().getCards();
         FilteredList<Card> filteredList = new FilteredList<>(cards, f -> true);
         filterField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {

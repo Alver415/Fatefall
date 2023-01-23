@@ -6,7 +6,7 @@ import javafx.scene.control.MenuItem;
 import java.util.List;
 
 public interface ComponentFactory {
-    CardCollectionView<?> buildCardCollectionView();
+    WorkspaceView<?> buildWorkspaceView();
 
     List<MenuItem> buildCardViewContextMenuItems(Card card);
 

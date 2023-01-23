@@ -1,13 +1,11 @@
 package com.alver.fatefall.scryfall.plugin.component;
 
 
-import com.alver.fatefall.api.interfaces.CardCollectionView;
+import com.alver.fatefall.api.interfaces.WorkspaceView;
 import com.alver.fatefall.api.models.Card;
+import com.alver.fatefall.api.models.attributes.StringAttribute;
 import com.alver.fatefall.app.fx.components.mainstage.ApplicationView;
 import com.alver.fatefall.app.plugin.implementations.ComponentFactoryImpl;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -66,17 +64,12 @@ public class ScryfallComponentFactory extends ComponentFactoryImpl {
     }
 
     private static String getUrl(Card card) {
-        try {
-            JsonNode data = new ObjectMapper().readTree(card.getData());
-            return data.findValue("scryfall_uri").asText();
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        return card.getAttribute("scryfall_url", StringAttribute.class).getValue();
     }
 
 
     @Override
-    public CardCollectionView buildCardCollectionView() {
+    public WorkspaceView buildWorkspaceView() {
         return new ScryfallSearchView();
     }
 }

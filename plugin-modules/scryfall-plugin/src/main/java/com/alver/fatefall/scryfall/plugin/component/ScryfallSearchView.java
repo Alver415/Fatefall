@@ -1,9 +1,9 @@
 package com.alver.fatefall.scryfall.plugin.component;
 
-import com.alver.fatefall.api.interfaces.CardCollectionView;
+import com.alver.fatefall.api.interfaces.WorkspaceView;
 import com.alver.fatefall.api.interfaces.CardView;
 import com.alver.fatefall.api.models.Card;
-import com.alver.fatefall.api.models.CardCollection;
+import com.alver.fatefall.api.models.Workspace;
 import com.alver.fatefall.app.Prototype;
 import com.alver.fatefall.app.plugin.implementations.cardview.CardViewImpl;
 import com.alver.fatefall.scryfall.api.CardApiResult;
@@ -24,7 +24,7 @@ import java.net.URL;
 import java.util.List;
 
 @Prototype
-public class ScryfallSearchView extends BorderPane implements CardCollectionView<ScryfallSearchView> {
+public class ScryfallSearchView extends BorderPane implements WorkspaceView<ScryfallSearchView> {
 
     @Autowired
     protected ScryfallApiClient client;
@@ -40,7 +40,7 @@ public class ScryfallSearchView extends BorderPane implements CardCollectionView
 
     public ScryfallSearchView() {
         loadFXML();
-        cardCollectionProperty().addListener(change -> {
+        workspaceProperty().addListener(change -> {
             refresh();
         });
     }
@@ -58,11 +58,11 @@ public class ScryfallSearchView extends BorderPane implements CardCollectionView
         }
     }
 
-    protected ObjectProperty<CardCollection> cardCollectionProperty = new SimpleObjectProperty<>();
+    protected ObjectProperty<Workspace> workspaceProperty = new SimpleObjectProperty<>();
 
     @Override
-    public ObjectProperty<CardCollection> cardCollectionProperty() {
-        return cardCollectionProperty;
+    public ObjectProperty<Workspace> workspaceProperty() {
+        return workspaceProperty;
     }
 
     @FXML
@@ -70,16 +70,16 @@ public class ScryfallSearchView extends BorderPane implements CardCollectionView
         String query = queryInput.getText();
         CardApiResult result = client.getCardApi().search(query);
 
-        CardCollection newCollection = new CardCollection();
+        Workspace newCollection = new Workspace();
         List<Card> cards = result.data();
-        newCollection.getCardList().addAll(cards);
+        newCollection.getCards().addAll(cards);
 
-        setCardCollection(newCollection);
+        setWorkspace(newCollection);
     }
 
     protected void refresh() {
         flowPane.getChildren().clear();
-        for (Card card : getCardCollection().getCardList()) {
+        for (Card card : getWorkspace().getCards()) {
             CardView<?> cardView = beanFactory.getBean(CardViewImpl.class);
             cardView.setCard(card);
             Node cardViewNode = cardView.getFxViewNode();
