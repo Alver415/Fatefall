@@ -6,6 +6,9 @@ import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.app.Prototype;
 import com.alver.fatefall.app.fx.components.settings.FatefallProperties;
 import com.alver.fatefall.app.plugin.implementations.cardview.CardViewImpl;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -16,6 +19,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import org.springframework.beans.factory.BeanFactory;
@@ -74,6 +78,25 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
             }
         });
 
+        LoadingCache<Card, ScrollPane> cache = CacheBuilder.newBuilder().build(new CacheLoader<>() {
+            public ScrollPane load(Card card) { // no checked exception
+                CardAttributeTreeTableView view = new CardAttributeTreeTableView();
+                TreeItem<Attribute> root = new TreeItem<>();
+                root.setExpanded(true);
+                for (Attribute<?> childAttribute : card.getAttributes()){
+                    TreeItem<Attribute> childItem = new TreeItem<>(childAttribute);
+                    buildTreeItem(childItem);
+                    childItem.setExpanded(true);
+                    root.getChildren().add(childItem);
+                }
+                view.setRoot(root);
+                ScrollPane scrollPane = new ScrollPane(view);
+                scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+                scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+                scrollPane.setFitToWidth(true);
+                return scrollPane;
+            }
+        });
         TableColumn<Card, Node> attributesColumn = new TableColumn<>("Attributes");
         attributesColumn.prefWidthProperty().bind(getSkinnable().widthProperty().subtract(cardColumn.widthProperty()));
         attributesColumn.setEditable(true);
@@ -88,34 +111,10 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
                             setGraphic(null);
                         } else if (getTableRow().getItem() != null){
                             Card card = getTableRow().getItem();
-                            CardAttributeTreeTableView view = new CardAttributeTreeTableView();
-                            TreeItem<Attribute> root = new TreeItem<>();
-                            root.setExpanded(true);
-                            for (Attribute<?> childAttribute : card.getAttributes()){
-                                TreeItem<Attribute> childItem = new TreeItem<>(childAttribute);
-                                buildTreeItem(childItem);
-                                childItem.setExpanded(true);
-                                root.getChildren().add(childItem);
-                            }
-                            view.setRoot(root);
-                            ScrollPane scrollPane = new ScrollPane(view);
-                            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-                            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-                            scrollPane.setFitToWidth(true);
-                            setGraphic(scrollPane);
+                            setGraphic(cache.getUnchecked(card));
                         }
                     }
 
-                    private void buildTreeItem(TreeItem<Attribute> parentItem) {
-                        Attribute parentAttribute = parentItem.getValue();
-                        ObservableList<Attribute> list = parentAttribute.getAttributes();
-                        for (Attribute childAttribute : list){
-                            TreeItem<Attribute> childItem = new TreeItem<>(childAttribute);
-                            childItem.setExpanded(true);
-                            buildTreeItem(childItem);
-                            parentItem.getChildren().add(childItem);
-                        }
-                    }
                 };
                 cell.setAlignment(Pos.CENTER);
                 cell.setBorder(null);
@@ -160,5 +159,16 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
         });
 
         tableView.setItems(filteredList);
+    }
+
+    private void buildTreeItem(TreeItem<Attribute> parentItem) {
+        Attribute parentAttribute = parentItem.getValue();
+        ObservableList<Attribute> list = parentAttribute.getAttributes();
+        for (Attribute childAttribute : list){
+            TreeItem<Attribute> childItem = new TreeItem<>(childAttribute);
+            childItem.setExpanded(true);
+            buildTreeItem(childItem);
+            parentItem.getChildren().add(childItem);
+        }
     }
 }

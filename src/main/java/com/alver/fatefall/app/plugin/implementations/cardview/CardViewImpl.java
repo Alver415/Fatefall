@@ -7,6 +7,8 @@ import com.alver.fatefall.api.models.attributes.StringAttribute;
 import com.alver.fatefall.app.Prototype;
 import com.alver.fatefall.app.editor.components.ImageBlock;
 import com.alver.fatefall.app.fx.components.settings.FatefallProperties;
+import com.google.common.cache.Cache;
+import com.google.common.cache.LoadingCache;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.*;
@@ -60,6 +62,7 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
     public CardViewImpl(
             BeanFactory beanFactory,
             ComponentFactory componentFactory,
+            LoadingCache<String, Image> imageCache,
             FatefallProperties properties) {
         super();
         this.properties = properties;
@@ -92,8 +95,8 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
             String frontUrl = newCard.getAttribute("_front_", StringAttribute.class).getValue();
             String backUrl = newCard.getAttribute("_back_", StringAttribute.class).getValue();
 
-            setupCardFace(getFront(), new Image(frontUrl, true));
-            setupCardFace(getBack(), new Image(backUrl, true));
+            setupCardFace(getFront(), imageCache.getUnchecked(frontUrl));
+            setupCardFace(getBack(), imageCache.getUnchecked(backUrl));
         });
 
         properties.getCardViewSkinSelection().addListener((observable, oldValue, newValue) -> {
