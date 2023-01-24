@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Install All Plugins" type="CompoundRunConfigurationType">
+    <toRun name="Install MSE Plugin" type="MavenRunConfiguration" />
+    <toRun name="Install Magic the Gathering Plugin" type="MavenRunConfiguration" />
+    <toRun name="Install Scryfall Plugin" type="MavenRunConfiguration" />
+    <method v="2" />
+  </configuration>
+</component>
