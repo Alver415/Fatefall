@@ -6,6 +6,7 @@ import com.alver.fatefall.api.interfaces.ComponentFactory;
 import com.alver.fatefall.app.FatefallApplication;
 import com.alver.fatefall.app.fx.components.about.AboutView;
 import com.alver.fatefall.app.fx.components.plugins.PluginManagerView;
+import com.alver.fatefall.app.services.DialogManager;
 import com.dlsc.formsfx.model.structure.Field;
 import com.dlsc.formsfx.model.structure.StringField;
 import com.dlsc.preferencesfx.PreferencesFx;
@@ -40,10 +41,12 @@ public class FatefallPreferences {
 	protected AboutView aboutView;
 	protected CardView<?> demoCard;
 	protected FatefallApplication application;
+	protected DialogManager dialogManager;
 
 	@Autowired
 	public FatefallPreferences(
 			@Lazy FatefallApplication application,
+			DialogManager dialogManager,
 			FatefallProperties properties,
 			PluginManager pluginManager,
 			PluginManagerView pluginManagerView,
@@ -51,6 +54,7 @@ public class FatefallPreferences {
 			AboutView aboutView,
 			CardView<?> exampleCard) {
 		this.application = application;
+		this.dialogManager = dialogManager;
 		this.properties = properties;
 		this.pluginManager = pluginManager;
 		this.pluginManagerView = pluginManagerView;
@@ -73,11 +77,7 @@ public class FatefallPreferences {
 
 	public void show() {
 		PreferencesFx preferencesFx = buildPreferencesFX();
-		if (WebAPI.isBrowser()) {
-			application.getWebAPI().openStageAsPopup((Stage) preferencesFx.getView().getScene().getWindow());
-		} else {
-			preferencesFx.show();
-		}
+		dialogManager.showStage((Stage) preferencesFx.getView().getScene().getWindow());
 	}
 
 	private static final Image logo = new Image(Objects.requireNonNull(FatefallApplication.class.getResource("icon.png")).toExternalForm());

@@ -73,6 +73,7 @@ public class FatefallApplication extends JProApplication {
         primaryStage.setScene(scene);
         primaryStage.getIcons().add(ICON);
         primaryStage.setTitle(title);
+        primaryStage.setOnCloseRequest(e -> stop());
         primaryStage.show();
     }
 
