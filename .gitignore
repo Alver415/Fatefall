@@ -23,3 +23,4 @@ database/
 jmse_sets/
 imported/
 **.flattened-pom.xml
+RUNNING_PID

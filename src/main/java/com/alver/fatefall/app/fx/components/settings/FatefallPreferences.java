@@ -14,15 +14,17 @@ import com.dlsc.preferencesfx.formsfx.view.controls.SimpleTextControl;
 import com.dlsc.preferencesfx.model.Category;
 import com.dlsc.preferencesfx.model.Group;
 import com.dlsc.preferencesfx.model.Setting;
+import com.jpro.webapi.WebAPI;
 import javafx.application.Platform;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.effect.BlurType;
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
 import org.pf4j.PluginManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -37,15 +39,18 @@ public class FatefallPreferences {
 	protected ComponentFactory componentFactory;
 	protected AboutView aboutView;
 	protected CardView<?> demoCard;
+	protected FatefallApplication application;
 
 	@Autowired
 	public FatefallPreferences(
+			@Lazy FatefallApplication application,
 			FatefallProperties properties,
 			PluginManager pluginManager,
 			PluginManagerView pluginManagerView,
 			ComponentFactory componentFactory,
 			AboutView aboutView,
 			CardView<?> exampleCard) {
+		this.application = application;
 		this.properties = properties;
 		this.pluginManager = pluginManager;
 		this.pluginManagerView = pluginManagerView;
@@ -67,7 +72,12 @@ public class FatefallPreferences {
 	}
 
 	public void show() {
-		buildPreferencesFX().show();
+		PreferencesFx preferencesFx = buildPreferencesFX();
+		if (WebAPI.isBrowser()) {
+			application.getWebAPI().openStageAsPopup((Stage) preferencesFx.getView().getScene().getWindow());
+		} else {
+			preferencesFx.show();
+		}
 	}
 
 	private static final Image logo = new Image(Objects.requireNonNull(FatefallApplication.class.getResource("icon.png")).toExternalForm());

@@ -1,11 +1,17 @@
 package com.alver.fatefall.app;
 
 import com.alver.fatefall.FatefallLauncher;
+import com.alver.fatefall.api.models.Workspace;
 import com.alver.fatefall.app.fx.components.mainstage.ApplicationView;
+import com.alver.fatefall.app.persistence.repositories.WorkspaceRepository;
+import com.jpro.webapi.JProApplication;
+import com.sun.javafx.application.ParametersImpl;
 import com.sun.javafx.css.StyleManager;
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.css.CssParser;
 import javafx.css.Stylesheet;
 import javafx.scene.Scene;
@@ -16,12 +22,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.support.GenericApplicationContext;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Objects;
 
-public class FatefallApplication extends Application {
+public class FatefallApplication extends JProApplication {
 
     static final String APPLICATION_CSS = Objects.requireNonNull(FatefallApplication.class.getResource("application.css")).toExternalForm();
     static final Image ICON = new Image(Objects.requireNonNull(FatefallApplication.class.getResourceAsStream("icon.png")));
@@ -45,6 +55,11 @@ public class FatefallApplication extends Application {
             ac.registerBean(Parameters.class, this::getParameters);
         };
 
+        if (getParameters() == null) {
+            ParametersImpl.registerParameters(this, new ParametersImpl());
+        } else {
+            System.err.println(getParameters().getRaw());
+        }
         this.context = new SpringApplicationBuilder()
                 .sources(FatefallLauncher.class)
                 .initializers(initializer)

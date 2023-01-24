@@ -39,7 +39,7 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
-                    <outputDirectory>../../.wd/plugins</outputDirectory>
+                    <outputDirectory>../../plugins</outputDirectory>
                     <archive>
                         <manifestEntries>
                             <Plugin-Class>com.other.fatefall.mse.plugin.MSEPlugin</Plugin-Class>

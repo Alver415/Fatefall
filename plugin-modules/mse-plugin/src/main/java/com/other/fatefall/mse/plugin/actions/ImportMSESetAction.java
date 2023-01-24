@@ -6,6 +6,8 @@ import com.alver.fatefall.api.models.Workspace;
 import com.alver.fatefall.api.models.attributes.AttributeFactory;
 import com.alver.fatefall.api.models.attributes.StringAttribute;
 import com.alver.fatefall.app.CardDeserializer;
+import com.alver.fatefall.app.FatefallApplication;
+import com.alver.fatefall.app.services.ApplicationWindowManager;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -14,12 +16,14 @@ import com.other.fatefall.mse.plugin.MSEPlugin;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
+import org.checkerframework.checker.units.qual.A;
 import org.pf4j.Extension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 @Component
@@ -32,6 +36,10 @@ public class ImportMSESetAction implements ActionEventHandler {
     protected AttributeFactory attributeFactory;
     @Autowired
     protected CardDeserializer cardDeserializer;
+    @Autowired
+    protected ApplicationWindowManager windowManager;
+    @Autowired
+    protected FatefallApplication fatefallApplication;
 
     @Override
     public String getName() {
@@ -41,7 +49,10 @@ public class ImportMSESetAction implements ActionEventHandler {
     @Override
     public void handle(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(Path.of("mse_sets").toFile());
+        Path directory = Path.of("mse_sets");
+        ensureDirectoryExists(directory);
+        fileChooser.setInitialDirectory(directory.toFile());
+//        fatefallApplication.getWebAPI().makeFileUploadNode();
         File file = fileChooser.showOpenDialog(null);
         if (!file.getName().endsWith("mse-set")) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -87,6 +98,13 @@ public class ImportMSESetAction implements ActionEventHandler {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Failed to import file: " + file + "\n" + e.getMessage());
             alert.show();
+            throw new RuntimeException(e);
+        }
+    }
+    private static void ensureDirectoryExists(Path directory) {
+        try {
+            Files.createDirectories(directory);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

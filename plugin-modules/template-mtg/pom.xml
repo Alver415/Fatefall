@@ -50,7 +50,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.3.1</version>
                 <configuration>
-                    <outputDirectory>../../.wd/plugins</outputDirectory>
+                    <outputDirectory>../../plugins</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>
