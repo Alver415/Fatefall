@@ -1,11 +1,14 @@
 package com.alver.fatefall.app.fx.components.mainstage;
 
 import com.alver.fatefall.api.interfaces.ActionEventHandler;
-import com.alver.fatefall.api.interfaces.WorkspaceView;
 import com.alver.fatefall.api.interfaces.ComponentFactory;
+import com.alver.fatefall.api.interfaces.WorkspaceView;
+import com.alver.fatefall.api.models.Attribute;
+import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.Workspace;
 import com.alver.fatefall.app.fx.components.FXMLAutoLoad;
 import com.alver.fatefall.app.fx.components.settings.FatefallPreferences;
+import com.alver.fatefall.app.persistence.repositories.WorkspaceRepository;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -16,7 +19,6 @@ import org.pf4j.PluginManager;
 import org.pf4j.PluginWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.alver.fatefall.app.persistence.repositories.WorkspaceRepository;
 
 import java.util.List;
 import java.util.Objects;
@@ -130,6 +132,20 @@ public class ApplicationView extends BorderPane {
         Workspace selectedItem = workspaceListView.getSelectionModel().getSelectedItem();
         workspaceRepository.save(selectedItem);
     }
+
+
+    @FXML
+    private void createCard() {
+        Workspace selectedItem = workspaceListView.getSelectionModel().getSelectedItem();
+        Card card = new Card();
+        Attribute attribute = new Attribute();
+        attribute.setName("attr_1");
+        attribute.setValue("This is an Attribute.");
+        card.addChild(attribute);
+        selectedItem.getCards().add(card);
+    }
+
+
 
     private Callback<ListView<Workspace>, ListCell<Workspace>> workspaceCellFactory = (z) -> {
         ListCell<Workspace> cell = new ListCell<>() {

@@ -2,20 +2,15 @@ package com.alver.fatefall.app.persistence.repositories;
 
 import com.alver.fatefall.api.models.AbstractEntity;
 import com.alver.fatefall.api.models.Attribute;
-import com.alver.fatefall.api.models.attributes.BooleanAttribute;
-import com.alver.fatefall.api.models.attributes.DoubleAttribute;
-import com.alver.fatefall.api.models.attributes.IntegerAttribute;
-import com.alver.fatefall.api.models.attributes.StringAttribute;
 import com.alver.fatefall.app.persistence.models.AbstractRow;
 import com.alver.fatefall.app.persistence.models.AttributeRow;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
-public abstract class AbstractRepository<T extends AbstractEntity, R extends AbstractRow<T>, ID> implements CrudRepository<T, ID> {
+public abstract class AbstractRepository<T extends AbstractEntity, R extends AbstractRow, ID> implements CrudRepository<T, ID> {
 
 	protected CrudRepository<R, ID> wrappedRepository;
 
@@ -25,9 +20,7 @@ public abstract class AbstractRepository<T extends AbstractEntity, R extends Abs
 
 	@Override
 	public <S extends T> S save(S entity) {
-		R row = createRow(entity);
-		R saved = wrappedRepository.save(row);
-		return createEntity(saved);
+		return createEntity(wrappedRepository.save(createRow(entity)));
 	}
 	@Override
 	public <S extends T> Iterable<S> saveAll(Iterable<S> entities) {
@@ -88,7 +81,7 @@ public abstract class AbstractRepository<T extends AbstractEntity, R extends Abs
 	protected <S extends T> R hydrateRow(S entity, R row){
 		row.setId(entity.getId());
 		row.setName(entity.getName());
-		for (Attribute<?> attribute : entity.getAttributes()){
+		for (Attribute attribute : entity.getChildren().values()){
 			row.getAttributes().add(toAttributeRow(attribute));
 		}
 		return row;
@@ -99,7 +92,7 @@ public abstract class AbstractRepository<T extends AbstractEntity, R extends Abs
 		entity.setId(row.getId());
 		entity.setName(row.getName());
 		for (AttributeRow attributeRow : row.getAttributes()){
-			entity.addAttribute(toAttributeEntity(attributeRow));
+			entity.addChild(toAttributeEntity(attributeRow));
 		}
 		return (S) entity;
 	}
@@ -119,45 +112,24 @@ public abstract class AbstractRepository<T extends AbstractEntity, R extends Abs
 		return list;
 	}
 
-	protected <S extends Attribute<?>> AttributeRow toAttributeRow(S entity) {
+	protected <S extends Attribute> AttributeRow toAttributeRow(S entity) {
 		AttributeRow row = new AttributeRow();
 		row.setId(entity.getId());
 		row.setName(entity.getName());
-		row.setType(entity.getClass().getName());
 		row.setValue(String.valueOf(entity.getValue()));
-		for (Attribute<?> attribute : entity.getAttributes()){
+		for (Attribute attribute : entity.getChildren().values()){
 			row.getAttributes().add(toAttributeRow(attribute));
 		}
 		return row;
 	}
 
-	protected <S extends Attribute<?>> S toAttributeEntity(AttributeRow row) {
-		Attribute<?> attribute;
-		String type = row.getType();
-		if (Objects.equals(type, StringAttribute.class.getName())) {
-			StringAttribute stringAttribute = new StringAttribute();
-			stringAttribute.setValue(row.getValue());
-			attribute = stringAttribute;
-		} else if (Objects.equals(type, DoubleAttribute.class.getName())) {
-			DoubleAttribute doubleAttribute = new DoubleAttribute();
-			doubleAttribute.setValue(Double.parseDouble(row.getValue()));
-			attribute = doubleAttribute;
-		} else if (Objects.equals(type, IntegerAttribute.class.getName())) {
-			IntegerAttribute integerAttribute = new IntegerAttribute();
-			integerAttribute.setValue(Integer.parseInt(row.getValue()));
-			attribute = integerAttribute;
-		} else if (Objects.equals(type, BooleanAttribute.class.getName())) {
-			BooleanAttribute booleanAttribute = new BooleanAttribute();
-			booleanAttribute.setValue(Boolean.parseBoolean(row.getValue()));
-			attribute = booleanAttribute;
-		} else {
-			throw new RuntimeException("Unrecognized type: " + type);
-		}
-
+	protected <S extends Attribute> S toAttributeEntity(AttributeRow row) {
+		Attribute attribute = new Attribute();
+		attribute.setValue(row.getValue());
 		attribute.setId(row.getId());
 		attribute.setName(row.getName());
 		for (AttributeRow child : row.getAttributes()){
-			attribute.addAttribute(toAttributeEntity(child));
+			attribute.addChild(toAttributeEntity(child));
 		}
 		return (S) attribute;
 	}

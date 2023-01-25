@@ -2,8 +2,8 @@ package com.alver.fatefall.app;
 
 import com.alver.fatefall.api.models.Attribute;
 import com.alver.fatefall.api.models.Card;
-import com.alver.fatefall.api.models.attributes.*;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -20,8 +20,6 @@ public class CardDeserializer extends StdDeserializer<Card> {
 
     @Autowired
     protected ObjectWriter writer;
-    @Autowired
-    protected AttributeFactory attributeFactory;
 
     public CardDeserializer() {
         this(Card.class);
@@ -39,57 +37,40 @@ public class CardDeserializer extends StdDeserializer<Card> {
 
     public Card buildCard(JsonNode json) {
         Card card = new Card();
+        card.addChild(new Attribute("_raw_", jsonToString(json)));
         for (Iterator<String> it = json.fieldNames(); it.hasNext(); ) {
             String field = it.next();
             JsonNode value = json.get(field);
-            card.addAttribute(buildAttribute(field, value));
+            card.addChild(buildAttribute(field, value));
         }
         return card;
     }
 
-    protected <T> Attribute<T> buildAttribute(String field, JsonNode json) {
-        Class<Attribute<T>> type = convertToAttributeType(json.getNodeType());
-        T value = extractValue(type, json);
-        Attribute<T> attribute = attributeFactory.createAttribute(field, type, value);
-        attribute.setName(field);
+    protected Attribute buildAttribute(String field, JsonNode json) {
+        Attribute attribute = new Attribute(field, json.asText());
 
         if (json.getNodeType().equals(JsonNodeType.OBJECT)) {
             for (Iterator<String> it = json.fieldNames(); it.hasNext(); ) {
                 String childField = it.next();
                 JsonNode childJson = json.get(childField);
-                attribute.addAttribute(buildAttribute(childField, childJson));
+                attribute.addChild(buildAttribute(childField, childJson));
             }
         }
         if (json.getNodeType().equals(JsonNodeType.ARRAY)) {
             int i = 0;
             for (Iterator<JsonNode> it = json.elements(); it.hasNext(); i++) {
                 JsonNode childJson = it.next();
-                attribute.addAttribute(buildAttribute("[%d]".formatted(i), childJson));
+                attribute.addChild(buildAttribute("[%d]".formatted(i), childJson));
             }
         }
         return attribute;
     }
 
-    private <T extends Attribute<V>, V> V extractValue(Class<T> clazz, JsonNode json) {
-        if (StringAttribute.class.equals(clazz)) {
-            return (V) json.asText();
-        } else if (DoubleAttribute.class.equals(clazz)) {
-            return (V) (Double) json.asDouble();
-        } else if (IntegerAttribute.class.equals(clazz)) {
-            return (V) (Integer) json.asInt();
-        } else if (BooleanAttribute.class.equals(clazz)) {
-            return (V) (Boolean) json.asBoolean();
+    private String jsonToString(JsonNode json) {
+        try {
+            return writer.writeValueAsString(json);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
-        System.out.printf("WARNING - Failed to extract json value to class '%s': %s%n", clazz, json);
-        return null;
-    }
-
-    @SuppressWarnings("unchecked")
-    protected <T> Class<T> convertToAttributeType(JsonNodeType nodeType) {
-        return switch (nodeType) {
-            case NUMBER -> (Class<T>) DoubleAttribute.class;
-            case BOOLEAN -> (Class<T>) BooleanAttribute.class;
-            default -> (Class<T>) StringAttribute.class;
-        };
     }
 }

@@ -7,15 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @MappedSuperclass
-public abstract class AbstractRow<T> {
+public abstract class AbstractRow {
 
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
-	private String id;
-	private String name;
+	protected String id;
+
+	protected String name;
+
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private List<AttributeRow> attributes = new ArrayList<>();
+	protected List<AttributeRow> attributes = new ArrayList<>();
 
 	public String getId() {
 		return id;

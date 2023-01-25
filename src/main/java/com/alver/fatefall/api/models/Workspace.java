@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class Workspace extends AbstractEntity {
+public class Workspace extends AbstractEntity{
 
     protected ListProperty<Card> cards = new SimpleListProperty<>(FXCollections.observableArrayList());
     public ObservableList<Card> getCards() {

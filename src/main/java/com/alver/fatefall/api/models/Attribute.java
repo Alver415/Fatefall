@@ -1,71 +1,87 @@
 package com.alver.fatefall.api.models;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.property.Property;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
-public abstract class Attribute<T> extends AbstractEntity implements Property<T>{
+public class Attribute extends AbstractEntity {
 
-    protected abstract Property<T> wrappedProperty();
+    protected StringProperty value = new SimpleStringProperty();
 
-    @Override
-    public Object getBean() {
-        return null;
+    protected DoubleProperty top = new SimpleDoubleProperty(this, "TOP", 0);
+    protected DoubleProperty right = new SimpleDoubleProperty(this, "RIGHT", 0);
+    protected DoubleProperty bottom = new SimpleDoubleProperty(this, "BOTTOM", 0);
+    protected DoubleProperty left = new SimpleDoubleProperty(this, "LEFT", 0);
+
+    public Attribute(){
+    }
+    public Attribute(String name){
+        this.name = name;
+    }
+    public Attribute(String name, String value){
+        this.name = name;
+        this.value.set(value);
     }
 
-    @Override
-    public T getValue() {
-        return wrappedProperty().getValue();
+    public String getValue() {
+        return value.get();
     }
 
-    @Override
-    public void setValue(T value) {
-        wrappedProperty().setValue(value);
+    public StringProperty valueProperty() {
+        return value;
     }
 
-    @Override
-    public void bind(ObservableValue<? extends T> observable) {
-        wrappedProperty().bind(observable);
+    public void setValue(String value) {
+        this.value.set(value);
     }
 
-    @Override
-    public void unbind() {
-        wrappedProperty().unbind();
+    public DoubleProperty topProperty() {
+        return top;
     }
 
-    @Override
-    public boolean isBound() {
-        return wrappedProperty().isBound();
+    public DoubleProperty rightProperty() {
+        return right;
     }
 
-    @Override
-    public void bindBidirectional(Property<T> other) {
-        wrappedProperty().bindBidirectional(other);
+    public DoubleProperty bottomProperty() {
+        return bottom;
     }
 
-    @Override
-    public void unbindBidirectional(Property<T> other) {
-        wrappedProperty().unbindBidirectional(other);
+    public DoubleProperty leftProperty() {
+        return left;
     }
 
-    @Override
-    public void addListener(ChangeListener<? super T> listener) {
-        wrappedProperty().addListener(listener);
+    public Double getTop() {
+        return topProperty().get();
     }
 
-    @Override
-    public void removeListener(ChangeListener<? super T> listener) {
-        wrappedProperty().removeListener(listener);
+    public void setTop(Double top) {
+        topProperty().set(top);
     }
 
-    @Override
-    public void addListener(InvalidationListener listener) {
-        wrappedProperty().addListener(listener);
+    public Double getRight() {
+        return rightProperty().get();
     }
 
-    @Override
-    public void removeListener(InvalidationListener listener) {
-        wrappedProperty().removeListener(listener);
+    public void setRight(Double right) {
+        rightProperty().set(right);
     }
+
+    public Double getBottom() {
+        return bottomProperty().get();
+    }
+
+    public void setBottom(Double bottom) {
+        bottomProperty().set(bottom);
+    }
+
+    public Double getLeft() {
+        return leftProperty().get();
+    }
+
+    public void setLeft(Double left) {
+        leftProperty().set(left);
+    }
+
 }

@@ -19,7 +19,6 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import org.springframework.beans.factory.BeanFactory;
@@ -83,7 +82,7 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
                 CardAttributeTreeTableView view = new CardAttributeTreeTableView();
                 TreeItem<Attribute> root = new TreeItem<>();
                 root.setExpanded(true);
-                for (Attribute<?> childAttribute : card.getAttributes()){
+                for (Attribute childAttribute : card.getChildren().values()){
                     TreeItem<Attribute> childItem = new TreeItem<>(childAttribute);
                     buildTreeItem(childItem);
                     childItem.setExpanded(true);
@@ -163,8 +162,7 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
 
     private void buildTreeItem(TreeItem<Attribute> parentItem) {
         Attribute parentAttribute = parentItem.getValue();
-        ObservableList<Attribute> list = parentAttribute.getAttributes();
-        for (Attribute childAttribute : list){
+        for (Attribute childAttribute : parentAttribute.getChildren().values()){
             TreeItem<Attribute> childItem = new TreeItem<>(childAttribute);
             childItem.setExpanded(true);
             buildTreeItem(childItem);

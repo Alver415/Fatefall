@@ -2,15 +2,16 @@ package com.alver.fatefall.app.plugin.implementations.cardview;
 
 import com.alver.fatefall.api.interfaces.CardView;
 import com.alver.fatefall.api.interfaces.ComponentFactory;
+import com.alver.fatefall.api.models.Attribute;
 import com.alver.fatefall.api.models.Card;
-import com.alver.fatefall.api.models.attributes.StringAttribute;
 import com.alver.fatefall.app.Prototype;
 import com.alver.fatefall.app.editor.components.ImageBlock;
+import com.alver.fatefall.app.editor.components.TextBlock;
 import com.alver.fatefall.app.fx.components.settings.FatefallProperties;
-import com.google.common.cache.Cache;
 import com.google.common.cache.LoadingCache;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -92,16 +93,41 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
 
             getContextMenu().getItems().setAll(componentFactory.buildCardViewContextMenuItems(newCard));
 
-            String frontUrl = newCard.getAttribute("_front_", StringAttribute.class).getValue();
-            String backUrl = newCard.getAttribute("_back_", StringAttribute.class).getValue();
+            Attribute frontUrl = newCard.getChild("_front_");
+            if (frontUrl != null)
+                setupCardFace(getFront(), imageCache.getUnchecked(frontUrl.getValue()));
 
-            setupCardFace(getFront(), imageCache.getUnchecked(frontUrl));
-            setupCardFace(getBack(), imageCache.getUnchecked(backUrl));
+            Attribute backUrl = newCard.getChild("_back_");
+            if (backUrl != null)
+                setupCardFace(getBack(), imageCache.getUnchecked(backUrl.getValue()));
+
+            for (Attribute childAttribute : newCard.getChildren().values()) {
+                if (childAttribute.getName().startsWith("_")) {
+                    Node childNode = buildElements(childAttribute);
+                    getFront().getChildren().add(childNode);
+                }
+            }
         });
 
         properties.getCardViewSkinSelection().addListener((observable, oldValue, newValue) -> {
             setSkin(buildSkin(newValue));
         });
+    }
+
+    private Node buildElements(Attribute attribute) {
+        TextBlock textBlock = new TextBlock();
+        textBlock.textProperty().bindBidirectional(attribute.valueProperty());
+        textBlock.topProperty().bindBidirectional(attribute.topProperty());
+        textBlock.bottomProperty().bindBidirectional(attribute.bottomProperty());
+        textBlock.leftProperty().bindBidirectional(attribute.leftProperty());
+        textBlock.rightProperty().bindBidirectional(attribute.rightProperty());
+
+        for (Attribute childAttribute : attribute.getChildren().values()) {
+            Node childNode = buildElements(childAttribute);
+            textBlock.getChildren().add(childNode);
+        }
+        return textBlock;
+
     }
 
     private void setupCardFace(CardFace cardFace, Image image) {

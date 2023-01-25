@@ -1,10 +1,9 @@
 package com.other.fatefall.mse.plugin.actions;
 
 import com.alver.fatefall.api.interfaces.ActionEventHandler;
+import com.alver.fatefall.api.models.Attribute;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.Workspace;
-import com.alver.fatefall.api.models.attributes.AttributeFactory;
-import com.alver.fatefall.api.models.attributes.StringAttribute;
 import com.alver.fatefall.app.CardDeserializer;
 import com.alver.fatefall.app.services.DialogManager;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -29,8 +28,6 @@ public class ImportMSESetAction implements ActionEventHandler {
 
 	@Autowired
 	protected MSEPlugin plugin;
-	@Autowired
-	protected AttributeFactory attributeFactory;
 	@Autowired
 	protected CardDeserializer cardDeserializer;
 	@Autowired
@@ -78,13 +75,13 @@ public class ImportMSESetAction implements ActionEventHandler {
 				String name_2 = json.findPath("name_2").asText();
 				if (name_2.isEmpty()) {
 					String frontUrl = "file:" + setManager.getImagesPath().resolve(cardImageFileName + ".png");
-					card.addAttribute(attributeFactory.createAttribute("_front_", StringAttribute.class, frontUrl));
-					card.addAttribute(attributeFactory.createAttribute("_back_", StringAttribute.class, SetManager.DEFAULT_CARD_BACK_FACE));
+					card.addChild(new Attribute("_front_", frontUrl));
+					card.addChild(new Attribute("_back_", SetManager.DEFAULT_CARD_BACK_FACE));
 				} else {
 					String frontUrl = "file:" + setManager.getImagesPath().resolve(cardImageFileName + ".card_front.png");
 					String backUrl = "file:" + setManager.getImagesPath().resolve(cardImageFileName + ".card_back.png");
-					card.addAttribute(attributeFactory.createAttribute("_front_", StringAttribute.class, frontUrl));
-					card.addAttribute(attributeFactory.createAttribute("_back_", StringAttribute.class, backUrl));
+					card.addChild(new Attribute("_front_", frontUrl));
+					card.addChild(new Attribute("_back_", backUrl));
 				}
 				workspace.getCards().add(card);
 			});

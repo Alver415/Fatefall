@@ -4,16 +4,6 @@ import javafx.beans.property.*;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
-import javafx.scene.text.Font;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.PathMatcher;
-import java.util.List;
-import java.util.stream.Stream;
 
 import static com.alver.fatefall.app.editor.components.Block.AnchorProperty.Anchor.*;
 
@@ -259,29 +249,4 @@ public class Block<T> extends AnchorPane {
 
     //endregion
 
-    //region Font Loading
-    private static final List<Font> FONTS = loadFonts(Path.of("fonts"));
-
-    private static List<Font> loadFonts(Path basePath) {
-        if (!basePath.toFile().exists()) {
-            return List.of();
-        }
-        PathMatcher fontExtensionMatcher = FileSystems.getDefault().getPathMatcher("glob:**.ttf");
-        try (Stream<Path> walk = Files.walk(basePath)) {
-            return walk.filter(fontExtensionMatcher::matches)
-                    .map(Block::loadFont)
-                    .toList();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static Font loadFont(Path path) {
-        try {
-            return Font.loadFont(path.toUri().toURL().toString(), 12);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    //endregion
 }
