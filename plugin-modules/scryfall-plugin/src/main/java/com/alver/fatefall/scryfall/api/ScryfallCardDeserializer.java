@@ -26,8 +26,8 @@ public class ScryfallCardDeserializer extends CardDeserializer {
             backUrl = defaultCardBackUrl;
         }
 
-        card.addChild(new Attribute("_front_", frontUrl));
-        card.addChild(new Attribute("_back_", backUrl));
+        card.addAttribute(new Attribute("_front_", frontUrl));
+        card.addAttribute(new Attribute("_back_", backUrl));
 
         return card;
     }

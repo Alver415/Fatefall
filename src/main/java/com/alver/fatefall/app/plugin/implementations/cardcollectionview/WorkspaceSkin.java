@@ -12,6 +12,8 @@ import com.google.common.cache.LoadingCache;
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
+import javafx.collections.SetChangeListener;
 import javafx.collections.transformation.FilteredList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -82,7 +84,7 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
                 CardAttributeTreeTableView view = new CardAttributeTreeTableView();
                 TreeItem<Attribute> root = new TreeItem<>();
                 root.setExpanded(true);
-                for (Attribute childAttribute : card.getChildren().values()){
+                for (Attribute childAttribute : card.getAttributes().values()){
                     TreeItem<Attribute> childItem = new TreeItem<>(childAttribute);
                     buildTreeItem(childItem);
                     childItem.setExpanded(true);
@@ -137,10 +139,10 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
 
         control.workspaceProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null) {
-                oldValue.getCards().removeListener(refreshListener);
+                oldValue.getObservableCards().removeListener(refreshListener);
             }
             if (newValue != null) {
-                newValue.getCards().addListener(refreshListener);
+                newValue.getObservableCards().addListener(refreshListener);
             }
         });
         refresh();
@@ -149,7 +151,7 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
     private final ListChangeListener<? super Card> refreshListener = l -> refresh();
 
     private void refresh() {
-        ObservableList<Card> cards = getSkinnable().getWorkspace().getCards();
+        ObservableList<Card> cards = getSkinnable().getWorkspace().getObservableCards();
         FilteredList<Card> filteredList = new FilteredList<>(cards, f -> true);
         filterField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -162,7 +164,7 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
 
     private void buildTreeItem(TreeItem<Attribute> parentItem) {
         Attribute parentAttribute = parentItem.getValue();
-        for (Attribute childAttribute : parentAttribute.getChildren().values()){
+        for (Attribute childAttribute : parentAttribute.getAttributes().values()){
             TreeItem<Attribute> childItem = new TreeItem<>(childAttribute);
             childItem.setExpanded(true);
             buildTreeItem(childItem);

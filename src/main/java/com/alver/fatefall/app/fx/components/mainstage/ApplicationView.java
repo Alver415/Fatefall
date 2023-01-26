@@ -127,12 +127,6 @@ public class ApplicationView extends BorderPane {
         });
     }
 
-    @FXML
-    private void saveSelectedCollection() {
-        Workspace selectedItem = workspaceListView.getSelectionModel().getSelectedItem();
-        workspaceRepository.save(selectedItem);
-    }
-
 
     @FXML
     private void createCard() {
@@ -141,8 +135,12 @@ public class ApplicationView extends BorderPane {
         Attribute attribute = new Attribute();
         attribute.setName("attr_1");
         attribute.setValue("This is an Attribute.");
-        card.addChild(attribute);
-        selectedItem.getCards().add(card);
+        card.addAttribute(attribute);
+        attribute = new Attribute();
+        attribute.setName("attr_2");
+        attribute.setValue("This is another Attribute.");
+        card.addAttribute(attribute);
+        selectedItem.addCard(card);
     }
 
 

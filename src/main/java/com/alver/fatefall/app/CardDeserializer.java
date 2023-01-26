@@ -37,11 +37,11 @@ public class CardDeserializer extends StdDeserializer<Card> {
 
     public Card buildCard(JsonNode json) {
         Card card = new Card();
-        card.addChild(new Attribute("_raw_", jsonToString(json)));
+        card.addAttribute(new Attribute("_raw_", jsonToString(json)));
         for (Iterator<String> it = json.fieldNames(); it.hasNext(); ) {
             String field = it.next();
             JsonNode value = json.get(field);
-            card.addChild(buildAttribute(field, value));
+            card.addAttribute(buildAttribute(field, value));
         }
         return card;
     }
@@ -53,14 +53,14 @@ public class CardDeserializer extends StdDeserializer<Card> {
             for (Iterator<String> it = json.fieldNames(); it.hasNext(); ) {
                 String childField = it.next();
                 JsonNode childJson = json.get(childField);
-                attribute.addChild(buildAttribute(childField, childJson));
+                attribute.addAttribute(buildAttribute(childField, childJson));
             }
         }
         if (json.getNodeType().equals(JsonNodeType.ARRAY)) {
             int i = 0;
             for (Iterator<JsonNode> it = json.elements(); it.hasNext(); i++) {
                 JsonNode childJson = it.next();
-                attribute.addChild(buildAttribute("[%d]".formatted(i), childJson));
+                attribute.addAttribute(buildAttribute("[%d]".formatted(i), childJson));
             }
         }
         return attribute;

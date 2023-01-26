@@ -5,6 +5,7 @@ import com.alver.fatefall.api.interfaces.ComponentFactory;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.Workspace;
 import com.alver.fatefall.app.Prototype;
+import com.alver.fatefall.app.persistence.repositories.CardRepository;
 import com.alver.fatefall.app.plugin.implementations.cardcollectionview.WorkspaceViewImpl;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Menu;
@@ -12,7 +13,6 @@ import javafx.scene.control.MenuItem;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import com.alver.fatefall.app.persistence.repositories.CardRepository;
 
 import java.util.List;
 
@@ -30,9 +30,7 @@ public class ComponentFactoryImpl implements ComponentFactory {
         Menu menu = new Menu("Add to...");
         workspaceList.forEach(c -> {
             MenuItem item = new MenuItem(c.getName());
-            item.setOnAction(a -> {
-                c.getCards().add(card);
-            });
+            item.setOnAction(a -> c.addCard(card));
             menu.getItems().add(item);
         });
         return menu;
@@ -40,9 +38,8 @@ public class ComponentFactoryImpl implements ComponentFactory {
 
     public MenuItem buildDeleteCardMenuItem(Card card) {
         MenuItem item = new MenuItem("Delete");
-        item.setOnAction(a -> workspaceList.stream()
-                .map(Workspace::getCards)
-                .forEach(cards -> cards.remove(card)));
+        item.setOnAction(a -> workspaceList
+                .forEach(w -> w.removeCard(card)));
         return item;
     }
 

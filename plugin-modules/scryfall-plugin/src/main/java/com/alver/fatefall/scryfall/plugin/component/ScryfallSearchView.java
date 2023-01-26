@@ -72,7 +72,7 @@ public class ScryfallSearchView extends BorderPane implements WorkspaceView<Scry
 
         Workspace newCollection = new Workspace();
         List<Card> cards = result.data();
-        newCollection.getCards().addAll(cards);
+        cards.forEach(card -> newCollection.addCard(card));
 
         setWorkspace(newCollection);
     }

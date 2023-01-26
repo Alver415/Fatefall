@@ -8,7 +8,6 @@
         <MenuBar>
             <Menu text="File">
                 <MenuItem text="New Workspace" onAction="#openCreateCollectionDialog"/>
-                <MenuItem text="Save Workspace" onAction="#saveSelectedCollection"/>
                 <SeparatorMenuItem/>
                 <MenuItem text="New Card" onAction="#createCard"/>
             </Menu>

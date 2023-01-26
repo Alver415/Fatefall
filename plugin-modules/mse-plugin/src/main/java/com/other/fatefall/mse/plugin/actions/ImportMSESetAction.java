@@ -75,15 +75,15 @@ public class ImportMSESetAction implements ActionEventHandler {
 				String name_2 = json.findPath("name_2").asText();
 				if (name_2.isEmpty()) {
 					String frontUrl = "file:" + setManager.getImagesPath().resolve(cardImageFileName + ".png");
-					card.addChild(new Attribute("_front_", frontUrl));
-					card.addChild(new Attribute("_back_", SetManager.DEFAULT_CARD_BACK_FACE));
+					card.addAttribute(new Attribute("_front_", frontUrl));
+					card.addAttribute(new Attribute("_back_", SetManager.DEFAULT_CARD_BACK_FACE));
 				} else {
 					String frontUrl = "file:" + setManager.getImagesPath().resolve(cardImageFileName + ".card_front.png");
 					String backUrl = "file:" + setManager.getImagesPath().resolve(cardImageFileName + ".card_back.png");
-					card.addChild(new Attribute("_front_", frontUrl));
-					card.addChild(new Attribute("_back_", backUrl));
+					card.addAttribute(new Attribute("_front_", frontUrl));
+					card.addAttribute(new Attribute("_back_", backUrl));
 				}
-				workspace.getCards().add(card);
+				workspace.addCard(card);
 			});
 			plugin.createWorkspace(workspace);
 		} catch (IOException e) {

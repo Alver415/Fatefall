@@ -1,11 +1,17 @@
 package com.alver.fatefall.api.models;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
+import jakarta.persistence.Table;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Attribute extends AbstractEntity {
+@Entity
+@Table(name = "attribute")
+public class Attribute extends BaseEntity {
 
     protected StringProperty value = new SimpleStringProperty();
 
@@ -17,13 +23,14 @@ public class Attribute extends AbstractEntity {
     public Attribute(){
     }
     public Attribute(String name){
-        this.name = name;
+        setName(name);
     }
     public Attribute(String name, String value){
-        this.name = name;
-        this.value.set(value);
+        setName(name);
+        setValue(value);
     }
 
+    @Lob
     public String getValue() {
         return value.get();
     }
@@ -52,6 +59,7 @@ public class Attribute extends AbstractEntity {
         return left;
     }
 
+    @Column(name = "anchor_top")
     public Double getTop() {
         return topProperty().get();
     }
@@ -60,6 +68,7 @@ public class Attribute extends AbstractEntity {
         topProperty().set(top);
     }
 
+    @Column(name = "anchor_right")
     public Double getRight() {
         return rightProperty().get();
     }
@@ -68,6 +77,7 @@ public class Attribute extends AbstractEntity {
         rightProperty().set(right);
     }
 
+    @Column(name = "anchor_bottom")
     public Double getBottom() {
         return bottomProperty().get();
     }
@@ -76,6 +86,7 @@ public class Attribute extends AbstractEntity {
         bottomProperty().set(bottom);
     }
 
+    @Column(name = "anchor_left")
     public Double getLeft() {
         return leftProperty().get();
     }

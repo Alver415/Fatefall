@@ -1,5 +1,10 @@
 package com.alver.fatefall.api.models;
 
-public class Card extends AbstractEntity{
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "card")
+public class Card extends BaseEntity {
 
 }

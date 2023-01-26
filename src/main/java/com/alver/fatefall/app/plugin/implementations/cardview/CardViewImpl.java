@@ -93,15 +93,15 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
 
             getContextMenu().getItems().setAll(componentFactory.buildCardViewContextMenuItems(newCard));
 
-            Attribute frontUrl = newCard.getChild("_front_");
+            Attribute frontUrl = newCard.getAttribute("_front_");
             if (frontUrl != null)
                 setupCardFace(getFront(), imageCache.getUnchecked(frontUrl.getValue()));
 
-            Attribute backUrl = newCard.getChild("_back_");
+            Attribute backUrl = newCard.getAttribute("_back_");
             if (backUrl != null)
                 setupCardFace(getBack(), imageCache.getUnchecked(backUrl.getValue()));
 
-            for (Attribute childAttribute : newCard.getChildren().values()) {
+            for (Attribute childAttribute : newCard.getAttributes().values()) {
                 if (childAttribute.getName().startsWith("_")) {
                     Node childNode = buildElements(childAttribute);
                     getFront().getChildren().add(childNode);
@@ -122,7 +122,7 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
         textBlock.leftProperty().bindBidirectional(attribute.leftProperty());
         textBlock.rightProperty().bindBidirectional(attribute.rightProperty());
 
-        for (Attribute childAttribute : attribute.getChildren().values()) {
+        for (Attribute childAttribute : attribute.getAttributes().values()) {
             Node childNode = buildElements(childAttribute);
             textBlock.getChildren().add(childNode);
         }
