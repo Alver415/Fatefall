@@ -1,14 +1,9 @@
 package com.alver.fatefall.api.models;
 
 import jakarta.persistence.*;
-import javafx.beans.property.MapProperty;
-import javafx.beans.property.SimpleMapProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableMap;
 import org.hibernate.annotations.GenericGenerator;
-import org.w3c.dom.Attr;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +13,7 @@ public abstract class BaseEntity {
 
     protected String id;
     protected StringProperty name = new SimpleStringProperty();
-    protected Map<String, Attribute> attributes = new HashMap<>();
+    protected Map<String, Element> attributes = new HashMap<>();
 
     @Id
     @GeneratedValue(generator = "uuid")
@@ -42,19 +37,19 @@ public abstract class BaseEntity {
         return name;
     }
 
-    public void addAttribute(Attribute attribute) {
+    public void addAttribute(Element attribute) {
         attributes.put(attribute.getName(), attribute);
     }
 
-    public Attribute getAttribute(String name) {
+    public Element getAttribute(String name) {
         return attributes.get(name);
     }
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    public Map<String, Attribute> getAttributes() {
+    public Map<String, Element> getAttributes() {
         return attributes;
     }
-    public void setAttributes(Map<String, Attribute> attributes) {
+    public void setAttributes(Map<String, Element> attributes) {
         this.attributes = attributes;
     }
 

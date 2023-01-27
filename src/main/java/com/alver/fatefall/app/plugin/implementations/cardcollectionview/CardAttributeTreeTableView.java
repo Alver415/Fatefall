@@ -1,6 +1,6 @@
 package com.alver.fatefall.app.plugin.implementations.cardcollectionview;
 
-import com.alver.fatefall.api.models.Attribute;
+import com.alver.fatefall.api.models.Element;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.TreeTableCell;
@@ -8,16 +8,16 @@ import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 
-public class CardAttributeTreeTableView extends TreeTableView<Attribute> {
+public class CardAttributeTreeTableView extends TreeTableView<Element> {
 
 
     public CardAttributeTreeTableView() {
         setShowRoot(false);
-        TreeTableColumn<Attribute, String> fieldColumn = new TreeTableColumn<>("Name");
+        TreeTableColumn<Element, String> fieldColumn = new TreeTableColumn<>("Name");
         fieldColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
         getColumns().add(fieldColumn);
 
-        TreeTableColumn<Attribute, Object> valueColumn = new TreeTableColumn<>("Value");
+        TreeTableColumn<Element, Object> valueColumn = new TreeTableColumn<>("Value");
         valueColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("value"));
         valueColumn.setCellFactory(param -> new AttributeValueCell());
         getColumns().add(valueColumn);
@@ -28,7 +28,7 @@ public class CardAttributeTreeTableView extends TreeTableView<Attribute> {
         setPadding(Insets.EMPTY);
     }
 
-    private static class AttributeValueCell extends TreeTableCell<Attribute, Object> {
+    private static class AttributeValueCell extends TreeTableCell<Element, Object> {
 
         {
             setBorder(null);
@@ -42,13 +42,13 @@ public class CardAttributeTreeTableView extends TreeTableView<Attribute> {
                 setText(null);
                 setGraphic(null);
             } else {
-                Attribute attribute = getTableRow().getTreeItem().getValue();
+                Element attribute = getTableRow().getTreeItem().getValue();
                 Node valueEditor = buildEditor(attribute);
                 setGraphic(valueEditor);
             }
         }
 
-        private static Node buildEditor(Attribute attribute) {
+        private static Node buildEditor(Element attribute) {
             AttributeControl attributeControl = new AttributeControl();
             attributeControl.attributeProperty.set(attribute);
             return attributeControl;

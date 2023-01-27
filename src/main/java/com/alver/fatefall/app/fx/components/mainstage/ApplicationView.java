@@ -3,7 +3,7 @@ package com.alver.fatefall.app.fx.components.mainstage;
 import com.alver.fatefall.api.interfaces.ActionEventHandler;
 import com.alver.fatefall.api.interfaces.ComponentFactory;
 import com.alver.fatefall.api.interfaces.WorkspaceView;
-import com.alver.fatefall.api.models.Attribute;
+import com.alver.fatefall.api.models.Element;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.api.models.Workspace;
 import com.alver.fatefall.app.fx.components.FXMLAutoLoad;
@@ -132,11 +132,11 @@ public class ApplicationView extends BorderPane {
     private void createCard() {
         Workspace selectedItem = workspaceListView.getSelectionModel().getSelectedItem();
         Card card = new Card();
-        Attribute attribute = new Attribute();
+        Element attribute = new Element();
         attribute.setName("attr_1");
         attribute.setValue("This is an Attribute.");
         card.addAttribute(attribute);
-        attribute = new Attribute();
+        attribute = new Element();
         attribute.setName("attr_2");
         attribute.setValue("This is another Attribute.");
         card.addAttribute(attribute);

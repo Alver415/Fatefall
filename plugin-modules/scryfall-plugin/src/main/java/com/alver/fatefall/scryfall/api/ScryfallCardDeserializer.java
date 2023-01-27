@@ -1,6 +1,6 @@
 package com.alver.fatefall.scryfall.api;
 
-import com.alver.fatefall.api.models.Attribute;
+import com.alver.fatefall.api.models.Element;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.app.CardDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -26,8 +26,8 @@ public class ScryfallCardDeserializer extends CardDeserializer {
             backUrl = defaultCardBackUrl;
         }
 
-        card.addAttribute(new Attribute("_front_", frontUrl));
-        card.addAttribute(new Attribute("_back_", backUrl));
+        card.addAttribute(new Element("_front_", frontUrl));
+        card.addAttribute(new Element("_back_", backUrl));
 
         return card;
     }

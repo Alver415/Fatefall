@@ -2,7 +2,7 @@ package com.alver.fatefall.app.plugin.implementations.cardview;
 
 import com.alver.fatefall.api.interfaces.CardView;
 import com.alver.fatefall.api.interfaces.ComponentFactory;
-import com.alver.fatefall.api.models.Attribute;
+import com.alver.fatefall.api.models.Element;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.app.Prototype;
 import com.alver.fatefall.app.editor.components.ImageBlock;
@@ -93,15 +93,15 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
 
             getContextMenu().getItems().setAll(componentFactory.buildCardViewContextMenuItems(newCard));
 
-            Attribute frontUrl = newCard.getAttribute("_front_");
+            Element frontUrl = newCard.getAttribute("_front_");
             if (frontUrl != null)
                 setupCardFace(getFront(), imageCache.getUnchecked(frontUrl.getValue()));
 
-            Attribute backUrl = newCard.getAttribute("_back_");
+            Element backUrl = newCard.getAttribute("_back_");
             if (backUrl != null)
                 setupCardFace(getBack(), imageCache.getUnchecked(backUrl.getValue()));
 
-            for (Attribute childAttribute : newCard.getAttributes().values()) {
+            for (Element childAttribute : newCard.getAttributes().values()) {
                 if (childAttribute.getName().startsWith("_")) {
                     Node childNode = buildElements(childAttribute);
                     getFront().getChildren().add(childNode);
@@ -114,7 +114,7 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
         });
     }
 
-    private Node buildElements(Attribute attribute) {
+    private Node buildElements(Element attribute) {
         TextBlock textBlock = new TextBlock();
         textBlock.textProperty().bindBidirectional(attribute.valueProperty());
         textBlock.topProperty().bindBidirectional(attribute.topProperty());
@@ -122,7 +122,7 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
         textBlock.leftProperty().bindBidirectional(attribute.leftProperty());
         textBlock.rightProperty().bindBidirectional(attribute.rightProperty());
 
-        for (Attribute childAttribute : attribute.getAttributes().values()) {
+        for (Element childAttribute : attribute.getAttributes().values()) {
             Node childNode = buildElements(childAttribute);
             textBlock.getChildren().add(childNode);
         }

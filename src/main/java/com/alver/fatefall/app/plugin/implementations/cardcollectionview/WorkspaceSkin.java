@@ -1,7 +1,7 @@
 package com.alver.fatefall.app.plugin.implementations.cardcollectionview;
 
 import com.alver.fatefall.api.interfaces.CardView;
-import com.alver.fatefall.api.models.Attribute;
+import com.alver.fatefall.api.models.Element;
 import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.app.Prototype;
 import com.alver.fatefall.app.fx.components.settings.FatefallProperties;
@@ -12,8 +12,6 @@ import com.google.common.cache.LoadingCache;
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
-import javafx.collections.SetChangeListener;
 import javafx.collections.transformation.FilteredList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -82,10 +80,10 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
         LoadingCache<Card, ScrollPane> cache = CacheBuilder.newBuilder().build(new CacheLoader<>() {
             public ScrollPane load(Card card) { // no checked exception
                 CardAttributeTreeTableView view = new CardAttributeTreeTableView();
-                TreeItem<Attribute> root = new TreeItem<>();
+                TreeItem<Element> root = new TreeItem<>();
                 root.setExpanded(true);
-                for (Attribute childAttribute : card.getAttributes().values()){
-                    TreeItem<Attribute> childItem = new TreeItem<>(childAttribute);
+                for (Element childAttribute : card.getAttributes().values()){
+                    TreeItem<Element> childItem = new TreeItem<>(childAttribute);
                     buildTreeItem(childItem);
                     childItem.setExpanded(true);
                     root.getChildren().add(childItem);
@@ -162,10 +160,10 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
         tableView.setItems(filteredList);
     }
 
-    private void buildTreeItem(TreeItem<Attribute> parentItem) {
-        Attribute parentAttribute = parentItem.getValue();
-        for (Attribute childAttribute : parentAttribute.getAttributes().values()){
-            TreeItem<Attribute> childItem = new TreeItem<>(childAttribute);
+    private void buildTreeItem(TreeItem<Element> parentItem) {
+        Element parentAttribute = parentItem.getValue();
+        for (Element childAttribute : parentAttribute.getAttributes().values()){
+            TreeItem<Element> childItem = new TreeItem<>(childAttribute);
             childItem.setExpanded(true);
             buildTreeItem(childItem);
             parentItem.getChildren().add(childItem);

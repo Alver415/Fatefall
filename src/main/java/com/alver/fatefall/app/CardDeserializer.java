@@ -1,6 +1,6 @@
 package com.alver.fatefall.app;
 
-import com.alver.fatefall.api.models.Attribute;
+import com.alver.fatefall.api.models.Element;
 import com.alver.fatefall.api.models.Card;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -37,7 +37,7 @@ public class CardDeserializer extends StdDeserializer<Card> {
 
     public Card buildCard(JsonNode json) {
         Card card = new Card();
-        card.addAttribute(new Attribute("_raw_", jsonToString(json)));
+        card.addAttribute(new Element("_raw_", jsonToString(json)));
         for (Iterator<String> it = json.fieldNames(); it.hasNext(); ) {
             String field = it.next();
             JsonNode value = json.get(field);
@@ -46,8 +46,8 @@ public class CardDeserializer extends StdDeserializer<Card> {
         return card;
     }
 
-    protected Attribute buildAttribute(String field, JsonNode json) {
-        Attribute attribute = new Attribute(field, json.asText());
+    protected Element buildAttribute(String field, JsonNode json) {
+        Element attribute = new Element(field, json.asText());
 
         if (json.getNodeType().equals(JsonNodeType.OBJECT)) {
             for (Iterator<String> it = json.fieldNames(); it.hasNext(); ) {
