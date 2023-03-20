@@ -63,7 +63,7 @@ public class ScryfallComponentFactory extends ComponentFactoryImpl {
     }
 
     private static String getUrl(Card card) {
-        return card.getAttribute("scryfall_url").getValue();
+        return card.getElement("scryfall_url").getValue();
     }
 
 

@@ -31,6 +31,7 @@ public class Element extends BaseEntity {
     }
 
     @Lob
+    @Column
     public String getValue() {
         return value.get();
     }

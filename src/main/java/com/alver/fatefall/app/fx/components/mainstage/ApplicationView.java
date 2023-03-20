@@ -135,11 +135,11 @@ public class ApplicationView extends BorderPane {
         Element attribute = new Element();
         attribute.setName("attr_1");
         attribute.setValue("This is an Attribute.");
-        card.addAttribute(attribute);
+        card.addElement(attribute);
         attribute = new Element();
         attribute.setName("attr_2");
         attribute.setValue("This is another Attribute.");
-        card.addAttribute(attribute);
+        card.addElement(attribute);
         selectedItem.addCard(card);
     }
 
