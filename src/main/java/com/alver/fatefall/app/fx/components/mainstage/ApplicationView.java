@@ -57,9 +57,7 @@ public class ApplicationView extends BorderPane {
         List<Menu> menuList = pluginManager.getPlugins().stream().map(this::buildMenu).toList();
         pluginMenu.getItems().setAll(menuList);
         MenuItem testItem = new MenuItem("Test");
-        testItem.setOnAction(a -> {
-            workspaceRepository.findAll().forEach(workspaceList::add);
-        });
+        testItem.setOnAction(a -> workspaceRepository.findAll().forEach(workspaceList::add));
         pluginMenu.getItems().add(testItem);
     }
 

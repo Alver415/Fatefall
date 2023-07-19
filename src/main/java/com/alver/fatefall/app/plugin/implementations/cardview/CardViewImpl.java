@@ -42,18 +42,21 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
 	 */
 	protected ObjectProperty<Card> cardProperty = new SimpleObjectProperty<>();
 
+	@Override
 	public ObjectProperty<Card> cardProperty() {
 		return cardProperty;
 	}
 
 	protected ObjectProperty<CardFace> frontProperty = new SimpleObjectProperty<>();
 
+	@Override
 	public ObjectProperty<CardFace> frontProperty() {
 		return frontProperty;
 	}
 
 	protected ObjectProperty<CardFace> backProperty = new SimpleObjectProperty<>();
 
+	@Override
 	public ObjectProperty<CardFace> backProperty() {
 		return backProperty;
 	}
@@ -98,42 +101,38 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
 
 			buildCardFace(newCard);
 
-//			getContextMenu().getItems().setAll(componentFactory.buildCardViewContextMenuItems(newCard));
-//
-//			Element frontUrl = newCard.getAttribute("_front_");
-//			if (frontUrl != null)
-//				setupCardFace(getFront(), imageCache.getUnchecked(frontUrl.getValue()));
-//
-//			Element backUrl = newCard.getAttribute("_back_");
-//			if (backUrl != null)
-//				setupCardFace(getBack(), imageCache.getUnchecked(backUrl.getValue()));
-//
-//			for (Element childAttribute : newCard.getAttributes().values()) {
-//				if (childAttribute.getName().startsWith("_")) {
-//					Node childNode = buildElements(childAttribute);
-//					getFront().getChildren().add(childNode);
-//				}
-//			}
+			getContextMenu().getItems().setAll(componentFactory.buildCardViewContextMenuItems(newCard));
+
+			Element frontUrl = newCard.getElement("_front_");
+			if (frontUrl != null)
+				setupCardFace(getFront(), imageCache.getUnchecked(frontUrl.getValue()));
+
+			Element backUrl = newCard.getElement("_back_");
+			if (backUrl != null)
+				setupCardFace(getBack(), imageCache.getUnchecked(backUrl.getValue()));
+
+			for (Element childAttribute : newCard.getElements().values()) {
+				if (childAttribute.getName().startsWith("_")) {
+					Node childNode = buildElements(childAttribute);
+					getFront().getChildren().add(childNode);
+				}
+			}
 		});
 
 		properties.getCardViewSkinSelection().addListener((observable, oldValue, newValue) -> {
 			setSkin(buildSkin(newValue));
 		});
 	}
+
 	private void buildCardFace(Card card) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			String fxml = card.getFxml();
-			Node root = loader.load(new ByteArrayInputStream(fxml.getBytes()));
+			if (fxml != null) {
+				Node root = loader.load(new ByteArrayInputStream(fxml.getBytes()));
+				getFront().getChildren().setAll(root);
+			}
 
-			card.getElement()
-
-			traverse(root, (node) -> {
-				if (node.getId())
-
-			});
-
-			getFront().getChildren().setAll(root);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -157,7 +156,7 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
 		textBlock.leftProperty().bindBidirectional(attribute.leftProperty());
 		textBlock.rightProperty().bindBidirectional(attribute.rightProperty());
 
-		for (Element childAttribute : attribute.getElement().values()) {
+		for (Element childAttribute : attribute.getElements().values()) {
 			Node childNode = buildElements(childAttribute);
 			textBlock.getChildren().add(childNode);
 		}

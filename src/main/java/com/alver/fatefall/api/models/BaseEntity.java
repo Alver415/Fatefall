@@ -59,7 +59,7 @@ public abstract class BaseEntity {
 	}
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	public Map<String, Element> getElement() {
+	public Map<String, Element> getElements() {
 		return elements;
 	}
 

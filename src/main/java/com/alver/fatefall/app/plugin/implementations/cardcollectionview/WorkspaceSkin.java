@@ -82,7 +82,7 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
                 CardAttributeTreeTableView view = new CardAttributeTreeTableView();
                 TreeItem<Element> root = new TreeItem<>();
                 root.setExpanded(true);
-                for (Element childAttribute : card.getElement().values()){
+                for (Element childAttribute : card.getElements().values()){
                     TreeItem<Element> childItem = new TreeItem<>(childAttribute);
                     buildTreeItem(childItem);
                     childItem.setExpanded(true);
@@ -162,7 +162,7 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
 
     private void buildTreeItem(TreeItem<Element> parentItem) {
         Element parentAttribute = parentItem.getValue();
-        for (Element childAttribute : parentAttribute.getElement().values()){
+        for (Element childAttribute : parentAttribute.getElements().values()){
             TreeItem<Element> childItem = new TreeItem<>(childAttribute);
             childItem.setExpanded(true);
             buildTreeItem(childItem);

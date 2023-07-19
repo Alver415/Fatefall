@@ -5,11 +5,10 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.net.URI;
+
 @Component
 public class CardApi extends AbstractApi {
-
-    @Autowired
-    protected ScryfallCardDeserializer cardDeserializer;
 
     @Autowired
     protected CardApi(WebClient client) {
@@ -18,9 +17,12 @@ public class CardApi extends AbstractApi {
 
     public CardApiResult search(String query) {
         return client.get()
-                .uri(uriBuilder -> uriBuilder.path("cards/search")
-                        .queryParam("q", query)
-                        .build()
+                .uri(uriBuilder -> {
+                    URI var = uriBuilder.path("cards/search")
+                            .queryParam("q", query)
+                            .build();
+                    return var;
+                        }
                 )
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
