@@ -19,7 +19,7 @@
 .settings/
 .idea/
 target/
-database/
+/database/
 jmse_sets/
 imported/
 **.flattened-pom.xml
