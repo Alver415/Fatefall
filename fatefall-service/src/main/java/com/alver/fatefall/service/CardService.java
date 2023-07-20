@@ -4,11 +4,13 @@ import com.alver.fatefall.data.repository.CardRepository;
 import com.alver.fatefall.data.entity.Card;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class CardService {
 
 	private final CardRepository cardRepository;

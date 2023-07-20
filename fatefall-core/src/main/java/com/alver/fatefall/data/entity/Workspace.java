@@ -1,13 +1,12 @@
 package com.alver.fatefall.data.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Workspace extends Entity {
 
 	private String name;
 
-	protected List<Card> cards = new ArrayList<>();
+	protected Set<Card> cards = new HashSet<>();
 
 	public String getName() {
 		return name;
@@ -16,11 +15,23 @@ public class Workspace extends Entity {
 		this.name = name;
 	}
 
-	public List<Card> getCards() {
+	public Set<Card> getCards() {
 		return cards;
 	}
-	public void setCards(List<Card> cards) {
+	private void setCards(Set<Card> cards) {
 		this.cards = cards;
+	}
+	public void addCards(Card... cards){
+		addCards(List.of(cards));
+	}
+	public void addCards(Collection<Card> cards){
+		this.cards.addAll(cards);
+	}
+	public void removeCards(Card... cards){
+		removeCards(List.of(cards));
+	}
+	public void removeCards(Collection<Card> cards){
+		this.cards.removeAll(cards);
 	}
 
 }
