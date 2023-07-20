@@ -1,13 +1,13 @@
 package com.alver.fatefall.app.plugin.implementations.cardview;
 
-import com.alver.fatefall.api.interfaces.CardView;
-import com.alver.fatefall.api.interfaces.ComponentFactory;
-import com.alver.fatefall.api.models.Element;
-import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.app.Prototype;
+import com.alver.fatefall.app.editor.components.CardView;
 import com.alver.fatefall.app.editor.components.ImageBlock;
 import com.alver.fatefall.app.editor.components.TextBlock;
 import com.alver.fatefall.app.fx.components.settings.FatefallProperties;
+import com.alver.fatefall.app.services.ComponentFactory;
+import com.alver.fatefall.data.entity.Card;
+import com.alver.fatefall.data.entity.Field;
 import com.google.common.cache.LoadingCache;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -103,15 +103,15 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
 
 			getContextMenu().getItems().setAll(componentFactory.buildCardViewContextMenuItems(newCard));
 
-			Element frontUrl = newCard.getElement("_front_");
+			Field frontUrl = newCard.getFields().get("_front_");
 			if (frontUrl != null)
 				setupCardFace(getFront(), imageCache.getUnchecked(frontUrl.getValue()));
 
-			Element backUrl = newCard.getElement("_back_");
+			Field backUrl = newCard.getFields().get("_back_");
 			if (backUrl != null)
 				setupCardFace(getBack(), imageCache.getUnchecked(backUrl.getValue()));
 
-			for (Element childAttribute : newCard.getElements().values()) {
+			for (Field childAttribute : newCard.getFields().values()) {
 				if (childAttribute.getName().startsWith("_")) {
 					Node childNode = buildElements(childAttribute);
 					getFront().getChildren().add(childNode);
@@ -127,7 +127,7 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
 	private void buildCardFace(Card card) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			String fxml = card.getFxml();
+			String fxml = null;//card.getFxml();
 			if (fxml != null) {
 				Node root = loader.load(new ByteArrayInputStream(fxml.getBytes()));
 				getFront().getChildren().setAll(root);
@@ -148,15 +148,15 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
 
 	}
 
-	private Node buildElements(Element attribute) {
+	private Node buildElements(Field attribute) {
 		TextBlock textBlock = new TextBlock();
-		textBlock.textProperty().bindBidirectional(attribute.valueProperty());
-		textBlock.topProperty().bindBidirectional(attribute.topProperty());
-		textBlock.bottomProperty().bindBidirectional(attribute.bottomProperty());
-		textBlock.leftProperty().bindBidirectional(attribute.leftProperty());
-		textBlock.rightProperty().bindBidirectional(attribute.rightProperty());
+//		textBlock.textProperty().bindBidirectional(attribute.valueProperty());
+//		textBlock.topProperty().bindBidirectional(attribute.topProperty());
+//		textBlock.bottomProperty().bindBidirectional(attribute.bottomProperty());
+//		textBlock.leftProperty().bindBidirectional(attribute.leftProperty());
+//		textBlock.rightProperty().bindBidirectional(attribute.rightProperty());
 
-		for (Element childAttribute : attribute.getElements().values()) {
+		for (Field childAttribute : attribute.getFields().values()) {
 			Node childNode = buildElements(childAttribute);
 			textBlock.getChildren().add(childNode);
 		}

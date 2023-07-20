@@ -1,0 +1,55 @@
+@@ -1,54 +0,0 @@
+
+.tree-table-view .scroll-bar{
+    -fx-background-color: transparent;
+}
+
+.tree-table-view{
+    -fx-border-width: 0;
+}
+
+CardFace {
+    -fx-background-color: rgba(0,0,0,0.3);
+    -fx-border-color: rgba(0,0,0,0.7);
+    -fx-border-width: 10px;
+}
+
+CardFace * {
+  -fx-text-fill: black;
+  -fx-highlight-fill: transparent;
+  -fx-display-caret: false;
+}
+
+CardFace .outlined * {
+  -fx-display-caret: true;
+}
+
+CardFace .outlined *.block {
+    -fx-background-color: transparent;
+
+    -fx-border-color: rgba(0,0,0,0.2), rgba(255,255,255,0.2);
+    -fx-border-style: segments(2, 2), segments(2, 2) phase 2;
+    -fx-border-width: 2, 2;
+    -fx-border-insets: -2, -2;
+}
+
+CardFace .outlined *.block:hover {
+    -fx-background-color: rgba(230,200,255,0.2);
+    -fx-border-color: rgba(0,0,0,0.5), rgba(255,255,255,0.5);
+}
+
+CardFace .text-area {
+    -fx-background-color: transparent;
+}
+
+CardFace .text-area .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+CardFace .text-area .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+CardFace .text-area .scroll-pane .content{
+    -fx-background-color: transparent;
+}

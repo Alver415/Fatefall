@@ -1,10 +1,5 @@
 package com.alver.fatefall.data.entity;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 public class Card extends Entity {
 
 	private String name;

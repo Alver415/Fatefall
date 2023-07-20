@@ -1,7 +1,7 @@
 package com.alver.fatefall.app.fx.components.plugins;
 
-import com.alver.fatefall.api.FatefallPluginManager;
 import com.alver.fatefall.app.fx.components.FXMLAutoLoad;
+import com.alver.fatefall.app.services.FatefallPluginManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;

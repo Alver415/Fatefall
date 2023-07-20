@@ -41,18 +41,18 @@ public class AttributeSkinImpl extends SkinBase<AttributeControl> {
 
         control.attributeProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null) {
-                this.valueField.textProperty().unbindBidirectional(oldValue.valueProperty());
-                this.topField.valueProperty().unbindBidirectional(oldValue.topProperty());
-                this.rightField.valueProperty().unbindBidirectional(oldValue.rightProperty());
-                this.bottomField.valueProperty().unbindBidirectional(oldValue.bottomProperty());
-                this.leftField.valueProperty().unbindBidirectional(oldValue.leftProperty());
+//                this.valueField.textProperty().unbindBidirectional(oldValue.valueProperty());
+//                this.topField.valueProperty().unbindBidirectional(oldValue.topProperty());
+//                this.rightField.valueProperty().unbindBidirectional(oldValue.rightProperty());
+//                this.bottomField.valueProperty().unbindBidirectional(oldValue.bottomProperty());
+//                this.leftField.valueProperty().unbindBidirectional(oldValue.leftProperty());
             }
             if (newValue != null) {
-                this.valueField.textProperty().bindBidirectional(newValue.valueProperty());
-                this.topField.valueProperty().bindBidirectional(newValue.topProperty());
-                this.rightField.valueProperty().bindBidirectional(newValue.rightProperty());
-                this.bottomField.valueProperty().bindBidirectional(newValue.bottomProperty());
-                this.leftField.valueProperty().bindBidirectional(newValue.leftProperty());
+//                this.valueField.textProperty().bindBidirectional(newValue.valueProperty());
+//                this.topField.valueProperty().bindBidirectional(newValue.topProperty());
+//                this.rightField.valueProperty().bindBidirectional(newValue.rightProperty());
+//                this.bottomField.valueProperty().bindBidirectional(newValue.bottomProperty());
+//                this.leftField.valueProperty().bindBidirectional(newValue.leftProperty());
             }
         });
 

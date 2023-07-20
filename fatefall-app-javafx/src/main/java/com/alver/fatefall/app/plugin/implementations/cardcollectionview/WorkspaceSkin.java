@@ -1,15 +1,16 @@
 package com.alver.fatefall.app.plugin.implementations.cardcollectionview;
 
-import com.alver.fatefall.api.interfaces.CardView;
-import com.alver.fatefall.api.models.Element;
-import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.app.Prototype;
+import com.alver.fatefall.app.editor.components.CardView;
 import com.alver.fatefall.app.fx.components.settings.FatefallProperties;
 import com.alver.fatefall.app.plugin.implementations.cardview.CardViewImpl;
+import com.alver.fatefall.data.entity.Card;
+import com.alver.fatefall.data.entity.Field;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import javafx.beans.binding.DoubleBinding;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -80,10 +81,10 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
         LoadingCache<Card, ScrollPane> cache = CacheBuilder.newBuilder().build(new CacheLoader<>() {
             public ScrollPane load(Card card) { // no checked exception
                 CardAttributeTreeTableView view = new CardAttributeTreeTableView();
-                TreeItem<Element> root = new TreeItem<>();
+                TreeItem<Field> root = new TreeItem<>();
                 root.setExpanded(true);
-                for (Element childAttribute : card.getElements().values()){
-                    TreeItem<Element> childItem = new TreeItem<>(childAttribute);
+                for (Field childAttribute : card.getFields().values()){
+                    TreeItem<Field> childItem = new TreeItem<>(childAttribute);
                     buildTreeItem(childItem);
                     childItem.setExpanded(true);
                     root.getChildren().add(childItem);
@@ -137,10 +138,10 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
 
         control.workspaceProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null) {
-                oldValue.getObservableCards().removeListener(refreshListener);
+//                oldValue.getObservableCards().removeListener(refreshListener);
             }
             if (newValue != null) {
-                newValue.getObservableCards().addListener(refreshListener);
+//                newValue.getObservableCards().addListener(refreshListener);
             }
         });
         refresh();
@@ -149,7 +150,7 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
     private final ListChangeListener<? super Card> refreshListener = l -> refresh();
 
     private void refresh() {
-        ObservableList<Card> cards = getSkinnable().getWorkspace().getObservableCards();
+        ObservableList<Card> cards = FXCollections.observableList(getSkinnable().getWorkspace().getCards().stream().toList());
         FilteredList<Card> filteredList = new FilteredList<>(cards, f -> true);
         filterField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -160,10 +161,10 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
         tableView.setItems(filteredList);
     }
 
-    private void buildTreeItem(TreeItem<Element> parentItem) {
-        Element parentAttribute = parentItem.getValue();
-        for (Element childAttribute : parentAttribute.getElements().values()){
-            TreeItem<Element> childItem = new TreeItem<>(childAttribute);
+    private void buildTreeItem(TreeItem<Field> parentItem) {
+        Field parentAttribute = parentItem.getValue();
+        for (Field childAttribute : parentAttribute.getFields().values()){
+            TreeItem<Field> childItem = new TreeItem<>(childAttribute);
             childItem.setExpanded(true);
             buildTreeItem(childItem);
             parentItem.getChildren().add(childItem);

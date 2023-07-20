@@ -1,7 +1,6 @@
 package com.alver.fatefall.data.entity;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public abstract class Entity {
 
@@ -18,8 +17,21 @@ public abstract class Entity {
 	public Map<String, Field> getFields() {
 		return fields;
 	}
-	public void setFields(Map<String, Field> fields) {
+	private void setFields(Map<String, Field> fields) {
 		this.fields = fields;
+	}
+
+	public void addField(Field field) {
+		addFields(Map.of(field.getName(), field));
+	}
+	public void addField(String key, Field field) {
+		addFields(Map.of(key, field));
+	}
+	public void addFields(Map<String,Field> fields) {
+		this.fields.putAll(fields);
+	}
+	public void removeField(String key) {
+		this.fields.remove(key);
 	}
 
 }

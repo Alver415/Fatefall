@@ -1,11 +1,11 @@
 
 package com.alver.fatefall.app.fx.components.settings;
 
-import com.alver.fatefall.api.interfaces.CardView;
-import com.alver.fatefall.api.interfaces.ComponentFactory;
 import com.alver.fatefall.app.FatefallApplication;
+import com.alver.fatefall.app.editor.components.CardView;
 import com.alver.fatefall.app.fx.components.about.AboutView;
 import com.alver.fatefall.app.fx.components.plugins.PluginManagerView;
+import com.alver.fatefall.app.services.ComponentFactory;
 import com.alver.fatefall.app.services.DialogManager;
 import com.dlsc.formsfx.model.structure.Field;
 import com.dlsc.formsfx.model.structure.StringField;
@@ -15,7 +15,6 @@ import com.dlsc.preferencesfx.formsfx.view.controls.SimpleTextControl;
 import com.dlsc.preferencesfx.model.Category;
 import com.dlsc.preferencesfx.model.Group;
 import com.dlsc.preferencesfx.model.Setting;
-import com.jpro.webapi.WebAPI;
 import javafx.application.Platform;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;

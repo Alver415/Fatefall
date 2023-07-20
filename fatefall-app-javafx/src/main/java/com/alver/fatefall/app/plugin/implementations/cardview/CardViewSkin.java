@@ -1,6 +1,5 @@
 package com.alver.fatefall.app.plugin.implementations.cardview;
 
-import com.alver.fatefall.api.interfaces.CardView;
 import com.alver.fatefall.app.fx.components.settings.FatefallProperties;
 import javafx.scene.control.SkinBase;
 import javafx.scene.effect.DropShadow;

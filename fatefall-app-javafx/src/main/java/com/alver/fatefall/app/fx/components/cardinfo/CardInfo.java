@@ -1,8 +1,8 @@
 package com.alver.fatefall.app.fx.components.cardinfo;
 
-import com.alver.fatefall.api.interfaces.CardView;
-import com.alver.fatefall.api.models.Card;
+import com.alver.fatefall.app.editor.components.CardView;
 import com.alver.fatefall.app.fx.components.FXMLAutoLoad;
+import com.alver.fatefall.data.entity.Card;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;

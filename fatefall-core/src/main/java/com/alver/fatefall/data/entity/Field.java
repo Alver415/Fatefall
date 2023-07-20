@@ -3,9 +3,13 @@ package com.alver.fatefall.data.entity;
 public class Field extends Entity {
 
 	private String name;
+	private String value;
 
-	protected String value;
-
+	public Field(){}
+	public Field(String name, String value){
+		this.name = name;
+		this.value = value;
+	}
 	public String getName() {
 		return name;
 	}

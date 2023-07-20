@@ -1,7 +1,7 @@
 package com.alver.fatefall.app;
 
-import com.alver.fatefall.api.models.Workspace;
-import com.alver.fatefall.app.persistence.repositories.WorkspaceRepository;
+import com.alver.fatefall.data.entity.Workspace;
+import com.alver.fatefall.data.repository.WorkspaceRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.springframework.beans.factory.annotation.Autowired;

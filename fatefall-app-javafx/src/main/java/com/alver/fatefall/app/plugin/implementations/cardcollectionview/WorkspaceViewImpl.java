@@ -1,9 +1,9 @@
 package com.alver.fatefall.app.plugin.implementations.cardcollectionview;
 
-import com.alver.fatefall.api.interfaces.WorkspaceView;
-import com.alver.fatefall.api.models.Workspace;
 import com.alver.fatefall.app.Prototype;
+import com.alver.fatefall.app.editor.components.WorkspaceView;
 import com.alver.fatefall.app.fx.components.settings.FatefallProperties;
+import com.alver.fatefall.data.entity.Workspace;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.*;

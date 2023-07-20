@@ -21,16 +21,19 @@ public class Workspace extends Entity {
 	private void setCards(Set<Card> cards) {
 		this.cards = cards;
 	}
-	public void addCards(Card... cards){
+	public void addCards(Card card) {
+		addCards(List.of(card));
+	}
+	public void addCards(Card... cards) {
 		addCards(List.of(cards));
 	}
-	public void addCards(Collection<Card> cards){
+	public void addCards(Collection<Card> cards) {
 		this.cards.addAll(cards);
 	}
-	public void removeCards(Card... cards){
+	public void removeCards(Card... cards) {
 		removeCards(List.of(cards));
 	}
-	public void removeCards(Collection<Card> cards){
+	public void removeCards(Collection<Card> cards) {
 		this.cards.removeAll(cards);
 	}
 

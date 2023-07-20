@@ -1,14 +1,14 @@
 package com.alver.fatefall.app.fx.components.mainstage;
 
-import com.alver.fatefall.api.interfaces.ActionEventHandler;
-import com.alver.fatefall.api.interfaces.ComponentFactory;
-import com.alver.fatefall.api.interfaces.WorkspaceView;
-import com.alver.fatefall.api.models.Element;
-import com.alver.fatefall.api.models.Card;
-import com.alver.fatefall.api.models.Workspace;
+import com.alver.fatefall.app.editor.components.WorkspaceView;
 import com.alver.fatefall.app.fx.components.FXMLAutoLoad;
 import com.alver.fatefall.app.fx.components.settings.FatefallPreferences;
-import com.alver.fatefall.app.persistence.repositories.WorkspaceRepository;
+import com.alver.fatefall.app.services.ActionEventHandler;
+import com.alver.fatefall.app.services.ComponentFactory;
+import com.alver.fatefall.data.entity.Card;
+import com.alver.fatefall.data.entity.Field;
+import com.alver.fatefall.data.entity.Workspace;
+import com.alver.fatefall.data.repository.WorkspaceRepository;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -130,18 +130,16 @@ public class ApplicationView extends BorderPane {
     private void createCard() {
         Workspace selectedItem = workspaceListView.getSelectionModel().getSelectedItem();
         Card card = new Card();
-        Element attribute = new Element();
-        attribute.setName("attr_1");
-        attribute.setValue("This is an Attribute.");
-        card.addElement(attribute);
-        attribute = new Element();
-        attribute.setName("attr_2");
-        attribute.setValue("This is another Attribute.");
-        card.addElement(attribute);
-        selectedItem.addCard(card);
+        Field field = new Field();
+        field.setName("attr_1");
+        field.setValue("This is an Attribute.");
+        card.addField(field);
+        field = new Field();
+        field.setName("attr_2");
+        field.setValue("This is another Attribute.");
+        card.addField(field);
+        selectedItem.addCards(card);
     }
-
-
 
     private Callback<ListView<Workspace>, ListCell<Workspace>> workspaceCellFactory = (z) -> {
         ListCell<Workspace> cell = new ListCell<>() {

@@ -1,8 +1,6 @@
 package com.alver.fatefall.app.fx.components.settings;
 
-import com.alver.fatefall.api.interfaces.CardView;
 import com.alver.fatefall.app.FatefallApplication;
-import com.alver.fatefall.app.plugin.implementations.cardview.*;
 import com.sun.javafx.css.StyleManager;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.*;
@@ -10,12 +8,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Skin;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
-import javafx.stage.Screen;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
