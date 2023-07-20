@@ -1,14 +1,14 @@
 package com.alver.fatefall.service;
 
-import com.alver.fatefall.api.Card;
-import com.alver.fatefall.database.row.CardRow;
-import com.alver.fatefall.repository.CardRepository;
+import com.alver.fatefall.data.repository.CardRepository;
+import com.alver.fatefall.data.entities.Card;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
-@Component
+@Service
 public class CardService {
 
 	private final CardRepository cardRepository;
@@ -18,15 +18,19 @@ public class CardService {
 		this.cardRepository = cardRepository;
 	}
 
-	public List<Card> getAllCards() {
-		List<CardRow> cardRows = cardRepository.getAllCardRows();
-		return cardRows.stream().map(row -> new Card(row.id(), row.name())).toList();
-
+	public List<Card> findAll() {
+		return cardRepository.findAll();
 	}
 
-	public Card getCardById(String id) {
-		CardRow cardRow = cardRepository.getCardRow(id);
-		return new Card(cardRow.id(), cardRow.name());
+	public Optional<Card> findById(Long id) {
+		return cardRepository.findById(id);
 	}
 
+	public Card save(Card card) {
+		return cardRepository.save(card);
+	}
+
+	public void deleteById(Long id) {
+		cardRepository.deleteById(id);
+	}
 }

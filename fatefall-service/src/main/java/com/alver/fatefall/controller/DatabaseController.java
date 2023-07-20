@@ -1,6 +1,6 @@
 package com.alver.fatefall.controller;
 
-import com.alver.fatefall.repository.DatabaseClient;
+import com.alver.fatefall.data.DatabaseClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
