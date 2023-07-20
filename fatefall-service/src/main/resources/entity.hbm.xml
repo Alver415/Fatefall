@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+		"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.alver.fatefall.data.entity">
+	<class name="Entity" table="entity">
+		<id name="id">
+			<generator class="increment"/>
+		</id>
+
+		<map name="fields" cascade="all" lazy="false">
+			<key column="parent_id"/>
+			<map-key column="key" type="string"/>
+			<one-to-many class="com.alver.fatefall.data.entity.Entity"/>
+		</map>
+
+		<joined-subclass name="Workspace">
+			<key column="id"/>
+			<property name="name"/>
+		</joined-subclass>
+
+		<joined-subclass name="Card" >
+			<key column="id"/>
+			<property name="name"/>
+		</joined-subclass>
+
+		<joined-subclass name="Field" >
+			<key column="id"/>
+			<property name="name"/>
+			<property name="value"/>
+		</joined-subclass>
+	</class>
+
+
+</hibernate-mapping>

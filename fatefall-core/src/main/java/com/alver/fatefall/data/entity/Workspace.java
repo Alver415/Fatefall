@@ -1,21 +1,12 @@
-package com.alver.fatefall.data.entities;
-
-import jakarta.persistence.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+package com.alver.fatefall.data.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-@Entity
-@Table(name = "workspaces")
-public class Workspace extends PersistedEntity {
+public class Workspace extends Entity {
 
-	@Column
 	private String name;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	protected List<Card> cards = new ArrayList<>();
 
 	public String getName() {

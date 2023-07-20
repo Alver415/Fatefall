@@ -1,7 +1,7 @@
 package com.alver.fatefall.service;
 
 import com.alver.fatefall.data.repository.FieldRepository;
-import com.alver.fatefall.data.entities.Field;
+import com.alver.fatefall.data.entity.Field;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

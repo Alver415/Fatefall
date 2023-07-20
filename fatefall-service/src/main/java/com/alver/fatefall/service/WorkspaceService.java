@@ -1,7 +1,7 @@
 package com.alver.fatefall.service;
 
 import com.alver.fatefall.data.repository.WorkspaceRepository;
-import com.alver.fatefall.data.entities.Workspace;
+import com.alver.fatefall.data.entity.Workspace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

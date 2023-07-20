@@ -1,7 +1,7 @@
 package com.alver.fatefall.service;
 
 import com.alver.fatefall.data.repository.CardRepository;
-import com.alver.fatefall.data.entities.Card;
+import com.alver.fatefall.data.entity.Card;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

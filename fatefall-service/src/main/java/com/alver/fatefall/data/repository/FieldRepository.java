@@ -1,6 +1,6 @@
 package com.alver.fatefall.data.repository;
 
-import com.alver.fatefall.data.entities.Field;
+import com.alver.fatefall.data.entity.Field;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

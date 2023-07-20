@@ -1,16 +1,9 @@
-package com.alver.fatefall.data.entities;
+package com.alver.fatefall.data.entity;
 
-import jakarta.persistence.*;
+public class Card extends Entity {
 
-@Entity
-@Table(name = "cards")
-public class Card extends PersistedEntity {
-
-	@Column
 	private String name;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "template_id")
 	protected Card template;
 
 	public String getName() {

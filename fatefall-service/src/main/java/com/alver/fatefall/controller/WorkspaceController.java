@@ -1,6 +1,6 @@
 package com.alver.fatefall.controller;
 
-import com.alver.fatefall.data.entities.Workspace;
+import com.alver.fatefall.data.entity.Workspace;
 import com.alver.fatefall.service.WorkspaceService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
