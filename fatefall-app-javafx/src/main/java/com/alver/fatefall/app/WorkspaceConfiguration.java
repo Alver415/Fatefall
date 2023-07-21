@@ -1,7 +1,7 @@
 package com.alver.fatefall.app;
 
+import com.alver.fatefall.api.entity.WorkspaceApi;
 import com.alver.fatefall.data.entity.Workspace;
-import com.alver.fatefall.data.repository.WorkspaceRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +13,11 @@ import org.springframework.context.annotation.DependsOn;
 public class WorkspaceConfiguration {
 
 	@Autowired
-	public WorkspaceRepository workspaceRepository;
+	public WorkspaceApi workspaceApi;
 
 	@Bean
 	@DependsOn("hsqlServer")
 	public ObservableList<Workspace> getWorkspaces() {
-		ObservableList<Workspace> list = FXCollections.observableArrayList();
-		workspaceRepository.findAll().forEach(list::add);
-		return list;
+		return FXCollections.observableList(workspaceApi.getAll());
 	}
 }

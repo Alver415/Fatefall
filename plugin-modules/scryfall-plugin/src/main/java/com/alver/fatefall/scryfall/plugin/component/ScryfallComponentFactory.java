@@ -3,7 +3,7 @@ package com.alver.fatefall.scryfall.plugin.component;
 
 import com.alver.fatefall.api.interfaces.WorkspaceView;
 import com.alver.fatefall.api.models.Card;
-import com.alver.fatefall.app.fx.components.mainstage.ApplicationView;
+import com.alver.fatefall.app.fx.component.mainstage.ApplicationView;
 import com.alver.fatefall.app.plugin.implementations.ComponentFactoryImpl;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;

@@ -1,7 +1,7 @@
 package com.alver.fatefall.app;
 
 import com.alver.fatefall.FatefallLauncher;
-import com.alver.fatefall.app.fx.components.mainstage.ApplicationView;
+import com.alver.fatefall.app.fx.component.mainstage.ApplicationView;
 import com.jpro.webapi.JProApplication;
 import com.sun.javafx.application.ParametersImpl;
 import com.sun.javafx.css.StyleManager;

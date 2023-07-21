@@ -1,5 +1,6 @@
 package com.alver.fatefall.service;
 
+import com.alver.fatefall.data.repository.EntityRepository;
 import com.alver.fatefall.data.repository.WorkspaceRepository;
 import com.alver.fatefall.data.entity.Workspace;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,28 +10,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class WorkspaceService {
-
-	private final WorkspaceRepository workspaceRepository;
+public class WorkspaceService extends EntityService<Workspace> {
 
 	@Autowired
-	public WorkspaceService(WorkspaceRepository workspaceRepository) {
-		this.workspaceRepository = workspaceRepository;
-	}
-
-	public List<Workspace> findAll() {
-		return workspaceRepository.findAll();
-	}
-
-	public Optional<Workspace> findById(Long id) {
-		return workspaceRepository.findById(id);
-	}
-
-	public Workspace save(Workspace workspace) {
-		return workspaceRepository.save(workspace);
-	}
-
-	public void deleteById(Long id) {
-		workspaceRepository.deleteById(id);
+	public WorkspaceService(EntityRepository<Workspace> repository) {
+		super(repository);
 	}
 }

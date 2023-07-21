@@ -1,7 +1,7 @@
 package com.alver.fatefall.scryfall;
 
 import com.alver.fatefall.api.models.Card;
-import com.alver.fatefall.app.fx.components.FXMLAutoLoader;
+import com.alver.fatefall.app.fx.component.FXMLAutoLoader;
 import com.alver.fatefall.scryfall.api.ScryfallCardDeserializer;
 import com.dlsc.preferencesfx.model.Category;
 import com.dlsc.preferencesfx.model.Group;

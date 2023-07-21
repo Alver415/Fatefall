@@ -1,6 +1,6 @@
 package com.alver.fatefall.scryfall.plugin;
 
-import com.alver.fatefall.app.fx.components.settings.PreferenceCategoryProvider;
+import com.alver.fatefall.app.fx.component.settings.PreferenceCategoryProvider;
 import com.dlsc.preferencesfx.model.Category;
 import com.dlsc.preferencesfx.model.Group;
 import org.pf4j.Extension;

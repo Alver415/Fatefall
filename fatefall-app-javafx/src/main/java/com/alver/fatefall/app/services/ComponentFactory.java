@@ -1,6 +1,6 @@
 package com.alver.fatefall.app.services;
 
-import com.alver.fatefall.app.editor.components.WorkspaceView;
+import com.alver.fatefall.app.fx.view.entity.workspace.WorkspaceView;
 import com.alver.fatefall.data.entity.Card;
 import javafx.scene.control.MenuItem;
 

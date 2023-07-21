@@ -1,6 +1,6 @@
 package com.alver.fatefall.app.services;
 
-import com.alver.fatefall.app.fx.components.mainstage.ApplicationView;
+import com.alver.fatefall.app.fx.component.mainstage.ApplicationView;
 import com.alver.fatefall.data.entity.Workspace;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
