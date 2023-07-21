@@ -10,15 +10,22 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.Optional;
 
-public class EntityClient<T extends Entity> implements EntityApi<T> {
+public abstract class EntityClient<T extends Entity> implements EntityApi<T> {
 
 	private final WebClient webClient;
 	private final String basePath;
+	private final ParameterizedTypeReference<T> type;
+	private final ParameterizedTypeReference<List<T>> listType;
 
-	@Autowired
-	public EntityClient(WebClient webClient, String basePath) {
+	public EntityClient(
+			WebClient webClient,
+			String basePath,
+			ParameterizedTypeReference<T> type,
+			ParameterizedTypeReference<List<T>> listType) {
 		this.webClient = webClient;
 		this.basePath = basePath;
+		this.type = type;
+		this.listType = listType;
 	}
 
 	@Override
@@ -26,8 +33,7 @@ public class EntityClient<T extends Entity> implements EntityApi<T> {
 		return webClient.get()
 				.uri(uriBuilder -> uriBuilder.pathSegment(basePath).build())
 				.retrieve()
-				.bodyToFlux(new ParameterizedTypeReference<T>() {})
-				.collectList()
+				.bodyToMono(listType)
 				.block();
 	}
 	@Override
@@ -35,8 +41,8 @@ public class EntityClient<T extends Entity> implements EntityApi<T> {
 		return webClient.get()
 				.uri(uriBuilder -> uriBuilder.pathSegment(basePath,"{id}").build(id))
 				.retrieve()
-				.bodyToMono(new ParameterizedTypeReference<Optional<T>>() {})
-				.block();
+				.bodyToMono(type)
+				.blockOptional();
 	}
 	@Override
 	public T create(T entity) {
@@ -44,7 +50,7 @@ public class EntityClient<T extends Entity> implements EntityApi<T> {
 				.uri(uriBuilder -> uriBuilder.pathSegment(basePath).build())
 				.body(Mono.just(entity), entity.getClass())
 				.retrieve()
-				.bodyToMono(new ParameterizedTypeReference<T>() {})
+				.bodyToMono(type)
 				.block();
 	}
 
@@ -54,7 +60,7 @@ public class EntityClient<T extends Entity> implements EntityApi<T> {
 				.uri(uriBuilder -> uriBuilder.pathSegment(basePath,"{id}").build(id))
 				.body(Mono.just(entity), entity.getClass())
 				.retrieve()
-				.bodyToMono(new ParameterizedTypeReference<T>() {})
+				.bodyToMono(type)
 				.block();
 	}
 	@Override
@@ -62,7 +68,7 @@ public class EntityClient<T extends Entity> implements EntityApi<T> {
 		webClient.delete()
 				.uri(uriBuilder -> uriBuilder.pathSegment(basePath,"{id}").build(id))
 				.retrieve()
-				.bodyToMono(new ParameterizedTypeReference<T>() {})
+				.bodyToMono(type)
 				.block();
 	}
 }

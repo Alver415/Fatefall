@@ -16,6 +16,6 @@ public class WorkspaceConfiguration {
 
 	@Bean
 	public ObservableList<Workspace> getWorkspaces() {
-		return FXCollections.observableArrayList();
+		return FXCollections.observableArrayList(workspaceApi.getAll());
 	}
 }

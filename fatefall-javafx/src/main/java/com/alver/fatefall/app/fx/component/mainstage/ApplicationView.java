@@ -149,15 +149,15 @@ public class ApplicationView extends BorderPane {
 			}
 		};
 		//When double-clicked, open that workspace.
-		Workspace workspace = cell.getItem();
 		cell.setOnMouseClicked(e -> {
-			if (!cell.isEmpty() && workspace != null && e.getClickCount() == 2) {
-				openCollection(workspace);
+			if (!cell.isEmpty() && cell.getItem() != null && e.getClickCount() == 2) {
+				openCollection(cell.getItem());
 			}
 		});
 		ContextMenu contextMenu = new ContextMenu();
 		MenuItem save = new MenuItem("Save");
 		save.setOnAction(a -> {
+			Workspace workspace = cell.getItem();
 			Workspace saved = workspace.getId() == null ?
 					workspaceApi.create(workspace) :
 					workspaceApi.update(workspace.getId(), workspace);
