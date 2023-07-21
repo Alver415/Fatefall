@@ -1,0 +1,15 @@
+.popover  {
+	-fx-background-color: derive(-fx-background, 0%);
+}
+
+.popover > .border {
+	-fx-fill: derive(-fx-background-color, 75%);
+}
+
+.popover > .content > .title  {
+	-fx-background-color: derive(-fx-base, 95%);
+}
+
+.popover > .content > .title > .text  {
+	-fx-text-fill: derive(-fx-text, 80%);
+}

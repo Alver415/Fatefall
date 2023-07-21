@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.alver.fatefall.app.fx.component.about.AboutView?>
+<?import javafx.scene.control.Label?>
+<fx:root type="AboutView" xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml">
+        <center>
+            <Label text="%text"/>
+        </center>
+</fx:root>
