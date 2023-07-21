@@ -11,9 +11,9 @@
 	<name>Fatefall</name>
 	<modules>
 		<module>fatefall-core</module>
-		<module>fatefall-service</module>
-		<module>fatefall-app-javafx</module>
-    <!--<module>fatefall-app-web</module>-->
+		<module>fatefall-server</module>
+		<module>fatefall-client</module>
+		<module>fatefall-javafx</module>
 	</modules>
 
 	<properties>
@@ -30,24 +30,14 @@
 		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
 		<junit.version>5.9.2</junit.version>
 		<log4j.version>2.19.0</log4j.version>
-		<jackson.version>2.14.0</jackson.version>
+		<jackson.version>2.15.1</jackson.version>
 
 		<spring-core.version>6.0.2</spring-core.version>
-		<spring-webflux.version>6.0.3</spring-webflux.version>
+		<spring-webflux.version>6.0.6</spring-webflux.version>
 		<spring-boot-starter.version>3.1.0</spring-boot-starter.version>
 	</properties>
 
 	<dependencies>
-<!--		<dependency>-->
-<!--			<groupId>org.springframework</groupId>-->
-<!--			<artifactId>spring-webflux</artifactId>-->
-<!--			<version>${spring-webflux.version}</version>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-webflux</artifactId>-->
-<!--			<version>${spring-boot-starter.version}</version>-->
-<!--		</dependency>-->
 
 		<!-- Serialization -->
 		<dependency>

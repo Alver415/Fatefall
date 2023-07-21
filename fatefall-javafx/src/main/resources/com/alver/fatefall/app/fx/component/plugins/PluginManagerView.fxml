@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.alver.fatefall.app.fx.component.plugins.PluginManagerView?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<fx:root type="PluginManagerView" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+		 prefHeight="400.0" prefWidth="600.0">
+	<center>
+		<TableView fx:id="tableView">
+			<columns>
+				<TableColumn text="Name" editable="false">
+					<cellValueFactory>
+						<PropertyValueFactory property="id"/>
+					</cellValueFactory>
+				</TableColumn>
+				<TableColumn text="Version" editable="false">
+					<cellValueFactory>
+						<PropertyValueFactory property="version"/>
+					</cellValueFactory>
+				</TableColumn>
+				<TableColumn text="Description" editable="false">
+					<cellValueFactory>
+						<PropertyValueFactory property="description"/>
+					</cellValueFactory>
+				</TableColumn>
+				<TableColumn text="State" editable="false">
+					<cellValueFactory>
+						<PropertyValueFactory property="state"/>
+					</cellValueFactory>
+				</TableColumn>
+			</columns>
+		</TableView>
+	</center>
+	<bottom>
+		<ButtonBar>
+			<buttons>
+				<Button text="Reload" onAction="#reload"/>
+			</buttons>
+		</ButtonBar>
+	</bottom>
+</fx:root>
