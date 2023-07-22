@@ -5,6 +5,7 @@ import com.alver.fatefall.app.fx.view.entity.card.CardView;
 import com.alver.fatefall.app.fx.component.settings.FatefallProperties;
 import com.alver.fatefall.app.fx.view.entity.card.CardViewImpl;
 import com.alver.fatefall.app.fx.view.entity.field.FieldTreeTableView;
+import com.alver.fatefall.app.services.AsyncService;
 import com.alver.fatefall.data.entity.Card;
 import com.alver.fatefall.data.entity.Field;
 import com.google.common.cache.CacheBuilder;
@@ -15,7 +16,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.geometry.Insets;
+import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -25,6 +26,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import static com.alver.fatefall.app.fx.util.JFXSmoothScroll.smoothScrolling;
+import static com.alver.fatefall.app.fx.util.JFXSmoothScroll.smoothVerticalScrolling;
 
 @Prototype
 public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
@@ -49,8 +53,8 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
 
         tableView = new TableView<>();
         tableView.setEditable(true);
-        tableView.setBorder(null);
-        tableView.setPadding(Insets.EMPTY);
+        AsyncService.runAsync(() -> smoothScrolling(tableView, 0.1), 1000);
+
 
         TableColumn<Card, CardView<?>> cardColumn = new TableColumn<>("Card View");
         DoubleBinding cardViewMaxWidth = properties.getCardScaledWidth().multiply(2).add(20);
@@ -79,8 +83,8 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
             }
         });
 
-        LoadingCache<Card, ScrollPane> cache = CacheBuilder.newBuilder().build(new CacheLoader<>() {
-            public ScrollPane load(Card card) { // no checked exception
+        LoadingCache<Card, FieldTreeTableView> cache = CacheBuilder.newBuilder().build(new CacheLoader<>() {
+            public FieldTreeTableView load(Card card) { // no checked exception
                 FieldTreeTableView view = new FieldTreeTableView();
                 TreeItem<Field> root = new TreeItem<>();
                 root.setExpanded(true);
@@ -91,11 +95,7 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
                     root.getChildren().add(childItem);
                 }
                 view.setRoot(root);
-                ScrollPane scrollPane = new ScrollPane(view);
-                scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-                scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-                scrollPane.setFitToWidth(true);
-                return scrollPane;
+                return view;
             }
         });
         TableColumn<Card, Node> attributesColumn = new TableColumn<>("Attributes");
@@ -118,8 +118,6 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
 
                 };
                 cell.setAlignment(Pos.CENTER);
-                cell.setBorder(null);
-                cell.setPadding(Insets.EMPTY);
                 return cell;
             }
         });

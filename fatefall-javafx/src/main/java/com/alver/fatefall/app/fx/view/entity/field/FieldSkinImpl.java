@@ -14,10 +14,10 @@ public class FieldSkinImpl extends SkinBase<FieldControl> {
 		super(control);
 
 		this.nameField = new TextField();
-		this.nameField.setPromptText("name");
+		this.nameField.setPromptText("empty");
 
 		this.valueField = new TextField();
-		this.valueField.setPromptText("value");
+		this.valueField.setPromptText("empty");
 
 		control.attributeProperty.addListener((observable, oldValue, newValue) -> {
 			this.nameField.textProperty().set(newValue == null ? null : newValue.getName());

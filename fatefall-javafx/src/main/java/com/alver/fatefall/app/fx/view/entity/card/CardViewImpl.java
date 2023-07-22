@@ -28,9 +28,9 @@ import java.util.function.Consumer;
 @Prototype
 public class CardViewImpl extends Control implements CardView<CardViewImpl> {
 
-	private static final Image adjacentImage = loadImage("adjacent.png");
-	private static final Image stackedImage = loadImage("stacked.png");
-	private static final Image flippableImage = loadImage("flippable.png");
+	private static final Image ADJACENT_IMAGE = loadImage("adjacent.png");
+	private static final Image STACKED_IMAGE = loadImage("stacked.png");
+	private static final Image FLIPPABLE_IMAGE = loadImage("flippable.png");
 
 	private static Image loadImage(String url) {
 		return new Image(Objects.requireNonNull(FlippableSkin.class.getResourceAsStream(url)));
@@ -79,9 +79,9 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
 		setFront(beanFactory.getBean(CardFace.class));
 		setBack(beanFactory.getBean(CardFace.class));
 
-		MenuItem adjacent = buildMenuItem("Adjacent", adjacentImage, () -> setSkin(new AdjacentSkin(this, properties)));
-		MenuItem stacked = buildMenuItem("Stacked", stackedImage, () -> setSkin(new StackedSkin(this, properties)));
-		MenuItem flippable = buildMenuItem("Flippable", flippableImage, () -> setSkin(new FlippableSkin(this, properties)));
+		MenuItem adjacent = buildMenuItem("Adjacent", ADJACENT_IMAGE, () -> setSkin(new AdjacentSkin(this, properties)));
+		MenuItem stacked = buildMenuItem("Stacked", STACKED_IMAGE, () -> setSkin(new StackedSkin(this, properties)));
+		MenuItem flippable = buildMenuItem("Flippable", FLIPPABLE_IMAGE, () -> setSkin(new FlippableSkin(this, properties)));
 		Menu menu = new Menu("View Mode");
 		menu.getItems().setAll(adjacent, stacked, flippable);
 
@@ -101,7 +101,7 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
 			buildCardFace(newCard);
 
 			getContextMenu().getItems().add(menu);
-			getContextMenu().getItems().addAll(componentFactory.buildCardViewContextMenuItems(newCard));
+			getContextMenu().getItems().addAll(componentFactory.buildCardViewContextMenuItems(this));
 
 			Field frontUrl = newCard.getFields().get("_front_");
 			if (frontUrl != null)
@@ -111,12 +111,6 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
 			if (backUrl != null)
 				setupCardFace(getBack(), imageCache.getUnchecked(backUrl.getValue()));
 
-			for (Field childAttribute : newCard.getFields().values()) {
-				if (childAttribute.getName().startsWith("_")) {
-					Node childNode = buildElements(childAttribute);
-					getFront().getChildren().add(childNode);
-				}
-			}
 		});
 
 		properties.getCardViewSkinSelection().addListener((observable, oldValue, newValue) -> {
@@ -127,10 +121,16 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
 	private void buildCardFace(Card card) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			String fxml = null;//card.getFxml();
-			if (fxml != null) {
-				Node root = loader.load(new ByteArrayInputStream(fxml.getBytes()));
-				getFront().getChildren().setAll(root);
+			String frontFxml = card.getFrontFxml();
+			if (frontFxml != null) {
+				Node front = loader.load(new ByteArrayInputStream(frontFxml.getBytes()));
+				getFront().getChildren().setAll(front);
+			}
+
+			String backFxml = card.getBackFxml();
+			if (backFxml != null) {
+				Node back = loader.load(new ByteArrayInputStream(backFxml.getBytes()));
+				getBack().getChildren().setAll(back);
 			}
 
 		} catch (IOException e) {

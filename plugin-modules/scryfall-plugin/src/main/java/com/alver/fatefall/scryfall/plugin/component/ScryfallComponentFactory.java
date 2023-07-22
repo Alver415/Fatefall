@@ -2,6 +2,7 @@ package com.alver.fatefall.scryfall.plugin.component;
 
 
 import com.alver.fatefall.app.fx.component.mainstage.ApplicationView;
+import com.alver.fatefall.app.fx.view.entity.card.CardView;
 import com.alver.fatefall.app.fx.view.entity.workspace.WorkspaceView;
 import com.alver.fatefall.app.plugin.implementations.ComponentFactoryImpl;
 import com.alver.fatefall.data.entity.Card;
@@ -27,21 +28,21 @@ public class ScryfallComponentFactory extends ComponentFactoryImpl {
     protected ApplicationView applicationView;
 
 
-    public List<MenuItem> buildCardViewContextMenuItems(Card card) {
-        ArrayList<MenuItem> items = new ArrayList<>(super.buildCardViewContextMenuItems(card));
-        items.add(buildOpenInBrowserMenuItem(card));
-        items.add(buildOpenInWebViewMenuItem(card));
+    public List<MenuItem> buildCardViewContextMenuItems(CardView<?> cardView) {
+        ArrayList<MenuItem> items = new ArrayList<>(super.buildCardViewContextMenuItems(cardView));
+        items.add(buildOpenInBrowserMenuItem(cardView));
+        items.add(buildOpenInWebViewMenuItem(cardView));
         return items;
     }
 
-    private MenuItem buildOpenInWebViewMenuItem(Card card) {
+    private MenuItem buildOpenInWebViewMenuItem(CardView<?> cardView) {
         MenuItem openWebView = new MenuItem();
         openWebView.setText("Open in WebView.");
         openWebView.setOnAction(a -> {
             TabPane tabPane = applicationView.getTabPane();
-            Tab tab = new Tab("Scryfall - " + card.getName());
+            Tab tab = new Tab("Scryfall - " + cardView.getCard().getName());
             WebView webView = new WebView();
-            webView.getEngine().load(getUrl(card));
+            webView.getEngine().load(getUrl(cardView.getCard()));
             tab.setContent(webView);
             tabPane.getTabs().add(tab);
             tabPane.getSelectionModel().select(tab);
@@ -49,12 +50,12 @@ public class ScryfallComponentFactory extends ComponentFactoryImpl {
         return openWebView;
     }
 
-    private static MenuItem buildOpenInBrowserMenuItem(Card card) {
+    private static MenuItem buildOpenInBrowserMenuItem(CardView<?> cardView) {
         MenuItem openBrowser = new MenuItem();
         openBrowser.setText("Open in default browser.");
         openBrowser.setOnAction(a -> {
             try {
-                java.awt.Desktop.getDesktop().browse(new URI(getUrl(card)));
+                java.awt.Desktop.getDesktop().browse(new URI(getUrl(cardView.getCard())));
             } catch (IOException | URISyntaxException e) {
                 throw new RuntimeException(e);
             }

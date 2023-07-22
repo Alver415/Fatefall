@@ -24,28 +24,10 @@
 	<left>
 		<BorderPane>
 			<top>
-				<ToolBar >
-					<Button styleClass="iconButton" onAction="#create">
-						<graphic>
-							<ImageView fitHeight="16" fitWidth="16">
-								<Image url="@/com/alver/fatefall/app/create.png"/>
-							</ImageView>
-						</graphic>
-					</Button>
-					<Button styleClass="iconButton" onAction="#save">
-					<graphic>
-						<ImageView fitHeight="16" fitWidth="16">
-							<Image url="@/com/alver/fatefall/app/save.png"/>
-						</ImageView>
-					</graphic>
-				</Button>
-					<Button styleClass="iconButton" onAction="#delete">
-				<graphic>
-					<ImageView fitHeight="16" fitWidth="16">
-						<Image url="@/com/alver/fatefall/app/delete.png"/>
-					</ImageView>
-				</graphic>
-			</Button>
+				<ToolBar>
+					<Button styleClass="btn" onAction="#create"/>
+					<Button styleClass="btn" onAction="#save"/>
+					<Button styleClass="btn" onAction="#delete"/>
 				</ToolBar>
 			</top>
 			<center>

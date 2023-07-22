@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
+import org.kordamp.bootstrapfx.BootstrapFX;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

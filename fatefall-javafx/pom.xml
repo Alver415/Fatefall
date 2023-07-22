@@ -115,6 +115,22 @@
 			<version>${jpro.version}</version>
 			<scope>compile</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.kordamp.bootstrapfx</groupId>
+			<artifactId>bootstrapfx-core</artifactId>
+			<version>0.4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.tangorabox</groupId>
+			<artifactId>component-inspector-fx</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alver</groupId>
+			<artifactId>fxml-saver</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>

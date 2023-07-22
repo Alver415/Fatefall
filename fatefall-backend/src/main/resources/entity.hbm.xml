@@ -27,6 +27,8 @@
 		<joined-subclass name="Card" table="card">
 			<key column="id"/>
 			<property name="name"/>
+			<property name="frontFxml" type="text" length="65535" />
+			<property name="backFxml" type="text" length="65535" />
 		</joined-subclass>
 
 		<joined-subclass name="Field" table="field">

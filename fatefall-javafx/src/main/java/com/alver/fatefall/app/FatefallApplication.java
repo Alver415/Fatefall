@@ -5,6 +5,7 @@ import com.alver.fatefall.app.fx.component.mainstage.ApplicationView;
 import com.jpro.webapi.JProApplication;
 import com.sun.javafx.application.ParametersImpl;
 import com.sun.javafx.css.StyleManager;
+import com.tangorabox.componentinspector.fx.FXComponentInspectorHandler;
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.application.Platform;
@@ -13,6 +14,7 @@ import javafx.css.Stylesheet;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.kordamp.bootstrapfx.BootstrapFX;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -66,7 +68,10 @@ public class FatefallApplication extends JProApplication {
         primaryStage.getIcons().add(ICON);
         primaryStage.setTitle(title);
         primaryStage.setOnCloseRequest(e -> stop());
+        scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
         primaryStage.show();
+
+        FXComponentInspectorHandler.handleAll();
     }
 
     @Override

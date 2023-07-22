@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 public class CreateScryfallSearchViewAction implements ActionEventHandler {
 
     private static final String name = "New Scryfall Search Tab";
+    private static final String description = "Query the Scryfall Database to browse cards.";
 
     @Autowired
     protected ScryfallPlugin plugin;
@@ -24,6 +25,10 @@ public class CreateScryfallSearchViewAction implements ActionEventHandler {
     @Override
     public String getName() {
         return name;
+    }
+    @Override
+    public String getDescription() {
+        return description;
     }
 
     @Override

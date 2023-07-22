@@ -6,8 +6,6 @@ import javafx.beans.property.ObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Skinnable;
 
-
-
 public interface CardView<T extends Node> extends FxView<T>, Skinnable {
 
     ObjectProperty<Card> cardProperty();

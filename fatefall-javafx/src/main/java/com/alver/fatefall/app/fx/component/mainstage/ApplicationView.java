@@ -10,12 +10,15 @@ import com.alver.fatefall.app.services.DialogManager;
 import com.alver.fatefall.data.entity.Card;
 import com.alver.fatefall.data.entity.Field;
 import com.alver.fatefall.data.entity.Workspace;
+import com.alver.fxmlsaver.FXMLSaver;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Callback;
 import jdk.jfr.Label;
 import org.pf4j.PluginManager;
@@ -36,14 +39,13 @@ public class ApplicationView extends BorderPane {
 	@Autowired
 	protected EntityApi<Workspace> workspaceApi;
 	@Autowired
-	protected DialogManager dialogManager;
+	protected WorkspaceCreateAction workspaceCreateAction;
 	@Autowired
 	protected PluginManager pluginManager;
 	@Autowired
 	protected ComponentFactory componentFactory;
 	@Autowired
 	protected FatefallPreferences preferences;
-
 
 	/**
 	 * FXML Injection
@@ -61,17 +63,6 @@ public class ApplicationView extends BorderPane {
 		listView.setItems(workspaces);
 		List<Menu> menuList = pluginManager.getPlugins().stream().map(this::buildMenu).toList();
 		pluginMenu.getItems().setAll(menuList);
-		MenuItem testItem = new MenuItem("Test");
-		testItem.setOnAction(a -> workspaces.addAll(workspaceApi.getAll()));
-		pluginMenu.getItems().add(testItem);
-		new Thread(() -> {
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			}
-			Platform.runLater(() -> setLeft(listView));
-		});
 	}
 
 	private Menu buildMenu(PluginWrapper plugin) {
@@ -161,16 +152,8 @@ public class ApplicationView extends BorderPane {
 	}
 
 	@FXML
-	protected void create() {
-		TextInputDialog dialog = new TextInputDialog();
-
-		dialog.setOnCloseRequest(event -> {
-			String name = dialog.getEditor().getText();
-			Workspace workspace = new Workspace();
-			workspace.setName(name);
-			workspaces.add(workspace);
-		});
-		dialogManager.show(dialog);
+	protected void create(ActionEvent event) {
+		workspaceCreateAction.handle(event);
 	}
 
 	@FXML

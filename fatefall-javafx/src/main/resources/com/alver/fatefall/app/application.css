@@ -1,12 +1,4 @@
 
-.tree-table-view .scroll-bar{
-    -fx-background-color: transparent;
-}
-
-.tree-table-view{
-    -fx-border-width: 0;
-}
-
 CardFace {
     -fx-background-color: rgba(0,0,0,0.3);
     -fx-border-color: rgba(0,0,0,0.7);
@@ -53,9 +45,6 @@ CardFace .text-area .scroll-pane .content{
     -fx-background-color: transparent;
 }
 
-.iconButton {
-    -fx-min-width: 20;
-    -fx-min-height: 20;
-    -fx-max-width: 20;
-    -fx-max-height: 20;
+.btn {
+	-fx-pref-width:20px;
 }

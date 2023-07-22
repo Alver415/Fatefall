@@ -11,6 +11,11 @@ public class WebClientConfiguration {
 	@Bean
 	@Qualifier("fatefallWebClient")
 	public WebClient getFatefallWebclient() {
-		return WebClient.create("http://localhost:8080");
+		return WebClient.builder()
+				.baseUrl("http://localhost:8080")
+				.codecs(codecs -> codecs
+						.defaultCodecs()
+						.maxInMemorySize(500 * 1024))
+				.build();
 	}
 }

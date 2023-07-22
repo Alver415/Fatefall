@@ -3,7 +3,8 @@ package com.alver.fatefall.data.entity;
 public class Card extends Entity {
 
 	private String name;
-	protected Card template;
+	protected String frontFxml;
+	protected String backFxml;
 
 	public String getName() {
 		return name;
@@ -12,11 +13,18 @@ public class Card extends Entity {
 		this.name = name;
 	}
 
-	public Card getTemplate() {
-		return template;
+	public String getFrontFxml() {
+		return frontFxml;
 	}
-	public void setTemplate(Card template) {
-		this.template = template;
+	public void setFrontFxml(String frontFxml) {
+		this.frontFxml = frontFxml;
+	}
+
+	public String getBackFxml() {
+		return backFxml;
+	}
+	public void setBackFxml(String backFxml) {
+		this.backFxml = backFxml;
 	}
 
 }

@@ -21,9 +21,9 @@ import java.util.Objects;
 @Prototype
 public class FlippableSkin extends CardViewSkin {
 
-	private static final Image spinLeft = loadImage("spinLeft.png");
-	private static final Image flipOver = loadImage("flipOver.png");
-	private static final Image spinRight = loadImage("spinRight.png");
+	private static final Image SPIN_LEFT = loadImage("spinLeft.png");
+	private static final Image FLIP_OVER = loadImage("flipOver.png");
+	private static final Image SPIN_RIGHT = loadImage("spinRight.png");
 
 	public enum Side {FRONT, BACK}
 
@@ -50,9 +50,9 @@ public class FlippableSkin extends CardViewSkin {
 		backWrapper.setVisible(false);
 
 		buttons.getChildren().setAll(
-				buildButton(spinLeft, this::spinLeft),
-				buildButton(flipOver, this::flip),
-				buildButton(spinRight, this::spinRight)
+				buildButton(SPIN_LEFT, this::spinLeft),
+				buildButton(FLIP_OVER, this::flip),
+				buildButton(SPIN_RIGHT, this::spinRight)
 		);
 
 		control.setOnMouseEntered(e -> animateButtons(true));
