@@ -1,7 +1,8 @@
-package com.alver.fatefall.app.services;
+package com.alver.fatefall.app.plugin;
 
 import com.alver.fatefall.app.fx.component.mainstage.ApplicationView;
 import com.alver.fatefall.data.entity.Workspace;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import org.pf4j.spring.SpringPluginManager;
@@ -16,12 +17,16 @@ public class FatefallPluginManager extends SpringPluginManager {
     @Lazy
     protected ApplicationView applicationView;
 
+    @Autowired
+    @Lazy
+    protected ObservableList<Workspace> workspaces;
+
     public void createToolTab(String name, Node content) {
         Tab tab = new Tab(name);
         tab.setContent(content);
         applicationView.getTabPane().getTabs().add(tab);
     }
     public void createWorkspace(Workspace workspace) {
-        applicationView.getWorkspaceList().getItems().add(workspace);
+        workspaces.add(workspace);
     }
 }

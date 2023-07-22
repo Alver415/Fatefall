@@ -6,36 +6,38 @@
 	<parent>
 		<groupId>com.alver.fatefall</groupId>
 		<artifactId>fatefall</artifactId>
-		<version>${revision}</version>
+		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>fatefall-server</artifactId>
+	<artifactId>fatefall-backend</artifactId>
 
 	<properties>
 		<hsqldb.version>2.7.1</hsqldb.version>
 	</properties>
 
 	<dependencies>
+
+		<!-- Fatefall -->
 		<dependency>
 			<groupId>com.alver.fatefall</groupId>
 			<artifactId>fatefall-core</artifactId>
-			<version>${revision}</version>
 		</dependency>
+
+		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
-			<version>${spring-boot-starter.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
-			<version>${spring-boot-starter.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
-			<version>${spring-boot-starter.version}</version>
 		</dependency>
+
+		<!-- Database -->
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>

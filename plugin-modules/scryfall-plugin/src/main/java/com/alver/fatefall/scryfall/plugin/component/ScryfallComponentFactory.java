@@ -1,10 +1,10 @@
 package com.alver.fatefall.scryfall.plugin.component;
 
 
-import com.alver.fatefall.api.interfaces.WorkspaceView;
-import com.alver.fatefall.api.models.Card;
 import com.alver.fatefall.app.fx.component.mainstage.ApplicationView;
+import com.alver.fatefall.app.fx.view.entity.workspace.WorkspaceView;
 import com.alver.fatefall.app.plugin.implementations.ComponentFactoryImpl;
+import com.alver.fatefall.data.entity.Card;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -63,7 +63,7 @@ public class ScryfallComponentFactory extends ComponentFactoryImpl {
     }
 
     private static String getUrl(Card card) {
-        return card.getElement("scryfall_url").getValue();
+        return card.getFields().get("scryfall_url").getValue();
     }
 
 

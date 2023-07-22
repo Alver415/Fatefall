@@ -10,4 +10,5 @@ public class FatefallLauncher {
     public static void main(String... args) {
         Application.launch(FatefallApplication.class);
     }
+
 }

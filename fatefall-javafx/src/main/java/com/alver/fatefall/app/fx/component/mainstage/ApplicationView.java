@@ -1,24 +1,27 @@
 package com.alver.fatefall.app.fx.component.mainstage;
 
 import com.alver.fatefall.api.entity.EntityApi;
-import com.alver.fatefall.api.entity.WorkspaceApi;
 import com.alver.fatefall.app.fx.view.entity.workspace.WorkspaceView;
 import com.alver.fatefall.app.fx.view.FXMLAutoLoad;
 import com.alver.fatefall.app.fx.component.settings.FatefallPreferences;
 import com.alver.fatefall.app.services.ActionEventHandler;
 import com.alver.fatefall.app.services.ComponentFactory;
+import com.alver.fatefall.app.services.DialogManager;
 import com.alver.fatefall.data.entity.Card;
 import com.alver.fatefall.data.entity.Field;
 import com.alver.fatefall.data.entity.Workspace;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
+import jdk.jfr.Label;
 import org.pf4j.PluginManager;
 import org.pf4j.PluginWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -29,21 +32,24 @@ import java.util.Objects;
 public class ApplicationView extends BorderPane {
 
 	@Autowired
+	protected ObservableList<Workspace> workspaces;
+	@Autowired
+	protected EntityApi<Workspace> workspaceApi;
+	@Autowired
+	protected DialogManager dialogManager;
+	@Autowired
 	protected PluginManager pluginManager;
 	@Autowired
 	protected ComponentFactory componentFactory;
 	@Autowired
-	protected ObservableList<Workspace> workspaceList;
-	@Autowired
-	protected EntityApi<Workspace> workspaceApi;
-	@Autowired
 	protected FatefallPreferences preferences;
+
 
 	/**
 	 * FXML Injection
 	 */
 	@FXML
-	protected ListView<Workspace> workspaceListView;
+	protected ListView<Workspace> listView;
 	@FXML
 	protected TabPane tabPane;
 	@FXML
@@ -51,14 +57,21 @@ public class ApplicationView extends BorderPane {
 
 	@FXML
 	private void initialize() {
-		workspaceListView.setCellFactory(workspaceCellFactory);
-		workspaceListView.setItems(workspaceList);
-
+		listView.setCellFactory(workspaceCellFactory);
+		listView.setItems(workspaces);
 		List<Menu> menuList = pluginManager.getPlugins().stream().map(this::buildMenu).toList();
 		pluginMenu.getItems().setAll(menuList);
 		MenuItem testItem = new MenuItem("Test");
-		testItem.setOnAction(a -> workspaceList.addAll(workspaceApi.getAll()));
+		testItem.setOnAction(a -> workspaces.addAll(workspaceApi.getAll()));
 		pluginMenu.getItems().add(testItem);
+		new Thread(() -> {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+			Platform.runLater(() -> setLeft(listView));
+		});
 	}
 
 	private Menu buildMenu(PluginWrapper plugin) {
@@ -78,10 +91,6 @@ public class ApplicationView extends BorderPane {
 
 	public TabPane getTabPane() {
 		return tabPane;
-	}
-
-	public ListView<Workspace> getWorkspaceList() {
-		return workspaceListView;
 	}
 
 	private void createTab(String text, Node node) {
@@ -113,7 +122,7 @@ public class ApplicationView extends BorderPane {
 		dialog.setHeaderText("Create a Collection");
 		dialog.setContentText("Enter a name for the new collection.");
 		dialog.showAndWait().ifPresent(name -> {
-			boolean nameAlreadyExists = workspaceListView.getItems().stream()
+			boolean nameAlreadyExists = workspaces.stream()
 					.map(Workspace::getName)
 					.anyMatch(n -> Objects.equals(n, name));
 			if (nameAlreadyExists) {
@@ -121,13 +130,13 @@ public class ApplicationView extends BorderPane {
 			}
 			Workspace workspace = new Workspace();
 			workspace.setName(name);
-			workspaceListView.getItems().add(workspace);
+			workspaces.add(workspace);
 		});
 	}
 
 	@FXML
 	private void createCard() {
-		Workspace selectedItem = workspaceListView.getSelectionModel().getSelectedItem();
+		Workspace selectedItem = listView.getSelectionModel().getSelectedItem();
 		Card card = new Card();
 		Field field = new Field();
 		field.setName("attr_1");
@@ -140,7 +149,50 @@ public class ApplicationView extends BorderPane {
 		selectedItem.addCards(card);
 	}
 
-	private Callback<ListView<Workspace>, ListCell<Workspace>> workspaceCellFactory = (z) -> {
+	protected void openCollection(Workspace workspace) {
+		tabPane.getTabs().stream()
+				.filter(tab -> tab.getText().equals(workspace.getName()))
+				.findFirst()
+				.ifPresentOrElse((tab) -> {
+					tabPane.getSelectionModel().select(tab);
+				}, () -> {
+					tabPane.getSelectionModel().select(addCollectionTab(workspace));
+				});
+	}
+
+	@FXML
+	protected void create() {
+		TextInputDialog dialog = new TextInputDialog();
+
+		dialog.setOnCloseRequest(event -> {
+			String name = dialog.getEditor().getText();
+			Workspace workspace = new Workspace();
+			workspace.setName(name);
+			workspaces.add(workspace);
+		});
+		dialogManager.show(dialog);
+	}
+
+	@FXML
+	protected void save() {
+		Workspace selectedWorkspace = listView.getSelectionModel().getSelectedItem();
+		if (selectedWorkspace.getId() == null) {
+			workspaceApi.create(selectedWorkspace);
+		} else {
+			workspaceApi.update(selectedWorkspace.getId(), selectedWorkspace);
+		}
+	}
+
+	@FXML
+	protected void delete() {
+		Workspace selectedWorkspace = listView.getSelectionModel().getSelectedItem();
+		if (selectedWorkspace.getId() != null) {
+			workspaces.remove(selectedWorkspace);
+			workspaceApi.delete(selectedWorkspace.getId());
+		}
+	}
+
+	private final Callback<ListView<Workspace>, ListCell<Workspace>> workspaceCellFactory = (z) -> {
 		ListCell<Workspace> cell = new ListCell<>() {
 			@Override
 			protected void updateItem(Workspace item, boolean empty) {
@@ -167,15 +219,4 @@ public class ApplicationView extends BorderPane {
 		cell.setContextMenu(contextMenu);
 		return cell;
 	};
-
-	private void openCollection(Workspace workspace) {
-		tabPane.getTabs().stream()
-				.filter(tab -> tab.getText().equals(workspace.getName()))
-				.findFirst()
-				.ifPresentOrElse((tab) -> {
-					tabPane.getSelectionModel().select(tab);
-				}, () -> {
-					tabPane.getSelectionModel().select(addCollectionTab(workspace));
-				});
-	}
 }

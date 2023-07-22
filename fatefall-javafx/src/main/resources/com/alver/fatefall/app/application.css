@@ -52,3 +52,10 @@ CardFace .text-area .scroll-pane .viewport{
 CardFace .text-area .scroll-pane .content{
     -fx-background-color: transparent;
 }
+
+.iconButton {
+    -fx-min-width: 20;
+    -fx-min-height: 20;
+    -fx-max-width: 20;
+    -fx-max-height: 20;
+}

@@ -1,7 +1,7 @@
 package com.other.fatefall.mse.plugin;
 
 
-import com.alver.fatefall.api.FatefallPlugin;
+import com.alver.fatefall.app.plugin.FatefallPlugin;
 import com.other.fatefall.mse.MSEConfiguration;
 import org.pf4j.PluginWrapper;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

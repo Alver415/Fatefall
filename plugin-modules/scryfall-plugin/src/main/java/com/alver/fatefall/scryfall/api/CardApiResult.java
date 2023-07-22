@@ -1,6 +1,6 @@
 package com.alver.fatefall.scryfall.api;
 
-import com.alver.fatefall.api.models.Card;
+import com.alver.fatefall.data.entity.Card;
 
 import java.util.List;
 

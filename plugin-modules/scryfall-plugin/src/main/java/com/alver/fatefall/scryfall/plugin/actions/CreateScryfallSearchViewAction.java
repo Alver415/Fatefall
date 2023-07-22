@@ -1,6 +1,6 @@
 package com.alver.fatefall.scryfall.plugin.actions;
 
-import com.alver.fatefall.api.interfaces.ActionEventHandler;
+import com.alver.fatefall.app.services.ActionEventHandler;
 import com.alver.fatefall.scryfall.plugin.ScryfallPlugin;
 import com.alver.fatefall.scryfall.plugin.component.ScryfallSearchView;
 import javafx.event.ActionEvent;

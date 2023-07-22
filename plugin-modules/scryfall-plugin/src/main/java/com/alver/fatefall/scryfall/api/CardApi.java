@@ -1,6 +1,7 @@
 package com.alver.fatefall.scryfall.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -11,7 +12,7 @@ import java.net.URI;
 public class CardApi extends AbstractApi {
 
     @Autowired
-    protected CardApi(WebClient client) {
+    protected CardApi(@Qualifier("scryfallWebClient") WebClient client) {
         super(client);
     }
 

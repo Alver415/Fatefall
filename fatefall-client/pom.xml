@@ -8,27 +8,23 @@
 		<artifactId>fatefall</artifactId>
 		<version>${revision}</version>
 	</parent>
-
 	<artifactId>fatefall-client</artifactId>
 
-	<properties>
-	</properties>
-
 	<dependencies>
+		<!-- Fatefall -->
 		<dependency>
 			<groupId>com.alver.fatefall</groupId>
 			<artifactId>fatefall-core</artifactId>
-			<version>${revision}</version>
 		</dependency>
+
+		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>${spring-core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webflux</artifactId>
-			<version>${spring-webflux.version}</version>
 		</dependency>
 	</dependencies>
 

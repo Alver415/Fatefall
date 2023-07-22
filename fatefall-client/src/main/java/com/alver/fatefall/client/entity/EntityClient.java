@@ -2,7 +2,6 @@ package com.alver.fatefall.client.entity;
 
 import com.alver.fatefall.api.entity.EntityApi;
 import com.alver.fatefall.data.entity.Entity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;

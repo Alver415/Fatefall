@@ -32,7 +32,7 @@
 		<joined-subclass name="Field" table="field">
 			<key column="id"/>
 			<property name="name"/>
-			<property name="value"/>
+			<property name="value" type="text" length="65535" />
 		</joined-subclass>
 	</class>
 

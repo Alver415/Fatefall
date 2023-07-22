@@ -1,12 +1,13 @@
 package com.alver.fatefall.scryfall;
 
-import com.alver.fatefall.api.models.Card;
-import com.alver.fatefall.app.fx.component.FXMLAutoLoader;
+import com.alver.fatefall.app.fx.view.FXMLAutoLoader;
+import com.alver.fatefall.data.entity.Card;
 import com.alver.fatefall.scryfall.api.ScryfallCardDeserializer;
 import com.dlsc.preferencesfx.model.Category;
 import com.dlsc.preferencesfx.model.Group;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpHeaders;
@@ -34,6 +35,7 @@ public class ScryfallConfiguration {
     }
 
     @Bean
+    @Qualifier("scryfallWebClient")
     protected WebClient getWebClient(ObjectMapper objectMapper, ScryfallCardDeserializer cardDeserializer) {
         SimpleModule module = new SimpleModule();
         module.addDeserializer(Card.class, cardDeserializer);

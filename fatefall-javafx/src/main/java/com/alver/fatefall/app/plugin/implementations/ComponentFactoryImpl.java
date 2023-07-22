@@ -23,8 +23,6 @@ public class ComponentFactoryImpl implements ComponentFactory {
     @Autowired
     protected ObservableList<Workspace> workspaceList;
     @Autowired
-    protected EntityApi<Card> cardApi;
-    @Autowired
     protected BeanFactory beanFactory;
 
     public MenuItem buildAddToCollectionMenuItem(Card card) {

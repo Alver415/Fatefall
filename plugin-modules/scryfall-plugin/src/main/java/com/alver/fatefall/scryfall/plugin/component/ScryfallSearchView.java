@@ -1,11 +1,11 @@
 package com.alver.fatefall.scryfall.plugin.component;
 
-import com.alver.fatefall.api.interfaces.WorkspaceView;
-import com.alver.fatefall.api.interfaces.CardView;
-import com.alver.fatefall.api.models.Card;
-import com.alver.fatefall.api.models.Workspace;
 import com.alver.fatefall.app.Prototype;
-import com.alver.fatefall.app.plugin.implementations.cardview.CardViewImpl;
+import com.alver.fatefall.app.fx.view.entity.card.CardView;
+import com.alver.fatefall.app.fx.view.entity.card.CardViewImpl;
+import com.alver.fatefall.app.fx.view.entity.workspace.WorkspaceView;
+import com.alver.fatefall.data.entity.Card;
+import com.alver.fatefall.data.entity.Workspace;
 import com.alver.fatefall.scryfall.api.CardApiResult;
 import com.alver.fatefall.scryfall.api.ScryfallApiClient;
 import javafx.beans.property.ObjectProperty;
@@ -28,8 +28,6 @@ public class ScryfallSearchView extends BorderPane implements WorkspaceView<Scry
 
     @Autowired
     protected ScryfallApiClient client;
-    @Autowired
-    protected ScryfallComponentFactory componentFactory;
     @Autowired
     protected BeanFactory beanFactory;
 
@@ -70,11 +68,11 @@ public class ScryfallSearchView extends BorderPane implements WorkspaceView<Scry
         String query = queryInput.getText();
         CardApiResult result = client.getCardApi().search(query);
 
-        Workspace newCollection = new Workspace();
+        Workspace newWorkspace = new Workspace();
         List<Card> cards = result.data();
-        cards.forEach(card -> newCollection.addCard(card));
+        cards.forEach(newWorkspace::addCards);
 
-        setWorkspace(newCollection);
+        setWorkspace(newWorkspace);
     }
 
     protected void refresh() {

@@ -1,38 +1,29 @@
 package com.alver.fatefall.app;
 
+import com.alver.fatefall.api.entity.EntityApi;
+import com.alver.fatefall.data.entity.Workspace;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
-import org.springframework.beans.BeansException;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
-@EnableAutoConfiguration
-public class FatefallConfiguration implements ApplicationContextAware {
+public class FatefallConfiguration {
 
-	protected ApplicationContext context;
-
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.context = applicationContext;
-	}
+	@Autowired
+	public EntityApi<Workspace> workspaceApi;
 
 	@Bean
-	public ObjectMapper getObjectMapper() {
-		return new ObjectMapper();
-	}
-
-	@Bean
-	public ObjectWriter getObjectWriter(ObjectMapper objectMapper) {
-		return objectMapper.writerWithDefaultPrettyPrinter();
+	public ObservableList<Workspace> getWorkspaces() {
+		return FXCollections.observableArrayList(workspaceApi.getAll());
 	}
 
 	@Bean
@@ -45,7 +36,12 @@ public class FatefallConfiguration implements ApplicationContextAware {
 	}
 
 	@Bean
-	public WebClient getWebClient(){
-		return WebClient.create("http://localhost:8080");
+	public ObjectMapper getObjectMapper() {
+		return new ObjectMapper();
+	}
+
+	@Bean
+	public ObjectWriter getObjectWriter(ObjectMapper objectMapper) {
+		return objectMapper.writerWithDefaultPrettyPrinter();
 	}
 }

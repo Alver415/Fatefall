@@ -100,7 +100,8 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
 
 			buildCardFace(newCard);
 
-			getContextMenu().getItems().setAll(componentFactory.buildCardViewContextMenuItems(newCard));
+			getContextMenu().getItems().add(menu);
+			getContextMenu().getItems().addAll(componentFactory.buildCardViewContextMenuItems(newCard));
 
 			Field frontUrl = newCard.getFields().get("_front_");
 			if (frontUrl != null)
