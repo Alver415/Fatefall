@@ -1,11 +1,13 @@
 package com.alver.fatefall.scryfall.plugin.component;
 
-
 import com.alver.fatefall.app.fx.component.mainstage.ApplicationView;
 import com.alver.fatefall.app.fx.view.entity.card.CardView;
 import com.alver.fatefall.app.fx.view.entity.workspace.WorkspaceView;
 import com.alver.fatefall.app.plugin.implementations.ComponentFactoryImpl;
 import com.alver.fatefall.data.entity.Card;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -23,53 +25,59 @@ import java.util.List;
 @Component
 public class ScryfallComponentFactory extends ComponentFactoryImpl {
 
-    @Autowired
-    @Lazy
-    protected ApplicationView applicationView;
+	@Autowired
+	@Lazy
+	protected ApplicationView applicationView;
 
+	@Autowired
+	protected ObjectMapper objectMapper;
 
-    public List<MenuItem> buildCardViewContextMenuItems(CardView<?> cardView) {
-        ArrayList<MenuItem> items = new ArrayList<>(super.buildCardViewContextMenuItems(cardView));
-        items.add(buildOpenInBrowserMenuItem(cardView));
-        items.add(buildOpenInWebViewMenuItem(cardView));
-        return items;
-    }
+	public List<MenuItem> buildCardViewContextMenuItems(CardView<?> cardView) {
+		ArrayList<MenuItem> items = new ArrayList<>(super.buildCardViewContextMenuItems(cardView));
+		items.add(buildOpenInBrowserMenuItem(cardView));
+		items.add(buildOpenInWebViewMenuItem(cardView));
+		return items;
+	}
 
-    private MenuItem buildOpenInWebViewMenuItem(CardView<?> cardView) {
-        MenuItem openWebView = new MenuItem();
-        openWebView.setText("Open in WebView.");
-        openWebView.setOnAction(a -> {
-            TabPane tabPane = applicationView.getTabPane();
-            Tab tab = new Tab("Scryfall - " + cardView.getCard().getName());
-            WebView webView = new WebView();
-            webView.getEngine().load(getUrl(cardView.getCard()));
-            tab.setContent(webView);
-            tabPane.getTabs().add(tab);
-            tabPane.getSelectionModel().select(tab);
-        });
-        return openWebView;
-    }
+	private MenuItem buildOpenInWebViewMenuItem(CardView<?> cardView) {
+		MenuItem openWebView = new MenuItem();
+		openWebView.setText("Open in WebView.");
+		openWebView.setOnAction(a -> {
+			TabPane tabPane = applicationView.getTabPane();
+			Tab tab = new Tab("Scryfall - " + cardView.getCard().getName());
+			WebView webView = new WebView();
+			webView.getEngine().load(getUrl(cardView.getCard()));
+			tab.setContent(webView);
+			tabPane.getTabs().add(tab);
+			tabPane.getSelectionModel().select(tab);
+		});
+		return openWebView;
+	}
 
-    private static MenuItem buildOpenInBrowserMenuItem(CardView<?> cardView) {
-        MenuItem openBrowser = new MenuItem();
-        openBrowser.setText("Open in default browser.");
-        openBrowser.setOnAction(a -> {
-            try {
-                java.awt.Desktop.getDesktop().browse(new URI(getUrl(cardView.getCard())));
-            } catch (IOException | URISyntaxException e) {
-                throw new RuntimeException(e);
-            }
-        });
-        return openBrowser;
-    }
+	private MenuItem buildOpenInBrowserMenuItem(CardView<?> cardView) {
+		MenuItem openBrowser = new MenuItem();
+		openBrowser.setText("Open in default browser.");
+		openBrowser.setOnAction(a -> {
+			try {
+				java.awt.Desktop.getDesktop().browse(new URI(getUrl(cardView.getCard())));
+			} catch (IOException | URISyntaxException e) {
+				throw new RuntimeException(e);
+			}
+		});
+		return openBrowser;
+	}
 
-    private static String getUrl(Card card) {
-        return card.getFields().get("scryfall_url").getValue();
-    }
+	private String getUrl(Card card) {
+		try {
+			JsonNode json = objectMapper.readTree(card.getData());
+			return json.get("scryfall_url").asText();
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-
-    @Override
-    public WorkspaceView buildWorkspaceView() {
-        return new ScryfallSearchView();
-    }
+	@Override
+	public WorkspaceView<?> buildWorkspaceView() {
+		return new ScryfallSearchView();
+	}
 }

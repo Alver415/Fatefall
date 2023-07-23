@@ -1,10 +1,12 @@
 package com.alver.fatefall.data.entity;
 
-import java.util.*;
+import java.util.Objects;
 
 public abstract class Entity {
 
 	private Long id;
+	private String name;
+	private String data;
 
 	public Long getId() {
 		return id;
@@ -12,26 +14,36 @@ public abstract class Entity {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	private Map<String, Field> fields = new LinkedHashMap<>();
-
-	public Map<String, Field> getFields() {
-		return fields;
+	public String getName() {
+		return name;
 	}
-	private void setFields(Map<String, Field> fields) {
-		this.fields = fields;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public void addField(Field field) {
-		addFields(Map.of(field.getName(), field));
+	public String getData() {
+		return data;
 	}
-	public void addField(String key, Field field) {
-		addFields(Map.of(key, field));
-	}
-	public void addFields(Map<String,Field> fields) {
-		this.fields.putAll(fields);
-	}
-	public void removeField(String key) {
-		this.fields.remove(key);
+	public void setData(String data) {
+		this.data = data;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Entity entity = (Entity) o;
+
+		if (!Objects.equals(id, entity.id)) return false;
+		if (!Objects.equals(name, entity.name)) return false;
+		return Objects.equals(data, entity.data);
+	}
+	@Override
+	public int hashCode() {
+		int result = id != null ? id.hashCode() : 0;
+		result = 31 * result + (name != null ? name.hashCode() : 0);
+		result = 31 * result + (data != null ? data.hashCode() : 0);
+		return result;
+	}
 }

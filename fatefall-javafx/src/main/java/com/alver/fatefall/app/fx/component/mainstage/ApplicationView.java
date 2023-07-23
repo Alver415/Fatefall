@@ -6,25 +6,18 @@ import com.alver.fatefall.app.fx.view.FXMLAutoLoad;
 import com.alver.fatefall.app.fx.component.settings.FatefallPreferences;
 import com.alver.fatefall.app.services.ActionEventHandler;
 import com.alver.fatefall.app.services.ComponentFactory;
-import com.alver.fatefall.app.services.DialogManager;
 import com.alver.fatefall.data.entity.Card;
-import com.alver.fatefall.data.entity.Field;
 import com.alver.fatefall.data.entity.Workspace;
-import com.alver.fxmlsaver.FXMLSaver;
-import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Callback;
-import jdk.jfr.Label;
 import org.pf4j.PluginManager;
 import org.pf4j.PluginWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -129,14 +122,8 @@ public class ApplicationView extends BorderPane {
 	private void createCard() {
 		Workspace selectedItem = listView.getSelectionModel().getSelectedItem();
 		Card card = new Card();
-		Field field = new Field();
-		field.setName("attr_1");
-		field.setValue("This is an Attribute.");
-		card.addField(field);
-		field = new Field();
-		field.setName("attr_2");
-		field.setValue("This is another Attribute.");
-		card.addField(field);
+		card.setName("New Card Name");
+		card.setData("New Card Data");
 		selectedItem.addCards(card);
 	}
 
@@ -160,7 +147,8 @@ public class ApplicationView extends BorderPane {
 	protected void save() {
 		Workspace selectedWorkspace = listView.getSelectionModel().getSelectedItem();
 		if (selectedWorkspace.getId() == null) {
-			workspaceApi.create(selectedWorkspace);
+			Workspace workspace = workspaceApi.create(selectedWorkspace);
+			selectedWorkspace.setId(workspace.getId());
 		} else {
 			workspaceApi.update(selectedWorkspace.getId(), selectedWorkspace);
 		}
@@ -196,6 +184,8 @@ public class ApplicationView extends BorderPane {
 			Workspace saved = workspace.getId() == null ?
 					workspaceApi.create(workspace) :
 					workspaceApi.update(workspace.getId(), workspace);
+			workspaces.remove(workspace);
+			workspaces.add(saved);
 		});
 		contextMenu.getItems().add(save);
 

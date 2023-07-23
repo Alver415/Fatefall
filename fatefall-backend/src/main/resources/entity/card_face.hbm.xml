@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+		"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.alver.fatefall.data.entity">
+	<class name="CardFace" table="card_faces">
+		<id name="id" column="id" type="long">
+			<generator class="native"/>
+		</id>
+		<property name="data" 			column="data" 			type="text" length="65535"/>
+		<property name="fxmlTemplate"	column="fxml_template" 	type="text" length="65535"/>
+		<property name="imageUrl" 		column="image_url" 		type="text" length="65535"/>
+	</class>
+</hibernate-mapping>

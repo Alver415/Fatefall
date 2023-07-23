@@ -4,19 +4,13 @@ import com.alver.fatefall.app.Prototype;
 import com.alver.fatefall.app.fx.view.entity.card.CardView;
 import com.alver.fatefall.app.fx.component.settings.FatefallProperties;
 import com.alver.fatefall.app.fx.view.entity.card.CardViewImpl;
-import com.alver.fatefall.app.fx.view.entity.field.FieldTreeTableView;
 import com.alver.fatefall.app.services.AsyncService;
 import com.alver.fatefall.data.entity.Card;
-import com.alver.fatefall.data.entity.Field;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -28,7 +22,6 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.alver.fatefall.app.fx.util.JFXSmoothScroll.smoothScrolling;
-import static com.alver.fatefall.app.fx.util.JFXSmoothScroll.smoothVerticalScrolling;
 
 @Prototype
 public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
@@ -83,52 +76,13 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
             }
         });
 
-        LoadingCache<Card, FieldTreeTableView> cache = CacheBuilder.newBuilder().build(new CacheLoader<>() {
-            public FieldTreeTableView load(Card card) { // no checked exception
-                FieldTreeTableView view = new FieldTreeTableView();
-                TreeItem<Field> root = new TreeItem<>();
-                root.setExpanded(true);
-                for (Field childAttribute : card.getFields().values()){
-                    TreeItem<Field> childItem = new TreeItem<>(childAttribute);
-                    buildTreeItem(childItem);
-                    childItem.setExpanded(true);
-                    root.getChildren().add(childItem);
-                }
-                view.setRoot(root);
-                return view;
-            }
-        });
-        TableColumn<Card, Node> attributesColumn = new TableColumn<>("Attributes");
-        attributesColumn.prefWidthProperty().bind(getSkinnable().widthProperty().subtract(cardColumn.widthProperty()));
-        attributesColumn.setEditable(true);
-        attributesColumn.setCellFactory(new Callback<>() {
-            @Override
-            public TableCell<Card, Node> call(TableColumn<Card, Node> param) {
-                TableCell<Card, Node> cell = new TableCell<>() {
-                    @Override
-                    protected void updateItem(Node item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else if (getTableRow().getItem() != null){
-                            Card card = getTableRow().getItem();
-                            setGraphic(cache.getUnchecked(card));
-                        }
-                    }
-
-                };
-                cell.setAlignment(Pos.CENTER);
-                return cell;
-            }
-        });
         TableColumn<Card, String> dataColumn = new TableColumn<>("Data");
         dataColumn.setCellValueFactory(new PropertyValueFactory<>("data"));
         dataColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         dataColumn.setEditable(true);
 
         tableView.getColumns().add(cardColumn);
-        tableView.getColumns().add(attributesColumn);
-//        tableView.getColumns().add(dataColumn);
+        tableView.getColumns().add(dataColumn);
 
         BorderPane borderPane = new BorderPane();
         borderPane.setTop(filterField);
@@ -160,13 +114,4 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
         tableView.setItems(filteredList);
     }
 
-    private void buildTreeItem(TreeItem<Field> parentItem) {
-        Field parentAttribute = parentItem.getValue();
-        for (Field childAttribute : parentAttribute.getFields().values()){
-            TreeItem<Field> childItem = new TreeItem<>(childAttribute);
-            childItem.setExpanded(true);
-            buildTreeItem(childItem);
-            parentItem.getChildren().add(childItem);
-        }
-    }
 }

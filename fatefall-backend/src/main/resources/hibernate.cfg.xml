@@ -31,7 +31,9 @@
 		<!-- Dont Drop and re-create the database schema on startup,Just update it -->
 		<property name="hbm2ddl.auto">update</property>
 
-		<mapping resource="entity.hbm.xml"/>
+		<mapping resource="entity/workspace.hbm.xml"/>
+		<mapping resource="entity/card.hbm.xml"/>
+		<mapping resource="entity/card_face.hbm.xml"/>
 
 	</session-factory>
 

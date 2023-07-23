@@ -2,29 +2,19 @@ package com.alver.fatefall.data.entity;
 
 public class Card extends Entity {
 
-	private String name;
-	protected String frontFxml;
-	protected String backFxml;
+	private CardFace front = new CardFace();
+	private CardFace back = new CardFace();
 
-	public String getName() {
-		return name;
+	public CardFace getFront() {
+		return front;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setFront(CardFace front) {
+		this.front = front;
 	}
-
-	public String getFrontFxml() {
-		return frontFxml;
+	public CardFace getBack() {
+		return back;
 	}
-	public void setFrontFxml(String frontFxml) {
-		this.frontFxml = frontFxml;
+	public void setBack(CardFace back) {
+		this.back = back;
 	}
-
-	public String getBackFxml() {
-		return backFxml;
-	}
-	public void setBackFxml(String backFxml) {
-		this.backFxml = backFxml;
-	}
-
 }

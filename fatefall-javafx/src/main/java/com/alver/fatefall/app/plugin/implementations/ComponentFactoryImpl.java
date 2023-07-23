@@ -1,7 +1,6 @@
 package com.alver.fatefall.app.plugin.implementations;
 
 import com.alver.fatefall.app.Prototype;
-import com.alver.fatefall.app.fx.editor.block.Block;
 import com.alver.fatefall.app.fx.editor.block.TextBlock;
 import com.alver.fatefall.app.fx.view.entity.card.CardView;
 import com.alver.fatefall.app.fx.view.entity.card.CardViewImpl;
@@ -11,7 +10,6 @@ import com.alver.fatefall.app.services.ComponentFactory;
 import com.alver.fatefall.data.entity.Workspace;
 import com.alver.fxmlsaver.FXMLSaver;
 import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import org.springframework.beans.factory.BeanFactory;
@@ -59,10 +57,10 @@ public class ComponentFactoryImpl implements ComponentFactory {
 		confirm.setOnAction(a -> {
 			if (cardView.getFxViewNode() instanceof CardViewImpl impl) {
 				if (!impl.getFront().getChildren().isEmpty()) {
-					cardView.getCard().setFrontFxml(FXMLSaver.serialize(impl.getFront().getChildren().get(0)));
+					cardView.getCard().getFront().setFxmlTemplate(FXMLSaver.serialize(impl.getFront().getChildren().get(0)));
 				}
 				if (!impl.getBack().getChildren().isEmpty()) {
-					cardView.getCard().setBackFxml(FXMLSaver.serialize(impl.getBack().getChildren().get(0)));
+					cardView.getCard().getBack().setFxmlTemplate(FXMLSaver.serialize(impl.getBack().getChildren().get(0)));
 				}
 			}
 
@@ -74,8 +72,8 @@ public class ComponentFactoryImpl implements ComponentFactory {
 			if (cardView.getFxViewNode() instanceof CardViewImpl impl) {
 				impl.getFront().getChildren().clear();
 				impl.getBack().getChildren().clear();
-				cardView.getCard().setFrontFxml(null);
-				cardView.getCard().setBackFxml(null);
+				cardView.getCard().getFront().setFxmlTemplate(null);
+				cardView.getCard().getBack().setFxmlTemplate(null);
 			}
 		});
 		menu.getItems().add(clear);

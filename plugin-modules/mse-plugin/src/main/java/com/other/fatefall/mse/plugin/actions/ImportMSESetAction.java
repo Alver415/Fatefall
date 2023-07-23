@@ -4,7 +4,6 @@ import com.alver.fatefall.app.CardDeserializer;
 import com.alver.fatefall.app.services.ActionEventHandler;
 import com.alver.fatefall.app.services.DialogManager;
 import com.alver.fatefall.data.entity.Card;
-import com.alver.fatefall.data.entity.Field;
 import com.alver.fatefall.data.entity.Workspace;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -75,13 +74,13 @@ public class ImportMSESetAction implements ActionEventHandler {
 				String name_2 = json.findPath("name_2").asText();
 				if (name_2.isEmpty()) {
 					String frontUrl = "file:" + setManager.getImagesPath().resolve(cardImageFileName + ".png");
-					card.addField(new Field("_front_", frontUrl));
-					card.addField(new Field("_back_", SetManager.DEFAULT_CARD_BACK_FACE));
+					card.getFront().setImageUrl(frontUrl);
+					card.getBack().setImageUrl(SetManager.DEFAULT_CARD_BACK_FACE);
 				} else {
 					String frontUrl = "file:" + setManager.getImagesPath().resolve(cardImageFileName + ".card_front.png");
 					String backUrl = "file:" + setManager.getImagesPath().resolve(cardImageFileName + ".card_back.png");
-					card.addField(new Field("_front_", frontUrl));
-					card.addField(new Field("_back_", backUrl));
+					card.getFront().setImageUrl(frontUrl);
+					card.getBack().setImageUrl(backUrl);
 				}
 				workspace.addCards(card);
 			});

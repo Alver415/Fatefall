@@ -2,7 +2,6 @@ package com.alver.fatefall.scryfall.api;
 
 import com.alver.fatefall.app.CardDeserializer;
 import com.alver.fatefall.data.entity.Card;
-import com.alver.fatefall.data.entity.Field;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.stereotype.Component;
 
@@ -26,8 +25,8 @@ public class ScryfallCardDeserializer extends CardDeserializer {
             backUrl = defaultCardBackUrl;
         }
 
-        card.addField(new Field("_front_", frontUrl));
-        card.addField(new Field("_back_", backUrl));
+        card.getFront().setImageUrl(frontUrl);
+        card.getBack().setImageUrl(backUrl);
 
         return card;
     }

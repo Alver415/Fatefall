@@ -2,11 +2,9 @@ package com.alver.fatefall.app.fx.view.entity.card;
 
 import com.alver.fatefall.app.Prototype;
 import com.alver.fatefall.app.fx.editor.block.ImageBlock;
-import com.alver.fatefall.app.fx.editor.block.TextBlock;
 import com.alver.fatefall.app.fx.component.settings.FatefallProperties;
 import com.alver.fatefall.app.services.ComponentFactory;
 import com.alver.fatefall.data.entity.Card;
-import com.alver.fatefall.data.entity.Field;
 import com.google.common.cache.LoadingCache;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -46,22 +44,23 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
 		return cardProperty;
 	}
 
-	protected ObjectProperty<CardFace> frontProperty = new SimpleObjectProperty<>();
+	protected ObjectProperty<CardFaceView> frontProperty = new SimpleObjectProperty<>();
 
 	@Override
-	public ObjectProperty<CardFace> frontProperty() {
+	public ObjectProperty<CardFaceView> frontProperty() {
 		return frontProperty;
 	}
 
-	protected ObjectProperty<CardFace> backProperty = new SimpleObjectProperty<>();
+	protected ObjectProperty<CardFaceView> backProperty = new SimpleObjectProperty<>();
 
 	@Override
-	public ObjectProperty<CardFace> backProperty() {
+	public ObjectProperty<CardFaceView> backProperty() {
 		return backProperty;
 	}
 
 	protected BeanFactory beanFactory;
 	protected FatefallProperties properties;
+	protected LoadingCache<String, Image> imageCache;
 
 	/**
 	 * === Constructor ===
@@ -75,9 +74,10 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
 		super();
 		this.properties = properties;
 		this.beanFactory = beanFactory;
+		this.imageCache = imageCache;
 
-		setFront(beanFactory.getBean(CardFace.class));
-		setBack(beanFactory.getBean(CardFace.class));
+		setFront(beanFactory.getBean(CardFaceView.class));
+		setBack(beanFactory.getBean(CardFaceView.class));
 
 		MenuItem adjacent = buildMenuItem("Adjacent", ADJACENT_IMAGE, () -> setSkin(new AdjacentSkin(this, properties)));
 		MenuItem stacked = buildMenuItem("Stacked", STACKED_IMAGE, () -> setSkin(new StackedSkin(this, properties)));
@@ -98,18 +98,13 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
 				return;
 			}
 
-			buildCardFace(newCard);
+			buildCardFaces(newCard);
 
 			getContextMenu().getItems().add(menu);
 			getContextMenu().getItems().addAll(componentFactory.buildCardViewContextMenuItems(this));
 
-			Field frontUrl = newCard.getFields().get("_front_");
-			if (frontUrl != null)
-				setupCardFace(getFront(), imageCache.getUnchecked(frontUrl.getValue()));
-
-			Field backUrl = newCard.getFields().get("_back_");
-			if (backUrl != null)
-				setupCardFace(getBack(), imageCache.getUnchecked(backUrl.getValue()));
+			setupCardFace(getFront(), newCard.getFront().getImageUrl());
+			setupCardFace(getBack(), newCard.getBack().getImageUrl());
 
 		});
 
@@ -118,16 +113,16 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
 		});
 	}
 
-	private void buildCardFace(Card card) {
+	private void buildCardFaces(Card card) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			String frontFxml = card.getFrontFxml();
+			String frontFxml = card.getFront().getFxmlTemplate();
 			if (frontFxml != null) {
 				Node front = loader.load(new ByteArrayInputStream(frontFxml.getBytes()));
 				getFront().getChildren().setAll(front);
 			}
 
-			String backFxml = card.getBackFxml();
+			String backFxml = card.getBack().getFxmlTemplate();
 			if (backFxml != null) {
 				Node back = loader.load(new ByteArrayInputStream(backFxml.getBytes()));
 				getBack().getChildren().setAll(back);
@@ -138,36 +133,20 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
 		}
 	}
 
-	private void traverse(Node node, Consumer<Node> hook){
+	private void traverse(Node node, Consumer<Node> hook) {
 		hook.accept(node);
-		if (node instanceof Parent parent){
-			for (Node child : parent.getChildrenUnmodifiable()){
+		if (node instanceof Parent parent) {
+			for (Node child : parent.getChildrenUnmodifiable()) {
 				traverse(child, hook);
 			}
 		}
-
 	}
 
-	private Node buildElements(Field attribute) {
-		TextBlock textBlock = new TextBlock();
-//		textBlock.textProperty().bindBidirectional(attribute.valueProperty());
-//		textBlock.topProperty().bindBidirectional(attribute.topProperty());
-//		textBlock.bottomProperty().bindBidirectional(attribute.bottomProperty());
-//		textBlock.leftProperty().bindBidirectional(attribute.leftProperty());
-//		textBlock.rightProperty().bindBidirectional(attribute.rightProperty());
-
-		for (Field childAttribute : attribute.getFields().values()) {
-			Node childNode = buildElements(childAttribute);
-			textBlock.getChildren().add(childNode);
-		}
-		return textBlock;
-
-	}
-
-	private void setupCardFace(CardFace cardFace, Image image) {
-		ImageBlock imageBlock = new ImageBlock(image);
-		bindRegionDimensions(imageBlock, cardFace);
-		cardFace.getChildren().setAll(imageBlock);
+	private void setupCardFace(CardFaceView cardFaceView, String imageUrl) {
+		if (imageUrl == null) return;
+		ImageBlock imageBlock = new ImageBlock(imageCache.getUnchecked(imageUrl));
+		bindRegionDimensions(imageBlock, cardFaceView);
+		cardFaceView.getChildren().setAll(imageBlock);
 	}
 
 	private void bindRegionDimensions(Region first, Region second) {

@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+		"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.alver.fatefall.data.entity">
+	<class name="Card" table="cards">
+		<id name="id" column="id" type="long">
+			<generator class="native"/>
+		</id>
+		<property name="data" column="data" type="text" length="65535"/>
+
+		<many-to-one name="front" column="front_id" class="CardFace" fetch="join" lazy="false" cascade="all"/>
+		<many-to-one name="back"  column="back_id"  class="CardFace" fetch="join" lazy="false" cascade="all"/>
+	</class>
+</hibernate-mapping>

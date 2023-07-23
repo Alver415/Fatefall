@@ -19,24 +19,24 @@ public interface CardView<T extends Node> extends FxView<T>, Skinnable {
     }
 
 
-    ObjectProperty<CardFace> frontProperty();
+    ObjectProperty<CardFaceView> frontProperty();
 
-    default CardFace getFront() {
+    default CardFaceView getFront() {
         return frontProperty().get();
     }
 
-    default void setFront(CardFace front) {
+    default void setFront(CardFaceView front) {
         frontProperty().set(front);
     }
 
 
-    ObjectProperty<CardFace> backProperty();
+    ObjectProperty<CardFaceView> backProperty();
 
-    default CardFace getBack() {
+    default CardFaceView getBack() {
         return backProperty().get();
     }
 
-    default void setBack(CardFace back) {
+    default void setBack(CardFaceView back) {
         backProperty().set(back);
     }
 }

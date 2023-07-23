@@ -7,12 +7,12 @@ import javafx.scene.shape.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Prototype
-public class CardFace extends AnchorPane {
+public class CardFaceView extends AnchorPane {
 
     protected FatefallProperties properties;
 
     @Autowired
-    public CardFace(FatefallProperties properties) {
+    public CardFaceView(FatefallProperties properties) {
         super();
         this.properties = properties;
 

@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+		"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.alver.fatefall.data.entity">
+	<class name="Workspace" table="workspace">
+		<id name="id">
+			<generator class="increment"/>
+		</id>
+
+		<property name="name"/>
+		<property name="data" length="65535"/>
+
+		<set name="cards" cascade="all-delete-orphan" lazy="false">
+			<key column="workspace_id"/>
+			<one-to-many class="Card"/>
+		</set>
+	</class>
+</hibernate-mapping>
