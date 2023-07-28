@@ -1,6 +1,6 @@
-package com.alver.fatefall.app.fx.component.mainstage;
+package com.alver.fatefall.action;
 
-import com.alver.fatefall.app.services.ActionEventHandler;
+import com.alver.fatefall.app.fx.entity.WorkspaceFX;
 import com.alver.fatefall.app.services.DialogManager;
 import com.alver.fatefall.data.entity.Workspace;
 import javafx.collections.ObservableList;
@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Component
 @Extension
-public class WorkspaceCreateAction implements ActionEventHandler {
+public class WorkspaceCreateAction extends ActionEventHandlerImpl {
 
 	@Autowired
 	public DialogManager dialogManager;
@@ -22,10 +22,10 @@ public class WorkspaceCreateAction implements ActionEventHandler {
 	@Autowired
 	protected ObservableList<Workspace> workspaces;
 
-	@Override
-	public String getName() {
-		return "Create Workspace";
+	public WorkspaceCreateAction(){
+		super("Create Workspace");
 	}
+
 	@Override
 	public void handle(ActionEvent event) {
 		TextInputDialog dialog = new TextInputDialog();
@@ -33,7 +33,7 @@ public class WorkspaceCreateAction implements ActionEventHandler {
 		if (name.isEmpty()) {
 			return;
 		}
-		Workspace workspace = new Workspace();
+		WorkspaceFX workspace = new WorkspaceFX();
 		workspace.setName(name.get());
 		workspaces.add(workspace);
 	}

@@ -1,40 +1,25 @@
 package com.alver.fatefall.data.entity;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 
-public class Workspace extends Entity {
+public interface Workspace<ICard extends Card<?>> extends Entity {
 
-	private String name;
+	List<ICard> getCards();
 
-	protected Set<Card> cards = new HashSet<>();
-
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
+	default void addCards(ICard... cards) {
+		getCards().addAll(List.of(cards));
 	}
 
-	public Set<Card> getCards() {
-		return cards;
-	}
-	private void setCards(Set<Card> cards) {
-		this.cards = cards;
-	}
-	public void addCards(Card card) {
-		addCards(List.of(card));
-	}
-	public void addCards(Card... cards) {
-		addCards(List.of(cards));
-	}
-	public void addCards(Collection<Card> cards) {
-		this.cards.addAll(cards);
-	}
-	public void removeCards(Card... cards) {
-		removeCards(List.of(cards));
-	}
-	public void removeCards(Collection<Card> cards) {
-		this.cards.removeAll(cards);
+	default void addCards(Collection<ICard> cards) {
+		getCards().addAll(cards);
 	}
 
+	default void removeCards(ICard... cards) {
+		getCards().removeAll(List.of(cards));
+	}
+
+	default void removeCards(Collection<ICard> cards) {
+		getCards().removeAll(cards);
+	}
 }

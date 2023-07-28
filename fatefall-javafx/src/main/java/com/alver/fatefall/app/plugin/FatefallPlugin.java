@@ -48,10 +48,10 @@ public abstract class FatefallPlugin extends SpringPlugin {
         }
     }
 
-    public void createWorkspace(Workspace workspace) {
+    public void createWorkspace(Workspace IWorkspace) {
         PluginManager pluginManager = getWrapper().getPluginManager();
         if (pluginManager instanceof FatefallPluginManager fatefallPluginManager) {
-            fatefallPluginManager.createWorkspace(workspace);
+            fatefallPluginManager.createWorkspace(IWorkspace);
         }
     }
 

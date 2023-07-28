@@ -1,6 +1,6 @@
 package com.alver.fatefall.scryfall.plugin.actions;
 
-import com.alver.fatefall.app.services.ActionEventHandler;
+import com.alver.fatefall.action.ActionEventHandler;
 import com.alver.fatefall.scryfall.plugin.ScryfallPlugin;
 import com.alver.fatefall.scryfall.plugin.component.ScryfallSearchView;
 import javafx.event.ActionEvent;
@@ -23,7 +23,7 @@ public class CreateScryfallSearchViewAction implements ActionEventHandler {
 
 
     @Override
-    public String getName() {
+    public String getTitle() {
         return name;
     }
     @Override
@@ -33,6 +33,6 @@ public class CreateScryfallSearchViewAction implements ActionEventHandler {
 
     @Override
     public void handle(ActionEvent event) {
-        plugin.createToolTab(getName(), beanFactory.getBean(ScryfallSearchView.class));
+        plugin.createToolTab(getTitle(), beanFactory.getBean(ScryfallSearchView.class));
     }
 }

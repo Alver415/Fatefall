@@ -1,7 +1,7 @@
 package com.alver.fatefall.app;
 
 import com.alver.fatefall.api.entity.EntityApi;
-import com.alver.fatefall.data.entity.Workspace;
+import com.alver.fatefall.app.fx.entity.WorkspaceFX;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.google.common.cache.CacheBuilder;
@@ -13,16 +13,15 @@ import javafx.scene.image.Image;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 public class FatefallConfiguration {
 
 	@Autowired
-	public EntityApi<Workspace> workspaceApi;
+	public EntityApi<WorkspaceFX> workspaceApi;
 
 	@Bean
-	public ObservableList<Workspace> getWorkspaces() {
+	public ObservableList<WorkspaceFX> getWorkspaces() {
 		return FXCollections.observableArrayList(workspaceApi.getAll());
 	}
 
@@ -35,13 +34,4 @@ public class FatefallConfiguration {
 		});
 	}
 
-	@Bean
-	public ObjectMapper getObjectMapper() {
-		return new ObjectMapper();
-	}
-
-	@Bean
-	public ObjectWriter getObjectWriter(ObjectMapper objectMapper) {
-		return objectMapper.writerWithDefaultPrettyPrinter();
-	}
 }

@@ -1,6 +1,8 @@
 package com.alver.fatefall.scryfall.plugin.component;
 
 import com.alver.fatefall.app.Prototype;
+import com.alver.fatefall.app.fx.entity.CardFX;
+import com.alver.fatefall.app.fx.entity.WorkspaceFX;
 import com.alver.fatefall.app.fx.view.entity.card.CardView;
 import com.alver.fatefall.app.fx.view.entity.card.CardViewImpl;
 import com.alver.fatefall.app.fx.view.entity.workspace.WorkspaceView;
@@ -56,10 +58,10 @@ public class ScryfallSearchView extends BorderPane implements WorkspaceView<Scry
         }
     }
 
-    protected ObjectProperty<Workspace> workspaceProperty = new SimpleObjectProperty<>();
+    protected ObjectProperty<WorkspaceFX> workspaceProperty = new SimpleObjectProperty<>();
 
     @Override
-    public ObjectProperty<Workspace> workspaceProperty() {
+    public ObjectProperty<WorkspaceFX> workspaceProperty() {
         return workspaceProperty;
     }
 
@@ -68,8 +70,8 @@ public class ScryfallSearchView extends BorderPane implements WorkspaceView<Scry
         String query = queryInput.getText();
         CardApiResult result = client.getCardApi().search(query);
 
-        Workspace newWorkspace = new Workspace();
-        List<Card> cards = result.data();
+        WorkspaceFX newWorkspace = new WorkspaceFX();
+        List<CardFX> cards = result.data();
         cards.forEach(newWorkspace::addCards);
 
         setWorkspace(newWorkspace);
@@ -77,7 +79,7 @@ public class ScryfallSearchView extends BorderPane implements WorkspaceView<Scry
 
     protected void refresh() {
         flowPane.getChildren().clear();
-        for (Card card : getWorkspace().getCards()) {
+        for (CardFX card : getWorkspace().getCards()) {
             CardView<?> cardView = beanFactory.getBean(CardViewImpl.class);
             cardView.setCard(card);
             Node cardViewNode = cardView.getFxViewNode();

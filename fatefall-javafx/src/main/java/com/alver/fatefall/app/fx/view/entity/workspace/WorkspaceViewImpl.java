@@ -2,6 +2,7 @@ package com.alver.fatefall.app.fx.view.entity.workspace;
 
 import com.alver.fatefall.app.Prototype;
 import com.alver.fatefall.app.fx.component.settings.FatefallProperties;
+import com.alver.fatefall.app.fx.entity.WorkspaceFX;
 import com.alver.fatefall.data.entity.Workspace;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -14,9 +15,9 @@ public class WorkspaceViewImpl extends Control implements WorkspaceView<Workspac
 	protected final BeanFactory beanFactory;
 	protected final FatefallProperties properties;
 
-	protected ObjectProperty<Workspace> workspaceProperty = new SimpleObjectProperty<>();
+	protected ObjectProperty<WorkspaceFX> workspaceProperty = new SimpleObjectProperty<>();
 
-	public ObjectProperty<Workspace> workspaceProperty() {
+	public ObjectProperty<WorkspaceFX> workspaceProperty() {
 		return workspaceProperty;
 	}
 

@@ -12,7 +12,6 @@
 	<modules>
 		<module>fatefall-core</module>
 		<module>fatefall-backend</module>
-		<module>fatefall-client</module>
 		<module>fatefall-javafx</module>
 	</modules>
 
@@ -48,11 +47,6 @@
 			<dependency>
 				<groupId>com.alver.fatefall</groupId>
 				<artifactId>fatefall-server</artifactId>
-				<version>${revision}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.alver.fatefall</groupId>
-				<artifactId>fatefall-client</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>

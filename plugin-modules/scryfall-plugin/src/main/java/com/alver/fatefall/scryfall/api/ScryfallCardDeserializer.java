@@ -1,6 +1,7 @@
 package com.alver.fatefall.scryfall.api;
 
 import com.alver.fatefall.app.CardDeserializer;
+import com.alver.fatefall.app.fx.entity.CardFX;
 import com.alver.fatefall.data.entity.Card;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.stereotype.Component;
@@ -13,8 +14,8 @@ public class ScryfallCardDeserializer extends CardDeserializer {
     private final String defaultCardBackUrl = Objects.requireNonNull(CardApi.class.getResource("magic_card_back.png")).toExternalForm();
 
     @Override
-    public Card buildCard(JsonNode json) {
-        Card card = super.buildCard(json);
+    public CardFX buildCard(JsonNode json) {
+        CardFX card = super.buildCard(json);
         card.setName(json.findValue("name").asText());
         String frontUrl, backUrl;
         if (!json.path("card_faces").isEmpty()) {

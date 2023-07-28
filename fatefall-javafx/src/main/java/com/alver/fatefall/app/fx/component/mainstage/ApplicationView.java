@@ -1,12 +1,14 @@
 package com.alver.fatefall.app.fx.component.mainstage;
 
+import com.alver.fatefall.action.WorkspaceCreateAction;
 import com.alver.fatefall.api.entity.EntityApi;
+import com.alver.fatefall.app.fx.entity.CardFX;
+import com.alver.fatefall.app.fx.entity.WorkspaceFX;
 import com.alver.fatefall.app.fx.view.entity.workspace.WorkspaceView;
 import com.alver.fatefall.app.fx.view.FXMLAutoLoad;
 import com.alver.fatefall.app.fx.component.settings.FatefallPreferences;
-import com.alver.fatefall.app.services.ActionEventHandler;
+import com.alver.fatefall.action.ActionEventHandler;
 import com.alver.fatefall.app.services.ComponentFactory;
-import com.alver.fatefall.data.entity.Card;
 import com.alver.fatefall.data.entity.Workspace;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,9 +30,9 @@ import java.util.Objects;
 public class ApplicationView extends BorderPane {
 
 	@Autowired
-	protected ObservableList<Workspace> workspaces;
+	protected ObservableList<WorkspaceFX> workspaces;
 	@Autowired
-	protected EntityApi<Workspace> workspaceApi;
+	protected EntityApi<WorkspaceFX> workspaceApi;
 	@Autowired
 	protected WorkspaceCreateAction workspaceCreateAction;
 	@Autowired
@@ -44,7 +46,7 @@ public class ApplicationView extends BorderPane {
 	 * FXML Injection
 	 */
 	@FXML
-	protected ListView<Workspace> listView;
+	protected ListView<WorkspaceFX> listView;
 	@FXML
 	protected TabPane tabPane;
 	@FXML
@@ -68,7 +70,7 @@ public class ApplicationView extends BorderPane {
 	}
 
 	private MenuItem buildMenuItem(ActionEventHandler action) {
-		MenuItem menuItem = new MenuItem(action.getName());
+		MenuItem menuItem = new MenuItem(action.getTitle());
 		menuItem.setOnAction(action);
 		return menuItem;
 	}
@@ -89,7 +91,7 @@ public class ApplicationView extends BorderPane {
 		preferences.show();
 	}
 
-	private Tab addCollectionTab(Workspace workspace) {
+	private Tab addCollectionTab(WorkspaceFX workspace) {
 		WorkspaceView<?> workspaceView = componentFactory.buildWorkspaceView();
 		workspaceView.setWorkspace(workspace);
 
@@ -112,7 +114,7 @@ public class ApplicationView extends BorderPane {
 			if (nameAlreadyExists) {
 				throw new RuntimeException("A collection with that name already exists.");
 			}
-			Workspace workspace = new Workspace();
+			WorkspaceFX workspace = new WorkspaceFX();
 			workspace.setName(name);
 			workspaces.add(workspace);
 		});
@@ -120,14 +122,14 @@ public class ApplicationView extends BorderPane {
 
 	@FXML
 	private void createCard() {
-		Workspace selectedItem = listView.getSelectionModel().getSelectedItem();
-		Card card = new Card();
+		WorkspaceFX selectedItem = listView.getSelectionModel().getSelectedItem();
+		CardFX card = new CardFX();
 		card.setName("New Card Name");
 		card.setData("New Card Data");
 		selectedItem.addCards(card);
 	}
 
-	protected void openCollection(Workspace workspace) {
+	protected void openCollection(WorkspaceFX workspace) {
 		tabPane.getTabs().stream()
 				.filter(tab -> tab.getText().equals(workspace.getName()))
 				.findFirst()
@@ -145,10 +147,11 @@ public class ApplicationView extends BorderPane {
 
 	@FXML
 	protected void save() {
-		Workspace selectedWorkspace = listView.getSelectionModel().getSelectedItem();
+		WorkspaceFX selectedWorkspace = listView.getSelectionModel().getSelectedItem();
 		if (selectedWorkspace.getId() == null) {
-			Workspace workspace = workspaceApi.create(selectedWorkspace);
-			selectedWorkspace.setId(workspace.getId());
+			WorkspaceFX newWorkspace = workspaceApi.create(selectedWorkspace);
+			listView.getItems().remove(selectedWorkspace);
+			listView.getItems().add(newWorkspace);
 		} else {
 			workspaceApi.update(selectedWorkspace.getId(), selectedWorkspace);
 		}
@@ -156,17 +159,17 @@ public class ApplicationView extends BorderPane {
 
 	@FXML
 	protected void delete() {
-		Workspace selectedWorkspace = listView.getSelectionModel().getSelectedItem();
+		WorkspaceFX selectedWorkspace = listView.getSelectionModel().getSelectedItem();
 		if (selectedWorkspace.getId() != null) {
 			workspaces.remove(selectedWorkspace);
 			workspaceApi.delete(selectedWorkspace.getId());
 		}
 	}
 
-	private final Callback<ListView<Workspace>, ListCell<Workspace>> workspaceCellFactory = (z) -> {
-		ListCell<Workspace> cell = new ListCell<>() {
+	private final Callback<ListView<WorkspaceFX>, ListCell<WorkspaceFX>> workspaceCellFactory = (z) -> {
+		ListCell<WorkspaceFX> cell = new ListCell<>() {
 			@Override
-			protected void updateItem(Workspace item, boolean empty) {
+			protected void updateItem(WorkspaceFX item, boolean empty) {
 				super.updateItem(item, empty);
 				setText(empty ? null : item.getName());
 			}
@@ -180,8 +183,8 @@ public class ApplicationView extends BorderPane {
 		ContextMenu contextMenu = new ContextMenu();
 		MenuItem save = new MenuItem("Save");
 		save.setOnAction(a -> {
-			Workspace workspace = cell.getItem();
-			Workspace saved = workspace.getId() == null ?
+			WorkspaceFX workspace = cell.getItem();
+			WorkspaceFX saved = workspace.getId() == null ?
 					workspaceApi.create(workspace) :
 					workspaceApi.update(workspace.getId(), workspace);
 			workspaces.remove(workspace);

@@ -2,56 +2,58 @@ package com.alver.fatefall.service;
 
 import com.alver.fatefall.api.entity.EntityApi;
 import com.alver.fatefall.data.entity.Entity;
+import com.alver.fatefall.data.entity.EntityRow;
 import com.alver.fatefall.data.repository.EntityRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
-public class EntityService<T extends Entity> implements EntityApi<T> {
+public abstract class EntityService<E extends Entity, R extends EntityRow> implements EntityApi<E> {
 
-	protected final EntityRepository<T> repository;
+	protected final EntityRepository<R> repository;
 
 	@Autowired
-	public EntityService(EntityRepository<T> repository) {
+	public EntityService(EntityRepository<R> repository) {
 		this.repository = repository;
 	}
 
-	public List<T> getAll() {
-		return repository.findAll();
+	public List<E> getAll() {
+		return (List<E>) repository.findAll();
 	}
 
-	public Optional<T> getById(Long id) {
-		return repository.findById(id);
+	public Optional<E> getById(Long id) {
+		return (Optional<E>) repository.findById(id);
 	}
 
-	public T create(T entity) {
-		validateIdDoesNotExist(entity.getId());
-		return repository.save(entity);
+	public E create(E entity) {
+		if (entity.getId() != null){
+			String message = "Already exists: %s".formatted(entity.getId());
+			throw new RuntimeException(message);
+		}
+		return (E)repository.save((R)entity);
 	}
 
-	public T update(Long id, T entity) {
-		validateIdDoesExist(id);
-		return repository.save(entity);
-	}
-
-	public void delete(Long id) {
-		validateIdDoesExist(id);
-		repository.deleteById(id);
-	}
-
-	private void validateIdDoesExist(Long id) {
+	public E update(Long id, E entity) {
+		if (!Objects.equals(id, entity.getId())){
+			String message = "Ids don't match: %s and %s".formatted(id, entity.getId());
+			throw new RuntimeException(message);
+		}
 		if (repository.findById(id).isEmpty()) {
 			String message = "Not found: %s".formatted(id);
 			throw new EntityNotFoundException(message);
 		}
+		return (E)repository.save((R)entity);
 	}
 
-	private void validateIdDoesNotExist(Long id) {
-		if (id != null){
-			String message = "Already exists: %s".formatted(id);
-			throw new RuntimeException(message);
+	public void delete(Long id) {
+		if (repository.findById(id).isEmpty()) {
+			String message = "Not found: %s".formatted(id);
+			throw new EntityNotFoundException(message);
 		}
+		repository.deleteById(id);
 	}
+
 }

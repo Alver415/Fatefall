@@ -1,6 +1,7 @@
 package com.alver.fatefall.controller.entity;
 
 import com.alver.fatefall.data.entity.Entity;
+import com.alver.fatefall.data.entity.EntityRow;
 import com.alver.fatefall.service.EntityService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,35 +9,35 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class EntityController<T extends Entity> {
+public abstract class EntityController<E extends Entity, R extends EntityRow & Entity> {
 
-	private final EntityService<T> service;
+	private final EntityService<E, R> service;
 
-	public EntityController(EntityService<T> service) {
+	public EntityController(EntityService<E, R> service) {
 		this.service = service;
 	}
 
 	@GetMapping
-	public ResponseEntity<List<T>> getAll() {
+	public ResponseEntity<List<E>> getAll() {
 		return ResponseEntity.ok(service.getAll());
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<T>> getById(
+	public ResponseEntity<Optional<E>> getById(
 			@RequestParam Long id) {
 		return ResponseEntity.ok(service.getById(id));
 	}
 
 	@PostMapping()
-	public ResponseEntity<T> create(
-			@RequestBody T entity) {
+	public ResponseEntity<E> create(
+			@RequestBody E entity) {
 		return ResponseEntity.ok(service.create(entity));
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<T> update(
+	public ResponseEntity<E> update(
 			@PathVariable Long id,
-			@RequestBody T updated) {
+			@RequestBody E updated) {
 		return ResponseEntity.ok(service.update(id, updated));
 	}
 

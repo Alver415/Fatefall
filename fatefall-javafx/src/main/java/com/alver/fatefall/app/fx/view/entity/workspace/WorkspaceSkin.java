@@ -1,6 +1,7 @@
 package com.alver.fatefall.app.fx.view.entity.workspace;
 
 import com.alver.fatefall.app.Prototype;
+import com.alver.fatefall.app.fx.entity.CardFX;
 import com.alver.fatefall.app.fx.view.entity.card.CardView;
 import com.alver.fatefall.app.fx.component.settings.FatefallProperties;
 import com.alver.fatefall.app.fx.view.entity.card.CardViewImpl;
@@ -12,7 +13,6 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -30,7 +30,7 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
     private final BeanFactory beanFactory;
 
     private final TextField filterField;
-    private final TableView<Card> tableView;
+    private final TableView<CardFX> tableView;
 
     @Autowired
     protected WorkspaceSkin(
@@ -49,22 +49,22 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
         AsyncService.runAsync(() -> smoothScrolling(tableView, 0.1), 1000);
 
 
-        TableColumn<Card, CardView<?>> cardColumn = new TableColumn<>("Card View");
+        TableColumn<CardFX, CardView<?>> cardColumn = new TableColumn<>("Card View");
         DoubleBinding cardViewMaxWidth = properties.getCardScaledWidth().multiply(2).add(20);
         cardColumn.minWidthProperty().bind(cardViewMaxWidth);
         cardColumn.maxWidthProperty().bind(cardViewMaxWidth);
         cardColumn.prefWidthProperty().bind(cardViewMaxWidth);
         cardColumn.setCellFactory(new Callback<>() {
             @Override
-            public TableCell<Card, CardView<?>> call(TableColumn<Card, CardView<?>> param) {
-                TableCell<Card, CardView<?>> cell = new TableCell<>() {
+            public TableCell<CardFX, CardView<?>> call(TableColumn<CardFX, CardView<?>> param) {
+                TableCell<CardFX, CardView<?>> cell = new TableCell<>() {
                     @Override
                     protected void updateItem(CardView<?> item, boolean empty) {
                         super.updateItem(item, empty);
                         if (empty) {
                             setGraphic(null);
                         } else {
-                            Card card = getTableRow().getItem();
+                            CardFX card = getTableRow().getItem();
                             CardView<?> cardView = beanFactory.getBean(CardViewImpl.class);
                             cardView.setCard(card);
                             setGraphic(cardView.getFxViewNode());
@@ -76,7 +76,7 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
             }
         });
 
-        TableColumn<Card, String> dataColumn = new TableColumn<>("Data");
+        TableColumn<CardFX, String> dataColumn = new TableColumn<>("Data");
         dataColumn.setCellValueFactory(new PropertyValueFactory<>("data"));
         dataColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         dataColumn.setEditable(true);
@@ -103,8 +103,8 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
     private final ListChangeListener<? super Card> refreshListener = l -> refresh();
 
     private void refresh() {
-        ObservableList<Card> cards = FXCollections.observableList(getSkinnable().getWorkspace().getCards().stream().toList());
-        FilteredList<Card> filteredList = new FilteredList<>(cards, f -> true);
+        ObservableList<CardFX> cards = FXCollections.observableList(getSkinnable().getWorkspace().getCards().stream().toList());
+        FilteredList<CardFX> filteredList = new FilteredList<>(cards, f -> true);
         filterField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 filteredList.setPredicate(card -> card.getName().contains(newValue));

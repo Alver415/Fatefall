@@ -29,7 +29,7 @@
 		<!-- Fatefall -->
 		<dependency>
 			<groupId>com.alver.fatefall</groupId>
-			<artifactId>fatefall-client</artifactId>
+			<artifactId>fatefall-core</artifactId>
 		</dependency>
 
 		<!-- Spring -->

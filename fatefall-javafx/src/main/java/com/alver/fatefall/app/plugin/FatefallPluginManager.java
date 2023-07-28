@@ -19,14 +19,14 @@ public class FatefallPluginManager extends SpringPluginManager {
 
     @Autowired
     @Lazy
-    protected ObservableList<Workspace> workspaces;
+    protected ObservableList<Workspace> IWorkspaces;
 
     public void createToolTab(String name, Node content) {
         Tab tab = new Tab(name);
         tab.setContent(content);
         applicationView.getTabPane().getTabs().add(tab);
     }
-    public void createWorkspace(Workspace workspace) {
-        workspaces.add(workspace);
+    public void createWorkspace(Workspace IWorkspace) {
+        IWorkspaces.add(IWorkspace);
     }
 }

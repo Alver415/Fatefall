@@ -1,5 +1,6 @@
 package com.alver.fatefall.app;
 
+import com.alver.fatefall.app.fx.entity.CardFX;
 import com.alver.fatefall.data.entity.Card;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -14,7 +15,7 @@ import java.io.IOException;
 import java.util.Iterator;
 
 @Component
-public class CardDeserializer extends StdDeserializer<Card> {
+public class CardDeserializer extends StdDeserializer<CardFX> {
 
     @Autowired
     protected ObjectWriter writer;
@@ -28,14 +29,14 @@ public class CardDeserializer extends StdDeserializer<Card> {
     }
 
     @Override
-    public Card deserialize(JsonParser parser, DeserializationContext context)
+    public CardFX deserialize(JsonParser parser, DeserializationContext context)
             throws IOException {
         JsonNode json = parser.getCodec().readTree(parser);
         return buildCard(json);
     }
 
-    public Card buildCard(JsonNode json) {
-        Card card = new Card();
+    public CardFX buildCard(JsonNode json) {
+        CardFX card = new CardFX();
         card.setData(writeValueAsString(json));
         if (json.has("name")){
             card.setName(json.get("name").asText());

@@ -1,10 +1,10 @@
 package com.other.fatefall.mse.plugin.actions;
 
+import com.alver.fatefall.action.ActionEventHandler;
 import com.alver.fatefall.app.CardDeserializer;
-import com.alver.fatefall.app.services.ActionEventHandler;
+import com.alver.fatefall.app.fx.entity.CardFX;
+import com.alver.fatefall.app.fx.entity.WorkspaceFX;
 import com.alver.fatefall.app.services.DialogManager;
-import com.alver.fatefall.data.entity.Card;
-import com.alver.fatefall.data.entity.Workspace;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -34,7 +34,7 @@ public class ImportMSESetAction implements ActionEventHandler {
 	protected DialogManager dialogManager;
 
 	@Override
-	public String getName() {
+	public String getTitle() {
 		return "Import from Magic Set Editor";
 	}
 
@@ -55,7 +55,7 @@ public class ImportMSESetAction implements ActionEventHandler {
 		try {
 			SetManager setManager = SetManager.importMseSet(file.getName(), file.toPath());
 			ObjectNode set = setManager.getSet();
-			Workspace workspace = new Workspace();
+			WorkspaceFX workspace = new WorkspaceFX();
 
 			JsonNode setInfo = set.get("set_info");
 			String setName = setInfo.get("title").asText();
@@ -63,7 +63,7 @@ public class ImportMSESetAction implements ActionEventHandler {
 
 			ArrayNode cards = (ArrayNode) set.get("card");
 			cards.elements().forEachRemaining(json -> {
-				Card card = cardDeserializer.buildCard(json);
+				CardFX card = cardDeserializer.buildCard(json);
 
 				String cardName = json.get("name").asText();
 				card.setName(cardName);

@@ -1,6 +1,7 @@
-package com.alver.fatefall.client.entity;
+package com.alver.fatefall.client;
 
 import com.alver.fatefall.api.entity.EntityApi;
+import com.alver.fatefall.app.fx.entity.EntityFX;
 import com.alver.fatefall.data.entity.Entity;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -9,7 +10,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class EntityClient<T extends Entity> implements EntityApi<T> {
+public abstract class EntityClient<T extends EntityFX> implements EntityApi<T> {
 
 	private final WebClient webClient;
 	private final String basePath;

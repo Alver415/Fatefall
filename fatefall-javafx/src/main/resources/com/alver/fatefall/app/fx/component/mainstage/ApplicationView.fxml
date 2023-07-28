@@ -4,9 +4,6 @@
 <?import com.alver.fatefall.app.fx.component.mainstage.ApplicationView?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
 <fx:root type="ApplicationView" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
 	<top>
 		<MenuBar>
@@ -31,8 +28,8 @@
 				</ToolBar>
 			</top>
 			<center>
-				<ScrollPane>
-					<ListView fx:id="listView" minWidth="400" minHeight="400"/>
+				<ScrollPane fitToWidth="true" fitToHeight="true">
+					<ListView fx:id="listView"/>
 				</ScrollPane>
 			</center>
 		</BorderPane>
