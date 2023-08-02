@@ -1,15 +1,14 @@
 package com.alver.fatefall.scryfall.api;
 
-import com.alver.fatefall.app.CardDeserializer;
+import com.alver.fatefall.json.CardFXDeserializer;
 import com.alver.fatefall.app.fx.entity.CardFX;
-import com.alver.fatefall.data.entity.Card;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
 @Component
-public class ScryfallCardDeserializer extends CardDeserializer {
+public class ScryfallCardDeserializer extends CardFXDeserializer {
 
     private final String defaultCardBackUrl = Objects.requireNonNull(CardApi.class.getResource("magic_card_back.png")).toExternalForm();
 

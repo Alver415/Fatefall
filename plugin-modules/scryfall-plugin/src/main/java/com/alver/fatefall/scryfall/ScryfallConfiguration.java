@@ -1,7 +1,7 @@
 package com.alver.fatefall.scryfall;
 
+import com.alver.fatefall.app.fx.entity.CardFX;
 import com.alver.fatefall.app.fx.view.FXMLAutoLoader;
-import com.alver.fatefall.data.entity.Card;
 import com.alver.fatefall.scryfall.api.ScryfallCardDeserializer;
 import com.dlsc.preferencesfx.model.Category;
 import com.dlsc.preferencesfx.model.Group;
@@ -28,18 +28,15 @@ public class ScryfallConfiguration {
     @Bean
     protected ObjectMapper getObjectMapper(ScryfallCardDeserializer cardDeserializer) {
         ObjectMapper objectMapper = new ObjectMapper();
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(Card.class, cardDeserializer);
-        objectMapper.registerModule(module);
+        SimpleModule scryfallModule = new SimpleModule("ScryfallModule");
+        scryfallModule.addDeserializer(CardFX.class, cardDeserializer);
+        objectMapper.registerModule(scryfallModule);
         return objectMapper;
     }
 
     @Bean
     @Qualifier("scryfallWebClient")
-    protected WebClient getWebClient(ObjectMapper objectMapper, ScryfallCardDeserializer cardDeserializer) {
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(Card.class, cardDeserializer);
-        objectMapper.registerModule(module);
+    protected WebClient getWebClient(ObjectMapper objectMapper) {
         return WebClient.builder()
                 .baseUrl("https://api.scryfall.com")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)

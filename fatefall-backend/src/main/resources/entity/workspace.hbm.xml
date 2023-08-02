@@ -11,9 +11,10 @@
 		<property name="name" column="name" type="text" length="65535"/>
 		<property name="data" column="data" type="text" length="65535"/>
 
-		<set name="cards" cascade="all-delete-orphan" lazy="false">
+		<list name="cards" cascade="all-delete-orphan" lazy="false">
 			<key column="workspace_id"/>
+			<index column="index"/>
 			<one-to-many class="CardRow"/>
-		</set>
+		</list>
 	</class>
 </hibernate-mapping>

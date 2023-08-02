@@ -1,7 +1,7 @@
 package com.other.fatefall.mse.plugin.actions;
 
 import com.alver.fatefall.action.ActionEventHandler;
-import com.alver.fatefall.app.CardDeserializer;
+import com.alver.fatefall.json.CardFXDeserializer;
 import com.alver.fatefall.app.fx.entity.CardFX;
 import com.alver.fatefall.app.fx.entity.WorkspaceFX;
 import com.alver.fatefall.app.services.DialogManager;
@@ -28,7 +28,7 @@ public class ImportMSESetAction implements ActionEventHandler {
 	@Autowired
 	protected MSEPlugin plugin;
 	@Autowired
-	protected CardDeserializer cardDeserializer;
+	protected CardFXDeserializer cardDeserializer;
 	@Autowired
 	@Lazy
 	protected DialogManager dialogManager;

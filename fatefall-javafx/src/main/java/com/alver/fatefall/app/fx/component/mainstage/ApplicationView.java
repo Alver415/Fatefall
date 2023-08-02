@@ -1,13 +1,13 @@
 package com.alver.fatefall.app.fx.component.mainstage;
 
+import com.alver.fatefall.action.ActionEventHandler;
 import com.alver.fatefall.action.WorkspaceCreateAction;
 import com.alver.fatefall.api.entity.EntityApi;
+import com.alver.fatefall.app.fx.component.settings.FatefallPreferences;
 import com.alver.fatefall.app.fx.entity.CardFX;
 import com.alver.fatefall.app.fx.entity.WorkspaceFX;
-import com.alver.fatefall.app.fx.view.entity.workspace.WorkspaceView;
 import com.alver.fatefall.app.fx.view.FXMLAutoLoad;
-import com.alver.fatefall.app.fx.component.settings.FatefallPreferences;
-import com.alver.fatefall.action.ActionEventHandler;
+import com.alver.fatefall.app.fx.view.entity.workspace.WorkspaceView;
 import com.alver.fatefall.app.services.ComponentFactory;
 import com.alver.fatefall.data.entity.Workspace;
 import javafx.collections.ObservableList;
@@ -58,6 +58,11 @@ public class ApplicationView extends BorderPane {
 		listView.setItems(workspaces);
 		List<Menu> menuList = pluginManager.getPlugins().stream().map(this::buildMenu).toList();
 		pluginMenu.getItems().setAll(menuList);
+	}
+
+	@FXML
+	private void refresh(){
+		workspaces.setAll(workspaceApi.getAll());
 	}
 
 	private Menu buildMenu(PluginWrapper plugin) {

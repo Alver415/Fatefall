@@ -2,7 +2,6 @@ package com.alver.fatefall.action;
 
 import com.alver.fatefall.app.fx.entity.WorkspaceFX;
 import com.alver.fatefall.app.services.DialogManager;
-import com.alver.fatefall.data.entity.Workspace;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextInputDialog;
@@ -20,7 +19,7 @@ public class WorkspaceCreateAction extends ActionEventHandlerImpl {
 	public DialogManager dialogManager;
 
 	@Autowired
-	protected ObservableList<Workspace> workspaces;
+	protected ObservableList<WorkspaceFX> workspaces;
 
 	public WorkspaceCreateAction(){
 		super("Create Workspace");

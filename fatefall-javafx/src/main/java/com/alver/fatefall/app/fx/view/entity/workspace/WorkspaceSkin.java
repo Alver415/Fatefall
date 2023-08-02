@@ -1,12 +1,11 @@
 package com.alver.fatefall.app.fx.view.entity.workspace;
 
 import com.alver.fatefall.app.Prototype;
+import com.alver.fatefall.app.fx.component.settings.FatefallProperties;
 import com.alver.fatefall.app.fx.entity.CardFX;
 import com.alver.fatefall.app.fx.view.entity.card.CardView;
-import com.alver.fatefall.app.fx.component.settings.FatefallProperties;
 import com.alver.fatefall.app.fx.view.entity.card.CardViewImpl;
 import com.alver.fatefall.app.services.AsyncService;
-import com.alver.fatefall.data.entity.Card;
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -26,9 +25,6 @@ import static com.alver.fatefall.app.fx.util.JFXSmoothScroll.smoothScrolling;
 @Prototype
 public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
 
-    private final FatefallProperties properties;
-    private final BeanFactory beanFactory;
-
     private final TextField filterField;
     private final TableView<CardFX> tableView;
 
@@ -38,8 +34,6 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
             FatefallProperties properties,
             BeanFactory beanFactory) {
         super(control);
-        this.properties = properties;
-        this.beanFactory = beanFactory;
 
         filterField = new TextField();
         filterField.setPromptText("Filter");
@@ -91,16 +85,16 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
 
         control.workspaceProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null) {
-//                oldValue.getObservableCards().removeListener(refreshListener);
+                oldValue.cardsProperty().removeListener(refreshListener);
             }
             if (newValue != null) {
-//                newValue.getObservableCards().addListener(refreshListener);
+                newValue.cardsProperty().addListener(refreshListener);
             }
         });
         refresh();
     }
 
-    private final ListChangeListener<? super Card> refreshListener = l -> refresh();
+    private final ListChangeListener<? super CardFX> refreshListener = l -> refresh();
 
     private void refresh() {
         ObservableList<CardFX> cards = FXCollections.observableList(getSkinnable().getWorkspace().getCards().stream().toList());

@@ -3,11 +3,12 @@ package com.alver.fatefall.app.fx.view.entity.workspace;
 import com.alver.fatefall.app.Prototype;
 import com.alver.fatefall.app.fx.component.settings.FatefallProperties;
 import com.alver.fatefall.app.fx.entity.WorkspaceFX;
-import com.alver.fatefall.data.entity.Workspace;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.scene.control.*;
+import javafx.scene.control.Control;
+import javafx.scene.control.Skin;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Prototype
 public class WorkspaceViewImpl extends Control implements WorkspaceView<WorkspaceViewImpl> {
@@ -21,6 +22,7 @@ public class WorkspaceViewImpl extends Control implements WorkspaceView<Workspac
 		return workspaceProperty;
 	}
 
+    @Autowired
 	public WorkspaceViewImpl(
 			BeanFactory beanFactory,
 			FatefallProperties properties) {

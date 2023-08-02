@@ -1,7 +1,6 @@
-package com.alver.fatefall.app;
+package com.alver.fatefall.json;
 
 import com.alver.fatefall.app.fx.entity.CardFX;
-import com.alver.fatefall.data.entity.Card;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -12,19 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.Iterator;
 
 @Component
-public class CardDeserializer extends StdDeserializer<CardFX> {
+public class CardFXDeserializer extends StdDeserializer<CardFX> {
 
     @Autowired
     protected ObjectWriter writer;
 
-    public CardDeserializer() {
-        this(Card.class);
+    public CardFXDeserializer() {
+        this(CardFX.class);
     }
 
-    public CardDeserializer(Class<?> vc) {
+    public CardFXDeserializer(Class<?> vc) {
         super(vc);
     }
 

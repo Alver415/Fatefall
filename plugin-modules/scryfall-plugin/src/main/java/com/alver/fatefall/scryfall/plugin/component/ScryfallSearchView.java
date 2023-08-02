@@ -6,9 +6,7 @@ import com.alver.fatefall.app.fx.entity.WorkspaceFX;
 import com.alver.fatefall.app.fx.view.entity.card.CardView;
 import com.alver.fatefall.app.fx.view.entity.card.CardViewImpl;
 import com.alver.fatefall.app.fx.view.entity.workspace.WorkspaceView;
-import com.alver.fatefall.data.entity.Card;
-import com.alver.fatefall.data.entity.Workspace;
-import com.alver.fatefall.scryfall.api.CardApiResult;
+import com.alver.fatefall.app.services.AsyncService;
 import com.alver.fatefall.scryfall.api.ScryfallApiClient;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -23,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 
 @Prototype
 public class ScryfallSearchView extends BorderPane implements WorkspaceView<ScryfallSearchView> {
@@ -38,11 +35,18 @@ public class ScryfallSearchView extends BorderPane implements WorkspaceView<Scry
     @FXML
     protected FlowPane flowPane;
 
+
+    protected ObjectProperty<WorkspaceFX> workspaceProperty = new SimpleObjectProperty<>();
+
+    @Override
+    public ObjectProperty<WorkspaceFX> workspaceProperty() {
+        return workspaceProperty;
+    }
+
+
     public ScryfallSearchView() {
         loadFXML();
-        workspaceProperty().addListener(change -> {
-            refresh();
-        });
+        workspaceProperty().addListener(change -> refresh());
     }
 
     private void loadFXML() {
@@ -58,23 +62,13 @@ public class ScryfallSearchView extends BorderPane implements WorkspaceView<Scry
         }
     }
 
-    protected ObjectProperty<WorkspaceFX> workspaceProperty = new SimpleObjectProperty<>();
-
-    @Override
-    public ObjectProperty<WorkspaceFX> workspaceProperty() {
-        return workspaceProperty;
-    }
-
     @FXML
     public void executeQuery() {
-        String query = queryInput.getText();
-        CardApiResult result = client.getCardApi().search(query);
-
-        WorkspaceFX newWorkspace = new WorkspaceFX();
-        List<CardFX> cards = result.data();
-        cards.forEach(newWorkspace::addCards);
-
-        setWorkspace(newWorkspace);
+        client.getCardApi().search(queryInput.getText(), result -> {
+            WorkspaceFX newWorkspace = new WorkspaceFX();
+            newWorkspace.addCards(result.data());
+            AsyncService.runFx(() -> setWorkspace(newWorkspace));
+        });
     }
 
     protected void refresh() {

@@ -1,8 +1,8 @@
 package com.alver.fatefall.app.fx.component.cardinfo;
 
-import com.alver.fatefall.app.fx.view.entity.card.CardView;
+import com.alver.fatefall.app.fx.entity.CardFX;
 import com.alver.fatefall.app.fx.view.FXMLAutoLoad;
-import com.alver.fatefall.data.entity.Card;
+import com.alver.fatefall.app.fx.view.entity.card.CardView;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
@@ -21,17 +21,17 @@ public class CardInfo extends BorderPane  {
 	/**
 	 * === Selected Property ==
 	 */
-	protected ObjectProperty<Card> cardProperty = new SimpleObjectProperty<>();
+	protected ObjectProperty<CardFX> cardProperty = new SimpleObjectProperty<>();
 
-	public final void setCard(Card value) {
+	public final void setCard(CardFX value) {
 		cardProperty.set(value);
 	}
 
-	public final Card getCard() {
+	public final CardFX getCard() {
 		return cardProperty.get();
 	}
 
-	public final ObjectProperty<Card> cardProperty() {
+	public final ObjectProperty<CardFX> cardProperty() {
 		return cardProperty;
 	}
 

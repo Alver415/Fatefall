@@ -3,6 +3,7 @@ package com.alver.fatefall.app.fx.view.entity.card;
 import com.alver.fatefall.app.Prototype;
 import com.alver.fatefall.app.fx.editor.block.ImageBlock;
 import com.alver.fatefall.app.fx.component.settings.FatefallProperties;
+import com.alver.fatefall.app.fx.entity.CardFX;
 import com.alver.fatefall.app.services.ComponentFactory;
 import com.alver.fatefall.data.entity.Card;
 import com.google.common.cache.LoadingCache;
@@ -37,10 +38,10 @@ public class CardViewImpl extends Control implements CardView<CardViewImpl> {
 	/**
 	 * === Properties ===
 	 */
-	protected ObjectProperty<Card> cardProperty = new SimpleObjectProperty<>();
+	protected ObjectProperty<CardFX> cardProperty = new SimpleObjectProperty<>();
 
 	@Override
-	public ObjectProperty<Card> cardProperty() {
+	public ObjectProperty<CardFX> cardProperty() {
 		return cardProperty;
 	}
 

@@ -2,12 +2,12 @@ package com.alver.fatefall.app.plugin.implementations;
 
 import com.alver.fatefall.app.Prototype;
 import com.alver.fatefall.app.fx.editor.block.TextBlock;
+import com.alver.fatefall.app.fx.entity.WorkspaceFX;
 import com.alver.fatefall.app.fx.view.entity.card.CardView;
 import com.alver.fatefall.app.fx.view.entity.card.CardViewImpl;
 import com.alver.fatefall.app.fx.view.entity.workspace.WorkspaceView;
 import com.alver.fatefall.app.fx.view.entity.workspace.WorkspaceViewImpl;
 import com.alver.fatefall.app.services.ComponentFactory;
-import com.alver.fatefall.data.entity.Workspace;
 import com.alver.fxmlsaver.FXMLSaver;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Menu;
@@ -22,7 +22,7 @@ import java.util.List;
 public class ComponentFactoryImpl implements ComponentFactory {
 
 	@Autowired
-	protected ObservableList<Workspace> workspaceList;
+	protected ObservableList<WorkspaceFX> workspaceList;
 	@Autowired
 	protected BeanFactory beanFactory;
 
