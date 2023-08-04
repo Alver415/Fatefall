@@ -22,10 +22,10 @@
 		<BorderPane>
 			<top>
 				<ToolBar>
-					<Button text="Refresh" styleClass="btn" onAction="#refresh"/>
-					<Button text="Create" styleClass="btn" onAction="#create"/>
-					<Button text="Save" styleClass="btn" onAction="#save"/>
-					<Button text="Delete" styleClass="btn" onAction="#delete"/>
+					<Button text="Refresh"  onAction="#refresh"/>
+					<Button text="Create"  onAction="#create"/>
+					<Button text="Save"  onAction="#save"/>
+					<Button text="Delete"  onAction="#delete"/>
 				</ToolBar>
 			</top>
 			<center>

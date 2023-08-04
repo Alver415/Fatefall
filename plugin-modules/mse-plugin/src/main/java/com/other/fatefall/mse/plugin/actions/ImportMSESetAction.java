@@ -1,11 +1,12 @@
 package com.other.fatefall.mse.plugin.actions;
 
 import com.alver.fatefall.action.ActionEventHandler;
-import com.alver.fatefall.json.CardFXDeserializer;
 import com.alver.fatefall.app.fx.entity.CardFX;
 import com.alver.fatefall.app.fx.entity.WorkspaceFX;
 import com.alver.fatefall.app.services.DialogManager;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.other.fatefall.mse.SetManager;
@@ -28,7 +29,7 @@ public class ImportMSESetAction implements ActionEventHandler {
 	@Autowired
 	protected MSEPlugin plugin;
 	@Autowired
-	protected CardFXDeserializer cardDeserializer;
+	protected ObjectMapper objectMapper;
 	@Autowired
 	@Lazy
 	protected DialogManager dialogManager;
@@ -63,7 +64,7 @@ public class ImportMSESetAction implements ActionEventHandler {
 
 			ArrayNode cards = (ArrayNode) set.get("card");
 			cards.elements().forEachRemaining(json -> {
-				CardFX card = cardDeserializer.buildCard(json);
+				CardFX card = jsonToCard(json);
 
 				String cardName = json.get("name").asText();
 				card.setName(cardName);
@@ -90,6 +91,15 @@ public class ImportMSESetAction implements ActionEventHandler {
 			throw new RuntimeException(e);
 		}
 	}
+
+	private CardFX jsonToCard(JsonNode json) {
+		try {
+			return objectMapper.treeToValue(json, CardFX.class);
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	private static void ensureDirectoryExists(Path directory) {
 		try {
 			Files.createDirectories(directory);
