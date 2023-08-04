@@ -1,7 +1,6 @@
 package com.alver.fatefall.app;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -14,7 +13,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class WebClientConfiguration {
 
     @Bean
-    @Qualifier("fatefallWebClient")
     public WebClient getFatefallWebclient(ObjectMapper objectMapper) {
         return WebClient.builder()
                 .baseUrl("http://localhost:8080")
