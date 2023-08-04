@@ -9,7 +9,7 @@
 		<version>${revision}</version>
 	</parent>
 
-	<artifactId>fatefall-backend</artifactId>
+	<artifactId>fatefall-server</artifactId>
 
 	<properties>
 		<hsqldb.version>2.7.1</hsqldb.version>
@@ -46,5 +46,13 @@
 		</dependency>
 
 	</dependencies>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+	</build>
 
 </project>

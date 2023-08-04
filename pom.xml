@@ -11,9 +11,10 @@
 	<name>Fatefall</name>
 	<modules>
 		<module>fatefall-core</module>
-		<module>fatefall-backend</module>
+		<module>fatefall-server</module>
 		<module>fatefall-javafx</module>
-	</modules>
+        <module>fatefall-app</module>
+    </modules>
 
 	<properties>
 		<revision>1.0-SNAPSHOT</revision>

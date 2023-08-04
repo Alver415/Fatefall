@@ -1,6 +1,5 @@
 package com.alver.fatefall.app.fx.component.settings;
 
-import com.alver.fatefall.app.FatefallApplication;
 import com.sun.javafx.css.StyleManager;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.*;
@@ -8,10 +7,11 @@ import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.css.CssParser;
+import javafx.css.Stylesheet;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
-import org.kordamp.bootstrapfx.BootstrapFX;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,8 +21,6 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
-
-import static com.alver.fatefall.app.FatefallApplication.setUserAgentStylesheet;
 
 @Configuration
 public class FatefallProperties {
@@ -50,11 +48,11 @@ public class FatefallProperties {
 		customCss.addListener((ListChangeListener<? super String>) c -> {
 			while (c.next()) {
 				for (String removed : c.getRemoved()) {
-					FatefallApplication.setUserAgentStylesheet(removed, "");
+					setUserAgentStylesheet(removed, "");
 				}
 				for (String added : c.getAddedSubList()) {
 					try {
-						FatefallApplication.setUserAgentStylesheet(added, Files.readString(Path.of(added)));
+						setUserAgentStylesheet(added, Files.readString(Path.of(added)));
 					} catch (IOException e) {
 						System.out.println(e);
 					}
@@ -172,5 +170,15 @@ public class FatefallProperties {
 		int offsetX = 10;
 		int offsetY = 10;
 		return new DropShadow(blurType, color, radius, spread, offsetX, offsetY);
+	}
+
+	public static void setUserAgentStylesheet(String id, String css) {
+		try {
+			Stylesheet stylesheet = new CssParser().parse(id, css);
+			StyleManager.getInstance().removeUserAgentStylesheet(id);
+			StyleManager.getInstance().addUserAgentStylesheet(null, stylesheet);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

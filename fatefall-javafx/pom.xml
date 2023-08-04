@@ -151,7 +151,7 @@
 				<artifactId>javafx-maven-plugin</artifactId>
 				<version>0.0.8</version>
 				<configuration>
-					<mainClass>com.alver.fatefall.app.FatefallApplication</mainClass>
+					<mainClass>com.alver.fatefall.FatefallFXApplication</mainClass>
 				</configuration>
 			</plugin>
 
@@ -165,7 +165,7 @@
 					<JVMArgs>
 						<!-- <JVMArg>your-args</JVMArg> -->
 					</JVMArgs>
-					<mainClassName>com.alver.fatefall.app.FatefallApplication</mainClassName>
+					<mainClassName>com.alver.fatefall.FatefallFXApplication</mainClassName>
 					<openingPath>/</openingPath>
 					<port>9000</port>
 				</configuration>

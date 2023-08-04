@@ -2,6 +2,7 @@ package com.alver.fatefall.client;
 
 import com.alver.fatefall.app.fx.entity.WorkspaceFX;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -9,6 +10,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.List;
 
 @Component
+@Profile("http")
 public class WorkspaceFXClient extends EntityClient<WorkspaceFX> {
 
 	private static final ParameterizedTypeReference<WorkspaceFX> TYPE = new ParameterizedTypeReference<>() {};

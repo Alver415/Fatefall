@@ -1,6 +1,5 @@
 package com.alver.fatefall.app.services.fileselector;
 
-import com.jpro.webapi.JProApplication;
 import com.jpro.webapi.WebAPI;
 
 import java.io.File;
@@ -8,11 +7,11 @@ import java.util.function.Consumer;
 
 public class JProFileSelector extends FileSelectorImpl {
 
-	protected JProApplication application;
+	protected WebAPI webAPI;
 
-	public JProFileSelector(JProApplication application, Consumer<File> onFileSubmitted) {
+	public JProFileSelector(WebAPI webAPI, Consumer<File> onFileSubmitted) {
 		super(onFileSubmitted);
-		this.application = application;
+		this.webAPI = webAPI;
 
 		WebAPI.FileUploader fileHandler = WebAPI.makeFileUploadNodeStatic(label);
 		fileHandler.setSelectFileOnClick(true);
@@ -46,7 +45,7 @@ public class JProFileSelector extends FileSelectorImpl {
 
 	@Override
 	public void show() {
-		application.getWebAPI().openStageAsPopup(stage);
+		webAPI.openStageAsPopup(stage);
 	}
 
 	@Override
