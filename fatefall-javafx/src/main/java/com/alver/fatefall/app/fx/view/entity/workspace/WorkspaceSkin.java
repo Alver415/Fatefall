@@ -5,7 +5,7 @@ import com.alver.fatefall.app.fx.component.settings.FatefallProperties;
 import com.alver.fatefall.app.fx.entity.CardFX;
 import com.alver.fatefall.app.fx.view.entity.card.CardView;
 import com.alver.fatefall.app.fx.view.entity.card.CardViewImpl;
-import com.alver.fatefall.app.services.AsyncService;
+import com.alver.fatefall.app.services.FXAsyncUtils;
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -40,7 +40,7 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
 
         tableView = new TableView<>();
         tableView.setEditable(true);
-        AsyncService.runAsync(() -> smoothScrolling(tableView, 0.1), 1000);
+        FXAsyncUtils.runAsync(() -> smoothScrolling(tableView, 0.1), 1000);
 
 
         TableColumn<CardFX, CardView<?>> cardColumn = new TableColumn<>("Card View");

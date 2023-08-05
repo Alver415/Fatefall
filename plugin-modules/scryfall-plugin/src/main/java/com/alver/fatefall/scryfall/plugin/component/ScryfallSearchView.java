@@ -6,7 +6,7 @@ import com.alver.fatefall.app.fx.entity.WorkspaceFX;
 import com.alver.fatefall.app.fx.view.entity.card.CardView;
 import com.alver.fatefall.app.fx.view.entity.card.CardViewImpl;
 import com.alver.fatefall.app.fx.view.entity.workspace.WorkspaceView;
-import com.alver.fatefall.app.services.AsyncService;
+import com.alver.fatefall.app.services.FXAsyncUtils;
 import com.alver.fatefall.scryfall.api.ScryfallApiClient;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -67,7 +67,7 @@ public class ScryfallSearchView extends BorderPane implements WorkspaceView<Scry
         client.getCardApi().search(queryInput.getText(), result -> {
             WorkspaceFX newWorkspace = new WorkspaceFX();
             newWorkspace.addCards(result.data());
-            AsyncService.runFx(() -> setWorkspace(newWorkspace));
+            FXAsyncUtils.runFx(() -> setWorkspace(newWorkspace));
         });
     }
 

@@ -1,6 +1,8 @@
 package com.alver.fatefall;
 
+import com.alver.fatefall.app.services.FXAsyncUtils;
 import com.alver.fatefall.app.splash.ApplicationProgressListener;
+import com.alver.fatefall.app.splash.SplashService;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jpro.webapi.WebAPI;
@@ -23,23 +25,27 @@ public class FatefallSpringApplication {
 
     public static void main(String... args) {
 
-        ApplicationProgressListener applicationProgressListener = new ApplicationProgressListener();
-        FatefallFXApplication.setStartupObservable(applicationProgressListener);
-        FatefallFXApplication.onStart(javaFXApp -> {
-            ApplicationContextInitializer<GenericApplicationContext> initializer = ac -> {
-                ac.registerBean(ApplicationProgressListener.class, () -> applicationProgressListener);
-                ac.registerBean(WebAPI.class, javaFXApp::getWebAPI);
-                ac.registerBean(FatefallFXApplication.class, () -> javaFXApp);
-                ac.registerBean(HostServices.class, javaFXApp::getHostServices);
-                ac.registerBean(Application.Parameters.class, javaFXApp::getParameters);
-            };
 
-            SpringApplicationBuilder builder = new SpringApplicationBuilder(FatefallSpringApplication.class);
-            builder.initializers(initializer);
-            builder.run();
-        });
+        ApplicationContextInitializer<GenericApplicationContext> initializer = ac -> {
 
-        Application.launch(FatefallFXApplication.class);
+            ApplicationProgressListener applicationProgressListener = new ApplicationProgressListener();
+            FXAsyncUtils.runAsync(() -> Application.launch(FatefallFXApplication.class));
+            FatefallFXApplication application = FatefallFXApplication.waitForInstance();
+            SplashService splashService = new SplashService();
+            splashService.showSplash(applicationProgressListener);
+
+            ac.registerBean(ApplicationProgressListener.class, () -> applicationProgressListener);
+            ac.registerBean(SplashService.class, () -> splashService);
+            ac.registerBean(FatefallFXApplication.class, () -> application);
+            ac.registerBean(WebAPI.class, application::getWebAPI);
+            ac.registerBean(HostServices.class, application::getHostServices);
+            ac.registerBean(Application.Parameters.class, application::getParameters);
+        };
+
+        SpringApplicationBuilder builder = new SpringApplicationBuilder(FatefallSpringApplication.class);
+        builder.initializers(initializer);
+        builder.run();
+
     }
 
     @Bean
