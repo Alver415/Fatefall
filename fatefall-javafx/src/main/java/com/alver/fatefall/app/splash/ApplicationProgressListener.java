@@ -12,10 +12,7 @@ public class ApplicationProgressListener implements BeanPostProcessor {
     private final ObservableMap<String, Long> startTime = FXCollections.observableHashMap();
     private final ObservableMap<String, Long> endTime = FXCollections.observableHashMap();
 
-    public ApplicationProgressListener(){
-
-    }
-
+    @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         startTime.put(beanName, System.currentTimeMillis());
         return bean;

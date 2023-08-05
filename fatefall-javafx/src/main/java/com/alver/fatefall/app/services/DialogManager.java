@@ -1,5 +1,6 @@
 package com.alver.fatefall.app.services;
 
+import com.alver.fatefall.FatefallFXApplication;
 import com.alver.fatefall.app.services.fileselector.FileSelector;
 import com.alver.fatefall.app.services.fileselector.FileSelectorImpl;
 import com.alver.fatefall.app.services.fileselector.JProFileSelector;
@@ -19,7 +20,7 @@ import java.util.function.Consumer;
 public class DialogManager {
 
     @Autowired
-    protected WebAPI webAPI;
+    protected FatefallFXApplication application;
 
     public void show(Dialog<?> dialog) {
         if (WebAPI.isBrowser()) {
@@ -27,7 +28,7 @@ public class DialogManager {
             Scene scene = new Scene(dialogPane);
             Stage stage = new Stage();
             stage.setScene(scene);
-            webAPI.openStageAsPopup(stage);
+            application.getWebAPI().openStageAsPopup(stage);
         } else {
             dialog.show();
         }
@@ -35,7 +36,7 @@ public class DialogManager {
 
     public void showStage(Stage stage) {
         if (WebAPI.isBrowser()) {
-            webAPI.openStageAsPopup(stage);
+            application.getWebAPI().openStageAsPopup(stage);
         } else {
             stage.show();
         }
@@ -43,7 +44,7 @@ public class DialogManager {
 
     public void showFileSelector(Consumer<File> onFileSubmitted) {
         FileSelector fileSelector = WebAPI.isBrowser() ?
-                new JProFileSelector(webAPI, onFileSubmitted) :
+                new JProFileSelector(application.getWebAPI(), onFileSubmitted) :
                 new FileSelectorImpl(onFileSubmitted);
         fileSelector.show();
     }
