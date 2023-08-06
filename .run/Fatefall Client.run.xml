@@ -13,4 +13,10 @@
       <option name="Make" enabled="true" />
     </method>
   </configuration>
+  <configuration default="false" name="Fatefall Client" type="JarApplication">
+    <option name="JAR_PATH" value="$PROJECT_DIR$/fatefall-client/target/fatefall-client-1.0-SNAPSHOT-jar-with-dependencies.jar" />
+    <option name="WORKING_DIRECTORY" value="$ProjectFileDir$" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <method v="2" />
+  </configuration>
 </component>
