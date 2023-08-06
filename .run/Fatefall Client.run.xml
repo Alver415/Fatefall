@@ -2,6 +2,7 @@
   <configuration default="false" name="Fatefall Client" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="com.alver.fatefall.FatefallFXApplication$Launcher" />
     <module name="fatefall-client" />
+    <option name="WORKING_DIRECTORY" value="$ProjectFileDir$" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.alver.fatefall.*" />

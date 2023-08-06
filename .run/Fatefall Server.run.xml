@@ -2,6 +2,7 @@
   <configuration default="false" name="Fatefall Server" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="com.alver.fatefall.FatefallServerApplication" />
     <module name="fatefall-server" />
+    <option name="WORKING_DIRECTORY" value="$ProjectFileDir$" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.alver.fatefall.*" />
