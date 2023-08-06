@@ -1,5 +1,8 @@
 package com.alver.fatefall.data.entity;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class CardFaceRow extends EntityRow implements CardFace {
 
 	protected String imageUrl;

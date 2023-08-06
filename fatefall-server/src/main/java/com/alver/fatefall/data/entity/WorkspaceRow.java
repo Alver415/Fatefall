@@ -1,9 +1,16 @@
 package com.alver.fatefall.data.entity;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
+
 import java.util.*;
 
+@Entity
 public class WorkspaceRow extends EntityRow implements Workspace<CardRow> {
 
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<CardRow> cards = new ArrayList<>();
 
 	@Override

@@ -1,9 +1,19 @@
 package com.alver.fatefall.data.entity;
 
+import jakarta.persistence.*;
+
+@MappedSuperclass
 public abstract class EntityRow implements Entity {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+
+	@Column
 	private String name;
+
+	@Lob
+	@Column
 	private String data;
 
 	public Long getId() {

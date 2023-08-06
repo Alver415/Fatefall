@@ -14,15 +14,10 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 
 public class FatefallFXApplication extends JProApplication implements ApplicationContextAware {
-
-    private static final class Launcher{
-        public static void main(String... args){
-            Application.launch(FatefallFXApplication.class, args);
-        }
-    }
 
     private ApplicationContext applicationContext;
 
@@ -58,6 +53,7 @@ public class FatefallFXApplication extends JProApplication implements Applicatio
 
     @Override
     public void stop() {
+        ((ConfigurableApplicationContext)applicationContext).close();
         Platform.exit();
     }
 
