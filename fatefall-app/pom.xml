@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>fatefall-app</artifactId>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
@@ -18,7 +19,7 @@
         </dependency>
         <dependency>
             <groupId>com.alver.fatefall</groupId>
-            <artifactId>fatefall-javafx</artifactId>
+            <artifactId>fatefall-client</artifactId>
         </dependency>
     </dependencies>
 

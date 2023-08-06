@@ -12,9 +12,9 @@
 	<modules>
 		<module>fatefall-core</module>
 		<module>fatefall-server</module>
-		<module>fatefall-javafx</module>
-        <module>fatefall-app</module>
-    </modules>
+		<module>fatefall-client</module>
+		<module>fatefall-app</module>
+	</modules>
 
 	<properties>
 		<revision>1.0-SNAPSHOT</revision>
@@ -56,7 +56,7 @@
 			</dependency>
 			<dependency>
 				<groupId>com.alver.fatefall</groupId>
-				<artifactId>fatefall-javafx</artifactId>
+				<artifactId>fatefall-client</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
@@ -125,51 +125,4 @@
 		</dependencies>
 	</dependencyManagement>
 
-	<build>
-		<plugins>
-			<!-- Maven Compiler Plugin -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven-compiler-plugin.version}</version>
-				<configuration>
-					<source>${maven.compiler.source}</source>
-					<target>${maven.compiler.target}</target>
-				</configuration>
-			</plugin>
-
-			<!-- Maven Shade Plugin -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>${maven-shade-plugin.version}</version>
-			</plugin>
-
-			<!-- Flatten Maven Plugin -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>flatten-maven-plugin</artifactId>
-				<version>1.5.0</version>
-				<configuration>
-					<updatePomFile>true</updatePomFile>
-				</configuration>
-				<executions>
-					<execution>
-						<id>flatten</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>flatten</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>flatten.clean</id>
-						<phase>clean</phase>
-						<goals>
-							<goal>clean</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
 </project>

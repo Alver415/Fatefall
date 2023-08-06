@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>fatefall-server</artifactId>
+    <packaging>jar</packaging>
 
     <properties>
         <hsqldb.version>2.7.1</hsqldb.version>
