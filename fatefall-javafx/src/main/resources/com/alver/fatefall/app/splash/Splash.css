@@ -1,0 +1,11 @@
+
+.root {
+    -fx-background-color: rgba(64,64,64,0.5)
+}
+.progress-bar {
+    -fx-accent: rgba(192,192,192,0.5);
+}
+
+.progress-bar .track {
+    -fx-background-color: rgba(192,192,192,0.5);
+}

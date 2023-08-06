@@ -10,7 +10,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.List;
 
 @Component
-@Profile("http")
 public class CardFaceFXClient extends EntityClient<CardFaceFX> {
 
 	private static final ParameterizedTypeReference<CardFaceFX> TYPE = new ParameterizedTypeReference<>() {};

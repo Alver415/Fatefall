@@ -1,25 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
 <BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.alver.fatefall.app.splash.SplashController"
+            fx:id="root" fx:controller="com.alver.fatefall.app.splash.SplashController"
+            stylesheets="@Splash.css"
             prefHeight="400.0" prefWidth="600.0">
-
     <top>
-        <Label text="Loading Fatefall Application"/>
+        <StackPane>
+            <Label text="Fatefall"/>
+        </StackPane>
     </top>
     <center>
-        <ScrollPane fitToHeight="true" fitToWidth="true">
-            <ListView fx:id="listView"/>
-        </ScrollPane>
+        <StackPane>
+            <Rectangle fx:id="backCard" fill="#800002"
+                       width="162" height="212"
+                       arcWidth="20" arcHeight="20"/>
+            <Rectangle fx:id="frontCard" fill="#020080"
+                       width="162" height="212"
+                       arcWidth="20" arcHeight="20"/>
+        </StackPane>
     </center>
     <bottom>
-        <ProgressBar fx:id="progressBar" progress="0" prefWidth="600"/>
+        <StackPane>
+            <ProgressBar fx:id="progressBar" progress="0"
+                         prefWidth="${root.width}" prefHeight="36">
+            </ProgressBar>
+            <Text fx:id="progressText" text="Initializing..."/>
+        </StackPane>
     </bottom>
 
 </BorderPane>

@@ -10,7 +10,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.List;
 
 @Component
-@Profile("http")
 public class WorkspaceFXClient extends EntityClient<WorkspaceFX> {
 
 	private static final ParameterizedTypeReference<WorkspaceFX> TYPE = new ParameterizedTypeReference<>() {};

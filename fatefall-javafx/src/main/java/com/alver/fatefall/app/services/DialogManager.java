@@ -1,10 +1,10 @@
 package com.alver.fatefall.app.services;
 
-import com.alver.fatefall.FatefallFXApplication;
 import com.alver.fatefall.app.services.fileselector.FileSelector;
 import com.alver.fatefall.app.services.fileselector.FileSelectorImpl;
 import com.alver.fatefall.app.services.fileselector.JProFileSelector;
 import com.alver.fatefall.app.services.modal.Modal;
+import com.jpro.webapi.JProApplication;
 import com.jpro.webapi.WebAPI;
 import javafx.scene.Scene;
 import javafx.scene.control.Dialog;
@@ -20,7 +20,7 @@ import java.util.function.Consumer;
 public class DialogManager {
 
     @Autowired
-    protected FatefallFXApplication application;
+    protected JProApplication application;
 
     public void show(Dialog<?> dialog) {
         if (WebAPI.isBrowser()) {
