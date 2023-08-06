@@ -35,6 +35,9 @@
 
 		<spring-core.version>6.0.10</spring-core.version>
 		<spring-boot-starter.version>3.1.1</spring-boot-starter.version>
+
+		<client.launcher.class>com.alver.fatefall.FatefallFXApplication$Launcher</client.launcher.class>
+		<server.launcher.class>com.alver.fatefall.FatefallServerApplication</server.launcher.class>
 	</properties>
 
 	<dependencyManagement>

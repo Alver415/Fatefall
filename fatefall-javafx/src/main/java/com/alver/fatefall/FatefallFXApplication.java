@@ -19,6 +19,12 @@ import org.springframework.context.support.GenericApplicationContext;
 
 public class FatefallFXApplication extends JProApplication implements ApplicationContextAware {
 
+    public static final class Launcher {
+        public static void main(String... args) {
+            Application.launch(FatefallFXApplication.class, args);
+        }
+    }
+
     private ApplicationContext applicationContext;
 
     @Override
@@ -31,7 +37,7 @@ public class FatefallFXApplication extends JProApplication implements Applicatio
             applicationContext.registerBean(PreloaderBeanPostProcessor.class, () -> listener);
         };
 
-        new SpringApplicationBuilder(FatefallSpringApplication.class)
+        new SpringApplicationBuilder(FatefallClientApplication.class)
                 .initializers(initializer)
                 .run();
     }

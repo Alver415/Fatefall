@@ -5,14 +5,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
 
 import java.util.List;
 
 @SpringBootApplication
-public class FatefallSpringApplication {
+@PropertySource("classpath:/fatefall-client.properties")
+public class FatefallClientApplication {
 
     public static void main(String... args) {
-        new SpringApplicationBuilder(FatefallSpringApplication.class).run();
+        new SpringApplicationBuilder(FatefallClientApplication.class).run();
     }
 
     @Bean

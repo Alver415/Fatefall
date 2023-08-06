@@ -22,6 +22,7 @@
 		<pf4j-spring.version>0.9.0-SNAPSHOT</pf4j-spring.version>
 		<preferencesfx-core.version>11.11.0</preferencesfx-core.version>
 		<guava.version>31.1-jre</guava.version>
+
 	</properties>
 
 	<dependencies>
@@ -135,14 +136,29 @@
 
 	<build>
 		<plugins>
+
+			<!-- Maven Assembly Plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven-compiler-plugin.version}</version>
+				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
-					<source>${maven.compiler.source}</source>
-					<target>${maven.compiler.target}</target>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<archive>
+						<manifest>
+							<mainClass>${client.launcher.class}</mainClass>
+						</manifest>
+					</archive>
 				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 			<!-- JavaFX Maven Plugin -->
@@ -151,7 +167,7 @@
 				<artifactId>javafx-maven-plugin</artifactId>
 				<version>0.0.8</version>
 				<configuration>
-					<mainClass>com.alver.fatefall.FatefallFXConfiguration</mainClass>
+					<mainClass>${client.launcher.class}</mainClass>
 				</configuration>
 			</plugin>
 
@@ -162,10 +178,7 @@
 				<version>${jpro.version}</version>
 				<configuration>
 					<visible>false</visible>
-					<JVMArgs>
-						<!-- <JVMArg>your-args</JVMArg> -->
-					</JVMArgs>
-					<mainClassName>com.alver.fatefall.FatefallFXConfiguration</mainClassName>
+					<mainClassName>${client.launcher.class}</mainClassName>
 					<openingPath>/</openingPath>
 					<port>9000</port>
 				</configuration>
