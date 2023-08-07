@@ -3,7 +3,6 @@ package com.other.fatefall.mse.plugin.actions;
 import com.alver.fatefall.action.ActionEventHandler;
 import com.alver.fatefall.app.fx.entity.CardFX;
 import com.alver.fatefall.app.fx.entity.WorkspaceFX;
-import com.alver.fatefall.app.services.DialogManager;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,6 +11,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.other.fatefall.mse.SetManager;
 import com.other.fatefall.mse.plugin.MSEPlugin;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
+import javafx.stage.FileChooser;
 import org.pf4j.Extension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -30,9 +31,6 @@ public class ImportMSESetAction implements ActionEventHandler {
 	protected MSEPlugin plugin;
 	@Autowired
 	protected ObjectMapper objectMapper;
-	@Autowired
-	@Lazy
-	protected DialogManager dialogManager;
 
 	@Override
 	public String getTitle() {
@@ -43,13 +41,14 @@ public class ImportMSESetAction implements ActionEventHandler {
 	public void handle(ActionEvent event) {
 		Path directory = Path.of("mse_sets");
 		ensureDirectoryExists(directory);
-		dialogManager.showFileSelector(file -> {
-			if (!file.getName().endsWith("mse-set")) {
-				dialogManager.showAlert("Invalid file: " + file);
-			} else {
-				importMse(file);
-			}
-		});
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Open Resource File");
+		FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Magic Set Editor Files", "*.mse-set");
+		fileChooser.getExtensionFilters().add(filter);
+		File selectedFile = fileChooser.showOpenDialog(null);
+		if (selectedFile != null) {
+			importMse(selectedFile);
+		}
 	}
 
 	private void importMse(File file) {
@@ -87,7 +86,7 @@ public class ImportMSESetAction implements ActionEventHandler {
 			});
 			plugin.createWorkspace(workspace);
 		} catch (IOException e) {
-			dialogManager.showAlert("Failed to import file: " + file + "\n" + e.getMessage());
+			new Alert(Alert.AlertType.ERROR, "Failed to import file: " + file + "\n" + e.getMessage()).show();
 			throw new RuntimeException(e);
 		}
 	}

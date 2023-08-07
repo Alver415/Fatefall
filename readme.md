@@ -2,8 +2,6 @@
 
 An application for creating, editing, and organizing collections of Cards.
 
-Can be run as a standalone JavaFX application or accessed in a web browser via [JPro](https://www.jpro.one/docs/current/1.8/JPRO%20CHECKLIST).
-
 ## Data Model
 
 ### Workspace
@@ -70,7 +68,6 @@ Plugin based architecture allows for providing custom features.
 - [ ] CI/CD
   - [ ] Setup automated builds
   - [ ] Testing
-  - [ ] JPro hosting
 
 - [ ] Docker
 

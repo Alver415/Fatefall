@@ -4,10 +4,4 @@
   <groupId>com.alver.fatefall</groupId>
   <artifactId>fatefall-client</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <repositories>
-    <repository>
-      <id>jpro - sandec repository</id>
-      <url>https://sandec.jfrog.io/artifactory/repo</url>
-    </repository>
-  </repositories>
 </project>

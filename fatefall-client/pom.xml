@@ -17,7 +17,6 @@
 
 		<javafx.version>19</javafx.version>
 		<controlsfx.version>11.1.2</controlsfx.version>
-		<jpro.version>2023.1.0</jpro.version>
 
 		<pf4j.version>3.8.0</pf4j.version>
 		<pf4j-spring.version>0.9.0-SNAPSHOT</pf4j-spring.version>
@@ -114,14 +113,6 @@
 			<version>${guava.version}</version>
 		</dependency>
 
-		<!-- JPro -->
-		<dependency>
-			<groupId>com.sandec.jpro</groupId>
-			<artifactId>jpro-webapi</artifactId>
-			<version>${jpro.version}</version>
-			<scope>compile</scope>
-		</dependency>
-
 		<dependency>
 			<groupId>org.kordamp.bootstrapfx</groupId>
 			<artifactId>bootstrapfx-core</artifactId>
@@ -177,31 +168,7 @@
 				</configuration>
 			</plugin>
 
-			<!-- JPro Maven Plugin -->
-			<plugin>
-				<groupId>one.jpro</groupId>
-				<artifactId>jpro-maven-plugin</artifactId>
-				<version>${jpro.version}</version>
-				<configuration>
-					<visible>false</visible>
-					<mainClassName>${client.launcher.class}</mainClassName>
-					<openingPath>/</openingPath>
-					<port>9000</port>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 
-	<pluginRepositories>
-		<pluginRepository>
-			<id>jpro - sandec repository</id>
-			<url>https://sandec.jfrog.io/artifactory/repo</url>
-		</pluginRepository>
-	</pluginRepositories>
-	<repositories>
-		<repository>
-			<id>jpro - sandec repository</id>
-			<url>https://sandec.jfrog.io/artifactory/repo</url>
-		</repository>
-	</repositories>
 </project>

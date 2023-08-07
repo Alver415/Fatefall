@@ -3,7 +3,6 @@ package com.alver.fatefall;
 import com.alver.fatefall.app.fx.component.mainstage.ApplicationView;
 import com.alver.fatefall.preloader.PreloaderBeanPostProcessor;
 import com.alver.fatefall.preloader.SplashPreloader;
-import com.jpro.webapi.JProApplication;
 import com.tangorabox.componentinspector.fx.FXComponentInspectorHandler;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -18,7 +17,7 @@ import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 
-public class FatefallFXApplication extends JProApplication implements ApplicationContextAware {
+public class FatefallFXApplication extends Application implements ApplicationContextAware {
 
     public static final class Launcher {
         public static void main(String... args) {

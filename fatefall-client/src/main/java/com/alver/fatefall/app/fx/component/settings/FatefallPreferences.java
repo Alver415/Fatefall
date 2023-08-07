@@ -5,7 +5,6 @@ import com.alver.fatefall.app.fx.component.about.AboutView;
 import com.alver.fatefall.app.fx.component.plugins.PluginManagerView;
 import com.alver.fatefall.app.fx.view.entity.card.CardView;
 import com.alver.fatefall.app.services.ComponentFactory;
-import com.alver.fatefall.app.services.DialogManager;
 import com.dlsc.formsfx.model.structure.Field;
 import com.dlsc.formsfx.model.structure.StringField;
 import com.dlsc.preferencesfx.PreferencesFx;
@@ -19,7 +18,6 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.effect.BlurType;
-import javafx.stage.Stage;
 import org.pf4j.PluginManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -35,19 +33,15 @@ public class FatefallPreferences {
     protected ComponentFactory componentFactory;
     protected AboutView aboutView;
     protected CardView<?> demoCard;
-    protected DialogManager dialogManager;
 
     @Autowired
     public FatefallPreferences(
-            DialogManager dialogManager,
             FatefallProperties properties,
             PluginManager pluginManager,
             PluginManagerView pluginManagerView,
             ComponentFactory componentFactory,
             AboutView aboutView,
             CardView<?> exampleCard) {
-
-        this.dialogManager = dialogManager;
         this.properties = properties;
         this.pluginManager = pluginManager;
         this.pluginManagerView = pluginManagerView;
@@ -70,7 +64,7 @@ public class FatefallPreferences {
 
     public void show() {
         PreferencesFx preferencesFx = buildPreferencesFX();
-        dialogManager.showStage((Stage) preferencesFx.getView().getScene().getWindow());
+        preferencesFx.show();
     }
 
 

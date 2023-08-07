@@ -29,7 +29,6 @@
 		<maven-shade-plugin.version>3.2.1</maven-shade-plugin.version>
 		<maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
 		<javafx-maven-plugin.version>0.0.8</javafx-maven-plugin.version>
-		<jpro.version>2023.1.0</jpro.version>
 
 		<junit.version>5.9.3</junit.version>
 		<jackson.version>2.15.2</jackson.version>
@@ -37,8 +36,9 @@
 		<spring-core.version>6.0.10</spring-core.version>
 		<spring-boot-starter.version>3.1.1</spring-boot-starter.version>
 
-		<server.launcher.class>com.alver.fatefall.FatefallServerApplication</server.launcher.class>
+		<server.application.class>com.alver.fatefall.FatefallServerApplication</server.application.class>
 		<client.preloader.class>com.alver.fatefall.preloader.SplashPreloader</client.preloader.class>
+		<client.application.class>com.alver.fatefall.FatefallFXApplication</client.application.class>
 		<client.launcher.class>com.alver.fatefall.FatefallFXApplication$Launcher</client.launcher.class>
 	</properties>
 
