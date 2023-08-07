@@ -2,6 +2,7 @@
   <configuration default="false" name="Install All Plugins" type="CompoundRunConfigurationType">
     <toRun name="Install MSE Plugin" type="MavenRunConfiguration" />
     <toRun name="Install Scryfall Plugin" type="MavenRunConfiguration" />
+    <toRun name="Install Template MTG Plugin" type="MavenRunConfiguration" />
     <method v="2" />
   </configuration>
 </component>
