@@ -38,8 +38,7 @@
 
 		<server.application.class>com.alver.fatefall.FatefallServerApplication</server.application.class>
 		<client.preloader.class>com.alver.fatefall.preloader.SplashPreloader</client.preloader.class>
-		<client.application.class>com.alver.fatefall.FatefallFXApplication</client.application.class>
-		<client.launcher.class>com.alver.fatefall.FatefallFXApplication$Launcher</client.launcher.class>
+		<client.application.class>com.alver.fatefall.FatefallClientApplication</client.application.class>
 	</properties>
 
 	<dependencyManagement>

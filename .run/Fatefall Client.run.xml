@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Fatefall Client" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="com.alver.fatefall.FatefallFXApplication$Launcher" />
+    <option name="MAIN_CLASS_NAME" value="com.alver.fatefall.FatefallClientApplication" />
     <module name="fatefall-client" />
     <option name="WORKING_DIRECTORY" value="$ProjectFileDir$" />
     <extension name="coverage">

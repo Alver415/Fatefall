@@ -1,15 +1,17 @@
 package com.alver.fatefall;
 
 import com.alver.fatefall.app.fx.component.mainstage.ApplicationView;
+import com.alver.fatefall.app.services.ResourceUtil;
 import com.alver.fatefall.preloader.PreloaderBeanPostProcessor;
-import com.alver.fatefall.preloader.SplashPreloader;
 import com.tangorabox.componentinspector.fx.FXComponentInspectorHandler;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.kordamp.bootstrapfx.BootstrapFX;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -19,54 +21,54 @@ import org.springframework.context.support.GenericApplicationContext;
 
 public class FatefallFXApplication extends Application implements ApplicationContextAware {
 
-    public static final class Launcher {
-        public static void main(String... args) {
-            System.setProperty("javafx.preloader", SplashPreloader.class.getCanonicalName());
-            launch(FatefallFXApplication.class, args);
-        }
-    }
+	private static final Image ICON = ResourceUtil.image("app/icon.png");
 
-    private ApplicationContext applicationContext;
+	@Value("${title}")
+	private String title;
 
-    @Override
-    public void init() {
-        PreloaderBeanPostProcessor listener = new PreloaderBeanPostProcessor();
-        notifyPreloader(listener);
+	private ApplicationContext applicationContext;
 
-        ApplicationContextInitializer<GenericApplicationContext> initializer = applicationContext -> {
-            applicationContext.registerBean(FatefallFXApplication.class, () -> this);
-            applicationContext.registerBean(PreloaderBeanPostProcessor.class, () -> listener);
-        };
+	@Override
+	public void init() {
+		PreloaderBeanPostProcessor listener = new PreloaderBeanPostProcessor();
+		notifyPreloader(listener);
 
-        new SpringApplicationBuilder(FatefallClientApplication.class)
-                .initializers(initializer)
-                .run();
-    }
+		ApplicationContextInitializer<GenericApplicationContext> initializer = applicationContext -> {
+			applicationContext.registerBean(FatefallFXApplication.class, () -> this);
+			applicationContext.registerBean(PreloaderBeanPostProcessor.class, () -> listener);
+		};
 
-    @Override
-    public void start(Stage primaryStage) {
-        // Eager initialize UserAgentStylesheet so that it doesn't trigger later and undo user preferences.
-        setUserAgentStylesheet(Application.STYLESHEET_MODENA);
+		new SpringApplicationBuilder(FatefallClientApplication.class)
+				.initializers(initializer)
+				.run();
+	}
 
-        Scene scene = new Scene(applicationContext.getBean(ApplicationView.class));
-        scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
+	@Override
+	public void start(Stage primaryStage) {
+		// Eager initialize UserAgentStylesheet so that it doesn't trigger later and undo user preferences.
+		setUserAgentStylesheet(Application.STYLESHEET_MODENA);
 
-        primaryStage.setScene(scene);
-        primaryStage.setOnCloseRequest(e -> stop());
-        primaryStage.show();
+		Scene scene = new Scene(applicationContext.getBean(ApplicationView.class));
+		scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
 
-        FXComponentInspectorHandler.handleAll();
-    }
+		primaryStage.setScene(scene);
+		primaryStage.setTitle(title);
+		primaryStage.getIcons().add(ICON);
+		primaryStage.setOnCloseRequest(e -> stop());
+		primaryStage.show();
 
-    @Override
-    public void stop() {
-        ((ConfigurableApplicationContext)applicationContext).close();
-        Platform.exit();
-    }
+		FXComponentInspectorHandler.handleAll();
+	}
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
+	@Override
+	public void stop() {
+		((ConfigurableApplicationContext) applicationContext).close();
+		Platform.exit();
+	}
+
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		this.applicationContext = applicationContext;
+	}
 
 }
