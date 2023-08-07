@@ -33,6 +33,10 @@
 			<groupId>com.alver.fatefall</groupId>
 			<artifactId>fatefall-core</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.alver.fatefall</groupId>
+			<artifactId>fatefall-preloader</artifactId>
+		</dependency>
 
 		<!-- Spring -->
 		<dependency>
@@ -138,26 +142,27 @@
 	<build>
 		<plugins>
 
-			<!-- Maven Assembly Plugin -->
+			<!-- Maven Shade Plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-					<archive>
-						<manifest>
-							<mainClass>${client.launcher.class}</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.5.0</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
 						<goals>
-							<goal>single</goal>
+							<goal>shade</goal>
 						</goals>
+						<configuration>
+							<transformers>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<manifestEntries>
+										<Main-Class>${client.launcher.class}</Main-Class>
+										<JavaFX-Preloader-Class>${client.preloader.class}</JavaFX-Preloader-Class>
+									</manifestEntries>
+								</transformer>
+							</transformers>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

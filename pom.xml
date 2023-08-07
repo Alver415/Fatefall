@@ -13,6 +13,7 @@
 		<module>fatefall-core</module>
 		<module>fatefall-server</module>
 		<module>fatefall-client</module>
+		<module>fatefall-preloader</module>
 		<module>fatefall-app</module>
 	</modules>
 
@@ -36,8 +37,9 @@
 		<spring-core.version>6.0.10</spring-core.version>
 		<spring-boot-starter.version>3.1.1</spring-boot-starter.version>
 
-		<client.launcher.class>com.alver.fatefall.FatefallFXApplication$Launcher</client.launcher.class>
 		<server.launcher.class>com.alver.fatefall.FatefallServerApplication</server.launcher.class>
+		<client.preloader.class>com.alver.fatefall.preloader.SplashPreloader</client.preloader.class>
+		<client.launcher.class>com.alver.fatefall.FatefallFXApplication$Launcher</client.launcher.class>
 	</properties>
 
 	<dependencyManagement>
@@ -57,6 +59,11 @@
 			<dependency>
 				<groupId>com.alver.fatefall</groupId>
 				<artifactId>fatefall-client</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alver.fatefall</groupId>
+				<artifactId>fatefall-preloader</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
@@ -125,4 +132,32 @@
 		</dependencies>
 	</dependencyManagement>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>flatten-maven-plugin</artifactId>
+				<version>1.5.0</version>
+				<configuration>
+					<updatePomFile>true</updatePomFile>
+				</configuration>
+				<executions>
+					<execution>
+						<id>flatten</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>flatten</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>flatten.clean</id>
+						<phase>install</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

@@ -1,10 +1,10 @@
-package com.alver.fatefall.app.splash;
+package com.alver.fatefall.preloader;
 
-import com.alver.fatefall.app.services.FXAsyncUtils;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.collections.MapChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -82,7 +82,7 @@ public class SplashController {
 
     public void setPreloaderBeanPostProcessor(PreloaderBeanPostProcessor processor) {
         processor.getObservableMap().addListener((MapChangeListener<? super String, ? super BeanState<?>>) change -> {
-            FXAsyncUtils.runFx(() -> {
+            Platform.runLater(() -> {
                 if (change.wasAdded()) {
                     double progress = progressBar.getProgress();
                     progressBar.setProgress(progress + (1 - progress) / 50d);

@@ -1,4 +1,4 @@
-package com.alver.fatefall.app.splash;
+package com.alver.fatefall.preloader;
 
 import javafx.beans.property.*;
 

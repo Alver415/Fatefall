@@ -1,7 +1,8 @@
 package com.alver.fatefall;
 
 import com.alver.fatefall.app.fx.component.mainstage.ApplicationView;
-import com.alver.fatefall.app.splash.PreloaderBeanPostProcessor;
+import com.alver.fatefall.preloader.PreloaderBeanPostProcessor;
+import com.alver.fatefall.preloader.SplashPreloader;
 import com.jpro.webapi.JProApplication;
 import com.tangorabox.componentinspector.fx.FXComponentInspectorHandler;
 import javafx.application.Application;
@@ -21,7 +22,8 @@ public class FatefallFXApplication extends JProApplication implements Applicatio
 
     public static final class Launcher {
         public static void main(String... args) {
-            Application.launch(FatefallFXApplication.class, args);
+            System.setProperty("javafx.preloader", SplashPreloader.class.getCanonicalName());
+            launch(FatefallFXApplication.class, args);
         }
     }
 
