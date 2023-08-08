@@ -20,13 +20,13 @@ import java.util.List;
 public class ComponentFactoryImpl implements ComponentFactory {
 
 	@Autowired
-	protected ObservableList<WorkspaceFX> workspaceList;
+	protected ObservableList<WorkspaceFX> workspaces;
 	@Autowired
 	protected BeanFactory beanFactory;
 
 	public MenuItem buildAddToCollectionMenuItem(CardView<?> cardView) {
 		Menu menu = new Menu("Add to...");
-		workspaceList.forEach(c -> {
+		workspaces.forEach(c -> {
 			MenuItem item = new MenuItem(c.getName());
 			item.setOnAction(a -> c.addCards(cardView.getCard()));
 			menu.getItems().add(item);
@@ -36,7 +36,7 @@ public class ComponentFactoryImpl implements ComponentFactory {
 
 	public MenuItem buildDeleteCardMenuItem(CardView<?> cardView) {
 		MenuItem item = new MenuItem("Delete");
-		item.setOnAction(a -> workspaceList
+		item.setOnAction(a -> workspaces
 				.forEach(w -> w.removeCards(cardView.getCard())));
 		return item;
 	}

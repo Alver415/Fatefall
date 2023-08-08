@@ -7,9 +7,8 @@ import com.alver.fatefall.app.fx.view.entity.card.CardView;
 import com.alver.fatefall.app.fx.view.entity.card.CardViewImpl;
 import com.alver.fatefall.utils.FXAsyncUtils;
 import javafx.beans.binding.DoubleBinding;
-import javafx.collections.FXCollections;
+import javafx.beans.property.ListProperty;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -19,6 +18,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import static com.alver.fatefall.utils.JFXSmoothScroll.smoothScrolling;
 
@@ -97,15 +99,12 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
     private final ListChangeListener<? super CardFX> refreshListener = l -> refresh();
 
     private void refresh() {
-        ObservableList<CardFX> cards = FXCollections.observableList(getSkinnable().getWorkspace().getCards().stream().toList());
-        FilteredList<CardFX> filteredList = new FilteredList<>(cards, f -> true);
-        filterField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                filteredList.setPredicate(card -> card.getName().contains(newValue));
-            }
-        });
-
-        tableView.setItems(filteredList);
+        ListProperty<CardFX> cards = getSkinnable().getWorkspace().cardsProperty();
+        FilteredList<CardFX> filtered = new FilteredList<>(cards);
+        Function<String, Predicate<? super CardFX>> filterFunc = filter -> card ->
+                card.getName().toLowerCase().contains(filter.toLowerCase());
+        filtered.predicateProperty().bind(filterField.textProperty().map(filterFunc));
+        tableView.setItems(filtered);
     }
 
 }
