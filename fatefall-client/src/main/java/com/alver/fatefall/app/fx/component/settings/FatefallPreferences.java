@@ -5,6 +5,7 @@ import com.alver.fatefall.app.fx.component.about.AboutView;
 import com.alver.fatefall.app.fx.component.plugins.PluginManagerView;
 import com.alver.fatefall.app.fx.view.entity.card.CardView;
 import com.alver.fatefall.app.ComponentFactory;
+import com.alver.fatefall.utils.ResourceUtil;
 import com.dlsc.formsfx.model.structure.Field;
 import com.dlsc.formsfx.model.structure.StringField;
 import com.dlsc.preferencesfx.PreferencesFx;
@@ -18,6 +19,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.effect.BlurType;
+import javafx.scene.image.Image;
 import org.pf4j.PluginManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,6 +28,8 @@ import java.util.Arrays;
 
 @Component
 public class FatefallPreferences {
+
+    private static final Image ICON = ResourceUtil.image("/com/alver/fatefall/app/icon.png");
 
     protected FatefallProperties properties;
     protected PluginManager pluginManager;
@@ -58,8 +62,8 @@ public class FatefallPreferences {
                         buildAppearanceCategory(),
                         buildPluginsCategory(),
                         buildAboutCategory())
-                .dialogTitle("Fatefall Preferences");
-//				.dialogIcon(logo);
+                .dialogTitle("Fatefall - Preferences")
+                .dialogIcon(ICON);
     }
 
     public void show() {

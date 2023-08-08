@@ -1,11 +1,12 @@
 package com.alver.fatefall.app.fx.view.entity.card;
 
-import com.alver.fatefall.app.Prototype;
-import com.alver.fatefall.app.fx.editor.block.ImageBlock;
-import com.alver.fatefall.app.fx.component.settings.FatefallProperties;
-import com.alver.fatefall.app.fx.entity.CardFX;
 import com.alver.fatefall.app.ComponentFactory;
+import com.alver.fatefall.app.Prototype;
+import com.alver.fatefall.app.fx.component.settings.FatefallProperties;
+import com.alver.fatefall.app.fx.editor.block.ImageBlock;
+import com.alver.fatefall.app.fx.entity.CardFX;
 import com.alver.fatefall.data.entity.Card;
+import com.alver.fatefall.utils.ResourceUtil;
 import com.google.common.cache.LoadingCache;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -21,19 +22,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.Objects;
 import java.util.function.Consumer;
 
 @Prototype
 public class CardViewImpl extends Control implements CardView<CardViewImpl> {
 
-	private static final Image ADJACENT_IMAGE = loadImage("adjacent.png");
-	private static final Image STACKED_IMAGE = loadImage("stacked.png");
-	private static final Image FLIPPABLE_IMAGE = loadImage("flippable.png");
+	private static final Image ADJACENT_IMAGE = ResourceUtil.image("adjacent.png");
+	private static final Image STACKED_IMAGE = ResourceUtil.image("stacked.png");
+	private static final Image FLIPPABLE_IMAGE = ResourceUtil.image("flippable.png");
 
-	private static Image loadImage(String url) {
-		return new Image(Objects.requireNonNull(FlippableSkin.class.getResourceAsStream(url)));
-	}
 
 	/**
 	 * === Properties ===

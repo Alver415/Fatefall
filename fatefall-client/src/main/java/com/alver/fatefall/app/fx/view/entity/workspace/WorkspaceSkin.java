@@ -76,7 +76,7 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
         dataColumn.setEditable(true);
 
         tableView.getColumns().add(cardColumn);
-        tableView.getColumns().add(dataColumn);
+//        tableView.getColumns().add(dataColumn);
 
         BorderPane borderPane = new BorderPane();
         borderPane.setTop(filterField);

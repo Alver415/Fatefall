@@ -1,8 +1,9 @@
 package com.alver.fatefall;
 
 import com.alver.fatefall.app.fx.component.mainstage.ApplicationView;
-import com.alver.fatefall.utils.ResourceUtil;
 import com.alver.fatefall.preloader.PreloaderBeanPostProcessor;
+import com.alver.fatefall.utils.ResourceUtil;
+import com.sun.javafx.css.StyleManager;
 import com.tangorabox.componentinspector.fx.FXComponentInspectorHandler;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -10,23 +11,20 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.kordamp.bootstrapfx.BootstrapFX;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 
-public class FatefallFXApplication extends Application implements ApplicationContextAware {
+public class FatefallFXApplication extends Application {
 
 	private static final Image ICON = ResourceUtil.image("app/icon.png");
 
 	@Value("${title}")
 	private String title;
 
-	private ApplicationContext applicationContext;
+	private ConfigurableApplicationContext applicationContext;
 
 	@Override
 	public void init() {
@@ -38,7 +36,7 @@ public class FatefallFXApplication extends Application implements ApplicationCon
 			applicationContext.registerBean(PreloaderBeanPostProcessor.class, () -> listener);
 		};
 
-		new SpringApplicationBuilder(FatefallClientApplication.class)
+		applicationContext = new SpringApplicationBuilder(FatefallClientApplication.class)
 				.initializers(initializer)
 				.run();
 	}
@@ -47,6 +45,7 @@ public class FatefallFXApplication extends Application implements ApplicationCon
 	public void start(Stage primaryStage) {
 		// Eager initialize UserAgentStylesheet so that it doesn't trigger later and undo user preferences.
 		setUserAgentStylesheet(Application.STYLESHEET_MODENA);
+		StyleManager.getInstance().addUserAgentStylesheet("/com/alver/fatefall/app/application.css");
 
 		Scene scene = new Scene(applicationContext.getBean(ApplicationView.class));
 		scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
@@ -62,13 +61,8 @@ public class FatefallFXApplication extends Application implements ApplicationCon
 
 	@Override
 	public void stop() {
-		((ConfigurableApplicationContext) applicationContext).close();
+		applicationContext.close();
 		Platform.exit();
-	}
-
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.applicationContext = applicationContext;
 	}
 
 }

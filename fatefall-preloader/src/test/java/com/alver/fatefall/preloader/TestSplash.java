@@ -41,15 +41,6 @@ public class TestSplash extends Preloader {
         fontComboBox.getItems().addAll(Font.getFamilies());
         fontComboBox.getSelectionModel().selectFirst(); // Select the first font initially
 
-        fontComboBox.setOnAction(event -> {
-            String selectedFontName = fontComboBox.getValue();
-            if (selectedFontName != null) {
-                Font selectedFont = Font.font(selectedFontName, controller.title.getFont().getSize());
-                controller.title.setFont(selectedFont);
-            }
-        });
-
-
         Button button = new Button("Increment");
         PreloaderBeanPostProcessor processor = new PreloaderBeanPostProcessor();
         controller.setPreloaderBeanPostProcessor(processor);

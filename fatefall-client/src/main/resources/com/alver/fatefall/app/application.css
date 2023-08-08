@@ -1,21 +1,21 @@
 
-CardFace {
-    -fx-background-color: rgba(0,0,0,0.3);
-    -fx-border-color: rgba(0,0,0,0.7);
+CardFaceView {
+    -fx-background-color: rgba(255,255,255,0.75);
+    -fx-border-color: rgba(0,0,0,0.75);
     -fx-border-width: 10px;
 }
 
-CardFace * {
+CardFaceView * {
   -fx-text-fill: black;
   -fx-highlight-fill: transparent;
   -fx-display-caret: false;
 }
 
-CardFace .outlined * {
-  -fx-display-caret: true;
+CardFaceView .outlined * {
+ -fx-display-caret: true;
 }
 
-CardFace .outlined *.block {
+CardFaceView .outlined *.block {
     -fx-background-color: transparent;
 
     -fx-border-color: rgba(0,0,0,0.2), rgba(255,255,255,0.2);
@@ -24,24 +24,24 @@ CardFace .outlined *.block {
     -fx-border-insets: -2, -2;
 }
 
-CardFace .outlined *.block:hover {
+CardFaceView .outlined *.block:hover {
     -fx-background-color: rgba(230,200,255,0.2);
     -fx-border-color: rgba(0,0,0,0.5), rgba(255,255,255,0.5);
 }
 
-CardFace .text-area {
+CardFaceView .text-area {
     -fx-background-color: transparent;
 }
 
-CardFace .text-area .scroll-pane {
+CardFaceView .text-area .scroll-pane {
     -fx-background-color: transparent;
 }
 
-CardFace .text-area .scroll-pane .viewport{
+CardFaceView .text-area .scroll-pane .viewport{
     -fx-background-color: transparent;
 }
 
-CardFace .text-area .scroll-pane .content{
+CardFaceView .text-area .scroll-pane .content{
     -fx-background-color: transparent;
 }
 

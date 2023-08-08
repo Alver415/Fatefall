@@ -36,7 +36,7 @@ public class StackedSkin extends CardViewSkin {
                         new KeyValue(backWrapper.translateXProperty(), 0),
                         new KeyValue(frontWrapper.translateYProperty(), 0),
                         new KeyValue(backWrapper.translateYProperty(), 0));
-                KeyFrame close = new KeyFrame(Duration.seconds(0.05), a -> face.toFront(),
+                KeyFrame close = new KeyFrame(Duration.seconds(0.1), a -> face.toFront(),
                         new KeyValue(frontWrapper.translateXProperty(), -50),
                         new KeyValue(backWrapper.translateXProperty(), 50),
                         new KeyValue(frontWrapper.translateYProperty(), 50),
