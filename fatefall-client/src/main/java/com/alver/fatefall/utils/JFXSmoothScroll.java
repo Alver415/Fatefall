@@ -1,4 +1,4 @@
-package com.alver.fatefall.app.fx.util;
+package com.alver.fatefall.utils;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -7,7 +7,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Control;
-import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;

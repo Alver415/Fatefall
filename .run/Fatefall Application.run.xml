@@ -14,7 +14,7 @@
     </method>
   </configuration>
   <configuration default="false" name="Fatefall Application" type="JarApplication">
-    <option name="JAR_PATH" value="$PROJECT_DIR$/fatefall-app/target/fatefall-app-1.0-SNAPSHOT.jar" />
+    <option name="JAR_PATH" value="$PROJECT_DIR$/fatefall-app/target/fatefall-app-1.0-SNAPSHOT-jar-with-dependencies.jar" />
     <option name="WORKING_DIRECTORY" value="$ProjectFileDir$" />
     <option name="ALTERNATIVE_JRE_PATH" />
     <method v="2" />

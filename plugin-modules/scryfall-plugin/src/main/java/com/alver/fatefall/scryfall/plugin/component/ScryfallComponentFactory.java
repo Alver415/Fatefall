@@ -3,7 +3,7 @@ package com.alver.fatefall.scryfall.plugin.component;
 import com.alver.fatefall.app.fx.component.mainstage.ApplicationView;
 import com.alver.fatefall.app.fx.view.entity.card.CardView;
 import com.alver.fatefall.app.fx.view.entity.workspace.WorkspaceView;
-import com.alver.fatefall.app.plugin.implementations.ComponentFactoryImpl;
+import com.alver.fatefall.app.ComponentFactoryImpl;
 import com.alver.fatefall.data.entity.Card;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;

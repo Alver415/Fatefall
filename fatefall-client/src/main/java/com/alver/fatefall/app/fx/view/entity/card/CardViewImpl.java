@@ -4,7 +4,7 @@ import com.alver.fatefall.app.Prototype;
 import com.alver.fatefall.app.fx.editor.block.ImageBlock;
 import com.alver.fatefall.app.fx.component.settings.FatefallProperties;
 import com.alver.fatefall.app.fx.entity.CardFX;
-import com.alver.fatefall.app.services.ComponentFactory;
+import com.alver.fatefall.app.ComponentFactory;
 import com.alver.fatefall.data.entity.Card;
 import com.google.common.cache.LoadingCache;
 import javafx.beans.property.ObjectProperty;

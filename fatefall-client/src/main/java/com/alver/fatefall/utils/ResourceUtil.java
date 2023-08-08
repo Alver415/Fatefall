@@ -1,4 +1,4 @@
-package com.alver.fatefall.app.services;
+package com.alver.fatefall.utils;
 
 import javafx.scene.image.Image;
 

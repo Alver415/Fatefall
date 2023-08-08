@@ -1,7 +1,7 @@
 package com.alver.fatefall;
 
 import com.alver.fatefall.app.fx.component.mainstage.ApplicationView;
-import com.alver.fatefall.app.services.ResourceUtil;
+import com.alver.fatefall.utils.ResourceUtil;
 import com.alver.fatefall.preloader.PreloaderBeanPostProcessor;
 import com.tangorabox.componentinspector.fx.FXComponentInspectorHandler;
 import javafx.application.Application;

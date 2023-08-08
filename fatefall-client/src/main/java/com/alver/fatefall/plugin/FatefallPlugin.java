@@ -1,4 +1,4 @@
-package com.alver.fatefall.app.plugin;
+package com.alver.fatefall.plugin;
 
 import com.alver.fatefall.data.entity.Workspace;
 import javafx.scene.Node;

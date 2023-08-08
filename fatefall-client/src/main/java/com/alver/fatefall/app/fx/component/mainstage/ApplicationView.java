@@ -8,7 +8,7 @@ import com.alver.fatefall.app.fx.entity.CardFX;
 import com.alver.fatefall.app.fx.entity.WorkspaceFX;
 import com.alver.fatefall.app.fx.view.FXMLAutoLoad;
 import com.alver.fatefall.app.fx.view.entity.workspace.WorkspaceView;
-import com.alver.fatefall.app.services.ComponentFactory;
+import com.alver.fatefall.app.ComponentFactory;
 import com.alver.fatefall.data.entity.Workspace;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

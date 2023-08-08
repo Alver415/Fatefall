@@ -1,11 +1,22 @@
 
-.root {
-    -fx-background-color: rgba(64,64,64,0.5)
+#root {
+    -fx-background-radius: 5;
 }
+
+#close {
+    -fx-background-radius: 10;
+    -fx-background-color: transparent;
+}
+#close:hover {
+    -fx-background-color: rgba(192,192,192,0.25);
+}
+#close:pressed {
+    -fx-background-color: rgba(192,192,192,0.5);;
+}
+
 .progress-bar {
     -fx-accent: rgba(192,192,192,0.5);
 }
-
 .progress-bar .track {
     -fx-background-color: rgba(192,192,192,0.5);
 }

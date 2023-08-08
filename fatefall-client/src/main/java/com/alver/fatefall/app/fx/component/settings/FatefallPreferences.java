@@ -4,7 +4,7 @@ package com.alver.fatefall.app.fx.component.settings;
 import com.alver.fatefall.app.fx.component.about.AboutView;
 import com.alver.fatefall.app.fx.component.plugins.PluginManagerView;
 import com.alver.fatefall.app.fx.view.entity.card.CardView;
-import com.alver.fatefall.app.services.ComponentFactory;
+import com.alver.fatefall.app.ComponentFactory;
 import com.dlsc.formsfx.model.structure.Field;
 import com.dlsc.formsfx.model.structure.StringField;
 import com.dlsc.preferencesfx.PreferencesFx;

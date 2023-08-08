@@ -1,36 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Text?>
-<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-            fx:id="root" fx:controller="com.alver.fatefall.preloader.SplashController"
-            stylesheets="@Splash.css"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane fx:id="root" prefHeight="400.0" prefWidth="600.0" stylesheets="@Splash.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alver.fatefall.preloader.SplashController">
     <top>
-        <StackPane>
-            <Label text="Fatefall"/>
-        </StackPane>
+        <Button id="close" onAction="#requestExit" text="X" BorderPane.alignment="TOP_RIGHT" />
     </top>
     <center>
-        <StackPane>
-            <Rectangle fx:id="backCard" fill="#800002"
-                       width="162" height="212"
-                       arcWidth="20" arcHeight="20"/>
-            <Rectangle fx:id="frontCard" fill="#020080"
-                       width="162" height="212"
-                       arcWidth="20" arcHeight="20"/>
-        </StackPane>
+        <HBox alignment="CENTER">
+            <StackPane HBox.hgrow="SOMETIMES">
+                <Rectangle arcHeight="30.0" arcWidth="30.0" height="105.0" rotate="10" translateX="40.0" translateY="20.0" width="75.0" />
+                <Rectangle arcHeight="30.0" arcWidth="30.0" fill="WHITE" height="105.0" stroke="BLACK" strokeWidth="5.0" width="75.0" />
+            </StackPane>
+            <VBox alignment="CENTER">
+                <Label fx:id="title" text="Fatefall" textFill="black">
+                    <font>
+                        <Font name="Segoe UI Black" size="96.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="50.0" top="20.0" />
+                    </VBox.margin>
+                </Label>
+                <Label text="Card Game Creator">
+                    <font>
+                        <Font name="Segoe UI Semibold" size="24.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets top="-50.0" />
+                    </VBox.margin>
+                </Label>
+            </VBox>
+        </HBox>
     </center>
     <bottom>
         <StackPane>
-            <ProgressBar fx:id="progressBar" progress="0"
-                         prefWidth="${root.width}" prefHeight="36">
+            <ProgressBar fx:id="progressBar" prefHeight="36" prefWidth="${root.width}" progress="0">
             </ProgressBar>
-            <Text fx:id="progressText" text="Initializing..."/>
+            <Text fx:id="progressText" text="Initializing...">
+                <font>
+                    <Font name="Segoe UI" />
+                </font>
+            </Text>
         </StackPane>
     </bottom>
 

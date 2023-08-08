@@ -1,4 +1,4 @@
-package com.alver.fatefall.app.services;
+package com.alver.fatefall.app;
 
 import javafx.scene.text.Font;
 import org.springframework.stereotype.Component;

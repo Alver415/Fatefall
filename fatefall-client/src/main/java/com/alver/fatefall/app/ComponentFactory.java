@@ -1,4 +1,4 @@
-package com.alver.fatefall.app.services;
+package com.alver.fatefall.app;
 
 import com.alver.fatefall.app.fx.view.entity.card.CardView;
 import com.alver.fatefall.app.fx.view.entity.workspace.WorkspaceView;

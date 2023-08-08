@@ -10,28 +10,35 @@ import org.springframework.stereotype.Component;
 @Component
 public class PreloaderBeanPostProcessor implements BeanPostProcessor, Preloader.PreloaderNotification {
 
-    private final ObservableMap<String, BeanState<?>> beanStateMap = FXCollections.observableHashMap();
+
+    private final ObservableMap<String, BeanState<?>> beanStates = FXCollections.observableHashMap();
+
+    public ObservableMap<String, BeanState<?>> getObservableBeanStates() {
+        return beanStates;
+    }
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+        if (requestExit) throw new RuntimeException("Exit Requested");
         BeanState<Object> beanState = new BeanState<>();
         beanState.setBeanName(beanName);
         beanState.setBean(bean);
         beanState.setStartTime(System.currentTimeMillis());
-        beanStateMap.put(beanName, beanState);
+        beanStates.put(beanName, beanState);
         return bean;
     }
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        BeanState<?> beanState = beanStateMap.get(beanName);
+        if (requestExit) throw new RuntimeException("Exit Requested");
+        BeanState<?> beanState = beanStates.get(beanName);
         beanState.setEndTime(System.currentTimeMillis());
         return bean;
     }
 
-    public ObservableMap<String, BeanState<?>> getObservableMap() {
-        return beanStateMap;
+    private boolean requestExit = false;
+
+    public void requestExit() {
+        this.requestExit = true;
     }
-
-
 }

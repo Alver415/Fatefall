@@ -5,7 +5,7 @@ import com.alver.fatefall.app.fx.component.settings.FatefallProperties;
 import com.alver.fatefall.app.fx.entity.CardFX;
 import com.alver.fatefall.app.fx.view.entity.card.CardView;
 import com.alver.fatefall.app.fx.view.entity.card.CardViewImpl;
-import com.alver.fatefall.app.services.FXAsyncUtils;
+import com.alver.fatefall.utils.FXAsyncUtils;
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -20,7 +20,7 @@ import javafx.util.Callback;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static com.alver.fatefall.app.fx.util.JFXSmoothScroll.smoothScrolling;
+import static com.alver.fatefall.utils.JFXSmoothScroll.smoothScrolling;
 
 @Prototype
 public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
