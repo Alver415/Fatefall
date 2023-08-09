@@ -18,11 +18,11 @@ public abstract class EntityClient<T extends EntityFX> implements EntityApi<T> {
 	private final ParameterizedTypeReference<T> type;
 	private final ParameterizedTypeReference<List<T>> listType;
 
-	@Value("${server.scheme}")
+	@Value("${web.client.scheme}")
 	private String scheme;
-	@Value("${server.host}")
+	@Value("${web.client.host}")
 	private String host;
-	@Value("${server.port}")
+	@Value("${web.client.port}")
 	private String port;
 
 	public EntityClient(

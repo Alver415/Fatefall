@@ -15,6 +15,7 @@
 		<module>fatefall-client</module>
 		<module>fatefall-preloader</module>
 		<module>fatefall-app</module>
+		<module>fatefall-jnlp</module>
 	</modules>
 
 	<properties>
@@ -39,6 +40,11 @@
 		<server.application.class>com.alver.fatefall.FatefallServerApplication</server.application.class>
 		<client.preloader.class>com.alver.fatefall.preloader.SplashPreloader</client.preloader.class>
 		<client.application.class>com.alver.fatefall.FatefallClientApplication</client.application.class>
+
+		<maven-jarsigner-plugin.keystore>../keystore/keystore.jks</maven-jarsigner-plugin.keystore>
+		<maven-jarsigner-plugin.alias>server</maven-jarsigner-plugin.alias>
+		<maven-jarsigner-plugin.storepass>password</maven-jarsigner-plugin.storepass>
+		<maven-jarsigner-plugin.keypass>password</maven-jarsigner-plugin.keypass>
 	</properties>
 
 	<dependencyManagement>
@@ -132,6 +138,29 @@
 	</dependencyManagement>
 
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jarsigner-plugin</artifactId>
+					<version>3.0.0</version>
+					<executions>
+						<execution>
+							<id>sign</id>
+							<goals>
+								<goal>sign</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<keystore>${maven-jarsigner-plugin.keystore}</keystore>
+						<alias>${maven-jarsigner-plugin.alias}</alias>
+						<storepass>${maven-jarsigner-plugin.storepass}</storepass>
+						<keypass>${maven-jarsigner-plugin.keypass}</keypass>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>

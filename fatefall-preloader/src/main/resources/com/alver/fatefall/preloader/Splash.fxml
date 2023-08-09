@@ -17,7 +17,7 @@
                 <Rectangle arcHeight="30.0" arcWidth="30.0" fill="WHITE" height="105.0" stroke="BLACK" strokeWidth="5.0" width="75.0" />
             </StackPane>
             <VBox alignment="CENTER">
-                <Label fx:id="title" text="Fatefall" textFill="black">
+                <Label text="Fatefall" textFill="black">
                     <font>
                         <Font name="Segoe UI Black" size="96.0" />
                     </font>
