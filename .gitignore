@@ -1,10 +1,6 @@
-# Compiled class file
+# File Types #
 *.class
-
-# Log file
 *.log
-
-# Package Files #
 *.jar
 *.war
 *.nar
@@ -13,15 +9,14 @@
 *.tar.gz
 *.rar
 
-# IDE #
+# Other #
 .classpath
 .project
 .settings/
 .idea/
+.wd/
+
 target/
-/database/
-jmse_sets/
-imported/
+keystore/
 **.flattened-pom.xml
-RUNNING_PID
-tmp
+**/dependency-reduced-pom.xml

@@ -12,6 +12,7 @@ import javafx.css.Stylesheet;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,10 +26,12 @@ import java.util.stream.Stream;
 @Configuration
 public class FatefallProperties {
 
+	@Value("${installation.directory}")
+	private Path installationDirectory;
 
 	@Bean
 	public ListProperty<String> getAdditionalStylesheetsOptions() {
-		Path styleSheetsDirectory = Path.of("stylesheets");
+		Path styleSheetsDirectory = installationDirectory.resolve("stylesheets");
 		try {
 			Files.createDirectories(styleSheetsDirectory);
 			try (Stream<Path> paths = Files.walk(styleSheetsDirectory)) {
