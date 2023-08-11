@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<springProperty name="installation.directory" source="installation.directory"/>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%highlight(%-5level) %magenta([%thread]) %cyan(%logger{15}) - %msg %n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="LOGFILE" class="ch.qos.logback.core.FileAppender">
+		<file>${installation.directory}/logs/application.log</file>
+		<append>true</append>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%kvp- %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="springDelegatedAppender" class="ch.qos.logback.ext.spring.DelegatingLogbackAppender"/>
+
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="LOGFILE" />
+		<appender-ref ref="springDelegatedAppender"/>
+	</root>
+</configuration>

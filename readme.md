@@ -72,5 +72,15 @@ Plugin based architecture allows for providing custom features.
 - [ ] Docker
 
 
+### Setup
+Maven installation of `fatefall-app` uses jarsign which requires a keystore:
+```
+$ mkdir keystore
+$ cd keystore
+$ keytool -genkey -alias server -keyalg RSA -keypass password -storepass password -keystore keystore.jks
+$ keytool -export -alias server -storepass password -file server.cer -keystore keystore.jks
+```
+
+
 ### License
 To the extent possible under law, the author has waived all copyright and related or neighboring rights to this work.

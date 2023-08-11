@@ -5,8 +5,8 @@ import javafx.fxml.LoadListener;
 import javafx.scene.Node;
 import javafx.util.BuilderFactory;
 import javafx.util.Callback;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.ApplicationContext;
@@ -24,6 +24,8 @@ import java.util.ResourceBundle;
 
 @Component
 public class FXMLAutoLoader implements BeanPostProcessor, ApplicationContextAware {
+
+    private static final Logger logger = LoggerFactory.getLogger(FXMLLoader.class);
 
     protected ApplicationContext context;
 
@@ -88,7 +90,6 @@ public class FXMLAutoLoader implements BeanPostProcessor, ApplicationContextAwar
         try {
             return ResourceBundle.getBundle(baseName);
         } catch (MissingResourceException e) {
-            Logger logger = LogManager.getLogger(FXMLLoader.class);
             logger.trace("Failed to find Resource Bundle: " + baseName, e);
             return null;
         }

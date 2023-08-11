@@ -7,6 +7,7 @@ import com.alver.fatefall.app.fx.component.settings.FatefallPreferences;
 import com.alver.fatefall.app.fx.entity.CardFX;
 import com.alver.fatefall.app.fx.entity.WorkspaceFX;
 import com.alver.fatefall.app.fx.view.FXMLAutoLoad;
+import com.alver.fatefall.app.fx.view.console.ConsoleView;
 import com.alver.fatefall.app.fx.view.entity.workspace.WorkspaceView;
 import com.alver.fatefall.app.ComponentFactory;
 import com.alver.fatefall.data.entity.Workspace;
@@ -14,8 +15,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.pf4j.PluginManager;
 import org.pf4j.PluginWrapper;
@@ -41,6 +44,8 @@ public class ApplicationView extends BorderPane {
 	protected ComponentFactory componentFactory;
 	@Autowired
 	protected FatefallPreferences preferences;
+	@Autowired
+	protected ConsoleView consoleView;
 
 	/**
 	 * FXML Injection
@@ -61,7 +66,7 @@ public class ApplicationView extends BorderPane {
 	}
 
 	@FXML
-	private void refresh(){
+	private void refresh() {
 		workspaces.setAll(workspaceApi.getAll());
 	}
 
@@ -94,6 +99,16 @@ public class ApplicationView extends BorderPane {
 	@FXML
 	private void openPreferences() {
 		preferences.show();
+	}
+	@FXML
+	private void openConsole() {
+		if (consoleView.getScene() == null) {
+			Stage stage = new Stage();
+			Scene scene = new Scene(consoleView);
+			stage.setScene(scene);
+		}
+		((Stage)consoleView.getScene().getWindow()).show();
+
 	}
 
 	private Tab addCollectionTab(WorkspaceFX workspace) {

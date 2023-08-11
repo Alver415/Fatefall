@@ -14,6 +14,7 @@
 			</Menu>
 			<Menu text="Edit">
 				<MenuItem text="Preferences" onAction="#openPreferences"/>
+				<MenuItem text="Console" onAction="#openConsole"/>
 			</Menu>
 			<Menu text="Plugins" fx:id="pluginMenu"/>
 		</MenuBar>

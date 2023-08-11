@@ -23,6 +23,7 @@
 		<preferencesfx-core.version>11.11.0</preferencesfx-core.version>
 		<guava.version>31.1-jre</guava.version>
 
+		<logback-ext-spring.version>0.1.5</logback-ext-spring.version>
 	</properties>
 
 	<dependencies>
@@ -45,6 +46,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.logback-extensions</groupId>
+			<artifactId>logback-ext-spring</artifactId>
+			<version>${logback-ext-spring.version}</version>
 		</dependency>
 
 		<!-- Plugins -->

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextArea?>
+<?import com.alver.fatefall.app.fx.view.console.ConsoleView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<fx:root type="ConsoleView" xmlns="http://javafx.com/javafx"
+		 xmlns:fx="http://javafx.com/fxml"
+		 stylesheets="@ConsoleView.css"
+		 prefHeight="400.0" prefWidth="600.0">
+
+	<center>
+		<TextArea fx:id="console"/>
+	</center>
+	<bottom>
+		<HBox>
+			<TextField fx:id="inputField" HBox.hgrow="ALWAYS"/>
+			<Button onAction="#submit" text="Submit"/>
+		</HBox>
+	</bottom>
+
+</fx:root>
