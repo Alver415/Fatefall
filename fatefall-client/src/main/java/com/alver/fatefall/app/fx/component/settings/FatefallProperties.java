@@ -35,10 +35,11 @@ public class FatefallProperties {
 		try {
 			Files.createDirectories(styleSheetsDirectory);
 			try (Stream<Path> paths = Files.walk(styleSheetsDirectory)) {
-				return new SimpleListProperty<>(FXCollections.observableArrayList(paths
+				List<String> cssFileNames = paths
 						.filter(p -> Files.isRegularFile(p) && p.toString().endsWith(".css"))
 						.map(Path::toString)
-						.toList()));
+						.toList();
+				return new SimpleListProperty<>(FXCollections.observableArrayList(cssFileNames));
 			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);
