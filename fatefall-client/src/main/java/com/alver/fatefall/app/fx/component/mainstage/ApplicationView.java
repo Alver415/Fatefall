@@ -23,6 +23,8 @@ import javafx.util.Callback;
 import org.pf4j.PluginManager;
 import org.pf4j.PluginWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -38,8 +40,6 @@ public class ApplicationView extends BorderPane {
 	protected EntityApi<WorkspaceFX> workspaceApi;
 	@Autowired
 	protected WorkspaceCreateAction workspaceCreateAction;
-	@Autowired
-	protected PluginManager pluginManager;
 	@Autowired
 	protected ComponentFactory componentFactory;
 	@Autowired
@@ -61,28 +61,16 @@ public class ApplicationView extends BorderPane {
 	private void initialize() {
 		listView.setCellFactory(workspaceCellFactory);
 		listView.setItems(workspaces);
-		List<Menu> menuList = pluginManager.getPlugins().stream().map(this::buildMenu).toList();
-		pluginMenu.getItems().setAll(menuList);
+	}
+
+	@EventListener
+	public void onReadyEventListener(ApplicationReadyEvent event) {
+		refresh();
 	}
 
 	@FXML
 	private void refresh() {
 		workspaces.setAll(workspaceApi.getAll());
-	}
-
-	private Menu buildMenu(PluginWrapper plugin) {
-		Menu menu = new Menu(plugin.getPluginId());
-		List<MenuItem> menuItems = pluginManager
-				.getExtensions(ActionEventHandler.class, plugin.getPluginId())
-				.stream().map(this::buildMenuItem).toList();
-		menu.getItems().setAll(menuItems);
-		return menu;
-	}
-
-	private MenuItem buildMenuItem(ActionEventHandler action) {
-		MenuItem menuItem = new MenuItem(action.getTitle());
-		menuItem.setOnAction(action);
-		return menuItem;
 	}
 
 	public TabPane getTabPane() {
@@ -215,4 +203,21 @@ public class ApplicationView extends BorderPane {
 		cell.setContextMenu(contextMenu);
 		return cell;
 	};
+
+	public void buildPluginMenu(PluginManager pluginManager) {
+		List<Menu> menuList = pluginManager.getPlugins().stream()
+				.map(plugin -> {
+					Menu menu = new Menu(plugin.getPluginId());
+					List<MenuItem> menuItems = pluginManager
+							.getExtensions(ActionEventHandler.class, plugin.getPluginId())
+							.stream().map(action -> {
+								MenuItem menuItem = new MenuItem(action.getTitle());
+								menuItem.setOnAction(action);
+								return menuItem;
+							}).toList();
+					menu.getItems().setAll(menuItems);
+					return menu;
+				}).toList();
+		pluginMenu.getItems().setAll(menuList);
+	}
 }
