@@ -15,7 +15,6 @@
 		<module>fatefall-client</module>
 		<module>fatefall-preloader</module>
 		<module>fatefall-app</module>
-		<module>fatefall-jnlp</module>
 	</modules>
 
 	<properties>

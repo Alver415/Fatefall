@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 @Configuration
 public class FatefallProperties {
 
-	@Value("${installation.directory}")
+	@Value("${directory.installation}")
 	private Path installationDirectory;
 
 	@Bean

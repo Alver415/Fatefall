@@ -21,7 +21,7 @@ body, html {
 
 header {
     user-select: none;
-    padding: 64px;
+    padding: 16px;
     display: flex;
     align-items: center;
     justify-content:center;
@@ -65,8 +65,8 @@ h2 {
 
 .box {
     font-family: Segoe UI;
-    margin: 32px;
-    padding: 64px;
+    margin: 8px;
+    padding: 16px;
     width: 100%;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
@@ -74,8 +74,8 @@ h2 {
 a:link, a:visited {
   background-color: rgba(0,0,0,0.05);
   color: black;
-  padding: 32px 32px;
-  border-radius: 16px;
+  padding: 8px;
+  border-radius: 4px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
