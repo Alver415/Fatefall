@@ -40,9 +40,4 @@ public class FatefallPluginManager extends SpringPluginManager {
     public void createWorkspace(WorkspaceFX workspace) {
         this.workspaces.add(workspace);
     }
-
-    @EventListener
-    public void onEventReady(ApplicationReadyEvent event){
-        this.applicationView.buildPluginMenu(this);
-    }
 }

@@ -46,6 +46,8 @@ public class ApplicationView extends BorderPane {
 	protected FatefallPreferences preferences;
 	@Autowired
 	protected ConsoleView consoleView;
+	@Autowired
+	protected PluginMenu pluginMenu;
 
 	/**
 	 * FXML Injection
@@ -55,12 +57,13 @@ public class ApplicationView extends BorderPane {
 	@FXML
 	protected TabPane tabPane;
 	@FXML
-	protected Menu pluginMenu;
+	protected MenuBar menuBar;
 
 	@FXML
 	private void initialize() {
 		listView.setCellFactory(workspaceCellFactory);
 		listView.setItems(workspaces);
+		menuBar.getMenus().add(pluginMenu);
 	}
 
 	@EventListener
@@ -203,21 +206,4 @@ public class ApplicationView extends BorderPane {
 		cell.setContextMenu(contextMenu);
 		return cell;
 	};
-
-	public void buildPluginMenu(PluginManager pluginManager) {
-		List<Menu> menuList = pluginManager.getPlugins().stream()
-				.map(plugin -> {
-					Menu menu = new Menu(plugin.getPluginId());
-					List<MenuItem> menuItems = pluginManager
-							.getExtensions(ActionEventHandler.class, plugin.getPluginId())
-							.stream().map(action -> {
-								MenuItem menuItem = new MenuItem(action.getTitle());
-								menuItem.setOnAction(action);
-								return menuItem;
-							}).toList();
-					menu.getItems().setAll(menuItems);
-					return menu;
-				}).toList();
-		pluginMenu.getItems().setAll(menuList);
-	}
 }
