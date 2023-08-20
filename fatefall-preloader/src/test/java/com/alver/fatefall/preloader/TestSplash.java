@@ -3,12 +3,10 @@ package com.alver.fatefall.preloader;
 import javafx.application.Application;
 import javafx.application.Preloader;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -27,11 +25,8 @@ public class TestSplash extends Preloader {
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(SplashPreloader.class.getResource("Splash.fxml"));
-        Parent root = loader.load();
+        primaryStage = loader.load();
 
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        scene.setFill(Color.TRANSPARENT);
         primaryStage.initStyle(StageStyle.TRANSPARENT);
         primaryStage.show();
 

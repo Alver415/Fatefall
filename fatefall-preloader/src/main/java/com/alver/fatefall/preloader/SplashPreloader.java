@@ -2,34 +2,22 @@ package com.alver.fatefall.preloader;
 
 import javafx.application.Preloader;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.net.URL;
-import java.util.Objects;
 
 public class SplashPreloader extends Preloader {
+    private static final URL FXML = SplashController.class.getResource("Splash.fxml");
 
     private Stage stage;
     private SplashController controller;
 
     @Override
-    public void start(Stage stage) throws Exception {
-        this.stage = stage;
-
-        URL splashFxml = Objects.requireNonNull(SplashController.class.getResource("Splash.fxml"));
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(splashFxml);
-        Parent root = loader.load();
-
+    public void start(Stage primaryStage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(FXML);
+        stage = loader.load();
         controller = loader.getController();
-
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        scene.setFill(Color.TRANSPARENT);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.show();
     }
