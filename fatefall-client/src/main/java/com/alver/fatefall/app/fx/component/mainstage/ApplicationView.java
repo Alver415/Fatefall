@@ -1,15 +1,14 @@
 package com.alver.fatefall.app.fx.component.mainstage;
 
-import com.alver.fatefall.action.ActionEventHandler;
 import com.alver.fatefall.action.WorkspaceCreateAction;
 import com.alver.fatefall.api.entity.EntityApi;
+import com.alver.fatefall.app.ComponentFactory;
 import com.alver.fatefall.app.fx.component.settings.FatefallPreferences;
 import com.alver.fatefall.app.fx.entity.CardFX;
 import com.alver.fatefall.app.fx.entity.WorkspaceFX;
 import com.alver.fatefall.app.fx.view.FXMLAutoLoad;
 import com.alver.fatefall.app.fx.view.console.ConsoleView;
 import com.alver.fatefall.app.fx.view.entity.workspace.WorkspaceView;
-import com.alver.fatefall.app.ComponentFactory;
 import com.alver.fatefall.data.entity.Workspace;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,14 +19,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.pf4j.PluginManager;
-import org.pf4j.PluginWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Objects;
 
 @FXMLAutoLoad

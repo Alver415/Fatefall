@@ -1,3 +1,6 @@
+* {
+    -fx-accent: rgba(225,225,255,1)
+}
 
 CardFaceView {
     -fx-background-color: rgba(255,255,255,0.75);
