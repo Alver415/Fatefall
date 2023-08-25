@@ -1,7 +1,6 @@
 package com.alver.fatefall.scryfall;
 
 import com.alver.fatefall.app.fx.entity.CardFX;
-import com.alver.fatefall.app.fx.view.FXMLAutoLoader;
 import com.alver.fatefall.scryfall.api.ScryfallCardDeserializer;
 import com.dlsc.preferencesfx.model.Category;
 import com.dlsc.preferencesfx.model.Group;
@@ -19,11 +18,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @SpringBootApplication
 public class ScryfallConfiguration {
-
-    @Bean
-    public FXMLAutoLoader getFXMLAutoLoader() {
-        return new FXMLAutoLoader();
-    }
 
     @Bean
     protected ObjectMapper getObjectMapper(ScryfallCardDeserializer cardDeserializer) {

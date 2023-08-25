@@ -12,6 +12,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class WebClientConfiguration {
 
+    private static final int UNLIMITED = -1;
+
     @Bean
     public WebClient getFatefallWebclient(ObjectMapper objectMapper) {
         return WebClient.builder()
@@ -22,9 +24,7 @@ public class WebClientConfiguration {
                             clientCodecConfigurer.defaultCodecs().jackson2JsonDecoder(
                                     new Jackson2JsonDecoder(objectMapper, MediaType.APPLICATION_JSON));
                         }).build())
-                .codecs(codecs -> codecs
-                        .defaultCodecs()
-                        .maxInMemorySize(500 * 1024))
+                .codecs(codecs -> codecs.defaultCodecs().maxInMemorySize(UNLIMITED))
                 .build();
     }
 }

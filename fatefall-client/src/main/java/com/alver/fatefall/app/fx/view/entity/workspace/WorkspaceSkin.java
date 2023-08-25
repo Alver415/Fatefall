@@ -1,12 +1,8 @@
 package com.alver.fatefall.app.fx.view.entity.workspace;
 
-import com.alver.fatefall.app.Prototype;
-import com.alver.fatefall.app.fx.component.settings.FatefallProperties;
 import com.alver.fatefall.app.fx.entity.CardFX;
 import com.alver.fatefall.app.fx.view.entity.card.CardView;
-import com.alver.fatefall.app.fx.view.entity.card.CardViewImpl;
 import com.alver.fatefall.utils.FXAsyncUtils;
-import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.ListProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.transformation.FilteredList;
@@ -16,25 +12,18 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
 
 import static com.alver.fatefall.utils.JFXSmoothScroll.smoothScrolling;
 
-@Prototype
-public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
+public class WorkspaceSkin extends SkinBase<WorkspaceView> {
 
     private final TextField filterField;
     private final TableView<CardFX> tableView;
 
-    @Autowired
-    protected WorkspaceSkin(
-            WorkspaceViewImpl control,
-            FatefallProperties properties,
-            BeanFactory beanFactory) {
+    protected WorkspaceSkin(WorkspaceView control) {
         super(control);
 
         filterField = new TextField();
@@ -44,26 +33,25 @@ public class WorkspaceSkin extends SkinBase<WorkspaceViewImpl> {
         tableView.setEditable(true);
         FXAsyncUtils.runAsync(() -> smoothScrolling(tableView, 0.1), 1000);
 
-
-        TableColumn<CardFX, CardView<?>> cardColumn = new TableColumn<>("Card View");
-        DoubleBinding cardViewMaxWidth = properties.getCardScaledWidth().multiply(2).add(20);
-        cardColumn.minWidthProperty().bind(cardViewMaxWidth);
-        cardColumn.maxWidthProperty().bind(cardViewMaxWidth);
-        cardColumn.prefWidthProperty().bind(cardViewMaxWidth);
+        TableColumn<CardFX, CardView> cardColumn = new TableColumn<>("Card View");
+//        DoubleBinding cardViewMaxWidth = properties.getCardScaledWidth().multiply(2).add(20);
+//        cardColumn.minWidthProperty().bind(cardViewMaxWidth);
+//        cardColumn.maxWidthProperty().bind(cardViewMaxWidth);
+//        cardColumn.prefWidthProperty().bind(cardViewMaxWidth);
         cardColumn.setCellFactory(new Callback<>() {
             @Override
-            public TableCell<CardFX, CardView<?>> call(TableColumn<CardFX, CardView<?>> param) {
-                TableCell<CardFX, CardView<?>> cell = new TableCell<>() {
+            public TableCell<CardFX, CardView> call(TableColumn<CardFX, CardView> param) {
+                TableCell<CardFX, CardView> cell = new TableCell<>() {
                     @Override
-                    protected void updateItem(CardView<?> item, boolean empty) {
+                    protected void updateItem(CardView item, boolean empty) {
                         super.updateItem(item, empty);
                         if (empty) {
                             setGraphic(null);
                         } else {
                             CardFX card = getTableRow().getItem();
-                            CardView<?> cardView = beanFactory.getBean(CardViewImpl.class);
+                            CardView cardView = new CardView();
                             cardView.setCard(card);
-                            setGraphic(cardView.getFxViewNode());
+                            setGraphic(cardView);
                         }
                     }
                 };

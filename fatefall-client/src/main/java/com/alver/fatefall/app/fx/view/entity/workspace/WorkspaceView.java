@@ -1,21 +1,29 @@
 package com.alver.fatefall.app.fx.view.entity.workspace;
 
 import com.alver.fatefall.app.fx.entity.WorkspaceFX;
-import com.alver.fatefall.app.fx.view.FxView;
-import com.alver.fatefall.data.entity.Workspace;
 import javafx.beans.property.ObjectProperty;
-import javafx.scene.Node;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.control.Control;
+import javafx.scene.control.Skin;
 
-public interface WorkspaceView<T extends Node> extends FxView<T> {
+public class WorkspaceView extends Control {
 
-    ObjectProperty<WorkspaceFX> workspaceProperty();
+	protected final ObjectProperty<WorkspaceFX> workspaceProperty = new SimpleObjectProperty<>();
+	public ObjectProperty<WorkspaceFX> workspaceProperty() {
+		return workspaceProperty;
+	}
+	public WorkspaceFX getWorkspace() {
+		return workspaceProperty().get();
+	}
+	public void setWorkspace(WorkspaceFX workspace) {
+		workspaceProperty().set(workspace);
+	}
 
-    default WorkspaceFX getWorkspace() {
-        return workspaceProperty().get();
-    }
+	public WorkspaceView() {}
 
-    default void setWorkspace(WorkspaceFX IWorkspace) {
-        workspaceProperty().set(IWorkspace);
-    }
+	@Override
+	public Skin<WorkspaceView> createDefaultSkin() {
+		return new WorkspaceSkin(this);
+	}
 
 }

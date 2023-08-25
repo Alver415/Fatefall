@@ -4,8 +4,9 @@ package com.alver.fatefall.app.fx.component.settings;
 import com.alver.fatefall.app.fx.component.about.AboutView;
 import com.alver.fatefall.app.fx.component.plugins.PluginManagerView;
 import com.alver.fatefall.app.fx.view.entity.card.CardView;
-import com.alver.fatefall.app.ComponentFactory;
 import com.alver.fatefall.utils.ResourceUtil;
+import com.alver.springfx.SpringFXLoader;
+import com.alver.springfx.model.FXMLControllerAndView;
 import com.dlsc.formsfx.model.structure.Field;
 import com.dlsc.formsfx.model.structure.StringField;
 import com.dlsc.preferencesfx.PreferencesFx;
@@ -18,6 +19,7 @@ import javafx.application.Platform;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.effect.BlurType;
 import javafx.scene.image.Image;
 import org.pf4j.PluginManager;
@@ -34,24 +36,18 @@ public class FatefallPreferences {
     protected FatefallProperties properties;
     protected PluginManager pluginManager;
     protected PluginManagerView pluginManagerView;
-    protected ComponentFactory componentFactory;
-    protected AboutView aboutView;
-    protected CardView<?> demoCard;
+    protected SpringFXLoader springFXLoader;
 
     @Autowired
     public FatefallPreferences(
             FatefallProperties properties,
             PluginManager pluginManager,
             PluginManagerView pluginManagerView,
-            ComponentFactory componentFactory,
-            AboutView aboutView,
-            CardView<?> exampleCard) {
+            SpringFXLoader springFXLoader) {
         this.properties = properties;
         this.pluginManager = pluginManager;
         this.pluginManagerView = pluginManagerView;
-        this.componentFactory = componentFactory;
-        this.aboutView = aboutView;
-        this.demoCard = exampleCard;
+        this.springFXLoader = springFXLoader;
 
         //Initializes
         Platform.runLater(this::buildPreferencesFX);
@@ -71,8 +67,6 @@ public class FatefallPreferences {
         preferencesFx.show();
     }
 
-
-
     /* ============
      * Categories *
      ============ */
@@ -88,7 +82,7 @@ public class FatefallPreferences {
                                 Setting.of("User Agent Stylesheet", properties.getStylesheetOptions(), properties.getStylesheetSelection()),
                                 Setting.of("Additional Stylesheets", properties.getAdditionalStylesheetsOptions(), properties.getAdditionalStylesheetsSelections())))
                 .subCategories(Category.of("Card View",
-                        Group.of("Example", Setting.of(demoCard.getFxViewNode())),
+                        Group.of("Example", Setting.of(new CardView())),
                         Group.of("Card Dimensions",
                                 Setting.of("View Mode", properties.getCardViewSkinOptions(), properties.getCardViewSkinSelection()),
                                 Setting.of("Scale", Field.ofDoubleType(properties.getCardViewScale()).render(new DoubleSliderControl(0.1, 2.0, 2)), properties.getCardViewScale()),
@@ -122,6 +116,7 @@ public class FatefallPreferences {
     }
 
     private Category buildAboutCategory() {
-        return Category.of("About", Setting.of(aboutView));
+        FXMLControllerAndView<AboutView, Object> loaded = springFXLoader.load(AboutView.class);
+        return Category.of("About", Setting.of((Node) loaded.view()));
     }
 }

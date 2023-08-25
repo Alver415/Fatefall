@@ -1,13 +1,13 @@
 package com.alver.fatefall.controller;
 
-import com.alver.fatefall.api.ApplicationApi;
+import com.alver.fatefall.api.RootApi;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/")
-public class ApplicationController implements ApplicationApi {
+public class RootController implements RootApi {
 
 	@GetMapping("/")
 	public String index(){

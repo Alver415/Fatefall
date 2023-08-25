@@ -2,11 +2,14 @@ package com.alver.fatefall.scryfall.plugin.actions;
 
 import com.alver.fatefall.action.ActionEventHandler;
 import com.alver.fatefall.scryfall.plugin.ScryfallPlugin;
-import com.alver.fatefall.scryfall.plugin.component.ScryfallSearchView;
+import com.alver.fatefall.scryfall.plugin.component.ScryfallSearchController;
+import com.alver.springfx.SpringFXLoader;
+import com.alver.springfx.model.FXMLControllerAndView;
 import javafx.event.ActionEvent;
+import javafx.scene.Node;
 import org.pf4j.Extension;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,8 +21,9 @@ public class CreateScryfallSearchViewAction implements ActionEventHandler {
 
     @Autowired
     protected ScryfallPlugin plugin;
+
     @Autowired
-    protected BeanFactory beanFactory;
+    protected ApplicationContext context;
 
 
     @Override
@@ -33,6 +37,7 @@ public class CreateScryfallSearchViewAction implements ActionEventHandler {
 
     @Override
     public void handle(ActionEvent event) {
-        plugin.createToolTab(getTitle(), beanFactory.getBean(ScryfallSearchView.class));
+        FXMLControllerAndView<ScryfallSearchController, Object> load = new SpringFXLoader(context, null).load(ScryfallSearchController.class);
+        plugin.createToolTab(getTitle(), (Node) load.view());
     }
 }

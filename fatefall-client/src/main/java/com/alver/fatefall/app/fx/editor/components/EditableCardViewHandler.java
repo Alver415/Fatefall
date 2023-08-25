@@ -13,11 +13,11 @@ import java.util.Optional;
 
 public class EditableCardViewHandler implements EventHandler<MouseEvent> {
 
-    protected CardView<?> cardView;
+    protected CardView cardView;
 
-    public EditableCardViewHandler(CardView<?> cardView) {
+    public EditableCardViewHandler(CardView cardView) {
         this.cardView = cardView;
-        cardView.getFxViewNode().addEventFilter(MouseEvent.ANY, this);
+        cardView.addEventFilter(MouseEvent.ANY, this);
     }
 
     private enum Mode {
@@ -75,7 +75,7 @@ public class EditableCardViewHandler implements EventHandler<MouseEvent> {
     }
 
     private Optional<Block<?>> findAncestorBlock(MouseEvent e) {
-        Node base = cardView.getFxViewNode();
+        Node base = cardView;
         Node node = e.getPickResult().getIntersectedNode();
         while (node != null && node != base) {
             if (node instanceof Block<?> found) {

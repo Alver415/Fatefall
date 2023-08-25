@@ -1,6 +1,5 @@
 package com.alver.fatefall.app.fx.component.plugins;
 
-import com.alver.fatefall.app.fx.view.FXMLAutoLoad;
 import com.alver.fatefall.plugin.FatefallPluginManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
@@ -10,7 +9,6 @@ import org.pf4j.PluginWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@FXMLAutoLoad
 @Component
 public class PluginManagerView extends BorderPane {
 

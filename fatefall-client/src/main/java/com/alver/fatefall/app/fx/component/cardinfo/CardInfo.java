@@ -1,17 +1,16 @@
 package com.alver.fatefall.app.fx.component.cardinfo;
 
 import com.alver.fatefall.app.fx.entity.CardFX;
-import com.alver.fatefall.app.fx.view.FXMLAutoLoad;
 import com.alver.fatefall.app.fx.view.entity.card.CardView;
+import com.alver.springfx.annotations.FXMLPrototype;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
-import javafx.scene.layout.BorderPane;
 import org.controlsfx.control.PropertySheet;
 import org.controlsfx.property.BeanPropertyUtils;
 
-@FXMLAutoLoad
-public class CardInfo extends BorderPane  {
+@FXMLPrototype
+public class CardInfo  {
 
 	@FXML
 	protected CardView cardView;

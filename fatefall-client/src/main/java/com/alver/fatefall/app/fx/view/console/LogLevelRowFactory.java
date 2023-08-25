@@ -1,11 +1,21 @@
 package com.alver.fatefall.app.fx.view.console;
 
+import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.spi.ILoggingEvent;
+import javafx.css.PseudoClass;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 public class LogLevelRowFactory implements Callback<TableView<ILoggingEvent>, TableRow<ILoggingEvent>> {
+
+    Map<Level, PseudoClass> pseudoClasses =
+            Set.of(Level.TRACE, Level.DEBUG, Level.INFO, Level.WARN, Level.ERROR).stream()
+                    .collect(Collectors.toMap(k -> k, v -> PseudoClass.getPseudoClass(v.levelStr)));
 
     @Override
     public TableRow<ILoggingEvent> call(TableView<ILoggingEvent> param) {
@@ -13,9 +23,10 @@ public class LogLevelRowFactory implements Callback<TableView<ILoggingEvent>, Ta
             @Override
             public void updateItem(ILoggingEvent item, boolean empty) {
                 super.updateItem(item, empty);
-                getStyleClass().clear();
+                pseudoClasses.values().forEach(pseudoClass -> pseudoClassStateChanged(pseudoClass, false));
                 if (item != null) {
-                    getStyleClass().add(item.getLevel().levelStr.toLowerCase());
+                    PseudoClass pseudoClass = pseudoClasses.get(item.getLevel());
+                    pseudoClassStateChanged(pseudoClass, true);
                 }
             }
         };

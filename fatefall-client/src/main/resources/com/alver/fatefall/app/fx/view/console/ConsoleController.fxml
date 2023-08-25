@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.alver.fatefall.app.fx.view.console.DefaultValueFactory?>
+<?import com.alver.fatefall.app.fx.view.console.LogLevelRowFactory?>
+<?import com.alver.fatefall.app.fx.view.console.MessageCellFactory?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.*?>
+<TableView xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.alver.fatefall.app.fx.view.console.ConsoleController"
+           fx:id="tableView"
+           stylesheets="@ConsoleController.css"
+           prefHeight="400.0" prefWidth="600.0">
+
+    <rowFactory>
+        <LogLevelRowFactory/>
+    </rowFactory>
+    <columns>
+        <TableColumn text="Level" sortable="false" editable="false">
+            <cellValueFactory>
+                <PropertyValueFactory property="level"/>
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn text="Timestamp" sortable="false" editable="false">
+            <cellValueFactory>
+                <PropertyValueFactory property="instant"/>
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn text="Thread" sortable="false" editable="false">
+            <cellValueFactory>
+                <PropertyValueFactory property="threadName"/>
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn text="Logger" sortable="false" editable="false">
+            <cellValueFactory>
+                <PropertyValueFactory property="loggerName"/>
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn text="Message" sortable="false" editable="false">
+            <cellValueFactory>
+                <DefaultValueFactory/>
+            </cellValueFactory>
+            <cellFactory>
+                <MessageCellFactory/>
+            </cellFactory>
+        </TableColumn>
+    </columns>
+</TableView>

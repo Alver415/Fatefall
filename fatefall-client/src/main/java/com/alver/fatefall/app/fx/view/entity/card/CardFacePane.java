@@ -1,20 +1,32 @@
 package com.alver.fatefall.app.fx.view.entity.card;
 
-import com.alver.fatefall.app.Prototype;
 import com.alver.fatefall.app.fx.component.settings.FatefallProperties;
+import com.alver.fatefall.app.fx.entity.CardFaceFX;
+import com.alver.fatefall.utils.ResourceUtil;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
-import org.springframework.beans.factory.annotation.Autowired;
 
-@Prototype
-public class CardFaceView extends AnchorPane {
+public class CardFacePane extends AnchorPane {
 
-    protected FatefallProperties properties;
+    private String CSS = ResourceUtil.css(CardFacePane.class, "CardFacePane.css");
 
-    @Autowired
-    public CardFaceView(FatefallProperties properties) {
-        super();
-        this.properties = properties;
+    protected final ObjectProperty<CardFaceFX> cardFaceProperty = new SimpleObjectProperty<>();
+    public ObjectProperty<CardFaceFX> cardFaceProperty(){
+        return cardFaceProperty;
+    }
+    public CardFaceFX getCardFace(){
+        return cardFaceProperty.get();
+    }
+    public void setCardFace(CardFaceFX cardFace){
+        cardFaceProperty.set(cardFace);
+    }
+
+    public CardFacePane(){
+        getStylesheets().add(CSS);
+
+        FatefallProperties properties = FatefallProperties.INSTANCE;
 
         minWidthProperty().bind(properties.getCardScaledWidth());
         maxWidthProperty().bind(properties.getCardScaledWidth());

@@ -1,23 +1,20 @@
-package com.alver.fatefall.app.fx.view.entity.card;
+package com.alver.fatefall.app.fx.view.entity.card.skin.stacked;
 
-import com.alver.fatefall.app.Prototype;
-import com.alver.fatefall.app.fx.component.settings.FatefallProperties;
+import com.alver.fatefall.app.fx.view.entity.card.CardView;
+import com.alver.fatefall.app.fx.view.entity.card.skin.AbstractCardViewSkin;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@Prototype
-public class StackedSkin extends CardViewSkin {
+public class StackedSkin extends AbstractCardViewSkin {
 
-    @Autowired
-    protected StackedSkin(CardViewImpl control, FatefallProperties properties) {
-        super(control, properties);
+    public StackedSkin(CardView control) {
+        super(control);
 
         StackPane wrapper = new StackPane(backWrapper, frontWrapper);
         wrapper.setMaxSize(0, 0);

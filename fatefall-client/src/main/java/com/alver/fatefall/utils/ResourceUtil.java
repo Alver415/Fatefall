@@ -2,6 +2,7 @@ package com.alver.fatefall.utils;
 
 import javafx.scene.image.Image;
 
+import java.io.InputStream;
 import java.util.Objects;
 
 public class ResourceUtil {
@@ -26,7 +27,8 @@ public class ResourceUtil {
     }
 
     public static Image image(Class<?> clazz, String resource){
-        return new Image(Objects.requireNonNull(clazz.getResourceAsStream(resource)));
+        InputStream resourceStream = Objects.requireNonNull(clazz.getResourceAsStream(resource), resource);
+        return new Image(resourceStream);
     }
 
 }

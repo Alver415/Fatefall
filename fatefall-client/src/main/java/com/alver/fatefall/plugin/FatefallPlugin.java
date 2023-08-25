@@ -1,7 +1,6 @@
 package com.alver.fatefall.plugin;
 
 import com.alver.fatefall.app.fx.entity.WorkspaceFX;
-import com.alver.fatefall.data.entity.Workspace;
 import javafx.scene.Node;
 import org.pf4j.PluginManager;
 import org.pf4j.PluginWrapper;
@@ -20,7 +19,6 @@ public abstract class FatefallPlugin extends SpringPlugin {
 
 	@Override
 	public void start() {
-		log.info("Staring Plugin: " + getWrapper().getPluginId());
 		try {
 			((AnnotationConfigApplicationContext) getApplicationContext()).refresh();
 		} catch (Exception e) {
@@ -31,7 +29,6 @@ public abstract class FatefallPlugin extends SpringPlugin {
 
 	@Override
 	public void stop() {
-		log.info("Stopping Plugin:  " + getWrapper().getPluginId());
 		super.stop(); // to close applicationContext
 	}
 

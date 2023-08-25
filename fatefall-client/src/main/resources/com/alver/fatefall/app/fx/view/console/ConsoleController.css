@@ -1,0 +1,20 @@
+
+.table-row-cell {
+    -fx-font-family: "Monospaced";
+}
+
+.table-row-cell:ERROR {
+    -fx-background-color: rgba(255,0,0,0.1);
+}
+.table-row-cell:WARN {
+    -fx-background-color: rgba(255,200,0,0.1);
+}
+.table-row-cell:INFO {
+    -fx-background-color: rgba(225,225,255,0.1);
+}
+.table-row-cell:DEBUG {
+    -fx-background-color: rgba(200,255,200,0.1);
+}
+.table-row-cell:TRACE {
+    -fx-background-color: rgba(127,127,127,0.1);
+}

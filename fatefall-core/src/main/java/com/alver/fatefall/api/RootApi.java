@@ -1,6 +1,6 @@
 package com.alver.fatefall.api;
 
-public interface ApplicationApi {
+public interface RootApi {
 
 	String index();
 }

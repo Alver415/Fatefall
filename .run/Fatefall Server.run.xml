@@ -1,7 +1,14 @@
 <component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Fatefall Server" type="JarApplication">
+    <option name="JAR_PATH" value="$PROJECT_DIR$/fatefall-server/target/fatefall-server-1.0-SNAPSHOT.jar" />
+    <option name="WORKING_DIRECTORY" value="$ProjectFileDir$" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <method v="2" />
+  </configuration>
   <configuration default="false" name="Fatefall Server" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="com.alver.fatefall.FatefallServerApplication" />
     <module name="fatefall-server" />
+    <option name="VM_PARAMETERS" value="-Dspring.profiles.active=dev" />
     <option name="WORKING_DIRECTORY" value="$ProjectFileDir$" />
     <extension name="coverage">
       <pattern>
@@ -10,13 +17,7 @@
       </pattern>
     </extension>
     <method v="2">
-      <option name="Make" enabled="true" />
+      <option name="MakeProject" enabled="true" />
     </method>
-  </configuration>
-  <configuration default="false" name="Fatefall Server" type="JarApplication">
-    <option name="JAR_PATH" value="$PROJECT_DIR$/fatefall-server/target/fatefall-server-1.0-SNAPSHOT.jar" />
-    <option name="WORKING_DIRECTORY" value="$ProjectFileDir$" />
-    <option name="ALTERNATIVE_JRE_PATH" />
-    <method v="2" />
   </configuration>
 </component>
