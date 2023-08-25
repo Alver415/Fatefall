@@ -2,7 +2,7 @@ package com.alver.fatefall.app.fx.component.mainstage;
 
 import com.alver.fatefall.action.WorkspaceCreateAction;
 import com.alver.fatefall.api.entity.EntityApi;
-import com.alver.fatefall.app.fx.component.settings.FatefallPreferences;
+import com.alver.fatefall.app.fx.component.settings.PreferencesController;
 import com.alver.fatefall.app.fx.entity.CardFX;
 import com.alver.fatefall.app.fx.entity.WorkspaceFX;
 import com.alver.fatefall.app.fx.view.console.ConsoleController;
@@ -35,7 +35,7 @@ public class ApplicationController {
     @Autowired
     protected WorkspaceCreateAction workspaceCreateAction;
     @Autowired
-    protected FatefallPreferences preferences;
+    protected PreferencesController preferences;
     @Autowired
     protected PluginMenu pluginMenu;
     @Autowired

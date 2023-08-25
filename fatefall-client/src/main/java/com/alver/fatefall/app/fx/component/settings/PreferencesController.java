@@ -2,10 +2,11 @@
 package com.alver.fatefall.app.fx.component.settings;
 
 import com.alver.fatefall.app.fx.component.about.AboutView;
-import com.alver.fatefall.app.fx.component.plugins.PluginManagerView;
+import com.alver.fatefall.app.fx.component.plugins.PluginManagerController;
 import com.alver.fatefall.app.fx.view.entity.card.CardView;
 import com.alver.fatefall.utils.ResourceUtil;
 import com.alver.springfx.SpringFXLoader;
+import com.alver.springfx.annotations.FXMLComponent;
 import com.alver.springfx.model.FXMLControllerAndView;
 import com.dlsc.formsfx.model.structure.Field;
 import com.dlsc.formsfx.model.structure.StringField;
@@ -24,29 +25,25 @@ import javafx.scene.effect.BlurType;
 import javafx.scene.image.Image;
 import org.pf4j.PluginManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
-@Component
-public class FatefallPreferences {
+@FXMLComponent
+public class PreferencesController {
 
     private static final Image ICON = ResourceUtil.image("/com/alver/fatefall/app/icon.png");
 
     protected FatefallProperties properties;
     protected PluginManager pluginManager;
-    protected PluginManagerView pluginManagerView;
     protected SpringFXLoader springFXLoader;
 
     @Autowired
-    public FatefallPreferences(
+    public PreferencesController(
             FatefallProperties properties,
             PluginManager pluginManager,
-            PluginManagerView pluginManagerView,
             SpringFXLoader springFXLoader) {
         this.properties = properties;
         this.pluginManager = pluginManager;
-        this.pluginManagerView = pluginManagerView;
         this.springFXLoader = springFXLoader;
 
         //Initializes
@@ -63,8 +60,7 @@ public class FatefallPreferences {
     }
 
     public void show() {
-        PreferencesFx preferencesFx = buildPreferencesFX();
-        preferencesFx.show();
+        buildPreferencesFX().show();
     }
 
     /* ============
@@ -111,7 +107,8 @@ public class FatefallPreferences {
                 .map(PreferenceCategoryProvider::getCategory)
                 .toArray(Category[]::new);
 
-        return Category.of("Plugin Management", Setting.of(pluginManagerView))
+        FXMLControllerAndView<PluginManagerController, Object> loaded = springFXLoader.load(PluginManagerController.class);
+        return Category.of("Plugin Management", Setting.of((Node) loaded.view()))
                 .subCategories(subCategories).expand();
     }
 

@@ -9,7 +9,6 @@ import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import org.pf4j.Extension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,7 +22,7 @@ public class CreateScryfallSearchViewAction implements ActionEventHandler {
     protected ScryfallPlugin plugin;
 
     @Autowired
-    protected ApplicationContext context;
+    protected SpringFXLoader loader;
 
 
     @Override
@@ -37,7 +36,7 @@ public class CreateScryfallSearchViewAction implements ActionEventHandler {
 
     @Override
     public void handle(ActionEvent event) {
-        FXMLControllerAndView<ScryfallSearchController, Object> load = new SpringFXLoader(context, null).load(ScryfallSearchController.class);
+        FXMLControllerAndView<ScryfallSearchController, Object> load = loader.load(ScryfallSearchController.class);
         plugin.createToolTab(getTitle(), (Node) load.view());
     }
 }

@@ -29,7 +29,8 @@ public class FatefallProperties {
 	public static FatefallProperties INSTANCE;
 
 	@Value("${directory.installation}")
-	private Path installationDirectory;
+	protected Path installationDirectory;
+
 	public FatefallProperties(){
 		INSTANCE = this;
 	}
