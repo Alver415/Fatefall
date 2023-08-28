@@ -1,5 +1,6 @@
 package com.alver.fatefall.app.fx.component.mainstage;
 
+import com.alver.fatefall.StageManager;
 import com.alver.fatefall.action.WorkspaceCreateAction;
 import com.alver.fatefall.api.entity.EntityApi;
 import com.alver.fatefall.app.fx.component.settings.PreferencesController;
@@ -14,10 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -28,18 +26,14 @@ import java.util.Objects;
 @FXMLComponent
 public class ApplicationController {
 
-    @Autowired
-    protected ObservableList<WorkspaceFX> workspaces;
-    @Autowired
-    protected EntityApi<WorkspaceFX> workspaceApi;
-    @Autowired
-    protected WorkspaceCreateAction workspaceCreateAction;
-    @Autowired
-    protected PreferencesController preferences;
-    @Autowired
-    protected PluginMenu pluginMenu;
-    @Autowired
-    protected SpringFXLoader springFXLoader;
+
+    protected final ObservableList<WorkspaceFX> workspaces;
+    protected final EntityApi<WorkspaceFX> workspaceApi;
+    protected final WorkspaceCreateAction workspaceCreateAction;
+    protected final PreferencesController preferences;
+    protected final PluginMenu pluginMenu;
+    protected final SpringFXLoader springFXLoader;
+    protected final StageManager stageManager;
 
     /**
      * FXML Injection
@@ -50,6 +44,24 @@ public class ApplicationController {
     protected TabPane tabPane;
     @FXML
     protected MenuBar menuBar;
+
+    @Autowired
+    public ApplicationController(
+            ObservableList<WorkspaceFX> workspaces,
+            EntityApi<WorkspaceFX> workspaceApi,
+            WorkspaceCreateAction workspaceCreateAction,
+            PreferencesController preferences,
+            PluginMenu pluginMenu,
+            SpringFXLoader springFXLoader,
+            StageManager stageManager) {
+        this.workspaces = workspaces;
+        this.workspaceApi = workspaceApi;
+        this.workspaceCreateAction = workspaceCreateAction;
+        this.preferences = preferences;
+        this.pluginMenu = pluginMenu;
+        this.springFXLoader = springFXLoader;
+        this.stageManager = stageManager;
+    }
 
     @FXML
     private void initialize() {
@@ -86,10 +98,8 @@ public class ApplicationController {
 
     @FXML
     private void openConsole() {
-        Stage stage = new Stage();
-        Scene scene = new Scene((Parent) springFXLoader.load(ConsoleController.class).view());
-        stage.setScene(scene);
-        stage.show();
+        Object view = springFXLoader.load(ConsoleController.class).view();
+        stageManager.create("Console", (Node) view).show();
     }
 
     private Tab addCollectionTab(WorkspaceFX workspace) {
@@ -182,17 +192,19 @@ public class ApplicationController {
         });
         ContextMenu contextMenu = new ContextMenu();
         MenuItem save = new MenuItem("Save");
-        save.setOnAction(a -> {
-            WorkspaceFX workspace = cell.getItem();
-            WorkspaceFX saved = workspace.getId() == null ?
-                    workspaceApi.create(workspace) :
-                    workspaceApi.update(workspace.getId(), workspace);
-            workspaces.remove(workspace);
-            workspaces.add(saved);
-        });
+        save.setOnAction(a -> saveAction(cell));
         contextMenu.getItems().add(save);
 
         cell.setContextMenu(contextMenu);
         return cell;
     };
+
+    private void saveAction(ListCell<WorkspaceFX> cell) {
+        WorkspaceFX workspace = cell.getItem();
+        WorkspaceFX saved = workspace.getId() == null ?
+                workspaceApi.create(workspace) :
+                workspaceApi.update(workspace.getId(), workspace);
+        workspaces.remove(workspace);
+        workspaces.add(saved);
+    }
 }
