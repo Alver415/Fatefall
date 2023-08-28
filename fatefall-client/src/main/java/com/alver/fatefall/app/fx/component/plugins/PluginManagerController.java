@@ -1,6 +1,6 @@
 package com.alver.fatefall.app.fx.component.plugins;
 
-import com.alver.fatefall.utils.BindingUtil;
+import com.alver.fatefall.utils.CollectionBindings;
 import com.alver.springfx.annotations.FXMLPrototype;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,7 +26,7 @@ public class PluginManagerController {
         this.pluginManager = pluginManager;
         this.pluginRows = FXCollections.observableArrayList();
         this.pluginWrappers = FXCollections.observableList(pluginManager.getPlugins());
-        BindingUtil.mapContent(pluginRows, pluginWrappers, PluginRow::new);
+        CollectionBindings.bind(pluginWrappers, pluginRows, PluginRow::new);
     }
 
     @FXML

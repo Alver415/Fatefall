@@ -1,5 +1,6 @@
 package com.alver.fatefall.app.fx.component.settings;
 
+import com.alver.fatefall.utils.ResourceUtil;
 import com.sun.javafx.css.StyleManager;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.*;
@@ -11,6 +12,7 @@ import javafx.css.CssParser;
 import javafx.css.Stylesheet;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +22,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -36,6 +39,15 @@ public class FatefallProperties {
 	}
 
 	@Bean
+	public ObjectProperty<Image> iconProperty(){
+		return new SimpleObjectProperty<>(ResourceUtil.image("/com/alver/fatefall/icon.png"));
+	}
+	@Bean
+	public StringProperty titleProperty(@Value("${title}") String title){
+		return new SimpleStringProperty(title);
+	}
+
+	@Bean
 	public ListProperty<String> getAdditionalStylesheetsOptions() {
 		Path styleSheetsDirectory = installationDirectory.resolve("stylesheets");
 		try {
@@ -45,6 +57,7 @@ public class FatefallProperties {
 						.filter(p -> Files.isRegularFile(p) && p.toString().endsWith(".css"))
 						.map(Path::toString)
 						.toList();
+
 				return new SimpleListProperty<>(FXCollections.observableArrayList(cssFileNames));
 			}
 		} catch (IOException e) {
@@ -106,21 +119,19 @@ public class FatefallProperties {
 
 	@Bean
 	public ObjectProperty<Color> getBaseColor() {
-		SimpleObjectProperty<Color> baseColor = new SimpleObjectProperty<>();
+		SimpleObjectProperty<Color> baseColor = new SimpleObjectProperty<>(Color.BLACK);
 		baseColor.addListener((ChangeListener<? super Color>) (obs, oldValue, newValue) -> {
 			setUserAgentStylesheet("baseColor", """
 					.root{
 					    -fx-base: #%02X%02X%02X;
 					    -fx-background: derive(-fx-base,0.26);
 					    -fx-control-inner-background: derive(-fx-base,0.8);
-					    -fx-control-inner-background-alt: derive(-fx-control-inner-background,-0.02);                        
+					    -fx-control-inner-background-alt: derive(-fx-control-inner-background,-0.02);
 					}""".formatted(
 					(int) (newValue.getRed() * 255),
 					(int) (newValue.getGreen() * 255),
 					(int) (newValue.getBlue() * 255)));
 		});
-		// Set default after adding listener so that it triggers and applies the change.
-		baseColor.set(Color.BLACK);
 		return baseColor;
 	}
 
@@ -191,4 +202,48 @@ public class FatefallProperties {
 			throw new RuntimeException(e);
 		}
 	}
+
+	@Bean
+	public ObjectProperty<LocaleOption> getLocale() {
+		SimpleObjectProperty<LocaleOption> localeProperty = new SimpleObjectProperty<>(LocaleOption.ENGLISH);
+		localeProperty.addListener((observable, oldValue, newValue) -> {
+			try {
+				Locale.setDefault(newValue.locale);
+			} catch (Exception e){
+			}
+		});
+		if (localeProperty.get() == null){
+			localeProperty.set(LocaleOption.ENGLISH);
+		}
+		return localeProperty;
+	}
+
+	@Bean
+	public ObservableList<LocaleOption> getLocaleOptions() {
+//		return FXCollections.observableList(Arrays.asList(Locale.getAvailableLocales()));
+
+		return FXCollections.observableList(List.of(
+				LocaleOption.ENGLISH,
+				LocaleOption.SPANISH,
+				LocaleOption.FRENCH));
+	}
+
+	public enum LocaleOption {
+		ENGLISH(Locale.ENGLISH),
+		FRENCH(Locale.FRENCH),
+		SPANISH(new Locale ( "es" , "ES" ));
+
+		private final Locale locale;
+		private final String displayName;
+		LocaleOption(Locale locale) {
+			this.locale = locale;
+			this.displayName = locale.getDisplayLanguage(locale);
+		}
+
+		@Override
+		public String toString(){
+			return displayName;
+		}
+	}
+
 }

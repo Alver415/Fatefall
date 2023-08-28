@@ -46,5 +46,4 @@ public class FatefallClientApplication {
 	public ObservableList<WorkspaceFX> getWorkspaces() {
 		return FXCollections.observableArrayList();
 	}
-
 }

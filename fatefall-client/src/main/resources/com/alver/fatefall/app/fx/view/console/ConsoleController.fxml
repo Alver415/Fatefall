@@ -5,12 +5,12 @@
 <?import com.alver.fatefall.app.fx.view.console.MessageCellFactory?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.control.*?>
+<?import com.alver.fatefall.app.fx.view.console.InstantValueFactory?>
 <TableView xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.alver.fatefall.app.fx.view.console.ConsoleController"
            fx:id="tableView"
            stylesheets="@ConsoleController.css"
            prefHeight="400.0" prefWidth="600.0">
-
     <rowFactory>
         <LogLevelRowFactory/>
     </rowFactory>
@@ -22,7 +22,7 @@
         </TableColumn>
         <TableColumn text="Timestamp" sortable="false" editable="false">
             <cellValueFactory>
-                <PropertyValueFactory property="instant"/>
+                <InstantValueFactory/>
             </cellValueFactory>
         </TableColumn>
         <TableColumn text="Thread" sortable="false" editable="false">
