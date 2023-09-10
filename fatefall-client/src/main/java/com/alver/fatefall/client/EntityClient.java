@@ -1,7 +1,7 @@
 package com.alver.fatefall.client;
 
 import com.alver.fatefall.api.entity.EntityApi;
-import com.alver.fatefall.app.fx.entity.EntityFX;
+import com.alver.fatefall.app.fx.model.entity.EntityFX;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient;

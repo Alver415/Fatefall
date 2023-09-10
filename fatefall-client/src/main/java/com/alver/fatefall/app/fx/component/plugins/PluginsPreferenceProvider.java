@@ -1,7 +1,7 @@
 package com.alver.fatefall.app.fx.component.plugins;
 
 import com.alver.fatefall.app.fx.component.settings.PreferenceCategoryProvider;
-import com.alver.springfx.SpringFXLoader;
+import com.alver.springfx.SpringFX;
 import com.alver.springfx.model.FXMLControllerAndView;
 import com.dlsc.preferencesfx.model.Category;
 import com.dlsc.preferencesfx.model.Setting;
@@ -14,12 +14,12 @@ import org.springframework.context.annotation.Configuration;
 public class PluginsPreferenceProvider implements PreferenceCategoryProvider {
 
     protected PluginManager pluginManager;
-    protected SpringFXLoader springFXLoader;
+    protected SpringFX springFX;
 
     @Autowired
-    public PluginsPreferenceProvider(PluginManager pluginManager, SpringFXLoader springFXLoader) {
+    public PluginsPreferenceProvider(PluginManager pluginManager, SpringFX springFX) {
         this.pluginManager = pluginManager;
-        this.springFXLoader = springFXLoader;
+        this.springFX = springFX;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class PluginsPreferenceProvider implements PreferenceCategoryProvider {
                 .map(PreferenceCategoryProvider::getCategory)
                 .toArray(Category[]::new);
 
-        FXMLControllerAndView<PluginManagerController, Object> loaded = springFXLoader.load(PluginManagerController.class);
+        FXMLControllerAndView<PluginManagerController, Object> loaded = springFX.load(PluginManagerController.class);
         return Category.of("Plugin Management", Setting.of((Node) loaded.view()))
                 .subCategories(subCategories);
 

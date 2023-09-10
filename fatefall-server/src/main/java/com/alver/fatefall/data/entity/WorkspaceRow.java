@@ -8,7 +8,7 @@ import jakarta.persistence.OneToMany;
 import java.util.*;
 
 @Entity
-public class WorkspaceRow extends EntityRow implements Workspace<CardRow> {
+public class WorkspaceRow extends EntityRow implements Workspace<CardRow, CardFaceRow, TemplateRow> {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<CardRow> cards = new ArrayList<>();

@@ -1,6 +1,6 @@
 package com.alver.fatefall.app.fx.component.cardinfo;
 
-import com.alver.fatefall.app.fx.entity.CardFX;
+import com.alver.fatefall.app.fx.model.entity.CardFX;
 import com.alver.fatefall.app.fx.view.entity.card.CardView;
 import com.alver.springfx.annotations.FXMLPrototype;
 import javafx.beans.property.ObjectProperty;
@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import org.controlsfx.control.PropertySheet;
 import org.controlsfx.property.BeanPropertyUtils;
+import org.springframework.context.annotation.Scope;
 
 @FXMLPrototype
 public class CardInfo  {

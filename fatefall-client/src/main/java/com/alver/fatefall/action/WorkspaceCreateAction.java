@@ -1,6 +1,6 @@
 package com.alver.fatefall.action;
 
-import com.alver.fatefall.app.fx.entity.WorkspaceFX;
+import com.alver.fatefall.app.fx.model.entity.WorkspaceFX;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextInputDialog;

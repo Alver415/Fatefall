@@ -1,29 +1,22 @@
 package com.alver.fatefall.data.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToOne;
 
 @Entity
-public class CardFaceRow extends EntityRow implements CardFace {
+public class CardFaceRow extends EntityRow implements CardFace<TemplateRow> {
 
-	protected String imageUrl;
-	protected String fxmlTemplate;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private TemplateRow template;
 
-	@Override
-	public String getImageUrl() {
-		return imageUrl;
-	}
-	@Override
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
-	}
+    @Override
+    public TemplateRow getTemplate() {
+        return template;
+    }
 
-	@Override
-	public String getFxmlTemplate() {
-		return fxmlTemplate;
-	}
-	@Override
-	public void setFxmlTemplate(String fxmlTemplate) {
-		this.fxmlTemplate = fxmlTemplate;
-	}
-
+    public void setTemplate(TemplateRow template) {
+        this.template = template;
+    }
 }

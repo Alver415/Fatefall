@@ -2,11 +2,11 @@ package com.alver.fatefall;
 
 import com.alver.fatefall.app.fx.component.mainstage.ApplicationController;
 import com.alver.fatefall.preloader.PreloaderBeanPostProcessor;
-import com.alver.springfx.SpringFXLoader;
+import com.alver.springfx.SpringFX;
 import com.sun.javafx.css.StyleManager;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -31,7 +31,7 @@ public class FatefallFXApplication extends Application {
     private String title;
 
     private ConfigurableApplicationContext applicationContext;
-    private SpringFXLoader springFXLoader;
+    private SpringFX springFX;
     private StageManager stageManager;
 
     @Override
@@ -63,7 +63,7 @@ public class FatefallFXApplication extends Application {
                 .listeners(listener)
                 .initializers(initializer)
                 .run();
-        springFXLoader = applicationContext.getBean(SpringFXLoader.class);
+        springFX = applicationContext.getBean(SpringFX.class);
         stageManager = applicationContext.getBean(StageManager.class);
     }
 
@@ -71,7 +71,7 @@ public class FatefallFXApplication extends Application {
     public void start(Stage stage) {
         StyleManager.getInstance().addUserAgentStylesheet("/com/alver/fatefall/app/application.css");
 
-        stage = stageManager.create((Node) springFXLoader.loadView(ApplicationController.class));
+        stage = stageManager.create((Parent) springFX.loadView(ApplicationController.class));
         stage.setOnCloseRequest(e -> stop());
         stage.show();
 

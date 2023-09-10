@@ -1,6 +1,6 @@
 package com.alver.fatefall.plugin;
 
-import com.alver.fatefall.app.fx.entity.WorkspaceFX;
+import com.alver.fatefall.app.fx.model.entity.WorkspaceFX;
 import javafx.scene.Node;
 import org.pf4j.PluginManager;
 import org.pf4j.PluginWrapper;

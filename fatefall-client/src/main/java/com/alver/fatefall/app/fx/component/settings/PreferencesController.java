@@ -2,7 +2,7 @@
 package com.alver.fatefall.app.fx.component.settings;
 
 import com.alver.fatefall.StageManager;
-import com.alver.springfx.SpringFXLoader;
+import com.alver.springfx.SpringFX;
 import com.alver.springfx.annotations.FXMLComponent;
 import com.dlsc.preferencesfx.PreferencesFx;
 import com.dlsc.preferencesfx.model.Category;
@@ -21,7 +21,7 @@ public class PreferencesController {
 
     protected final FatefallProperties properties;
     protected final PluginManager pluginManager;
-    protected final SpringFXLoader springFXLoader;
+    protected final SpringFX springFX;
     protected final StageManager stageManager;
     protected final List<PreferenceCategoryProvider> categoryProviders;
     protected final ObjectProperty<Image> iconProperty;
@@ -29,13 +29,13 @@ public class PreferencesController {
     public PreferencesController(
             FatefallProperties properties,
             PluginManager pluginManager,
-            SpringFXLoader springFXLoader,
+            SpringFX springFX,
             StageManager stageManager,
             List<PreferenceCategoryProvider> categoryProviders,
             ObjectProperty<Image> iconProperty) {
         this.properties = properties;
         this.pluginManager = pluginManager;
-        this.springFXLoader = springFXLoader;
+        this.springFX = springFX;
         this.stageManager = stageManager;
         this.categoryProviders = categoryProviders;
         this.iconProperty = iconProperty;

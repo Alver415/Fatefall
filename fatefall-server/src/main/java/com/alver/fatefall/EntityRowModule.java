@@ -12,6 +12,7 @@ public class EntityRowModule extends SimpleModule {
 		addAbstractTypeMapping(Workspace.class, WorkspaceRow.class);
 		addAbstractTypeMapping(Card.class, CardRow.class);
 		addAbstractTypeMapping(CardFace.class, CardFaceRow.class);
+		addAbstractTypeMapping(Template.class, TemplateRow.class);
 	}
 
 }

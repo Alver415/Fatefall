@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/workspace")
-public class WorkspaceController extends EntityController<Workspace<?>, WorkspaceRow> {
+public class WorkspaceController extends EntityController<Workspace<?, ?, ?>, WorkspaceRow> {
 
 	@Autowired
-	public WorkspaceController(EntityService<Workspace<?>, WorkspaceRow> service) {
+	public WorkspaceController(EntityService<Workspace<?, ?, ?>, WorkspaceRow> service) {
 		super(service);
 	}
 

@@ -1,8 +1,8 @@
 package com.other.fatefall.mse.plugin.actions;
 
 import com.alver.fatefall.action.ActionEventHandler;
-import com.alver.fatefall.app.fx.entity.CardFX;
-import com.alver.fatefall.app.fx.entity.WorkspaceFX;
+import com.alver.fatefall.app.fx.model.entity.CardFX;
+import com.alver.fatefall.app.fx.model.entity.WorkspaceFX;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,7 +15,6 @@ import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import org.pf4j.Extension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -74,13 +73,13 @@ public class ImportMSESetAction implements ActionEventHandler {
 				String name_2 = json.findPath("name_2").asText();
 				if (name_2.isEmpty()) {
 					String frontUrl = "file:" + setManager.getImagesPath().resolve(cardImageFileName + ".png");
-					card.getFront().setImageUrl(frontUrl);
-					card.getBack().setImageUrl(SetManager.DEFAULT_CARD_BACK_FACE);
+					card.getFront().getTemplate().setImageUrl(frontUrl);
+					card.getBack().getTemplate().setImageUrl(SetManager.DEFAULT_CARD_BACK_FACE);
 				} else {
 					String frontUrl = "file:" + setManager.getImagesPath().resolve(cardImageFileName + ".card_front.png");
 					String backUrl = "file:" + setManager.getImagesPath().resolve(cardImageFileName + ".card_back.png");
-					card.getFront().setImageUrl(frontUrl);
-					card.getBack().setImageUrl(backUrl);
+					card.getFront().getTemplate().setImageUrl(frontUrl);
+					card.getBack().getTemplate().setImageUrl(backUrl);
 				}
 				workspace.addCards(card);
 			});

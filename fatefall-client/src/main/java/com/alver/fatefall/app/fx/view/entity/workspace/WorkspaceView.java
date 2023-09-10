@@ -1,11 +1,15 @@
 package com.alver.fatefall.app.fx.view.entity.workspace;
 
-import com.alver.fatefall.app.fx.entity.WorkspaceFX;
+import com.alver.fatefall.app.fx.model.entity.WorkspaceFX;
+import com.alver.springfx.annotations.Prototype;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
+@Prototype
 public class WorkspaceView extends Control {
 
 	protected final ObjectProperty<WorkspaceFX> workspaceProperty = new SimpleObjectProperty<>();
@@ -19,11 +23,16 @@ public class WorkspaceView extends Control {
 		workspaceProperty().set(workspace);
 	}
 
-	public WorkspaceView() {}
+	private final BeanFactory beanFactory;
+
+	@Autowired
+	public WorkspaceView(BeanFactory beanFactory) {
+		this.beanFactory = beanFactory;
+	}
 
 	@Override
 	public Skin<WorkspaceView> createDefaultSkin() {
-		return new WorkspaceSkin(this);
+		return new WorkspaceSkin(this, beanFactory);
 	}
 
 }

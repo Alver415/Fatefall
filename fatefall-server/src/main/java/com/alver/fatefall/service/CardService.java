@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class CardService extends EntityService<Card<?>, CardRow> {
+public class CardService extends EntityService<Card<?,?>, CardRow> {
 
 	@Autowired
 	public CardService(EntityRepository<CardRow> repository) {

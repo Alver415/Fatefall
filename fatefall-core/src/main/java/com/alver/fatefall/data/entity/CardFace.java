@@ -1,10 +1,7 @@
 package com.alver.fatefall.data.entity;
 
-public interface CardFace extends Entity {
+public interface CardFace<ITemplate extends Template> extends Entity {
 
-	String getImageUrl();
-	void setImageUrl(String imageUrl);
-	String getFxmlTemplate();
-	void setFxmlTemplate(String fxmlTemplate);
+	ITemplate getTemplate();
 
 }

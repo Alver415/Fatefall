@@ -1,7 +1,7 @@
 package com.alver.fatefall.plugin;
 
 import com.alver.fatefall.app.fx.component.mainstage.ApplicationController;
-import com.alver.fatefall.app.fx.entity.WorkspaceFX;
+import com.alver.fatefall.app.fx.model.entity.WorkspaceFX;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;

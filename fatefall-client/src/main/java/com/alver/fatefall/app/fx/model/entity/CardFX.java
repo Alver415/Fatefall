@@ -1,10 +1,10 @@
-package com.alver.fatefall.app.fx.entity;
+package com.alver.fatefall.app.fx.model.entity;
 
 import com.alver.fatefall.data.entity.Card;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
-public class CardFX extends EntityFX implements Card<CardFaceFX> {
+public class CardFX extends EntityFX implements Card<CardFaceFX, TemplateFX> {
 
 	private final SimpleObjectProperty<CardFaceFX> front = new SimpleObjectProperty<>(this, "front", new CardFaceFX());
 	private final SimpleObjectProperty<CardFaceFX> back = new SimpleObjectProperty<>(this, "back", new CardFaceFX());

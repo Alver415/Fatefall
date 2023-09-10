@@ -11,8 +11,8 @@ public abstract class AbstractCardViewSkin extends SkinBase<CardView> {
 
     protected AbstractCardViewSkin(CardView control) {
         super(control);
-        frontWrapper = new StackPane(control.getFront());
-        backWrapper = new StackPane(control.getBack());
+        frontWrapper = new StackPane(control.getFrontPane());
+        backWrapper = new StackPane(control.getBackPane());
 //        frontWrapper.setEffect(properties.getCardFaceShadow());
 //        backWrapper.setEffect(properties.getCardFaceShadow());
         frontWrapper.setPickOnBounds(false);

@@ -1,6 +1,6 @@
 package com.alver.fatefall;
 
-import com.alver.fatefall.app.fx.entity.WorkspaceFX;
+import com.alver.fatefall.app.fx.model.entity.WorkspaceFX;
 import com.alver.fatefall.preloader.SplashPreloader;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;

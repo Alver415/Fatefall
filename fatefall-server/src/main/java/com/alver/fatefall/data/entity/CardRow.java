@@ -6,7 +6,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToOne;
 
 @Entity
-public class CardRow extends EntityRow implements Card<CardFaceRow> {
+public class CardRow extends EntityRow implements Card<CardFaceRow, TemplateRow> {
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private CardFaceRow front = new CardFaceRow();

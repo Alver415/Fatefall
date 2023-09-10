@@ -29,13 +29,12 @@ import java.util.stream.Stream;
 @Configuration
 public class FatefallProperties {
 
-	public static FatefallProperties INSTANCE;
-
 	@Value("${directory.installation}")
 	protected Path installationDirectory;
+	@Value("${title}")
+	protected String title;
 
 	public FatefallProperties(){
-		INSTANCE = this;
 	}
 
 	@Bean
@@ -43,7 +42,7 @@ public class FatefallProperties {
 		return new SimpleObjectProperty<>(ResourceUtil.image("/com/alver/fatefall/icon.png"));
 	}
 	@Bean
-	public StringProperty titleProperty(@Value("${title}") String title){
+	public StringProperty titleProperty(){
 		return new SimpleStringProperty(title);
 	}
 

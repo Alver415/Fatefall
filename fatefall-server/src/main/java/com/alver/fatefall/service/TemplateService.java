@@ -1,7 +1,7 @@
 package com.alver.fatefall.service;
 
-import com.alver.fatefall.data.entity.CardFace;
-import com.alver.fatefall.data.entity.CardFaceRow;
+import com.alver.fatefall.data.entity.Template;
+import com.alver.fatefall.data.entity.TemplateRow;
 import com.alver.fatefall.data.repository.EntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,10 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class CardFaceService extends EntityService<CardFace<?>, CardFaceRow> {
+public class TemplateService extends EntityService<Template, TemplateRow> {
 
 	@Autowired
-	public CardFaceService(EntityRepository<CardFaceRow> repository) {
+	public TemplateService(EntityRepository<TemplateRow> repository) {
 		super(repository);
 	}
 }

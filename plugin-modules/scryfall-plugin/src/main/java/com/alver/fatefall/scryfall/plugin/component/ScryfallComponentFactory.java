@@ -1,7 +1,7 @@
 package com.alver.fatefall.scryfall.plugin.component;
 
 import com.alver.fatefall.app.fx.component.mainstage.ApplicationController;
-import com.alver.fatefall.app.fx.entity.CardFX;
+import com.alver.fatefall.app.fx.model.entity.CardFX;
 import com.alver.fatefall.app.fx.view.entity.card.CardView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -58,7 +58,7 @@ public class ScryfallComponentFactory {
 
 	private String getUrl(CardFX card) {
 		try {
-			JsonNode json = objectMapper.readTree(card.getData());
+			JsonNode json = objectMapper.readTree(card.getJson());
 			return json.get("scryfall_url").asText();
 		} catch (JsonProcessingException e) {
 			throw new RuntimeException(e);

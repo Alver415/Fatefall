@@ -1,7 +1,7 @@
 package com.alver.fatefall.scryfall.plugin.component;
 
-import com.alver.fatefall.app.fx.entity.CardFX;
-import com.alver.fatefall.app.fx.entity.WorkspaceFX;
+import com.alver.fatefall.app.fx.model.entity.CardFX;
+import com.alver.fatefall.app.fx.model.entity.WorkspaceFX;
 import com.alver.fatefall.app.fx.view.entity.card.CardView;
 import com.alver.fatefall.scryfall.api.ScryfallApiClient;
 import com.alver.fatefall.utils.FXAsyncUtils;
@@ -11,6 +11,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @FXMLPrototype
@@ -18,6 +19,8 @@ public class ScryfallSearchController {
 
     @Autowired
     protected ScryfallApiClient client;
+    @Autowired
+    protected BeanFactory beanFactory;
 
     @FXML
     protected TextField queryInput;
@@ -53,7 +56,7 @@ public class ScryfallSearchController {
     protected void refresh() {
         flowPane.getChildren().clear();
         for (CardFX card : getWorkspace().getCards()) {
-            CardView cardView = new CardView();
+            CardView cardView = beanFactory.getBean(CardView.class);
             cardView.setCard(card);
             flowPane.getChildren().add(cardView);
         }

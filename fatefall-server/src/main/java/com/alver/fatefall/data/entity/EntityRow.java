@@ -14,7 +14,7 @@ public abstract class EntityRow implements Entity {
 
 	@Lob
 	@Column
-	private String data;
+	private String json;
 
 	public Long getId() {
 		return id;
@@ -30,11 +30,11 @@ public abstract class EntityRow implements Entity {
 		this.name = name;
 	}
 
-	public String getData() {
-		return data;
+	public String getJson() {
+		return json;
 	}
-	public void setData(String data) {
-		this.data = data;
+	public void setJson(String json) {
+		this.json = json;
 	}
 
 }

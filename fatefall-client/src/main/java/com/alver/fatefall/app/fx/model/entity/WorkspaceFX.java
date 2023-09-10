@@ -1,4 +1,4 @@
-package com.alver.fatefall.app.fx.entity;
+package com.alver.fatefall.app.fx.model.entity;
 
 import com.alver.fatefall.data.entity.Workspace;
 import javafx.beans.property.ListProperty;
@@ -8,7 +8,7 @@ import javafx.collections.FXCollections;
 import java.util.Collection;
 import java.util.List;
 
-public class WorkspaceFX extends EntityFX implements Workspace<CardFX> {
+public class WorkspaceFX extends EntityFX implements Workspace<CardFX, CardFaceFX, TemplateFX> {
 
     private final SimpleListProperty<CardFX> cards = new SimpleListProperty<>(this, "cards", FXCollections.observableArrayList());
 

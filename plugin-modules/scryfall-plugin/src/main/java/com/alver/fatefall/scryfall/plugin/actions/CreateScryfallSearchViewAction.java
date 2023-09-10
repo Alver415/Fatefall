@@ -3,7 +3,7 @@ package com.alver.fatefall.scryfall.plugin.actions;
 import com.alver.fatefall.action.ActionEventHandler;
 import com.alver.fatefall.scryfall.plugin.ScryfallPlugin;
 import com.alver.fatefall.scryfall.plugin.component.ScryfallSearchController;
-import com.alver.springfx.SpringFXLoader;
+import com.alver.springfx.SpringFX;
 import com.alver.springfx.model.FXMLControllerAndView;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
@@ -22,7 +22,7 @@ public class CreateScryfallSearchViewAction implements ActionEventHandler {
     protected ScryfallPlugin plugin;
 
     @Autowired
-    protected SpringFXLoader loader;
+    protected SpringFX loader;
 
 
     @Override

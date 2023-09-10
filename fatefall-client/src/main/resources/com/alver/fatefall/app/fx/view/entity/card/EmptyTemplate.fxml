@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.StackPane?>
+<StackPane xmlns="http://javafx.com/javafx"
+           prefWidth="#{data.width:250}" prefHeight="#{data.height:350}"
+           maxWidth="#{data.width:250}" maxHeight="#{data.height:350}"
+           minWidth="#{data.width:250}" minHeight="#{data.height:350}"
+           stylesheets="@EmptyTemplate.css"
+           id="root">
+
+</StackPane>

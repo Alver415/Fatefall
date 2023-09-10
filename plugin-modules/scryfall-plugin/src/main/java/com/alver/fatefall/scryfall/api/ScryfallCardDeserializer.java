@@ -1,6 +1,6 @@
 package com.alver.fatefall.scryfall.api;
 
-import com.alver.fatefall.app.fx.entity.CardFX;
+import com.alver.fatefall.app.fx.model.entity.CardFX;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -32,7 +32,7 @@ public class ScryfallCardDeserializer extends StdDeserializer<CardFX> {
 
     public CardFX buildCard(JsonNode json) {
         CardFX card = new CardFX();
-        card.setData(json.toPrettyString());
+        card.setJson(json.toPrettyString());
         card.setName(json.findValue("name").asText());
 
         String frontUrl, backUrl;
@@ -44,8 +44,8 @@ public class ScryfallCardDeserializer extends StdDeserializer<CardFX> {
             backUrl = defaultCardBackUrl;
         }
 
-        card.getFront().setImageUrl(frontUrl);
-        card.getBack().setImageUrl(backUrl);
+        card.getFront().getTemplate().setImageUrl(frontUrl);
+        card.getBack().getTemplate().setImageUrl(backUrl);
 
         return card;
     }

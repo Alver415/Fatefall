@@ -4,12 +4,12 @@ import com.alver.fatefall.StageManager;
 import com.alver.fatefall.action.WorkspaceCreateAction;
 import com.alver.fatefall.api.entity.EntityApi;
 import com.alver.fatefall.app.fx.component.settings.PreferencesController;
-import com.alver.fatefall.app.fx.entity.CardFX;
-import com.alver.fatefall.app.fx.entity.WorkspaceFX;
+import com.alver.fatefall.app.fx.model.entity.CardFX;
+import com.alver.fatefall.app.fx.model.entity.WorkspaceFX;
 import com.alver.fatefall.app.fx.view.console.ConsoleController;
 import com.alver.fatefall.app.fx.view.entity.workspace.WorkspaceView;
 import com.alver.fatefall.data.entity.Workspace;
-import com.alver.springfx.SpringFXLoader;
+import com.alver.springfx.SpringFX;
 import com.alver.springfx.annotations.FXMLComponent;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.util.Callback;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -32,8 +33,9 @@ public class ApplicationController {
     protected final WorkspaceCreateAction workspaceCreateAction;
     protected final PreferencesController preferences;
     protected final PluginMenu pluginMenu;
-    protected final SpringFXLoader springFXLoader;
+    protected final SpringFX springFX;
     protected final StageManager stageManager;
+    protected final BeanFactory beanFactory;
 
     /**
      * FXML Injection
@@ -52,15 +54,16 @@ public class ApplicationController {
             WorkspaceCreateAction workspaceCreateAction,
             PreferencesController preferences,
             PluginMenu pluginMenu,
-            SpringFXLoader springFXLoader,
-            StageManager stageManager) {
+            SpringFX springFX,
+            StageManager stageManager, BeanFactory beanFactory) {
         this.workspaces = workspaces;
         this.workspaceApi = workspaceApi;
         this.workspaceCreateAction = workspaceCreateAction;
         this.preferences = preferences;
         this.pluginMenu = pluginMenu;
-        this.springFXLoader = springFXLoader;
+        this.springFX = springFX;
         this.stageManager = stageManager;
+        this.beanFactory = beanFactory;
     }
 
     @FXML
@@ -98,13 +101,13 @@ public class ApplicationController {
 
     @FXML
     private void openConsole() {
-        Object view = springFXLoader.load(ConsoleController.class).view();
+        Object view = springFX.load(ConsoleController.class).view();
         stageManager.create("Console", (Node) view).show();
     }
 
     private Tab addCollectionTab(WorkspaceFX workspace) {
 
-        WorkspaceView workspaceView = new WorkspaceView();
+        WorkspaceView workspaceView = beanFactory.getBean(WorkspaceView.class);
         workspaceView.setWorkspace(workspace);
 
         Tab tab = new Tab(workspace.getName());
@@ -137,7 +140,7 @@ public class ApplicationController {
         WorkspaceFX selectedItem = listView.getSelectionModel().getSelectedItem();
         CardFX card = new CardFX();
         card.setName("New Card Name");
-        card.setData("New Card Data");
+        card.setJson("New Card Data");
         selectedItem.addCards(card);
     }
 

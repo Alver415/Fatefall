@@ -15,10 +15,12 @@ import java.util.Arrays;
 @Configuration
 public class AppearancePreferenceProvider implements PreferenceCategoryProvider {
 
-    protected FatefallProperties properties;
+    protected final FatefallProperties properties;
+    protected final CardView cardView;
 
-    public AppearancePreferenceProvider(FatefallProperties properties) {
+    public AppearancePreferenceProvider(FatefallProperties properties, CardView cardView) {
         this.properties = properties;
+        this.cardView = cardView;
     }
 
     @Override
@@ -29,7 +31,7 @@ public class AppearancePreferenceProvider implements PreferenceCategoryProvider 
                                 Setting.of("User Agent Stylesheet", properties.getStylesheetOptions(), properties.getStylesheetSelection()),
                                 Setting.of("Additional Stylesheets", properties.getAdditionalStylesheetsOptions(), properties.getAdditionalStylesheetsSelections())))
                 .subCategories(Category.of("Card View",
-                        Group.of("Example", Setting.of(new CardView())),
+                        Group.of("Example", Setting.of(cardView)),
                         Group.of("Card Dimensions",
                                 Setting.of("View Mode", properties.getCardViewSkinOptions(), properties.getCardViewSkinSelection()),
                                 Setting.of("Scale", Field.ofDoubleType(properties.getCardViewScale()).render(new DoubleSliderControl(0.1, 2.0, 2)), properties.getCardViewScale()),

@@ -1,7 +1,6 @@
 package com.alver.fatefall.scryfall.api;
 
-import com.alver.fatefall.app.fx.entity.CardFX;
-import com.alver.fatefall.data.entity.Card;
+import com.alver.fatefall.app.fx.model.entity.CardFX;
 
 import java.util.List;
 
