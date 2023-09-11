@@ -1,5 +1,6 @@
 package com.alver.fatefall.app.fx.view.entity.card.skin.flippable;
 
+import com.alver.fatefall.app.fx.component.settings.FatefallProperties;
 import com.alver.fatefall.app.fx.view.entity.card.CardView;
 import com.alver.fatefall.app.fx.view.entity.card.skin.AbstractCardViewSkin;
 import com.alver.fatefall.utils.ResourceUtil;
@@ -8,6 +9,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -29,12 +31,17 @@ public class FlippableSkin extends AbstractCardViewSkin {
     protected StackPane wrapper;
     protected HBox buttons;
 
-    public FlippableSkin(CardView control) {
+    public FlippableSkin(CardView control, FatefallProperties properties) {
         super(control);
         wrapper = new StackPane();
+        wrapper.scaleXProperty().bind(properties.getCardViewScale());
+        wrapper.scaleYProperty().bind(properties.getCardViewScale());
+
         wrapper.setMaxWidth(0);
         wrapper.setMaxHeight(0);
-        wrapper.getChildren().setAll(frontWrapper, backWrapper);
+        wrapper.getChildren().setAll(
+                front,
+                back);
 
         buttons = new HBox();
         buttons.setAlignment(Pos.BOTTOM_CENTER);
@@ -42,8 +49,8 @@ public class FlippableSkin extends AbstractCardViewSkin {
 
         //Initial state
         buttons.setOpacity(0);
-        frontWrapper.setVisible(true);
-        backWrapper.setVisible(false);
+        front.setVisible(true);
+        back.setVisible(false);
 
         buttons.getChildren().setAll(
                 buildButton(SPIN_LEFT, this::spinLeft),
@@ -53,7 +60,7 @@ public class FlippableSkin extends AbstractCardViewSkin {
         control.setOnMouseEntered(e -> animateButtons(true));
         control.setOnMouseExited(e -> animateButtons(false));
 
-        getChildren().setAll(wrapper, buttons);
+        getChildren().setAll(new Group(wrapper), buttons);
     }
 
     private Button buildButton(Image image, Runnable runnable) {
@@ -91,8 +98,8 @@ public class FlippableSkin extends AbstractCardViewSkin {
     protected ObjectProperty<Side> sideProperty = new SimpleObjectProperty<>(Side.FRONT) {
         {
             addListener((observable, oldValue, newValue) -> {
-                frontWrapper.setVisible(newValue == Side.FRONT);
-                backWrapper.setVisible(newValue == Side.BACK);
+                front.setVisible(newValue == Side.FRONT);
+                back.setVisible(newValue == Side.BACK);
             });
         }
     };

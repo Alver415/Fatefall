@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/card")
-public class CardController extends EntityController<Card<?,?>, CardRow> {
+public class CardRestController extends EntityRestController<Card<?,?>, CardRow> {
 
 	@Autowired
-	public CardController(EntityService<Card<?, ?>, CardRow> cardService) {
+	public CardRestController(EntityService<Card<?, ?>, CardRow> cardService) {
 		super(cardService);
 	}
 }

@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class EntityController<E extends Entity, R extends EntityRow & Entity> {
+public abstract class EntityRestController<E extends Entity, R extends EntityRow & Entity> {
 
 	private final EntityService<E, R> service;
 
-	public EntityController(EntityService<E, R> service) {
+	public EntityRestController(EntityService<E, R> service) {
 		this.service = service;
 	}
 

@@ -54,7 +54,7 @@ public class EditableCardViewHandler implements EventHandler<MouseEvent> {
             newTextBlock.setText("New TextBlock");
             newTextBlock.setTranslateX(e.getX());
             newTextBlock.setTranslateY(e.getY());
-            cardView.getFrontPane().getChildren().add(newTextBlock);
+//            cardView.getFrontPane().getChildren().add(newTextBlock);
         }
         if (!e.getButton().equals(MouseButton.PRIMARY)) {
             return;

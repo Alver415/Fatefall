@@ -8,6 +8,7 @@ import com.dlsc.preferencesfx.model.Group;
 import com.dlsc.preferencesfx.model.Setting;
 import javafx.collections.FXCollections;
 import javafx.scene.effect.BlurType;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Arrays;
@@ -15,12 +16,12 @@ import java.util.Arrays;
 @Configuration
 public class AppearancePreferenceProvider implements PreferenceCategoryProvider {
 
+    protected final ApplicationContext context;
     protected final FatefallProperties properties;
-    protected final CardView cardView;
 
-    public AppearancePreferenceProvider(FatefallProperties properties, CardView cardView) {
+    public AppearancePreferenceProvider(ApplicationContext context, FatefallProperties properties) {
+        this.context = context;
         this.properties = properties;
-        this.cardView = cardView;
     }
 
     @Override
@@ -31,7 +32,7 @@ public class AppearancePreferenceProvider implements PreferenceCategoryProvider 
                                 Setting.of("User Agent Stylesheet", properties.getStylesheetOptions(), properties.getStylesheetSelection()),
                                 Setting.of("Additional Stylesheets", properties.getAdditionalStylesheetsOptions(), properties.getAdditionalStylesheetsSelections())))
                 .subCategories(Category.of("Card View",
-                        Group.of("Example", Setting.of(cardView)),
+                        Group.of("Example", Setting.of(context.getBean(CardView.class))),
                         Group.of("Card Dimensions",
                                 Setting.of("View Mode", properties.getCardViewSkinOptions(), properties.getCardViewSkinSelection()),
                                 Setting.of("Scale", Field.ofDoubleType(properties.getCardViewScale()).render(new DoubleSliderControl(0.1, 2.0, 2)), properties.getCardViewScale()),

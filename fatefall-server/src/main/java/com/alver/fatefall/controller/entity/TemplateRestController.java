@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/template")
-public class TemplateController extends EntityController<Template, TemplateRow> {
+public class TemplateRestController extends EntityRestController<Template, TemplateRow> {
 
 	@Autowired
-	public TemplateController(EntityService<Template, TemplateRow> service) {
+	public TemplateRestController(EntityService<Template, TemplateRow> service) {
 		super(service);
 	}
 
