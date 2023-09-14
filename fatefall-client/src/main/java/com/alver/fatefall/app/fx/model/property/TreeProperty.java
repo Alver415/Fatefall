@@ -1,5 +1,6 @@
-package com.alver.fatefall.app.fx.model;
+package com.alver.fatefall.app.fx.model.property;
 
+import com.alver.fatefall.app.fx.model.Source;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
@@ -10,18 +11,19 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
-@SuppressWarnings({"unchecked", "rawtypes"})
-public class SimpleTreeProperty<T> extends SimpleObjectProperty<T> {
+@SuppressWarnings("unchecked")
+public class TreeProperty<T> extends SimpleObjectProperty<T> implements DelegatingMap<String, TreeProperty<?>>{
 
     private final StringProperty id;
-    private final ObjectProperty<SimpleTreeProperty<?>> parent;
-    private final MapProperty<String, SimpleTreeProperty<?>> childrenMap;
+    private final ObjectProperty<TreeProperty<?>> parent;
+    private final MapProperty<String, TreeProperty<?>> childrenMap;
     private final MapProperty<Source, Property<T>> propertyMap;
 
-    public SimpleTreeProperty() {
+    public TreeProperty() {
         this("");
     }
-    public SimpleTreeProperty(String id) {
+
+    public TreeProperty(String id) {
         Objects.requireNonNull(id);
         this.id = new SimpleStringProperty(id);
         this.parent = new SimpleObjectProperty<>();
@@ -31,7 +33,7 @@ public class SimpleTreeProperty<T> extends SimpleObjectProperty<T> {
         this.propertyMap.addListener((MapChangeListener<? super Source, ? super Property<T>>) change ->
                 change.getMap().entrySet().stream()
                         .peek(entry -> this.unbindBidirectional(entry.getValue()))
-                        .min(Comparator.comparingInt(entry -> entry.getKey().getPriority()))
+                        .min(Comparator.comparingInt(entry -> entry.getKey().ordinal()))
                         .ifPresent(entry -> this.bindBidirectional(entry.getValue())));
     }
 
@@ -39,32 +41,32 @@ public class SimpleTreeProperty<T> extends SimpleObjectProperty<T> {
         return path.split("\\.");
     }
 
-    public static <T> SimpleTreeProperty<T> build(String id) {
-        return build(id, List.of());
+    public static <T> TreeProperty<T> create(String id) {
+        return create(id, List.of());
     }
 
-    public static <T> SimpleTreeProperty<T> build(
+    public static <T> TreeProperty<T> create(
             String id,
             List<Pair<Source, Property>> pairs) {
-        SimpleTreeProperty<T> node = new SimpleTreeProperty<>(id);
+        TreeProperty<T> node = new TreeProperty<>(id);
         for (Pair<Source, Property> pair : pairs) {
             Source source = pair.getKey();
             Property data = pair.getValue();
 
-            node.merge(build(source, "data", data));
+            node.merge(create(source, "data", data));
         }
         return node;
     }
 
-    private static <T> SimpleTreeProperty<T> build(
+    private static <T> TreeProperty<T> create(
             Source source,
             String id,
             Property property) {
-        SimpleTreeProperty<T> node = new SimpleTreeProperty<>(id);
+        TreeProperty<T> node = new TreeProperty<>(id);
 
         if (property instanceof MapProperty map) {
             Consumer<Map.Entry<String, Property>> createAndMergeChildNode = entry -> {
-                SimpleTreeProperty<?> childNode = build(
+                TreeProperty<?> childNode = create(
                         source,
                         entry.getKey(),
                         entry.getValue());
@@ -74,7 +76,7 @@ public class SimpleTreeProperty<T> extends SimpleObjectProperty<T> {
         } else if (property instanceof ListProperty list) {
             AtomicInteger index = new AtomicInteger();
             Consumer<Property> createAndMergeChildNode = element -> {
-                SimpleTreeProperty<?> childNode = build(
+                TreeProperty<?> childNode = create(
                         source,
                         "[%d]".formatted(index.getAndIncrement()),
                         element);
@@ -84,7 +86,7 @@ public class SimpleTreeProperty<T> extends SimpleObjectProperty<T> {
         } else if (property instanceof SetProperty set) {
             AtomicInteger index = new AtomicInteger();
             Consumer<Property> createAndMergeChildNode = element -> {
-                SimpleTreeProperty<?> childNode = build(
+                TreeProperty<?> childNode = create(
                         source,
                         "[%d]".formatted(index.getAndIncrement()),
                         element);
@@ -115,34 +117,34 @@ public class SimpleTreeProperty<T> extends SimpleObjectProperty<T> {
 
     public Optional<Source> getHighestPrioritySource() {
         return propertyMap.keySet().stream()
-                .min(Comparator.comparingInt(Source::getPriority));
+                .min(Comparator.comparingInt(Source::ordinal));
     }
 
-    public ObjectProperty<SimpleTreeProperty<?>> parentProperty() {
+    public ObjectProperty<TreeProperty<?>> parentProperty() {
         return parent;
     }
 
-    public SimpleTreeProperty<?> getParent() {
+    public TreeProperty<?> getParent() {
         return parent.get();
     }
 
-    public void setParent(SimpleTreeProperty<?> parent) {
+    public void setParent(TreeProperty<?> parent) {
         this.parent.set(parent);
     }
 
-    public MapProperty<String, SimpleTreeProperty<?>> childrenMapProperty() {
+    public MapProperty<String, TreeProperty<?>> childrenMapProperty() {
         return childrenMap;
     }
 
-    public ObservableMap<String, SimpleTreeProperty<?>> getChildrenMap() {
+    public ObservableMap<String, TreeProperty<?>> getChildrenMap() {
         return childrenMap.get();
     }
 
-    public void setChildrenMap(ObservableMap<String, SimpleTreeProperty<?>> childrenMap) {
+    public void setChildrenMap(ObservableMap<String, TreeProperty<?>> childrenMap) {
         this.childrenMap.set(childrenMap);
     }
 
-    public void merge(SimpleTreeProperty<?> other) {
+    public void merge(TreeProperty<?> other) {
         if (!Objects.equals(this.getId(), other.getId())) {
             throw new AssertionError("id must be the same to merge: %s != %s".formatted(this.getId(), other.getId()));
         }
@@ -150,19 +152,19 @@ public class SimpleTreeProperty<T> extends SimpleObjectProperty<T> {
         mergeChildren(other);
     }
 
-    private void mergeValues(SimpleTreeProperty<?> other) {
+    private void mergeValues(TreeProperty<?> other) {
         for (Map.Entry<Source, ?> entry : other.propertyMap.entrySet()) {
             mergeValue(other, (Map.Entry<Source, Property<T>>) entry);
         }
     }
 
-    private void mergeChildren(SimpleTreeProperty<?> other) {
-        for (SimpleTreeProperty<?> otherChild : other.childrenMap.values()) {
+    private void mergeChildren(TreeProperty<?> other) {
+        for (TreeProperty<?> otherChild : other.childrenMap.values()) {
             mergeChild(otherChild);
         }
     }
 
-    private void mergeValue(SimpleTreeProperty<?> other, Map.Entry<Source, Property<T>> entry) {
+    private void mergeValue(TreeProperty<?> other, Map.Entry<Source, Property<T>> entry) {
         Source source = entry.getKey();
         if (propertyMap.containsKey(source) &&
                 !Objects.equals(this.propertyMap.get(source), other.propertyMap.get(source))) {
@@ -173,10 +175,10 @@ public class SimpleTreeProperty<T> extends SimpleObjectProperty<T> {
         }
     }
 
-    public void mergeChild(SimpleTreeProperty<?> otherChild) {
+    public void mergeChild(TreeProperty<?> otherChild) {
         String id = otherChild.getId();
         if (this.childrenMap.containsKey(id)) {
-            SimpleTreeProperty<?> thisChild = this.childrenMap.get(id);
+            TreeProperty<?> thisChild = this.childrenMap.get(id);
             thisChild.merge(otherChild);
         } else {
             otherChild.parent.set(this);
@@ -184,50 +186,45 @@ public class SimpleTreeProperty<T> extends SimpleObjectProperty<T> {
         }
     }
 
-    public SimpleTreeProperty<?> getChild(String key) {
+    public TreeProperty<?> getChild(String key) {
         return childrenMap.get(key);
     }
 
-    public SimpleTreeProperty<T> find(String path) {
+    public TreeProperty<?> find(String path) {
         return this.find(splitPath(path));
     }
 
-    public SimpleTreeProperty<T> find(String... path) {
+    public TreeProperty<?> find(String... path) {
         return this.find(Arrays.asList(path));
     }
 
-    public SimpleTreeProperty<T> find(List<String> path) {
-        SimpleTreeProperty<?> child = getChild(path.get(0));
-        if (child == null){
-            return null;
-        }
+    public TreeProperty<?> find(List<String> path) {
+        TreeProperty<?> child = getChild(path.get(0));
         List<String> subPath = path.subList(1, path.size());
-        if (subPath.isEmpty()){
-            return (SimpleTreeProperty<T>) child;
-        } else {
-            return (SimpleTreeProperty<T>) child.find(subPath);
-        }
+        return subPath.isEmpty() ?
+                child :
+                (child == null ?
+                        null :
+                        child.find(subPath));
     }
 
-    public SimpleTreeProperty<T> findOrCreate(String path) {
+    public TreeProperty<?> findOrCreate(String path) {
         return this.findOrCreate(splitPath(path));
     }
 
-    public SimpleTreeProperty<T> findOrCreate(String... path) {
+    public TreeProperty<?> findOrCreate(String... path) {
         return this.findOrCreate(Arrays.asList(path));
     }
 
-    public SimpleTreeProperty<T> findOrCreate(List<String> path) {
-        SimpleTreeProperty<?> child = getChild(path.get(0));
+    public TreeProperty<?> findOrCreate(List<String> path) {
+        TreeProperty<?> child = getChild(path.get(0));
         if (child == null) {
-            child = new SimpleTreeProperty<>(path.get(0));
+            child = new TreeProperty<>(path.get(0));
         }
         List<String> subPath = path.subList(1, path.size());
-        if (subPath.isEmpty()){
-            return (SimpleTreeProperty<T>) child;
-        } else {
-            return (SimpleTreeProperty<T>) child.findOrCreate(subPath);
-        }
+        return subPath.isEmpty() ?
+                child :
+                child.findOrCreate(subPath);
     }
 
     public Optional<Property<T>> getProperty(Source source) {
@@ -260,5 +257,10 @@ public class SimpleTreeProperty<T> extends SimpleObjectProperty<T> {
     @Override
     public String getName() {
         return id.getName();
+    }
+
+    @Override
+    public Map<String, TreeProperty<?>> getDelegateMap() {
+        return childrenMap;
     }
 }

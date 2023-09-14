@@ -5,8 +5,8 @@ import jakarta.persistence.Entity;
 @Entity
 public class TemplateRow extends EntityRow implements Template {
 
-    private String imageUrl;
-    private String fxmlUrl;
+    protected String imageUrl;
+    protected String fxmlUrl;
 
     @Override
     public String getImageUrl() {

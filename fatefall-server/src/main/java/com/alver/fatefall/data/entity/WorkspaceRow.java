@@ -5,38 +5,42 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class WorkspaceRow extends EntityRow implements Workspace<CardRow, CardFaceRow, TemplateRow> {
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<CardRow> cards = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    protected List<CardRow> cards = new ArrayList<>();
 
-	@Override
-	public List<CardRow> getCards() {
-		return cards;
-	}
-	public void setCards(List<CardRow> cards){
-		this.cards = cards;
-	}
+    @Override
+    public List<CardRow> getCards() {
+        return cards;
+    }
 
-	@Override
-	public void addCards(CardRow... cards) {
-		this.cards.addAll(List.of(cards));
-	}
+    public void setCards(List<CardRow> cards) {
+        this.cards = cards;
+    }
 
-	@Override
-	public void addCards(Collection<CardRow> cards) {
-		this.cards.addAll(cards);
-	}
+    @Override
+    public void addCards(CardRow... cards) {
+        this.cards.addAll(List.of(cards));
+    }
 
-	@Override
-	public void removeCards(CardRow... cards) {
-		this.cards.removeAll(List.of(cards));
-	}
-	@Override
-	public void removeCards(Collection<CardRow> cards) {
-		this.cards.removeAll(cards);
-	}
+    @Override
+    public void addCards(Collection<CardRow> cards) {
+        this.cards.addAll(cards);
+    }
+
+    @Override
+    public void removeCards(CardRow... cards) {
+        this.cards.removeAll(List.of(cards));
+    }
+
+    @Override
+    public void removeCards(Collection<CardRow> cards) {
+        this.cards.removeAll(cards);
+    }
 }

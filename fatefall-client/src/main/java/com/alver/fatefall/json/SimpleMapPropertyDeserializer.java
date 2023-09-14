@@ -12,7 +12,8 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 
-public class SimpleMapPropertyDeserializer extends JsonDeserializer<SimpleMapProperty<String,?>> implements ContextualDeserializer {
+@SuppressWarnings({"rawtypes", "unchecked"})
+public class SimpleMapPropertyDeserializer extends JsonDeserializer<SimpleMapProperty> implements ContextualDeserializer {
 
     private JavaType elementType;
 
@@ -25,19 +26,19 @@ public class SimpleMapPropertyDeserializer extends JsonDeserializer<SimpleMapPro
     }
 
     @Override
-    public SimpleMapProperty<String,?> deserialize(
+    public SimpleMapProperty deserialize(
             JsonParser jsonParser,
             DeserializationContext deserializationContext)
             throws IOException {
         ObjectCodec codec = jsonParser.getCodec();
         JsonNode node = codec.readTree(jsonParser);
-        ObservableMap<String, Object> map = FXCollections.observableHashMap();
+        ObservableMap map = FXCollections.observableHashMap();
         for (Iterator<Map.Entry<String, JsonNode>> it = node.fields(); it.hasNext(); ) {
             Map.Entry<String, JsonNode> entry = it.next();
             String key = entry.getKey();
             Object value = deserializationContext.readTreeAsValue(entry.getValue(), elementType);
             map.put(key, value);
         }
-        return new SimpleMapProperty<>(map);
+        return new SimpleMapProperty(map);
     }
 }

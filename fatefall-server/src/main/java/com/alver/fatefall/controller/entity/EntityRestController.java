@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 public abstract class EntityRestController<E extends Entity, R extends EntityRow & Entity> {
 
@@ -23,9 +22,9 @@ public abstract class EntityRestController<E extends Entity, R extends EntityRow
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<E>> getById(
-			@RequestParam Long id) {
-		return ResponseEntity.ok(service.getById(id));
+	public ResponseEntity<E> getById(
+			@PathVariable Long id) {
+		return ResponseEntity.of(service.getById(id));
 	}
 
 	@PostMapping()

@@ -3,29 +3,34 @@ package com.alver.fatefall.data.entity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 public class CardRow extends EntityRow implements Card<CardFaceRow, TemplateRow> {
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private CardFaceRow front = new CardFaceRow();
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private CardFaceRow back = new CardFaceRow();
+	@OneToMany(mappedBy = "card", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	protected Map<Face, CardFaceRow> faces = new HashMap<>(Map.of(
+			Face.FRONT, new CardFaceRow(),
+			Face.BACK, new CardFaceRow()));
 
 	@Override
 	public CardFaceRow getFront() {
-		return front;
+		return faces.get(Face.FRONT);
 	}
 	public void setFront(CardFaceRow front) {
-		this.front = front;
+		faces.put(Face.FRONT, front);
+		front.card = this;
 	}
 
 	@Override
 	public CardFaceRow getBack() {
-		return back;
+		return faces.get(Face.BACK);
 	}
 	public void setBack(CardFaceRow back) {
-		this.back = back;
+		faces.put(Face.BACK, back);
+        back.card = this;
 	}
 }

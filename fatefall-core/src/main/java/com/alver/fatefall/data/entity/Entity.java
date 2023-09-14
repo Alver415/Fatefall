@@ -7,7 +7,7 @@ public interface Entity {
 	 String getName();
 	 void setName(String name);
 
-	 String getJson();
-	 void setJson(String data);
+	String getJson();
+	void setJson(String data);
 
 }

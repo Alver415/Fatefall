@@ -1,4 +1,4 @@
-package com.alver.fatefall.app.fx.view.entity.card.face;
+package com.alver.fatefall.app.fx.view.entity.card.template;
 
 import com.alver.fatefall.app.fx.component.settings.FatefallProperties;
 import com.alver.springfx.annotations.FXMLPrototype;

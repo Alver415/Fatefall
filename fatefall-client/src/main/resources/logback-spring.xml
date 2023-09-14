@@ -19,9 +19,11 @@
 
 	<appender name="springDelegatedAppender" class="ch.qos.logback.ext.spring.DelegatingLogbackAppender"/>
 
-	<root level="INFO">
+	<root level="INFO" >
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="LOGFILE" />
 		<appender-ref ref="springDelegatedAppender"/>
 	</root>
+
+
 </configuration>

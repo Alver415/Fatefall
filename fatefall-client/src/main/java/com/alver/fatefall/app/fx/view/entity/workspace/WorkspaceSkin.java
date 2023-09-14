@@ -8,8 +8,6 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.transformation.FilteredList;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import org.springframework.beans.factory.BeanFactory;
@@ -57,10 +55,10 @@ public class WorkspaceSkin extends SkinBase<WorkspaceView> {
             }
         });
 
-        TableColumn<CardFX, String> dataColumn = new TableColumn<>("Data");
-        dataColumn.setCellValueFactory(new PropertyValueFactory<>("data"));
-        dataColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        dataColumn.setEditable(true);
+//        TableColumn<CardFX, String> dataColumn = new TableColumn<>("Data");
+//        dataColumn.setCellValueFactory(new PropertyValueFactory<>("data"));
+//        dataColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+//        dataColumn.setEditable(true);
 
         tableView.getColumns().add(cardColumn);
 //        tableView.getColumns().add(dataColumn);

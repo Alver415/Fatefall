@@ -1,6 +1,6 @@
 package com.alver.fatefall.json;
 
-import com.alver.fatefall.app.fx.model.SimpleTreeProperty;
+import com.alver.fatefall.app.fx.model.property.TreeProperty;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleMapProperty;
@@ -12,9 +12,12 @@ public class JacksonFXModule extends SimpleModule {
 
     public JacksonFXModule(){
         super("JacksonFXModule");
-        addDeserializer(SimpleListProperty.class, new SimpleListPropertyDeserializer());
         addDeserializer(SimpleObjectProperty.class, new SimpleObjectPropertyDeserializer());
+        addDeserializer(SimpleListProperty.class, new SimpleListPropertyDeserializer());
         addDeserializer(SimpleMapProperty.class, new SimpleMapPropertyDeserializer());
-        addDeserializer(SimpleTreeProperty.class, new SimpleTreePropertyDeserializer());
+        addDeserializer(TreeProperty.class, new TreePropertyDeserializer());
+
+        addSerializer(new SimpleListPropertySerializer());
+        addSerializer(new TreePropertySerializer());
     }
 }

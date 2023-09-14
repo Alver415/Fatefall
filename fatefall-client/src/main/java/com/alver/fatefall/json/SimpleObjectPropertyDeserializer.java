@@ -8,12 +8,13 @@ import javafx.beans.property.SimpleObjectProperty;
 
 import java.io.IOException;
 
-public class SimpleObjectPropertyDeserializer extends JsonDeserializer<SimpleObjectProperty<?>> implements ContextualDeserializer {
+@SuppressWarnings("rawtypes")
+public class SimpleObjectPropertyDeserializer extends JsonDeserializer<SimpleObjectProperty> implements ContextualDeserializer {
 
     private JavaType elementType;
 
     @Override
-    public JsonDeserializer<?> createContextual(
+    public JsonDeserializer createContextual(
             DeserializationContext ctxt,
             BeanProperty property) {
         this.elementType = property.getType().containedType(0);
@@ -21,12 +22,12 @@ public class SimpleObjectPropertyDeserializer extends JsonDeserializer<SimpleObj
     }
 
     @Override
-    public SimpleObjectProperty<?> deserialize(
+    public SimpleObjectProperty deserialize(
             JsonParser jsonParser,
             DeserializationContext deserializationContext)
             throws IOException {
         ObjectCodec codec = jsonParser.getCodec();
         JsonNode node = codec.readTree(jsonParser);
-        return new SimpleObjectProperty<>(deserializationContext.readTreeAsValue(node, elementType));
+        return new SimpleObjectProperty(deserializationContext.readTreeAsValue(node, elementType));
     }
 }

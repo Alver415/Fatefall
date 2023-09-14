@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@SuppressWarnings("unchecked")
 public abstract class EntityService<E extends Entity, R extends EntityRow> implements EntityApi<E> {
 
 	private final Logger log = LoggerFactory.getLogger(getClass());

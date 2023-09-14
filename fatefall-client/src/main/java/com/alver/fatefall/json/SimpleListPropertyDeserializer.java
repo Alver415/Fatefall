@@ -10,12 +10,13 @@ import javafx.collections.ObservableList;
 
 import java.io.IOException;
 
-public class SimpleListPropertyDeserializer extends JsonDeserializer<SimpleListProperty<?>> implements ContextualDeserializer {
+@SuppressWarnings({"rawtypes", "unchecked"})
+public class SimpleListPropertyDeserializer extends JsonDeserializer<SimpleListProperty> implements ContextualDeserializer {
 
     private JavaType elementType;
 
     @Override
-    public JsonDeserializer<?> createContextual(
+    public JsonDeserializer createContextual(
             DeserializationContext ctxt,
             BeanProperty property) {
         this.elementType = property.getType().containedType(0);
@@ -23,13 +24,13 @@ public class SimpleListPropertyDeserializer extends JsonDeserializer<SimpleListP
     }
 
     @Override
-    public SimpleListProperty<?> deserialize(
+    public SimpleListProperty deserialize(
             JsonParser jsonParser,
             DeserializationContext deserializationContext)
             throws IOException {
         ObjectCodec codec = jsonParser.getCodec();
         JsonNode node = codec.readTree(jsonParser);
-        ObservableList<?> list = FXCollections.observableArrayList();
+        ObservableList list = FXCollections.observableArrayList();
         for (JsonNode itemNode : node) {
             list.add(deserializationContext.readTreeAsValue(itemNode, elementType));
         }

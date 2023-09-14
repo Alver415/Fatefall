@@ -44,6 +44,10 @@ public class CardView extends Control {
         CardFaceController frontController = front.controller();
         CardFaceController backController = back.controller();
 
+        frontController.cardProperty().bind(cardProperty);
+        backController.cardProperty().bind(cardProperty);
+
+        //FIXME
         frontController.cardFaceProperty().bind(Bindings.createObjectBinding(() ->
                 Optional.ofNullable(getCard()).map(CardFX::getFront).orElse(null), cardProperty));
         backController.cardFaceProperty().bind(Bindings.createObjectBinding(() ->

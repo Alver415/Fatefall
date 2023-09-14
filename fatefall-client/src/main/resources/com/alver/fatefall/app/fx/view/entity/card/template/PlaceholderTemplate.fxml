@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-           fx:controller="com.alver.fatefall.app.fx.view.entity.card.face.TemplateController"
+           fx:controller="com.alver.fatefall.app.fx.view.entity.card.template.TemplateController"
            prefWidth="${controller.width}" prefHeight="${controller.height}"
            maxWidth="${controller.width}" maxHeight="${controller.height}"
            minWidth="${controller.width}" minHeight="${controller.height}"
