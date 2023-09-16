@@ -1,6 +1,6 @@
 package com.alver.fatefall.json;
 
-import com.alver.fatefall.app.fx.model.property.TreeProperty;
+import com.alver.fatefall.property.TreeProperty;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleMapProperty;

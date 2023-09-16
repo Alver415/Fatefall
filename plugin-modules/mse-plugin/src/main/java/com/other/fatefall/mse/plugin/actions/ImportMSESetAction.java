@@ -3,6 +3,7 @@ package com.other.fatefall.mse.plugin.actions;
 import com.alver.fatefall.action.ActionEventHandler;
 import com.alver.fatefall.app.fx.model.entity.CardFX;
 import com.alver.fatefall.app.fx.model.entity.WorkspaceFX;
+import com.alver.fatefall.property.TreeProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -62,7 +63,8 @@ public class ImportMSESetAction implements ActionEventHandler {
 
 			ArrayNode cards = (ArrayNode) set.get("card");
 			cards.elements().forEachRemaining(json -> {
-				CardFX card = jsonToCard(json);
+				CardFX card = new CardFX();
+				card.setData(jsonToData(json));
 
 				String cardName = json.get("name").asText();
 				card.setName(cardName);
@@ -86,6 +88,14 @@ public class ImportMSESetAction implements ActionEventHandler {
 			plugin.createWorkspace(workspace);
 		} catch (IOException e) {
 			new Alert(Alert.AlertType.ERROR, "Failed to import file: " + file + "\n" + e.getMessage()).show();
+			throw new RuntimeException(e);
+		}
+	}
+
+	private TreeProperty<?> jsonToData(JsonNode json) {
+		try {
+			return objectMapper.treeToValue(json, TreeProperty.class);
+		} catch (JsonProcessingException e) {
 			throw new RuntimeException(e);
 		}
 	}

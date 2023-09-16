@@ -4,8 +4,10 @@ import com.alver.fatefall.app.fx.component.settings.FatefallProperties;
 import com.alver.fatefall.app.fx.model.Source;
 import com.alver.fatefall.app.fx.model.entity.CardFX;
 import com.alver.fatefall.app.fx.model.entity.CardFaceFX;
-import com.alver.fatefall.app.fx.model.property.TreeProperty;
+import com.alver.fatefall.property.TreeProperty;
 import com.alver.fatefall.app.fx.view.entity.card.template.TemplateController;
+import com.alver.fatefall.property.TreePropertyBuilder;
+import com.alver.fatefall.utils.FXAsyncUtils;
 import com.alver.springfx.SpringFXLoader;
 import com.alver.springfx.annotations.FXMLPrototype;
 import javafx.beans.property.DoubleProperty;
@@ -52,28 +54,30 @@ public class CardFaceController {
 
     public void initialize() {
         cardFace.addListener((observable, oldValue, newValue) -> {
-            try {
-                String imageUrl = newValue.getTemplate().getImageUrl();
-                String fxmlUrl = newValue.getTemplate().getFxmlUrl();
-                URL fxml = fxmlUrl != null ? new URL(fxmlUrl) :
-                        imageUrl != null ? TemplateController.class.getResource("ImageTemplate.fxml") :
-                                TemplateController.class.getResource("PlaceholderTemplate.fxml");
-                loader.setLocation(fxml);
+            FXAsyncUtils.runAsync(() -> {
+                try {
+                    String imageUrl = newValue.getTemplate().getImageUrl();
+                    String fxmlUrl = newValue.getTemplate().getFxmlUrl();
+                    URL fxml = fxmlUrl != null ? new URL(fxmlUrl) :
+                            imageUrl != null ? TemplateController.class.getResource("ImageTemplate.fxml") :
+                                    TemplateController.class.getResource("PlaceholderTemplate.fxml");
+                    loader.setLocation(fxml);
 
-                TreeProperty data = TreePropertyBuilder.buildAndBind(List.of(
-                        new Pair<>(Source.CARD, card.get().getData()),
-                        new Pair<>(Source.FACE, cardFace.get().getData()),
-                        new Pair<>(Source.TEMPLATE, cardFace.get().getTemplate().getData())));
+                    TreeProperty<?> data = TreePropertyBuilder.buildAndBind(List.of(
+                            new Pair<Source, TreeProperty<?>>(Source.CARD, card.get().getData()),
+                            new Pair<Source, TreeProperty<?>>(Source.FACE, cardFace.get().getData()),
+                            new Pair<Source, TreeProperty<?>>(Source.TEMPLATE, cardFace.get().getTemplate().getData())));
 
-                loader.getNamespace().put("data", data);
+                    loader.getNamespace().put("data", data);
 
-                Node faceNode = loader.load();
-                TemplateController controller = loader.getController();
-                controller.imageProperty().set(imageUrl == null ? null : new Image(imageUrl));
-                root.getChildren().setAll(faceNode);
-            } catch (Exception e) {
-                log.error(e.getMessage(), e);
-            }
+                    Node faceNode = loader.load();
+                    TemplateController controller = loader.getController();
+                    controller.imageProperty().set(imageUrl == null ? null : new Image(imageUrl));
+                    FXAsyncUtils.runFx(() -> root.getChildren().setAll(faceNode));
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                }
+            });
         });
         cardFace.set(null);
     }

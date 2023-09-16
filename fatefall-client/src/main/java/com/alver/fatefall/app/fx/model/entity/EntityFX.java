@@ -1,6 +1,6 @@
 package com.alver.fatefall.app.fx.model.entity;
 
-import com.alver.fatefall.app.fx.model.property.TreeProperty;
+import com.alver.fatefall.property.TreeProperty;
 import com.alver.fatefall.data.entity.Entity;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;

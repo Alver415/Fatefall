@@ -1,6 +1,6 @@
 package com.alver.fatefall.json;
 
-import com.alver.fatefall.app.fx.model.property.TreeProperty;
+import com.alver.fatefall.property.TreeProperty;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;

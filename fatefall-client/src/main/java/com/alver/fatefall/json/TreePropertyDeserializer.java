@@ -1,10 +1,11 @@
 package com.alver.fatefall.json;
 
-import com.alver.fatefall.app.fx.model.property.TreeProperty;
+import com.alver.fatefall.property.TreeProperty;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.deser.ContextualDeserializer;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.*;
 
 import java.io.IOException;
@@ -12,17 +13,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class TreePropertyDeserializer extends JsonDeserializer<TreeProperty> implements ContextualDeserializer {
-
-    private JavaType elementType;
-
-    @Override
-    public JsonDeserializer<?> createContextual(
-            DeserializationContext ctxt,
-            BeanProperty TreeProperty) {
-        this.elementType = TreeProperty.getType().containedType(0);
-        return this;
-    }
+public class TreePropertyDeserializer extends JsonDeserializer<TreeProperty> {
 
     @Override
     public TreeProperty deserialize(

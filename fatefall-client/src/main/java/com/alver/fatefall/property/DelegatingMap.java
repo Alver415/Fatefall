@@ -1,4 +1,4 @@
-package com.alver.fatefall.app.fx.model.property;
+package com.alver.fatefall.property;
 
 import java.util.Collection;
 import java.util.Map;
