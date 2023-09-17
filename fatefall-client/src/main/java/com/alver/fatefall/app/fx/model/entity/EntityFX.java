@@ -10,7 +10,7 @@ public class EntityFX implements Entity {
 	private final Long id;
 	private final StringProperty name = new SimpleStringProperty(this, "name");
 	private final StringProperty json = new SimpleStringProperty(this, "json");
-	private TreeProperty<?> data;
+	private TreeProperty<Object> data;
 
 	public EntityFX() {
 		this(null);
@@ -43,13 +43,13 @@ public class EntityFX implements Entity {
 	}
 
 
-	public TreeProperty dataProperty() {
+	public TreeProperty<Object> dataProperty() {
 		return data;
 	}
-	public TreeProperty getData() {
+	public TreeProperty<Object> getData() {
 		return data;
 	}
-	public void setData(TreeProperty data) {
+	public void setData(TreeProperty<Object> data) {
 		this.data = data;
 	}
 

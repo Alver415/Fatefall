@@ -32,24 +32,19 @@ public class WorkspaceSkin extends SkinBase<WorkspaceView> {
         tableView.setEditable(true);
         FXAsyncUtils.runAsync(() -> smoothScrolling(tableView, 0.1), 1000);
 
-        TableColumn<CardFX, CardView> cardColumn = new TableColumn<>("Card View");
+        TableColumn<CardFX, CardFX> cardColumn = new TableColumn<>("Card View");
         cardColumn.setCellFactory(new Callback<>() {
             @Override
-            public TableCell<CardFX, CardView> call(TableColumn<CardFX, CardView> param) {
-                TableCell<CardFX, CardView> cell = new TableCell<>() {
+            public TableCell<CardFX, CardFX> call(TableColumn<CardFX, CardFX> param) {
+                CardView cardView = beanFactory.getBean(CardView.class);
+                TableCell<CardFX, CardFX> cell = new TableCell<>() {
                     @Override
-                    protected void updateItem(CardView item, boolean empty) {
+                    protected void updateItem(CardFX item, boolean empty) {
                         super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            CardFX card = getTableRow().getItem();
-                            CardView cardView = beanFactory.getBean(CardView.class);
-                            cardView.setCard(card);
-                            setGraphic(cardView);
-                        }
+                        cardView.setCard(getTableRow().getItem());
                     }
                 };
+                cell.setGraphic(cardView);
                 cell.setAlignment(Pos.CENTER);
                 return cell;
             }

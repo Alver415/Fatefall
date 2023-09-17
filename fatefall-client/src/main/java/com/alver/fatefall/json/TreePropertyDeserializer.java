@@ -34,13 +34,13 @@ public class TreePropertyDeserializer extends JsonDeserializer<TreeProperty> {
                 treeProperty.getChildrenMap().put(key, deserialize(entry.getValue()));
             }
         } else if (jsonNode instanceof TextNode textNode) {
-            treeProperty.set(textNode.textValue());
+            treeProperty.setValue(textNode.textValue());
         } else if (jsonNode instanceof BooleanNode booleanNode) {
-            treeProperty.set(booleanNode.booleanValue());
+            treeProperty.setValue(booleanNode.booleanValue());
         } else if (jsonNode instanceof DoubleNode doubleNode) {
-            treeProperty.set(doubleNode.doubleValue());
+            treeProperty.setValue(doubleNode.doubleValue());
         } else if (jsonNode instanceof IntNode intNode) {
-            treeProperty.set(intNode.intValue());
+            treeProperty.setValue(intNode.intValue());
         } else if (jsonNode instanceof NullNode || jsonNode instanceof MissingNode) {
             // Do nothing
         } else {

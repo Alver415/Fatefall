@@ -21,6 +21,7 @@ import javafx.scene.layout.Pane;
 import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.net.URL;
@@ -40,12 +41,11 @@ public class CardFaceController {
     protected final DoubleProperty arcWidth = new SimpleDoubleProperty(25);
     protected final DoubleProperty arcHeight = new SimpleDoubleProperty(25);
 
-    private final SpringFXLoader loader;
+    protected final BeanFactory beanFactory;
 
     @Autowired
-    public CardFaceController(SpringFXLoader loader, FatefallProperties properties) {
-        this.loader = loader;
-
+    public CardFaceController(BeanFactory beanFactory, FatefallProperties properties) {
+        this.beanFactory = beanFactory;
         width.bind(properties.getCardBaseWidth());
         height.bind(properties.getCardBaseHeight());
         arcWidth.bind(properties.getCardBaseArcWidth());
@@ -55,6 +55,7 @@ public class CardFaceController {
     public void initialize() {
         cardFace.addListener((observable, oldValue, newValue) -> {
             FXAsyncUtils.runAsync(() -> {
+                SpringFXLoader loader = beanFactory.getBean(SpringFXLoader.class);
                 try {
                     String imageUrl = newValue.getTemplate().getImageUrl();
                     String fxmlUrl = newValue.getTemplate().getFxmlUrl();
@@ -63,10 +64,10 @@ public class CardFaceController {
                                     TemplateController.class.getResource("PlaceholderTemplate.fxml");
                     loader.setLocation(fxml);
 
-                    TreeProperty<?> data = TreePropertyBuilder.buildAndBind(List.of(
-                            new Pair<Source, TreeProperty<?>>(Source.CARD, card.get().getData()),
-                            new Pair<Source, TreeProperty<?>>(Source.FACE, cardFace.get().getData()),
-                            new Pair<Source, TreeProperty<?>>(Source.TEMPLATE, cardFace.get().getTemplate().getData())));
+                    TreeProperty<Object> data = TreePropertyBuilder.buildAndBind(List.of(
+                            new Pair<>(Source.CARD, card.get().getData()),
+                            new Pair<>(Source.FACE, cardFace.get().getData()),
+                            new Pair<>(Source.TEMPLATE, cardFace.get().getTemplate().getData())));
 
                     loader.getNamespace().put("data", data);
 

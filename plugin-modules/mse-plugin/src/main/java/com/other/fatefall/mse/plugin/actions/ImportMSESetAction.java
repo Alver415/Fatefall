@@ -92,7 +92,8 @@ public class ImportMSESetAction implements ActionEventHandler {
 		}
 	}
 
-	private TreeProperty<?> jsonToData(JsonNode json) {
+	@SuppressWarnings("unchecked")
+	private TreeProperty<Object> jsonToData(JsonNode json) {
 		try {
 			return objectMapper.treeToValue(json, TreeProperty.class);
 		} catch (JsonProcessingException e) {
