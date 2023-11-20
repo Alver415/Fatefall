@@ -1,18 +1,19 @@
 package com.alver.fatefall.fx.app.component.mainstage;
 
 import com.alver.fatefall.core.api.WorkspacesApi;
+import com.alver.fatefall.core.entity.Workspace;
 import com.alver.fatefall.fx.app.action.WorkspaceCreateAction;
 import com.alver.fatefall.fx.app.component.settings.PreferencesController;
+import com.alver.fatefall.fx.app.view.console.ConsoleController;
+import com.alver.fatefall.fx.app.view.entity.workspace.WorkspaceView;
 import com.alver.fatefall.fx.core.interfaces.AppController;
 import com.alver.fatefall.fx.core.interfaces.AppView;
 import com.alver.fatefall.fx.core.model.CardFX;
 import com.alver.fatefall.fx.core.model.WorkspaceFX;
 import com.alver.fatefall.fx.core.utils.StageManager;
-import com.alver.fatefall.fx.app.view.console.ConsoleController;
-import com.alver.fatefall.fx.app.view.entity.workspace.WorkspaceView;
-import com.alver.fatefall.core.entity.Workspace;
 import com.alver.springfx.SpringFX;
 import com.alver.springfx.annotations.FXMLComponent;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -91,9 +92,9 @@ public class ApplicationController implements AppController {
         return tabPane;
     }
 
-    private void createTab(String text, Node node) {
+    private void createTab(ObservableValue<String> title, Node node) {
         Tab tab = new Tab();
-        tab.setText(text);
+        tab.textProperty().bind(title);
         tab.setContent(node);
         tabPane.getTabs().add(tab);
     }

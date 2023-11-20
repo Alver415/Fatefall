@@ -5,7 +5,10 @@ import com.alver.fatefall.fx.app.view.entity.card.face.CardFaceController;
 import com.alver.fatefall.fx.app.view.entity.card.skin.adjacent.AdjacentSkin;
 import com.alver.fatefall.fx.app.view.entity.card.skin.flippable.FlippableSkin;
 import com.alver.fatefall.fx.app.view.entity.card.skin.stacked.StackedSkin;
+import com.alver.fatefall.fx.core.interfaces.AppController;
+import com.alver.fatefall.fx.core.interfaces.AppView;
 import com.alver.fatefall.fx.core.model.CardFX;
+import com.alver.fatefall.fx.core.model.EntityFX;
 import com.alver.fatefall.fx.core.utils.ResourceUtil;
 import com.alver.springfx.SpringFX;
 import com.alver.springfx.annotations.Prototype;
@@ -26,6 +29,7 @@ import java.util.Optional;
 public class CardView extends Control {
 
     private final FatefallProperties properties;
+    private final AppController appController;
 
     private final Node front;
     private final Node back;
@@ -34,8 +38,9 @@ public class CardView extends Control {
      * === Constructor ===
      */
     @Autowired
-    public CardView(SpringFX springFX, FatefallProperties properties) {
+    public CardView(SpringFX springFX, AppController appController, FatefallProperties properties) {
         this.properties = properties;
+        this.appController = appController;
 
         FXMLControllerAndView<CardFaceController, Pane> front = springFX.load(CardFaceController.class);
         FXMLControllerAndView<CardFaceController, Pane> back = springFX.load(CardFaceController.class);
@@ -61,14 +66,17 @@ public class CardView extends Control {
     }
 
     private void buildContextMenu() {
-        Menu menu = new Menu("View Mode");
-        menu.getItems().setAll(
+        MenuItem open = new MenuItem("Open View");
+        open.setOnAction(a -> appController.addView(AppView.of(cardProperty.map(EntityFX::getName), this)));
+
+        Menu viewMode = new Menu("View Mode");
+        viewMode.getItems().setAll(
                 buildMenuItem("Adjacent", AdjacentSkin.class, () -> setSkin(buildSkin("Adjacent"))),
                 buildMenuItem("Stacked", StackedSkin.class, () -> setSkin(buildSkin("Stacked"))),
                 buildMenuItem("Flippable", FlippableSkin.class, () -> setSkin(buildSkin("Flippable"))));
 
         ContextMenu contextMenu = new ContextMenu();
-        contextMenu.getItems().setAll(menu);
+        contextMenu.getItems().setAll(open, viewMode);
         setContextMenu(contextMenu);
     }
 

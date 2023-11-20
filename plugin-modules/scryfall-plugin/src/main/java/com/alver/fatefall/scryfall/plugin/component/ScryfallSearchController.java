@@ -9,6 +9,7 @@ import com.alver.springfx.annotations.FXMLPrototype;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import org.springframework.beans.factory.BeanFactory;
@@ -21,6 +22,8 @@ public class ScryfallSearchController {
     protected ScryfallApiClient client;
     @Autowired
     protected BeanFactory beanFactory;
+    @Autowired
+    protected ScryfallComponentFactory componentFactory;
 
     @FXML
     protected TextField queryInput;
@@ -58,6 +61,9 @@ public class ScryfallSearchController {
         for (CardFX card : getWorkspace().getCards()) {
             CardView cardView = beanFactory.getBean(CardView.class);
             cardView.setCard(card);
+            MenuItem menuItem = componentFactory.buildOpenInBrowserMenuItem(cardView);
+            MenuItem menuItem1 = componentFactory.buildOpenInWebViewMenuItem(cardView);
+            cardView.getContextMenu().getItems().addAll(menuItem, menuItem1);
             flowPane.getChildren().add(cardView);
         }
     }

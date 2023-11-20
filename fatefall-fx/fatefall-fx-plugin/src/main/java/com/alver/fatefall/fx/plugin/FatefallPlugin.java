@@ -1,7 +1,7 @@
 package com.alver.fatefall.fx.plugin;
 
+import com.alver.fatefall.fx.core.interfaces.AppView;
 import com.alver.fatefall.fx.core.model.WorkspaceFX;
-import javafx.scene.Node;
 import org.pf4j.PluginManager;
 import org.pf4j.PluginWrapper;
 import org.pf4j.spring.SpringPlugin;
@@ -41,10 +41,12 @@ public abstract class FatefallPlugin extends SpringPlugin {
 		return applicationContext;
 	}
 
-	public void createToolTab(String name, Node content) {
+	public void addView(AppView appView) {
 		PluginManager pluginManager = getWrapper().getPluginManager();
 		if (pluginManager instanceof FatefallPluginManager fatefallPluginManager) {
-			fatefallPluginManager.createToolTab(name, content);
+			fatefallPluginManager.addView(appView);
+		} else {
+			log.warn("pluginManager is not instance of FatefallPluginManager: {}", pluginManager.getClass());
 		}
 	}
 

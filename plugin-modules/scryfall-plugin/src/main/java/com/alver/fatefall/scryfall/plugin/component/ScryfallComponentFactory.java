@@ -2,6 +2,7 @@ package com.alver.fatefall.scryfall.plugin.component;
 
 import com.alver.fatefall.fx.app.view.entity.card.CardView;
 import com.alver.fatefall.fx.core.interfaces.AppController;
+import com.alver.fatefall.fx.core.interfaces.AppView;
 import com.alver.fatefall.fx.core.model.CardFX;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -26,23 +27,23 @@ public class ScryfallComponentFactory {
 	@Autowired
 	protected ObjectMapper objectMapper;
 
-	private MenuItem buildOpenInWebViewMenuItem(CardView cardView) {
+	public MenuItem buildOpenInWebViewMenuItem(CardView cardView) {
 		MenuItem openWebView = new MenuItem();
-		openWebView.setText("Open in WebView.");
+		openWebView.setText("Open in WebView");
 		openWebView.setOnAction(a -> {
-			String name = "Scryfall - " + cardView.getCard().getName();
 			WebView webView = new WebView();
 			webView.getEngine().load(getUrl(cardView.getCard()));
-			appController.addView(name, webView);
+			appController.addView(AppView.of(cardView.cardProperty().map(CardFX::nameProperty).getValue(), webView));
 		});
 		return openWebView;
 	}
 
-	private MenuItem buildOpenInBrowserMenuItem(CardView cardView) {
+	public MenuItem buildOpenInBrowserMenuItem(CardView cardView) {
 		MenuItem openBrowser = new MenuItem();
-		openBrowser.setText("Open in default browser.");
+		openBrowser.setText("Open in browser");
 		openBrowser.setOnAction(a -> {
 			try {
+				System.setProperty("java.awt.headless", "false");
 				java.awt.Desktop.getDesktop().browse(new URI(getUrl(cardView.getCard())));
 			} catch (IOException | URISyntaxException e) {
 				throw new RuntimeException(e);
@@ -54,7 +55,7 @@ public class ScryfallComponentFactory {
 	private String getUrl(CardFX card) {
 		try {
 			JsonNode json = objectMapper.readTree(card.getJson());
-			return json.get("scryfall_url").asText();
+			return json.get("scryfall_uri").asText();
 		} catch (JsonProcessingException e) {
 			throw new RuntimeException(e);
 		}

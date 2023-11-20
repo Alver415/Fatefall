@@ -1,6 +1,7 @@
 package com.alver.fatefall.scryfall.plugin.actions;
 
 import com.alver.fatefall.fx.core.interfaces.AppEvent;
+import com.alver.fatefall.fx.core.interfaces.AppView;
 import com.alver.fatefall.scryfall.plugin.ScryfallPlugin;
 import com.alver.fatefall.scryfall.plugin.component.ScryfallSearchController;
 import com.alver.springfx.SpringFX;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Extension
 public class CreateScryfallSearchViewAction implements AppEvent, ExtensionPoint {
 
-    private static final String name = "Scryfall Search Tab";
+    private static final String title = "Scryfall Search Tab";
     private static final String description = "Query the Scryfall Database to browse cards.";
 
     @Autowired
@@ -28,7 +29,7 @@ public class CreateScryfallSearchViewAction implements AppEvent, ExtensionPoint 
 
     @Override
     public String getTitle() {
-        return name;
+        return title;
     }
     @Override
     public String getDescription() {
@@ -38,6 +39,6 @@ public class CreateScryfallSearchViewAction implements AppEvent, ExtensionPoint 
     @Override
     public void handle(ActionEvent event) {
         FXMLControllerAndView<ScryfallSearchController, Object> load = loader.load(ScryfallSearchController.class);
-        plugin.createToolTab(getTitle(), (Node) load.view());
+        plugin.addView(AppView.of(title, (Node) load.view()));
     }
 }
