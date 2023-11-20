@@ -1,7 +1,7 @@
 package com.alver.fatefall.scryfall.plugin;
 
 
-import com.alver.fatefall.plugin.FatefallPlugin;
+import com.alver.fatefall.fx.plugin.FatefallPlugin;
 import com.alver.fatefall.scryfall.ScryfallConfiguration;
 import org.pf4j.PluginWrapper;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

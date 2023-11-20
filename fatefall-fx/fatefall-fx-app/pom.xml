@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.alver.fatefall</groupId>
+		<artifactId>fatefall-fx</artifactId>
+		<version>${revision}</version>
+	</parent>
+
+	<artifactId>fatefall-fx-app</artifactId>
+	<packaging>jar</packaging>
+
+	<properties>
+		<manifest.main.class>com.alver.fatefall.fx.app.FatefallFXApp</manifest.main.class>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.alver.fatefall</groupId>
+			<artifactId>fatefall-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.alver.fatefall</groupId>
+			<artifactId>fatefall-server</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.alver.fatefall</groupId>
+			<artifactId>fatefall-fx-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.alver.fatefall</groupId>
+			<artifactId>fatefall-fx-plugin</artifactId>
+		</dependency>
+	</dependencies>
+
+
+</project>

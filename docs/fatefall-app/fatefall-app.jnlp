@@ -16,5 +16,5 @@
         <j2se version="1.6+" />
         <jar href="fatefall-app-1.0-SNAPSHOT.jar" main="true"/>
     </resources>
-    <application-desc main-class="com.alver.fatefall.FatefallClientApplication"/>
+    <application-desc main-class="com.alver.fatefall.FatefallClientApp"/>
 </jnlp>

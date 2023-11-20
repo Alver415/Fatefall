@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.Scene?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.stage.Stage?>
+<Stage xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+       fx:controller="com.alver.fatefall.fx.app.preloader.SplashController"
+       fx:id="stage">
+    <scene>
+        <Scene stylesheets="@Splash.css" fill="transparent">
+            <BorderPane prefWidth="600" prefHeight="400">
+                <top>
+                    <Button id="close" onAction="#requestExit" text="X" BorderPane.alignment="TOP_RIGHT"/>
+                </top>
+                <center>
+                    <fx:include source="Logo.fxml"/>
+                </center>
+                <bottom>
+                    <StackPane>
+                        <ProgressBar fx:id="progressBar" prefHeight="36" prefWidth="Infinity"/>
+                        <Text fx:id="progressText">
+                            <font>
+                                <Font name="Segoe UI"/>
+                            </font>
+                        </Text>
+                    </StackPane>
+                </bottom>
+            </BorderPane>
+        </Scene>
+    </scene>
+</Stage>

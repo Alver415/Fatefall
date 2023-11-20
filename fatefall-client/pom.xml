@@ -1,193 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.alver.fatefall</groupId>
-		<artifactId>fatefall</artifactId>
-		<version>${revision}</version>
-	</parent>
-	<artifactId>fatefall-client</artifactId>
-	<packaging>jar</packaging>
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.alver.fatefall</groupId>
+        <artifactId>fatefall</artifactId>
+        <version>${revision}</version>
+    </parent>
 
-	<properties>
-		<maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
-		<javafx-maven-plugin.version>0.0.8</javafx-maven-plugin.version>
+    <artifactId>fatefall-client</artifactId>
+    <packaging>jar</packaging>
 
-		<javafx.version>19</javafx.version>
-		<controlsfx.version>11.1.2</controlsfx.version>
+    <dependencies>
+        <dependency>
+            <groupId>com.alver.fatefall</groupId>
+            <artifactId>fatefall-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+    </dependencies>
 
-		<pf4j.version>3.8.0</pf4j.version>
-		<pf4j-spring.version>0.9.0-SNAPSHOT</pf4j-spring.version>
-		<preferencesfx-core.version>11.11.0</preferencesfx-core.version>
-		<guava.version>31.1-jre</guava.version>
-
-		<logback-ext-spring.version>0.1.5</logback-ext-spring.version>
-	</properties>
-
-	<dependencies>
-
-		<!-- Fatefall -->
-		<dependency>
-			<groupId>com.alver.fatefall</groupId>
-			<artifactId>fatefall-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.alver.fatefall</groupId>
-			<artifactId>fatefall-preloader</artifactId>
-		</dependency>
-
-		<!-- Spring -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webflux</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.logback-extensions</groupId>
-			<artifactId>logback-ext-spring</artifactId>
-			<version>${logback-ext-spring.version}</version>
-		</dependency>
-
-		<!-- Plugins -->
-		<dependency>
-			<groupId>org.pf4j</groupId>
-			<artifactId>pf4j-spring</artifactId>
-			<version>${pf4j-spring.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-log4j12</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<!-- JavaFX -->
-		<dependency>
-			<groupId>org.openjfx</groupId>
-			<artifactId>javafx-graphics</artifactId>
-			<version>${javafx.version}</version>
-			<classifier>win</classifier>
-		</dependency>
-		<dependency>
-			<groupId>org.openjfx</groupId>
-			<artifactId>javafx-graphics</artifactId>
-			<version>${javafx.version}</version>
-			<classifier>linux</classifier>
-		</dependency>
-		<dependency>
-			<groupId>org.openjfx</groupId>
-			<artifactId>javafx-graphics</artifactId>
-			<version>${javafx.version}</version>
-			<classifier>mac</classifier>
-		</dependency>
-		<dependency>
-			<groupId>org.openjfx</groupId>
-			<artifactId>javafx-controls</artifactId>
-			<version>${javafx.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.openjfx</groupId>
-			<artifactId>javafx-fxml</artifactId>
-			<version>${javafx.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.openjfx</groupId>
-			<artifactId>javafx-web</artifactId>
-			<version>${javafx.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.openjfx</groupId>
-			<artifactId>javafx-swing</artifactId>
-			<version>${javafx.version}</version>
-		</dependency>
-
-		<!-- PreferencesFX -->
-		<dependency>
-			<groupId>com.dlsc.preferencesfx</groupId>
-			<artifactId>preferencesfx-core</artifactId>
-			<version>${preferencesfx-core.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<!-- JavaFX Extension Library -->
-		<dependency>
-			<groupId>org.controlsfx</groupId>
-			<artifactId>controlsfx</artifactId>
-			<version>${controlsfx.version}</version>
-		</dependency>
-
-		<!-- Google Guava -->
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>${guava.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.kordamp.bootstrapfx</groupId>
-			<artifactId>bootstrapfx-core</artifactId>
-			<version>0.4.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.tangorabox</groupId>
-			<artifactId>component-inspector-fx</artifactId>
-			<version>1.1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.alver</groupId>
-			<artifactId>fxml-saver</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.alver.springfx</groupId>
-			<artifactId>springfx</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
-
-	</dependencies>
-
-	<build>
-		<plugins>
-
-			<!-- Maven Shade Plugin -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.5.0</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-						<configuration>
-							<transformers>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<manifestEntries>
-										<Main-Class>${client.application.class}</Main-Class>
-										<JavaFX-Preloader-Class>${client.preloader.class}</JavaFX-Preloader-Class>
-									</manifestEntries>
-								</transformer>
-							</transformers>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
 
 </project>

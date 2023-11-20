@@ -1,6 +1,6 @@
 package com.alver.fatefall.scryfall.api;
 
-import com.alver.fatefall.app.fx.model.entity.CardFX;
+import com.alver.fatefall.fx.core.model.CardFX;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;

@@ -1,9 +1,9 @@
 package com.other.fatefall.mse.plugin.actions;
 
-import com.alver.fatefall.action.ActionEventHandler;
-import com.alver.fatefall.app.fx.model.entity.CardFX;
-import com.alver.fatefall.app.fx.model.entity.WorkspaceFX;
-import com.alver.fatefall.property.TreeProperty;
+import com.alver.fatefall.fx.core.interfaces.AppEvent;
+import com.alver.fatefall.fx.core.model.CardFX;
+import com.alver.fatefall.fx.core.model.WorkspaceFX;
+import com.alver.fatefall.fx.core.utils.TreeProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import org.pf4j.Extension;
+import org.pf4j.ExtensionPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +26,7 @@ import java.nio.file.Path;
 
 @Component
 @Extension
-public class ImportMSESetAction implements ActionEventHandler {
+public class ImportMSESetAction implements AppEvent, ExtensionPoint {
 
 	@Autowired
 	protected MSEPlugin plugin;

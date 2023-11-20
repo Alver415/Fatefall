@@ -1,10 +1,10 @@
 package com.alver.fatefall.scryfall.plugin.component;
 
-import com.alver.fatefall.app.fx.model.entity.CardFX;
-import com.alver.fatefall.app.fx.model.entity.WorkspaceFX;
-import com.alver.fatefall.app.fx.view.entity.card.CardView;
+import com.alver.fatefall.fx.app.view.entity.card.CardView;
+import com.alver.fatefall.fx.core.model.CardFX;
+import com.alver.fatefall.fx.core.model.WorkspaceFX;
 import com.alver.fatefall.scryfall.api.ScryfallApiClient;
-import com.alver.fatefall.utils.FXAsyncUtils;
+import com.alver.fatefall.fx.core.utils.FXAsyncUtils;
 import com.alver.springfx.annotations.FXMLPrototype;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

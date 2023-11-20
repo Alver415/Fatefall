@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.alver.fatefall</groupId>
+		<artifactId>fatefall-fx</artifactId>
+		<version>${revision}</version>
+	</parent>
+
+	<artifactId>fatefall-fx-plugin</artifactId>
+	<packaging>jar</packaging>
+
+	<properties>
+		<pf4j.version>3.8.0</pf4j.version>
+		<pf4j-spring.version>0.9.0-SNAPSHOT</pf4j-spring.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.alver.fatefall</groupId>
+			<artifactId>fatefall-fx-core</artifactId>
+		</dependency>
+
+		<!-- Plugins -->
+		<dependency>
+			<groupId>org.pf4j</groupId>
+			<artifactId>pf4j-spring</artifactId>
+			<version>${pf4j-spring.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>flatten-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>

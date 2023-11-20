@@ -1,14 +1,12 @@
 package com.alver.fatefall.scryfall.plugin.component;
 
-import com.alver.fatefall.app.fx.component.mainstage.ApplicationController;
-import com.alver.fatefall.app.fx.model.entity.CardFX;
-import com.alver.fatefall.app.fx.view.entity.card.CardView;
+import com.alver.fatefall.fx.app.view.entity.card.CardView;
+import com.alver.fatefall.fx.core.interfaces.AppController;
+import com.alver.fatefall.fx.core.model.CardFX;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.scene.web.WebView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -23,7 +21,7 @@ public class ScryfallComponentFactory {
 
 	@Autowired
 	@Lazy
-	protected ApplicationController applicationController;
+	protected AppController appController;
 
 	@Autowired
 	protected ObjectMapper objectMapper;
@@ -32,13 +30,10 @@ public class ScryfallComponentFactory {
 		MenuItem openWebView = new MenuItem();
 		openWebView.setText("Open in WebView.");
 		openWebView.setOnAction(a -> {
-			TabPane tabPane = applicationController.getTabPane();
-			Tab tab = new Tab("Scryfall - " + cardView.getCard().getName());
+			String name = "Scryfall - " + cardView.getCard().getName();
 			WebView webView = new WebView();
 			webView.getEngine().load(getUrl(cardView.getCard()));
-			tab.setContent(webView);
-			tabPane.getTabs().add(tab);
-			tabPane.getSelectionModel().select(tab);
+			appController.addView(name, webView);
 		});
 		return openWebView;
 	}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.alver.fatefall.fx.app.component.about.AboutView">
+    <center>
+        <Label text="%text"/>
+        <fx:include source="/com/alver/fatefall/fx/app/preloader/Logo.fxml"/>
+    </center>
+</BorderPane>
