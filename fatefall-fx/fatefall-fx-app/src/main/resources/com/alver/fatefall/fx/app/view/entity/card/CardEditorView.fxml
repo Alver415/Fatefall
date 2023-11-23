@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.alver.fatefall.fx.app.view.entity.card.CardView?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import org.controlsfx.control.PropertySheet?>
+<?import impl.org.controlsfx.skin.PropertySheetSkin.PropertyPane?>
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+			fx:controller="com.alver.fatefall.fx.app.view.entity.card.CardEditorView">
+
+	<top>
+		<ToolBar fx:id="toolBar">
+			<Button >Save</Button>
+			<Button >Revert</Button>
+			<Separator/>
+			<Button >Add</Button>
+			<Button >Delete</Button>
+		</ToolBar>
+	</top>
+	<left>
+		<TabPane>
+			<Tab text="Card Data">
+				<PropertySheet/>
+			</Tab>
+		</TabPane>
+	</left>
+	<center>
+		<CardView fx:id="cardView"/>
+	</center>
+	<right>
+		<TabPane>
+			<Tab text="Template Data">
+				<PropertySheet/>
+			</Tab>
+		</TabPane>
+	</right>
+</BorderPane>

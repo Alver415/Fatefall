@@ -3,6 +3,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
+<?import com.alver.fatefall.fx.app.component.mainstage.EntityTreeView?>
 <BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.alver.fatefall.fx.app.component.mainstage.ApplicationController">
     <top>
@@ -30,7 +31,7 @@
             </top>
             <center>
                 <ScrollPane fitToWidth="true" fitToHeight="true">
-                    <ListView fx:id="listView"/>
+                    <EntityTreeView fx:id="treeView" showRoot="false"/>
                 </ScrollPane>
             </center>
         </BorderPane>

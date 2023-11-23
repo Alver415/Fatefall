@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import com.alver.fatefall.fx.app.component.mainstage.EntityTreeView?>
+<fx:root type="EntityTreeView" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+</fx:root>
