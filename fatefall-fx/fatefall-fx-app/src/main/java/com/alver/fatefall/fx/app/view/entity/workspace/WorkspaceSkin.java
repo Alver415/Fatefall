@@ -2,7 +2,7 @@ package com.alver.fatefall.fx.app.view.entity.workspace;
 
 import com.alver.fatefall.fx.app.view.entity.card.CardView;
 import com.alver.fatefall.fx.core.model.CardFX;
-import com.alver.fatefall.fx.core.utils.FXAsyncUtils;
+import com.alver.fatefall.fx.core.utils.FXUtils;
 import com.alver.fatefall.fx.core.utils.JFXSmoothScroll;
 import javafx.beans.property.ListProperty;
 import javafx.collections.ListChangeListener;
@@ -29,7 +29,7 @@ public class WorkspaceSkin extends SkinBase<WorkspaceView> {
 
 		tableView = new TableView<>();
 		tableView.setEditable(true);
-		FXAsyncUtils.runAsync(() -> JFXSmoothScroll.smoothScrolling(tableView, 0.1), 1000);
+		FXUtils.runAsync(() -> JFXSmoothScroll.smoothScrolling(tableView, 0.1), 1000);
 
 		TableColumn<CardFX, CardFX> cardColumn = new TableColumn<>("Card View");
 		cardColumn.setCellFactory(new Callback<>() {

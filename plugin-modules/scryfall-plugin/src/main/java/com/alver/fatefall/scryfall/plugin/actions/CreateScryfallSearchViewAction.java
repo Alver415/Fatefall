@@ -39,6 +39,9 @@ public class CreateScryfallSearchViewAction implements AppEvent, ExtensionPoint 
     @Override
     public void handle(ActionEvent event) {
         FXMLControllerAndView<ScryfallSearchController, Object> load = loader.load(ScryfallSearchController.class);
-        plugin.addView(AppView.of(title, (Node) load.view()));
+        Object view = load.view();
+        Node node = (Node) view;
+        AppView.Simple appView = AppView.of(title, node);
+        plugin.addView(appView);
     }
 }

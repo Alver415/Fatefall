@@ -1,36 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.alver.fatefall.fx.app.view.entity.card.CardView?>
+<?import com.alver.fatefall.fx.app.view.entity.card.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.TreeItemPropertyValueFactory?>
 <?import javafx.scene.layout.BorderPane?>
-<?import org.controlsfx.control.PropertySheet?>
-<?import impl.org.controlsfx.skin.PropertySheetSkin.PropertyPane?>
+<?import javafx.scene.layout.StackPane?>
 <BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-			fx:controller="com.alver.fatefall.fx.app.view.entity.card.CardEditorView">
-
-	<top>
-		<ToolBar fx:id="toolBar">
-			<Button >Save</Button>
-			<Button >Revert</Button>
-			<Separator/>
-			<Button >Add</Button>
-			<Button >Delete</Button>
-		</ToolBar>
-	</top>
+			fx:controller="com.alver.fatefall.fx.app.view.entity.card.CardEditorView"
+			stylesheets="@CardEditorView.css"
+			fx:id="root">
 	<left>
-		<TabPane>
-			<Tab text="Card Data">
-				<PropertySheet/>
+		<TabPane prefWidth="${root.width / 4}">
+			<Tab text="Data">
+				<DataTreeView fx:id="dataTreeView" showRoot="false">
+					<columnResizePolicy>
+						<TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+					</columnResizePolicy>
+					<rowFactory>
+						<DataTreeView.RowFactory/>
+					</rowFactory>
+					<columns>
+						<TreeTableColumn text="Field">
+							<cellValueFactory>
+								<TreeItemPropertyValueFactory property="name"/>
+							</cellValueFactory>
+						</TreeTableColumn>
+						<TreeTableColumn text="Value">
+							<cellValueFactory>
+								<TreeItemPropertyValueFactory property="value"/>
+							</cellValueFactory>
+						</TreeTableColumn>
+					</columns>
+				</DataTreeView>
 			</Tab>
 		</TabPane>
 	</left>
 	<center>
-		<CardView fx:id="cardView"/>
+		<TabPane>
+			<Tab text="Viewport">
+				<BorderPane>
+					<top>
+						<ToolBar>
+							<Button>Save</Button>
+							<Button>Revert</Button>
+							<Separator/>
+							<Button onAction="#createNode">Create Node</Button>
+							<Button onAction="#undoAction">Undo</Button>
+							<Button onAction="#redoAction">Redo</Button>
+							<Separator/>
+							<Button text="Reset" onAction="#reset"/>
+						</ToolBar>
+					</top>
+					<center>
+						<StackPane>
+							<Viewport fx:id="viewport">
+								<CardView fx:id="cardView"/>
+							</Viewport>
+						</StackPane>
+					</center>
+				</BorderPane>
+			</Tab>
+		</TabPane>
 	</center>
 	<right>
-		<TabPane>
-			<Tab text="Template Data">
-				<PropertySheet/>
+		<TabPane prefWidth="${root.width / 4}">
+			<Tab text="FXML">
+				<SplitPane orientation="VERTICAL">
+					<TitledPane text="Node Graph">
+						<FXMLTreeView fx:id="fxmlTreeView" showRoot="false">
+							<columnResizePolicy>
+								<TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+							</columnResizePolicy>
+							<columns>
+								<TreeTableColumn text="Node">
+									<cellValueFactory>
+										<FXMLTreeView.CellValueFactory/>
+									</cellValueFactory>
+									<cellFactory>
+										<FXMLTreeView.CellFactory/>
+									</cellFactory>
+								</TreeTableColumn>
+							</columns>
+						</FXMLTreeView>
+					</TitledPane>
+					<TitledPane text="Node Properties">
+						<CachedItemsPropertySheet fx:id="fxmlPropertySheet"
+												  modeSwitcherVisible="true"
+												  searchBoxVisible="true"/>
+					</TitledPane>
+				</SplitPane>
 			</Tab>
 		</TabPane>
 	</right>

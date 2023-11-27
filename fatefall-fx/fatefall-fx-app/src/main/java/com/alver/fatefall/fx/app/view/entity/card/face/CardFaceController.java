@@ -5,7 +5,7 @@ import com.alver.fatefall.fx.app.view.entity.card.template.TemplateController;
 import com.alver.fatefall.fx.core.model.CardFX;
 import com.alver.fatefall.fx.core.model.CardFaceFX;
 import com.alver.fatefall.fx.core.model.Source;
-import com.alver.fatefall.fx.core.utils.FXAsyncUtils;
+import com.alver.fatefall.fx.core.utils.FXUtils;
 import com.alver.fatefall.fx.core.utils.TreeProperty;
 import com.alver.fatefall.fx.core.utils.TreePropertyBuilder;
 import com.alver.springfx.SpringFXLoader;
@@ -18,14 +18,13 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
-import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.net.URL;
-import java.util.List;
+import java.util.Map;
 
 @FXMLPrototype
 public class CardFaceController {
@@ -46,7 +45,7 @@ public class CardFaceController {
 	@Autowired
 	public CardFaceController(BeanFactory beanFactory, FatefallProperties properties) {
 		this.beanFactory = beanFactory;
-		FXAsyncUtils.runFx(() -> {
+		FXUtils.runFx(() -> {
 			width.bind(properties.getCardBaseWidth());
 			height.bind(properties.getCardBaseHeight());
 			arcWidth.bind(properties.getCardBaseArcWidth());
@@ -56,9 +55,9 @@ public class CardFaceController {
 
 	public void initialize() {
 		cardFace.addListener((observable, oldValue, newValue) -> {
-			FXAsyncUtils.runAsync(() -> {
+			FXUtils.runAsync(() -> {
 				if (newValue == null){
-					FXAsyncUtils.runFx(() -> root.getChildren().setAll(List.of()));
+					FXUtils.runFx(() -> root.getChildren().clear());
 					return;
 				}
 				SpringFXLoader loader = beanFactory.getBean(SpringFXLoader.class);
@@ -70,17 +69,17 @@ public class CardFaceController {
 									TemplateController.class.getResource("PlaceholderTemplate.fxml");
 					loader.setLocation(fxml);
 
-					TreeProperty<Object> data = TreePropertyBuilder.buildAndBind(List.of(
-							new Pair<>(Source.CARD, card.get().getData()),
-							new Pair<>(Source.CARD_FACE, cardFace.get().getData()),
-							new Pair<>(Source.TEMPLATE, cardFace.get().getTemplate().getData())));
+					TreeProperty<Object> data = TreePropertyBuilder.buildAndBind(Map.of(
+							Source.CARD, card.get().getData(),
+							Source.CARD_FACE, cardFace.get().getData(),
+							Source.TEMPLATE, cardFace.get().getTemplate().getData()));
 
 					loader.getNamespace().put("data", data);
 
 					Node faceNode = loader.load();
 					TemplateController controller = loader.getController();
 					controller.imageProperty().set(imageUrl == null ? null : new Image(imageUrl));
-					FXAsyncUtils.runFx(() -> root.getChildren().setAll(faceNode));
+					FXUtils.runFx(() -> root.getChildren().setAll(faceNode));
 				} catch (Exception e) {
 					log.error(e.getMessage(), e);
 				}
@@ -161,4 +160,7 @@ public class CardFaceController {
 		this.arcHeight.set(arcHeightProperty);
 	}
 
+	public Node getRoot(){
+		return root;
+	}
 }

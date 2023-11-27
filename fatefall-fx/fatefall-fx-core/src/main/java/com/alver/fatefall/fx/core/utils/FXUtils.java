@@ -1,6 +1,7 @@
 package com.alver.fatefall.fx.core.utils;
 
 import javafx.application.Platform;
+import javafx.scene.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,9 +9,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-public class FXAsyncUtils {
+public class FXUtils {
 
-    private static final Logger log = LoggerFactory.getLogger(FXAsyncUtils.class);
+    private static final Logger log = LoggerFactory.getLogger(FXUtils.class);
 
     private static final ScheduledThreadPoolExecutor executor =
             new ScheduledThreadPoolExecutor(8, r -> {
@@ -62,4 +63,12 @@ public class FXAsyncUtils {
         void runUnchecked() throws Exception;
     }
 
+    public static boolean isAncestorOf(Node node, Node ancestor) {
+        while ((node = node.getParent()) != null) {
+            if (node == ancestor) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

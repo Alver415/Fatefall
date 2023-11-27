@@ -19,8 +19,6 @@ public class StackedSkin extends AbstractCardViewSkin {
         super(control);
 
         StackPane wrapper = new StackPane(back, front);
-        wrapper.scaleXProperty().bind(properties.getCardViewScale());
-        wrapper.scaleYProperty().bind(properties.getCardViewScale());
         wrapper.setMaxSize(0, 0);
         getChildren().setAll(new Group(wrapper));
 

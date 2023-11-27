@@ -9,7 +9,6 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -34,16 +33,13 @@ public class FlippableSkin extends AbstractCardViewSkin {
     public FlippableSkin(CardView control, FatefallProperties properties) {
         super(control);
         wrapper = new StackPane();
-        wrapper.scaleXProperty().bind(properties.getCardViewScale());
-        wrapper.scaleYProperty().bind(properties.getCardViewScale());
 
         wrapper.setMaxWidth(0);
         wrapper.setMaxHeight(0);
-        wrapper.getChildren().setAll(
-                front,
-                back);
+        wrapper.getChildren().setAll(front, back);
 
         buttons = new HBox();
+        buttons.setPickOnBounds(false);
         buttons.setAlignment(Pos.BOTTOM_CENTER);
         StackPane.setAlignment(buttons, Pos.BOTTOM_CENTER);
 
@@ -57,10 +53,12 @@ public class FlippableSkin extends AbstractCardViewSkin {
                 buildButton(FLIP_OVER, this::flip),
                 buildButton(SPIN_RIGHT, this::spinRight));
 
+        control.maxWidthProperty().bind(wrapper.widthProperty());
+        control.maxHeightProperty().bind(wrapper.heightProperty());
         control.setOnMouseEntered(e -> animateButtons(true));
         control.setOnMouseExited(e -> animateButtons(false));
 
-        getChildren().setAll(new Group(wrapper), buttons);
+        getChildren().setAll(wrapper, buttons);
     }
 
     private Button buildButton(Image image, Runnable runnable) {

@@ -18,10 +18,10 @@
         <Rectangle width="${controller.width}" height="${controller.height}"
                    arcWidth="${controller.arcWidth}" arcHeight="${controller.arcHeight}"/>
     </clip>
-    <VBox>
-        <TextField text="#{data.workspace}"/>
-        <TextField text="#{data.card}"/>
-        <TextField text="#{data.front_face}"/>
-        <TextField text="#{data.front_template}"/>
+    <VBox fx:id="container">
+        <TextField fx:id="workspace" text="#{data.workspace}"/>
+        <TextField fx:id="card" text="#{data.card}"/>
+        <TextField fx:id="front_face" text="#{data.front_face}"/>
+        <TextField fx:id="front_template" text="#{data.front_template}"/>
     </VBox>
 </StackPane>

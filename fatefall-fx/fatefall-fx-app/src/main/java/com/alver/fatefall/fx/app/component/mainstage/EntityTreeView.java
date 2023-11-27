@@ -2,7 +2,7 @@ package com.alver.fatefall.fx.app.component.mainstage;
 
 import com.alver.fatefall.fx.app.menu.CardContextMenuFactory;
 import com.alver.fatefall.fx.app.menu.WorkspaceContextMenuFactory;
-import com.alver.fatefall.fx.app.view.entity.card.CardView;
+import com.alver.fatefall.fx.app.view.entity.card.CardEditorView;
 import com.alver.fatefall.fx.app.view.entity.workspace.WorkspaceView;
 import com.alver.fatefall.fx.core.interfaces.AppController;
 import com.alver.fatefall.fx.core.interfaces.AppView;
@@ -10,13 +10,12 @@ import com.alver.fatefall.fx.core.model.CardFX;
 import com.alver.fatefall.fx.core.model.EntityFX;
 import com.alver.fatefall.fx.core.model.WorkspaceFX;
 import com.alver.fatefall.fx.core.utils.CollectionBindings;
+import com.alver.springfx.SpringFX;
 import com.alver.springfx.annotations.FXMLComponent;
+import com.alver.springfx.model.FXMLControllerAndView;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseButton;
+import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import org.springframework.beans.factory.BeanFactory;
 
@@ -25,6 +24,7 @@ public class EntityTreeView extends TreeView<EntityFX> {
 
 	private final AppController appController;
 	private final BeanFactory beanFactory;
+	private final SpringFX springFX;
 	private final WorkspaceContextMenuFactory workspaceContextMenuFactory;
 	private final CardContextMenuFactory cardContextMenuFactory;
 
@@ -32,10 +32,11 @@ public class EntityTreeView extends TreeView<EntityFX> {
 			AppController appController,
 			BeanFactory beanFactory,
 			ObservableList<WorkspaceFX> workspaces,
-			WorkspaceContextMenuFactory workspaceContextMenuFactory,
+			SpringFX springFX, WorkspaceContextMenuFactory workspaceContextMenuFactory,
 			CardContextMenuFactory cardContextMenuFactory) {
 		this.appController = appController;
 		this.beanFactory = beanFactory;
+		this.springFX = springFX;
 		this.workspaceContextMenuFactory = workspaceContextMenuFactory;
 		this.cardContextMenuFactory = cardContextMenuFactory;
 
@@ -70,34 +71,26 @@ public class EntityTreeView extends TreeView<EntityFX> {
 				} else {
 					textProperty().bind(item.nameProperty());
 					MenuItem open = new MenuItem("Open");
-					Node view;
 					if (item instanceof WorkspaceFX workspaceFX) {
 						this.setContextMenu(workspaceContextMenuFactory.buildContextMenu(workspaceFX));
-						WorkspaceView workspaceView = beanFactory.getBean(WorkspaceView.class);
-						workspaceView.setWorkspace(workspaceFX);
-						view = workspaceView;
 					} else if (item instanceof CardFX cardFX) {
 						this.setContextMenu(cardContextMenuFactory.buildContextMenu(cardFX));
-						CardView cardView = beanFactory.getBean(CardView.class);
-						cardView.setCard(cardFX);
-						view = cardView;
-					} else {
-						throw new RuntimeException("Not implemented for:" + item.getClass());
-					}
-					EventHandler<ActionEvent> openAction = a -> appController.addView(AppView.of(item.nameProperty(), view));
-					open.setOnAction(openAction);
-
-					if (getContextMenu() == null) {
-						setContextMenu(new ContextMenu());
 					}
 					getContextMenu().getItems().add(open);
-					setOnMouseClicked(e -> {
-						boolean doubleClick = e.getClickCount() == 2;
-						boolean primary = e.getButton().equals(MouseButton.PRIMARY);
-						if (primary && doubleClick) {
-							appController.addView(AppView.of(item.nameProperty(), view));
+
+					open.setOnAction(a -> {
+						if (item instanceof WorkspaceFX workspaceFX) {
+							WorkspaceView workspaceView = beanFactory.getBean(WorkspaceView.class);
+							workspaceView.setWorkspace(workspaceFX);
+							appController.addView(AppView.of(item.nameProperty(), workspaceView));
+						} else if (item instanceof CardFX cardFX) {
+							FXMLControllerAndView<CardEditorView, BorderPane> cnv = springFX.load(CardEditorView.class);
+							CardEditorView cardEditorView = cnv.controller();
+							cardEditorView.setCard(cardFX);
+							appController.addView(AppView.of(item.nameProperty(), cnv.view()));
 						}
 					});
+
 				}
 			}
 		}

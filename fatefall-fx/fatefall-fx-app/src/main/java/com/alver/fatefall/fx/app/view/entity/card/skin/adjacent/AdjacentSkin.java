@@ -15,8 +15,6 @@ public class AdjacentSkin extends AbstractCardViewSkin {
         wrapper.setSpacing(3);
         wrapper.setAlignment(Pos.CENTER);
         wrapper.getChildren().setAll(front, back);
-        wrapper.scaleXProperty().bind(properties.getCardViewScale());
-        wrapper.scaleYProperty().bind(properties.getCardViewScale());
         getChildren().setAll(new Group(wrapper));
     }
 

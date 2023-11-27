@@ -17,6 +17,7 @@
 
 		<preferencesfx-core.version>11.11.0</preferencesfx-core.version>
 		<guava.version>31.1-jre</guava.version>
+		<undofx.version>2.1.1</undofx.version>
 	</properties>
 
 	<dependencies>
@@ -54,6 +55,11 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.fxmisc.undo</groupId>
+			<artifactId>undofx</artifactId>
+			<version>${undofx.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.kordamp.bootstrapfx</groupId>
 			<artifactId>bootstrapfx-core</artifactId>
 			<version>0.4.0</version>
@@ -73,6 +79,7 @@
 			<artifactId>springfx</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
+
 
 	</dependencies>
 </project>

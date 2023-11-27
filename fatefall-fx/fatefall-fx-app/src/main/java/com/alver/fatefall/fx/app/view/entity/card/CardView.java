@@ -16,12 +16,10 @@ import com.alver.springfx.model.FXMLControllerAndView;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
@@ -33,25 +31,26 @@ public class CardView extends Control {
 	private final AppController appController;
 	private final SpringFX springFX;
 
-	private final Node front;
-	private final Node back;
+	private final FXMLControllerAndView<CardFaceController, Node> front;
+	private final FXMLControllerAndView<CardFaceController, Node> back;
 
 	/**
 	 * === Constructor ===
 	 */
 	@Autowired
 	public CardView(
-			FXMLControllerAndView<CardFaceController, Pane> frontControllerAndView,
-			FXMLControllerAndView<CardFaceController, Pane> backControllerAndView,
+			FXMLControllerAndView<CardFaceController, Node> frontControllerAndView,
+			FXMLControllerAndView<CardFaceController, Node> backControllerAndView,
 			AppController appController,
 			FatefallProperties properties,
 			SpringFX springFX) {
+		this.front = frontControllerAndView;
+		this.back = backControllerAndView;
+
 		this.properties = properties;
 		this.appController = appController;
 		this.springFX = springFX;
 
-		this.front = new Group(frontControllerAndView.view());
-		this.back = new Group(backControllerAndView.view());
 		CardFaceController frontController = frontControllerAndView.controller();
 		CardFaceController backController = backControllerAndView.controller();
 
@@ -69,11 +68,14 @@ public class CardView extends Control {
 			}
 		});
 		buildContextMenu();
+
+		scaleXProperty().bind(properties.getCardViewScale());
+		scaleYProperty().bind(properties.getCardViewScale());
 	}
 
 	private void buildContextMenu() {
-		MenuItem open = new MenuItem("Edit");
-		open.setOnAction(a -> {
+		MenuItem edit = new MenuItem("Edit");
+		edit.setOnAction(a -> {
 			FXMLControllerAndView<CardEditorView, BorderPane> cnv = springFX.load(CardEditorView.class);
 			cnv.controller().setCard(getCard());
 			AppView appView = AppView.of(cardProperty.map(EntityFX::getName), cnv.view());
@@ -87,7 +89,7 @@ public class CardView extends Control {
 				buildMenuItem("Flippable", FlippableSkin.class, () -> setSkin(buildSkin("Flippable"))));
 
 		ContextMenu contextMenu = new ContextMenu();
-		contextMenu.getItems().setAll(open, viewMode);
+		contextMenu.getItems().setAll(edit, viewMode);
 		setContextMenu(contextMenu);
 	}
 
@@ -137,11 +139,11 @@ public class CardView extends Control {
 		cardProperty().set(card);
 	}
 
-	public Node getFront() {
+	public FXMLControllerAndView<CardFaceController, Node> getFront() {
 		return front;
 	}
 
-	public Node getBack() {
+	public FXMLControllerAndView<CardFaceController, Node> getBack() {
 		return back;
 	}
 }

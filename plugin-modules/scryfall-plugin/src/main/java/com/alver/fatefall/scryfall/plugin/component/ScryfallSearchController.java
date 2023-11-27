@@ -4,7 +4,7 @@ import com.alver.fatefall.fx.app.view.entity.card.CardView;
 import com.alver.fatefall.fx.core.model.CardFX;
 import com.alver.fatefall.fx.core.model.WorkspaceFX;
 import com.alver.fatefall.scryfall.api.ScryfallApiClient;
-import com.alver.fatefall.fx.core.utils.FXAsyncUtils;
+import com.alver.fatefall.fx.core.utils.FXUtils;
 import com.alver.springfx.annotations.FXMLPrototype;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -52,7 +52,7 @@ public class ScryfallSearchController {
         client.getCardApi().search(queryInput.getText(), result -> {
             WorkspaceFX newWorkspace = new WorkspaceFX();
             newWorkspace.addCards(result.data());
-            FXAsyncUtils.runFx(() -> setWorkspace(newWorkspace));
+            FXUtils.runFx(() -> setWorkspace(newWorkspace));
         });
     }
 

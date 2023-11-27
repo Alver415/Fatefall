@@ -1,7 +1,7 @@
 package com.alver.fatefall.fx.app.view.entity.card.template;
 
 import com.alver.fatefall.fx.app.FatefallProperties;
-import com.alver.fatefall.fx.core.utils.FXAsyncUtils;
+import com.alver.fatefall.fx.core.utils.FXUtils;
 import com.alver.springfx.annotations.FXMLPrototype;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
@@ -22,7 +22,7 @@ public class TemplateController {
 
     @Autowired
     public TemplateController(FatefallProperties properties){
-        FXAsyncUtils.runFx(() -> {
+        FXUtils.runFx(() -> {
             widthProperty.bind(properties.getCardBaseWidth());
             heightProperty.bind(properties.getCardBaseHeight());
             arcWidthProperty.bind(properties.getCardBaseArcWidth());
