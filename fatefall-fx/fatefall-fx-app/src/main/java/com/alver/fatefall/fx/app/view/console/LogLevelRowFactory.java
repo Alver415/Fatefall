@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class LogLevelRowFactory implements Callback<TableView<ILoggingEvent>, TableRow<ILoggingEvent>> {
 
-    Map<Level, PseudoClass> pseudoClasses =
+    private static final Map<Level, PseudoClass> PSEUDO_CLASSES =
             Set.of(Level.TRACE, Level.DEBUG, Level.INFO, Level.WARN, Level.ERROR).stream()
                     .collect(Collectors.toMap(k -> k, v -> PseudoClass.getPseudoClass(v.levelStr)));
 
@@ -23,9 +23,9 @@ public class LogLevelRowFactory implements Callback<TableView<ILoggingEvent>, Ta
             @Override
             public void updateItem(ILoggingEvent item, boolean empty) {
                 super.updateItem(item, empty);
-                pseudoClasses.values().forEach(pseudoClass -> pseudoClassStateChanged(pseudoClass, false));
+                PSEUDO_CLASSES.values().forEach(pseudoClass -> pseudoClassStateChanged(pseudoClass, false));
                 if (item != null) {
-                    PseudoClass pseudoClass = pseudoClasses.get(item.getLevel());
+                    PseudoClass pseudoClass = PSEUDO_CLASSES.get(item.getLevel());
                     pseudoClassStateChanged(pseudoClass, true);
                 }
             }
