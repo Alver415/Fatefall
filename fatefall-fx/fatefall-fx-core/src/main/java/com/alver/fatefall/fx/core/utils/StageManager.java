@@ -8,7 +8,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,6 +19,7 @@ public class StageManager {
     private final StringProperty titleProperty;
     private final ObjectProperty<Image> iconProperty;
 
+    @Autowired
     private StageManager(
             StringProperty titleProperty,
             ObjectProperty<Image> iconProperty) {
@@ -93,6 +96,13 @@ public class StageManager {
         stage.titleProperty().bind(titleProperty);
         stage.getIcons().setAll(iconProperty.get());
         iconProperty.addListener(((observable, oldValue, newValue) -> stage.getIcons().setAll(iconProperty.get())));
+
+        Screen screen = Screen.getScreens().get(Screen.getScreens().size() - 1);
+        stage.setX(screen.getBounds().getMinX());
+        stage.setY(screen.getBounds().getMinY());
+        stage.setMaximized(true);
+
+        stage.centerOnScreen();
         return stage;
     }
 

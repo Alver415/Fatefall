@@ -3,6 +3,7 @@ package com.alver.fatefall.fx.app.preloader;
 import com.alver.fatefall.fx.core.preloader.PreloaderBeanPostProcessor;
 import javafx.application.Preloader;
 import javafx.fxml.FXMLLoader;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -18,6 +19,12 @@ public class SplashPreloader extends Preloader {
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(FXML);
         stage = loader.load();
+
+        Screen screen = Screen.getScreens().get(Screen.getScreens().size() - 1);
+        stage.setX(screen.getBounds().getMinX());
+        stage.setY(screen.getBounds().getMinY());
+        stage.centerOnScreen();
+
         controller = loader.getController();
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.show();
