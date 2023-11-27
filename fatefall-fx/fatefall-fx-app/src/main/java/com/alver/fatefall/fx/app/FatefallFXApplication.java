@@ -1,10 +1,11 @@
 package com.alver.fatefall.fx.app;
 
-import com.alver.fatefall.fx.core.utils.StageManager;
 import com.alver.fatefall.fx.app.component.mainstage.ApplicationController;
 import com.alver.fatefall.fx.core.preloader.PreloaderBeanPostProcessor;
+import com.alver.fatefall.fx.core.utils.StageManager;
 import com.alver.springfx.SpringFX;
 import com.sun.javafx.css.StyleManager;
+import com.tangorabox.componentinspector.fx.FXComponentInspectorHandler;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Parent;
@@ -70,11 +71,11 @@ public class FatefallFXApplication extends Application {
     @Override
     public void start(Stage stage) {
         StyleManager.getInstance().addUserAgentStylesheet("/com/alver/fatefall/fx/app/application.css");
-
         stage = stageManager.create((Parent) springFX.loadView(ApplicationController.class));
         stage.setOnCloseRequest(e -> stop());
         stage.show();
 
+        FXComponentInspectorHandler.handleAll();
     }
 
     @Override
