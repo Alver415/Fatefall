@@ -96,6 +96,7 @@ public class ApplicationController implements AppController {
 		tab.textProperty().bind(title);
 		tab.setContent(node);
 		tabPane.getTabs().add(tab);
+		tabPane.getSelectionModel().select(tab);
 	}
 
 	@FXML
