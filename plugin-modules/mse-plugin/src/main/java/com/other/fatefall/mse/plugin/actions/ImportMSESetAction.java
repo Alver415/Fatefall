@@ -65,7 +65,9 @@ public class ImportMSESetAction implements AppEvent, ExtensionPoint {
 			ArrayNode cards = (ArrayNode) set.get("card");
 			cards.elements().forEachRemaining(json -> {
 				CardFX card = new CardFX();
-				card.setData(jsonToData(json));
+				TreeProperty<Object> deserialized = jsonToData(json);
+				card.dataProperty().setValue(deserialized.getValue());
+				card.dataProperty().getChildrenMap().putAll(deserialized.getChildrenMap());
 
 				String cardName = json.get("name").asText();
 				card.setName(cardName);

@@ -25,6 +25,10 @@ public class TreeProperty<T> implements
 	public TreeProperty() {
 		this(null, null, null);
 	}
+	public TreeProperty(Object bean, String name) {
+		this(bean, name, null);
+	}
+
 	public TreeProperty(Object bean, String name, T initialValue) {
 		this.childrenMap = new SimpleMapProperty<>(FXCollections.observableHashMap());
 		this.valueProperty = new SimpleObjectProperty<>(bean, name, initialValue);

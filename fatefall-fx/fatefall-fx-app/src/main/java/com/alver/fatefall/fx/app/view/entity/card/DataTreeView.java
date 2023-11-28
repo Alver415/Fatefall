@@ -37,14 +37,14 @@ public class DataTreeView extends TreeTableView<DataTreeView.TreePropertyItem> {
 
 		root.getChildren().add(buildTreePropertyItem("front",
 				TreePropertyBuilder.buildAndBind(Map.of(
-						Source.CARD, card.getData(),
-						Source.CARD_FACE, card.getFront().getData(),
-						Source.TEMPLATE, card.getFront().getTemplate().getData()))));
+						Source.CARD, card.dataProperty(),
+						Source.CARD_FACE, card.getFront().dataProperty(),
+						Source.TEMPLATE, card.getFront().getTemplate().dataProperty()))));
 		root.getChildren().add(buildTreePropertyItem("back",
 				TreePropertyBuilder.buildAndBind(Map.of(
-						Source.CARD, card.getData(),
-						Source.CARD_FACE, card.getBack().getData(),
-						Source.TEMPLATE, card.getBack().getTemplate().getData()))));
+						Source.CARD, card.dataProperty(),
+						Source.CARD_FACE, card.getBack().dataProperty(),
+						Source.TEMPLATE, card.getBack().getTemplate().dataProperty()))));
 	}
 
 	public static final class TreePropertyItem {

@@ -44,7 +44,7 @@ public class TreePropertyDeserializer extends JsonDeserializer<TreeProperty> {
         } else if (jsonNode instanceof NullNode || jsonNode instanceof MissingNode) {
             // Do nothing
         } else {
-            throw new UnsupportedOperationException(jsonNode.getNodeType().name());
+//            throw new UnsupportedOperationException(jsonNode.getNodeType().name());
         }
         return treeProperty;
     }

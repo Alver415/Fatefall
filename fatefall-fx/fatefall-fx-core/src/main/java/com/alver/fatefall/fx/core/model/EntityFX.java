@@ -10,7 +10,7 @@ public class EntityFX implements Entity {
 	private final Long id;
 	private final StringProperty name = new SimpleStringProperty(this, "name");
 	private final StringProperty json = new SimpleStringProperty(this, "json");
-	private TreeProperty<Object> data;
+	private final TreeProperty<Object> data = new TreeProperty<>(this, "data");
 
 	public EntityFX() {
 		this(null);
@@ -22,7 +22,7 @@ public class EntityFX implements Entity {
 		return this.id;
 	}
 
-	public StringProperty nameProperty(){
+	public StringProperty nameProperty() {
 		return this.name;
 	}
 	public String getName() {
@@ -32,7 +32,7 @@ public class EntityFX implements Entity {
 		this.name.set(name);
 	}
 
-	public StringProperty jsonProperty(){
+	public StringProperty jsonProperty() {
 		return this.json;
 	}
 	public String getJson() {
@@ -42,7 +42,6 @@ public class EntityFX implements Entity {
 		this.json.set(json);
 	}
 
-
 	public TreeProperty<Object> dataProperty() {
 		return data;
 	}
@@ -50,8 +49,11 @@ public class EntityFX implements Entity {
 		return data;
 	}
 	public void setData(TreeProperty<Object> data) {
-		this.data = data;
+		this.data.set(data);
+		this.data.childrenMapProperty().clear();
+		if (data != null) {
+			this.data.childrenMapProperty().putAll(data.getChildrenMap());
+		}
 	}
-
 
 }

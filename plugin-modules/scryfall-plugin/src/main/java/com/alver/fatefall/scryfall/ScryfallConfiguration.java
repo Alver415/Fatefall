@@ -1,11 +1,16 @@
 package com.alver.fatefall.scryfall;
 
+import com.alver.fatefall.fx.core.json.*;
 import com.alver.fatefall.fx.core.model.CardFX;
+import com.alver.fatefall.fx.core.utils.TreeProperty;
 import com.alver.fatefall.scryfall.api.ScryfallCardDeserializer;
 import com.dlsc.preferencesfx.model.Category;
 import com.dlsc.preferencesfx.model.Group;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleMapProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +29,13 @@ public class ScryfallConfiguration {
         ObjectMapper objectMapper = new ObjectMapper();
         SimpleModule scryfallModule = new SimpleModule("ScryfallModule");
         scryfallModule.addDeserializer(CardFX.class, cardDeserializer);
+        scryfallModule.addDeserializer(SimpleObjectProperty.class, new SimpleObjectPropertyDeserializer());
+        scryfallModule.addDeserializer(SimpleListProperty.class, new SimpleListPropertyDeserializer());
+        scryfallModule.addDeserializer(SimpleMapProperty.class, new SimpleMapPropertyDeserializer());
+        scryfallModule.addDeserializer(TreeProperty.class, new TreePropertyDeserializer());
+        scryfallModule.addSerializer(new SimpleListPropertySerializer());
+        scryfallModule.addSerializer(new TreePropertySerializer());
+
         objectMapper.registerModule(scryfallModule);
         return objectMapper;
     }

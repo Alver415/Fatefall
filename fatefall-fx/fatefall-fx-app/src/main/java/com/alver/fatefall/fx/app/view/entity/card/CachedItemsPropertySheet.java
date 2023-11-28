@@ -62,7 +62,8 @@ public class CachedItemsPropertySheet extends PropertySheet {
 
 	public void selectNode(Node key) {
 		try {
-			getItems().setAll(cache.get(key));
+			ObservableList<Item> list = cache.get(key);
+			getItems().setAll(list);
 		} catch (ExecutionException e) {
 			throw new RuntimeException(e);
 		}

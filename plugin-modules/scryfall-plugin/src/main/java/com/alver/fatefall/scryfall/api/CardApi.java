@@ -1,6 +1,5 @@
 package com.alver.fatefall.scryfall.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
@@ -12,8 +11,6 @@ import java.util.function.Consumer;
 
 @Component
 public class CardApi extends AbstractApi {
-    @Autowired
-    protected ObjectMapper objectMapper;
 
     @Autowired
     protected CardApi(@Qualifier("scryfallWebClient") WebClient client) {

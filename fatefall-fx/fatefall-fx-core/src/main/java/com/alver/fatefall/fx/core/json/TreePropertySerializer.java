@@ -11,7 +11,7 @@ import java.io.IOException;
 @SuppressWarnings("rawtypes")
 public class TreePropertySerializer extends StdSerializer<TreeProperty> {
 
-    protected TreePropertySerializer() {
+    public TreePropertySerializer() {
         this(TreeProperty.class);
     }
 

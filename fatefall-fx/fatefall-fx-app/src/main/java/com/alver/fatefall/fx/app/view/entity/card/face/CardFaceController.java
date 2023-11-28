@@ -70,9 +70,9 @@ public class CardFaceController {
 					loader.setLocation(fxml);
 
 					TreeProperty<Object> data = TreePropertyBuilder.buildAndBind(Map.of(
-							Source.CARD, card.get().getData(),
-							Source.CARD_FACE, cardFace.get().getData(),
-							Source.TEMPLATE, cardFace.get().getTemplate().getData()));
+							Source.CARD, card.get().dataProperty(),
+							Source.CARD_FACE, cardFace.get().dataProperty(),
+							Source.TEMPLATE, cardFace.get().getTemplate().dataProperty()));
 
 					loader.getNamespace().put("data", data);
 

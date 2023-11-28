@@ -10,7 +10,7 @@ import java.io.IOException;
 @SuppressWarnings("rawtypes")
 public class SimpleListPropertySerializer extends StdSerializer<SimpleListProperty> {
 
-    protected SimpleListPropertySerializer() {
+    public SimpleListPropertySerializer() {
         this(SimpleListProperty.class);
     }
     protected SimpleListPropertySerializer(Class<SimpleListProperty> type) {

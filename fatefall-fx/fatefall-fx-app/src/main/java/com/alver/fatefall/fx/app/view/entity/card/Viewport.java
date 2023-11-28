@@ -18,7 +18,7 @@ public class Viewport extends StackPane {
 	private final ObjectProperty<Node> contentProperty;
 	private final DoubleProperty scaleProperty;
 
-	private final StackPane canvas;
+	private final StackPane contentWrapper;
 
 	public Viewport() {
 		Rectangle clip = new Rectangle();
@@ -28,21 +28,21 @@ public class Viewport extends StackPane {
 
 		contentProperty = new SimpleObjectProperty<>(this, "content", null);
 		scaleProperty = new SimpleDoubleProperty(this, "scale", 1.0);
-		canvas = new StackPane();
+		contentWrapper = new StackPane();
 
 		Gestures gestures = new Gestures();
 		addEventFilter(MouseEvent.MOUSE_PRESSED, gestures.onMousePressedEventHandler);
 		addEventFilter(MouseEvent.MOUSE_DRAGGED, gestures.onMouseDraggedEventHandler);
 		addEventFilter(ScrollEvent.ANY, gestures.onScrollEventHandler);
-		canvas.scaleXProperty().bind(scaleProperty);
-		canvas.scaleYProperty().bind(scaleProperty);
-		canvas.scaleZProperty().bind(scaleProperty);
+		contentWrapper.scaleXProperty().bind(scaleProperty);
+		contentWrapper.scaleYProperty().bind(scaleProperty);
+		contentWrapper.scaleZProperty().bind(scaleProperty);
 
 		contentProperty.addListener((observable, oldValue, newValue) -> {
-			canvas.getChildren().setAll(newValue);
+			contentWrapper.getChildren().setAll(newValue);
 		});
 
-		getChildren().setAll(canvas);
+		getChildren().setAll(contentWrapper);
 	}
 
 	public ObjectProperty<Node> contentProperty() {
@@ -68,8 +68,8 @@ public class Viewport extends StackPane {
 	}
 	public void reset() {
 		setScale(1);
-		canvas.setTranslateX(0);
-		canvas.setTranslateY(0);
+		contentWrapper.setTranslateX(0);
+		contentWrapper.setTranslateY(0);
 	}
 
 	private static class DragContext {
@@ -94,14 +94,14 @@ public class Viewport extends StackPane {
 			if (notCtrlClick(event)) return;
 			dragContext.mouseAnchorX = event.getX();
 			dragContext.mouseAnchorY = event.getY();
-			dragContext.translateAnchorX = canvas.getTranslateX();
-			dragContext.translateAnchorY = canvas.getTranslateY();
+			dragContext.translateAnchorX = contentWrapper.getTranslateX();
+			dragContext.translateAnchorY = contentWrapper.getTranslateY();
 
 		};
 		private final EventHandler<MouseEvent> onMouseDraggedEventHandler = event -> {
 			if (notCtrlClick(event)) return;
-			canvas.setTranslateX(dragContext.translateAnchorX - dragContext.mouseAnchorX + event.getX());
-			canvas.setTranslateY(dragContext.translateAnchorY - dragContext.mouseAnchorY + event.getY());
+			contentWrapper.setTranslateX(dragContext.translateAnchorX - dragContext.mouseAnchorX + event.getX());
+			contentWrapper.setTranslateY(dragContext.translateAnchorY - dragContext.mouseAnchorY + event.getY());
 			event.consume();
 		};
 		private final EventHandler<ScrollEvent> onScrollEventHandler = event -> {
@@ -115,12 +115,12 @@ public class Viewport extends StackPane {
 			scale = Math.min(Math.max(scale, MIN_SCALE), MAX_SCALE);
 
 			double f = (scale / oldScale) - 1;
-			double dx = (event.getX() - (canvas.getBoundsInParent().getWidth() / 2 + canvas.getBoundsInParent().getMinX()));
-			double dy = (event.getY() - (canvas.getBoundsInParent().getHeight() / 2 + canvas.getBoundsInParent().getMinY()));
+			double dx = (event.getX() - (contentWrapper.getBoundsInParent().getWidth() / 2 + contentWrapper.getBoundsInParent().getMinX()));
+			double dy = (event.getY() - (contentWrapper.getBoundsInParent().getHeight() / 2 + contentWrapper.getBoundsInParent().getMinY()));
 
 			setScale(scale);
-			canvas.setTranslateX(canvas.getTranslateX() - (f * dx));
-			canvas.setTranslateY(canvas.getTranslateY() - (f * dy));
+			contentWrapper.setTranslateX(contentWrapper.getTranslateX() - (f * dx));
+			contentWrapper.setTranslateY(contentWrapper.getTranslateY() - (f * dy));
 
 			event.consume();
 		};
