@@ -1,6 +1,7 @@
 package com.alver.fatefall.fx.app.view.entity.card;
 
 import com.alver.fatefall.fx.core.model.CardFX;
+import com.alver.fxmlsaver.FXMLSaver;
 import com.alver.springfx.annotations.FXMLPrototype;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
@@ -12,6 +13,8 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -29,6 +32,9 @@ public class CardEditorView {
 	private CardView cardView;
 	@FXML
 	private DataTreeView dataTreeView;
+
+	@FXML
+	private TextArea fxmlEditor;
 	@FXML
 	private FXMLTreeView fxmlTreeView;
 	@FXML
@@ -38,7 +44,6 @@ public class CardEditorView {
 		cardView.setCard(card);
 		fxmlTreeView.setCardView(cardView);
 		dataTreeView.setCardData(cardView.getCard());
-
 
 		ChangeListener<Node> focusSelectedListener = (observable, oldValue, newValue) -> {
 			if (isAncestorOf(newValue, cardView)) fxmlTreeView.selectNode(newValue);
@@ -91,5 +96,18 @@ public class CardEditorView {
 	@FXML
 	public void redoAction(ActionEvent action) {
 		//TODO: Implement transactional undo/redo using UndoFX
+	}
+	@FXML
+	public void sceneToFxml(ActionEvent action) {
+		Node root = cardView.getFront().controller().getContent();
+		String serialize = FXMLSaver.serialize(root);
+		fxmlEditor.setText(serialize);
+	}
+	@FXML
+	public void fxmlToScene(KeyEvent keyEvent) {
+		if (!keyEvent.isControlDown() || !keyEvent.getCode().equals(KeyCode.ENTER)) return;
+
+		String fxml = fxmlEditor.getText();
+		cardView.getFront().controller().loadFxml(fxml);
 	}
 }

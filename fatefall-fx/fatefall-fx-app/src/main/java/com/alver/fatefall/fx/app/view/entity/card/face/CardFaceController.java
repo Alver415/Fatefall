@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.util.Map;
 
@@ -32,6 +33,7 @@ public class CardFaceController {
 
 	@FXML
 	private Pane root;
+	private Node content;
 
 	protected final ObjectProperty<CardFX> card = new SimpleObjectProperty<>();
 	protected final ObjectProperty<CardFaceFX> cardFace = new SimpleObjectProperty<>();
@@ -53,6 +55,7 @@ public class CardFaceController {
 		});
 	}
 
+	@FXML
 	public void initialize() {
 		cardFace.addListener((observable, oldValue, newValue) -> {
 			FXUtils.runAsync(() -> {
@@ -76,14 +79,15 @@ public class CardFaceController {
 
 					loader.getNamespace().put("data", data);
 
-					Node faceNode = loader.load();
+					content = loader.load();
 					TemplateController controller = loader.getController();
 					controller.imageProperty().set(imageUrl == null ? null : new Image(imageUrl));
-					FXUtils.runFx(() -> root.getChildren().setAll(faceNode));
+					FXUtils.runFx(() -> root.getChildren().setAll(content));
 				} catch (Exception e) {
 					log.error(e.getMessage(), e);
 				}
 			});
+			root.setId(getCard().getFront() == cardFace.get() ? "front" : "back");
 		});
 		cardFace.set(null);
 	}
@@ -162,5 +166,24 @@ public class CardFaceController {
 
 	public Node getRoot(){
 		return root;
+	}
+	public Node getContent(){
+		return content;
+	}
+	public void loadFxml(String fxml) {
+		SpringFXLoader loader = beanFactory.getBean(SpringFXLoader.class);
+		try {
+			TreeProperty<Object> data = TreePropertyBuilder.buildAndBind(Map.of(
+					Source.CARD, card.get().dataProperty(),
+					Source.CARD_FACE, cardFace.get().dataProperty(),
+					Source.TEMPLATE, cardFace.get().getTemplate().dataProperty()));
+
+			loader.getNamespace().put("data", data);
+
+			content = loader.load(new ByteArrayInputStream(fxml.getBytes()));
+			FXUtils.runFx(() -> root.getChildren().setAll(content));
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
 	}
 }

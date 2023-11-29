@@ -231,4 +231,8 @@ public class TreeProperty<T> implements
 		return path.split("\\.");
 	}
 
+	@Override
+	public String toString() {
+		return getValue().toString();
+	}
 }

@@ -87,7 +87,7 @@ public class Viewport extends StackPane {
 		private final DragContext dragContext = new DragContext();
 
 		private static boolean notCtrlClick(MouseEvent event) {
-			return !event.isPrimaryButtonDown() || !event.isControlDown();
+			return !event.isPrimaryButtonDown() || !event.isAltDown();
 		}
 
 		private final EventHandler<MouseEvent> onMousePressedEventHandler = event -> {

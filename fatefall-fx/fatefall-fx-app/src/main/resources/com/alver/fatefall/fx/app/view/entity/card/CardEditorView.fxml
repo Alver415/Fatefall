@@ -5,6 +5,7 @@
 <?import javafx.scene.control.cell.TreeItemPropertyValueFactory?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.Pane?>
 <BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
 			fx:controller="com.alver.fatefall.fx.app.view.entity.card.CardEditorView"
 			stylesheets="@CardEditorView.css"
@@ -63,33 +64,41 @@
 		</TabPane>
 	</center>
 	<right>
-		<TabPane prefWidth="${root.width / 4}">
-			<Tab text="FXML">
-				<SplitPane orientation="VERTICAL">
-					<TitledPane text="Node Graph">
-						<FXMLTreeView fx:id="fxmlTreeView" showRoot="false">
-							<columnResizePolicy>
-								<TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-							</columnResizePolicy>
-							<columns>
-								<TreeTableColumn text="Node">
-									<cellValueFactory>
-										<FXMLTreeView.CellValueFactory/>
-									</cellValueFactory>
-									<cellFactory>
-										<FXMLTreeView.CellFactory/>
-									</cellFactory>
-								</TreeTableColumn>
-							</columns>
-						</FXMLTreeView>
-					</TitledPane>
-					<TitledPane text="Node Properties">
-						<CachedItemsPropertySheet fx:id="fxmlPropertySheet"
-												  modeSwitcherVisible="true"
-												  searchBoxVisible="true"/>
-					</TitledPane>
-				</SplitPane>
-			</Tab>
-		</TabPane>
+		<SplitPane orientation="VERTICAL">
+			<TabPane prefWidth="${root.width / 4}">
+				<Tab text="Scene Graph">
+					<FXMLTreeView fx:id="fxmlTreeView" showRoot="false">
+						<columnResizePolicy>
+							<TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+						</columnResizePolicy>
+						<columns>
+							<TreeTableColumn text="Node">
+								<cellValueFactory>
+									<FXMLTreeView.CellValueFactory/>
+								</cellValueFactory>
+								<cellFactory>
+									<FXMLTreeView.CellFactory/>
+								</cellFactory>
+							</TreeTableColumn>
+						</columns>
+					</FXMLTreeView>
+				</Tab>
+				<Tab text="FXML Editor">
+					<BorderPane>
+						<top>
+							<Button onAction="#sceneToFxml" text="Refresh"/>
+						</top>
+						<center>
+							<TextArea fx:id="fxmlEditor" onKeyPressed="#fxmlToScene"/>
+						</center>
+					</BorderPane>
+				</Tab>
+			</TabPane>
+			<TitledPane text="Node Properties" collapsible="false" minHeight="400">
+				<CachedItemsPropertySheet fx:id="fxmlPropertySheet"
+										  modeSwitcherVisible="true"
+										  searchBoxVisible="true"/>
+			</TitledPane>
+		</SplitPane>
 	</right>
 </BorderPane>

@@ -14,6 +14,7 @@
 
 	<properties>
 		<manifest.main.class>com.alver.fatefall.fx.app.FatefallFXApp</manifest.main.class>
+		<reflections.version>0.10.2</reflections.version>
 	</properties>
 
 	<dependencies>
@@ -33,6 +34,19 @@
 			<groupId>com.alver.fatefall</groupId>
 			<artifactId>fatefall-fx-plugin</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+			<version>${reflections.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
 	</dependencies>
 
 

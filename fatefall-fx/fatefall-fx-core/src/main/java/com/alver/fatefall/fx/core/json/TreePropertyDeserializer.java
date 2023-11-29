@@ -33,6 +33,12 @@ public class TreePropertyDeserializer extends JsonDeserializer<TreeProperty> {
                 String key = entry.getKey();
                 treeProperty.getChildrenMap().put(key, deserialize(entry.getValue()));
             }
+        } else if (jsonNode instanceof ArrayNode arrayNode) {
+            int i = 0;
+			for (JsonNode value : arrayNode) {
+				String key = String.valueOf(i++);
+				treeProperty.getChildrenMap().put(key, deserialize(value));
+			}
         } else if (jsonNode instanceof TextNode textNode) {
             treeProperty.setValue(textNode.textValue());
         } else if (jsonNode instanceof BooleanNode booleanNode) {
@@ -44,7 +50,7 @@ public class TreePropertyDeserializer extends JsonDeserializer<TreeProperty> {
         } else if (jsonNode instanceof NullNode || jsonNode instanceof MissingNode) {
             // Do nothing
         } else {
-//            throw new UnsupportedOperationException(jsonNode.getNodeType().name());
+            throw new UnsupportedOperationException(jsonNode.getNodeType().name());
         }
         return treeProperty;
     }
