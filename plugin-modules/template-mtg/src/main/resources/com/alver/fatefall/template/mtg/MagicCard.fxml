@@ -19,14 +19,14 @@
 	<Group blendMode="SRC_ATOP">
 		<Group blendMode="MULTIPLY">
 			<ImageView fx:id="first" fitHeight="${controller.height}" fitWidth="${controller.width}">
-				<Image url="C:\projects\Fatefall\plugin-modules\template-mtg\src\main\resources\com\alver\fatefall\template\mtg\images\rcard.jpg"/>
+				<Image url="file:assets\mtg\rcard.jpg"/>
 			</ImageView>
 			<Pane prefHeight="${controller.height}" prefWidth="${controller.width}"
 					style="-fx-background-color:linear-gradient(from 0% 0% to 50% 0%, white, transparent);"/>
 		</Group>
 		<Group blendMode="MULTIPLY">
 			<ImageView fx:id="second" fitHeight="${controller.height}" fitWidth="${controller.width}">
-				<Image url="C:\projects\Fatefall\plugin-modules\template-mtg\src\main\resources\com\alver\fatefall\template\mtg\images\bcard.jpg"/>
+				<Image url="file:assets\mtg\bcard.jpg"/>
 			</ImageView>
 			<Pane prefHeight="${controller.height}" prefWidth="${controller.width}"
 				  style="-fx-background-color:linear-gradient(from 50% 0% to 100% 0%, transparent, white);"/>

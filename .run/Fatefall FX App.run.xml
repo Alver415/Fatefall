@@ -3,7 +3,7 @@
     <option name="MAIN_CLASS_NAME" value="com.alver.fatefall.fx.app.FatefallFXApp" />
     <module name="fatefall-fx-app" />
     <option name="VM_PARAMETERS" value="-Dspring.profiles.active=dev -Djavafx.preloader=com.alver.fatefall.fx.app.preloader.SplashPreloader" />
-    <option name="WORKING_DIRECTORY" value="$ProjectFileDir$" />
+    <option name="WORKING_DIRECTORY" value="$ProjectFileDir$/.wd" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.alver.fatefall.*" />

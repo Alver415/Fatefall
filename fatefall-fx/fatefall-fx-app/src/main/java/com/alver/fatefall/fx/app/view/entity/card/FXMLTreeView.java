@@ -133,7 +133,7 @@ public class FXMLTreeView extends TreeTableView<Node> {
 					contextMenu.getItems().add(remove);
 				}
 				private void buildAddItem(Node node, ContextMenu contextMenu) {
-					MenuItem add = new MenuItem("Add");
+					MenuItem add = new MenuItem("Add Child");
 					Optional<ObservableList<Node>> children = getChildrenIfPublic(node);
 					if (children.isEmpty()) {
 						add.setDisable(true);

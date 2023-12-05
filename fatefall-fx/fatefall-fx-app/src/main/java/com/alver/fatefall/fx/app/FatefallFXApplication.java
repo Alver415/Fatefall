@@ -53,10 +53,10 @@ public class FatefallFXApplication extends Application {
             boolean devProfile = Arrays.asList(environment.getActiveProfiles()).contains("dev");
             if (devProfile) {
                 System.setProperty(MODE_PROPERTY_NAME, DEVELOPMENT.toString());
-                System.setProperty(PLUGINS_DIR_PROPERTY_NAME, "plugin-modules");
+                System.setProperty(PLUGINS_DIR_PROPERTY_NAME, "../plugin-modules");
             } else {
                 System.setProperty(MODE_PROPERTY_NAME, DEPLOYMENT.toString());
-                System.setProperty(PLUGINS_DIR_PROPERTY_NAME, ".wd/plugins");
+                System.setProperty(PLUGINS_DIR_PROPERTY_NAME, "plugins");
             }
         };
 

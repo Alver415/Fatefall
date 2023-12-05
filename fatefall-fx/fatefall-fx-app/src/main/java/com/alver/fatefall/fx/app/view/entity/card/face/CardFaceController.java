@@ -171,6 +171,7 @@ public class CardFaceController {
 		return content;
 	}
 	public void loadFxml(String fxml) {
+		FXUtils.runFx(() -> root.getChildren().setAll());
 		SpringFXLoader loader = beanFactory.getBean(SpringFXLoader.class);
 		try {
 			TreeProperty<Object> data = TreePropertyBuilder.buildAndBind(Map.of(

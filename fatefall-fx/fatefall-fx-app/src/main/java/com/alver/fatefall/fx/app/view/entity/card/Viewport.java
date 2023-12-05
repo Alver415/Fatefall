@@ -81,8 +81,8 @@ public class Viewport extends StackPane {
 
 	private class Gestures {
 
-		private static final double MAX_SCALE = 100.0d;
-		private static final double MIN_SCALE = 0.1d;
+		private static final double MAX_SCALE = 5.0d;
+		private static final double MIN_SCALE = 0.2d;
 
 		private final DragContext dragContext = new DragContext();
 
