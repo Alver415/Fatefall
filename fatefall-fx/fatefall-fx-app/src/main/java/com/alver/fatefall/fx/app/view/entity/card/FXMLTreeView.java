@@ -81,6 +81,14 @@ public class FXMLTreeView extends TreeTableView<Node> {
 						textProperty().unbind();
 						textProperty().set(null);
 					} else {
+						CheckBox checkBox = new CheckBox();
+						checkBox.disableProperty().bind(
+								Bindings.or(item.disabledProperty(),
+										Bindings.createBooleanBinding(
+												() -> item.visibleProperty().isBound(),
+												item.visibleProperty())));
+						checkBox.selectedProperty().bindBidirectional(item.visibleProperty());
+						setGraphic(checkBox);
 						Class<? extends Node> clazz = item.getClass();
 						Tooltip.install(this, new Tooltip(clazz.getTypeName()));
 						textProperty().bind(Bindings.createStringBinding(() -> {
@@ -95,11 +103,12 @@ public class FXMLTreeView extends TreeTableView<Node> {
 				}
 				private ContextMenu buildContextMenu(Node node) {
 					ContextMenu contextMenu = new ContextMenu();
-					buildAddItem(node, contextMenu);
-					buildRemoveItem(node, contextMenu);
-					buildToFrontItem(node, contextMenu);
-					buildToBackItem(node, contextMenu);
-
+					if (node != null) {
+						buildAddItem(node, contextMenu);
+						buildRemoveItem(node, contextMenu);
+						buildToFrontItem(node, contextMenu);
+						buildToBackItem(node, contextMenu);
+					}
 					return contextMenu;
 				}
 				private void buildToFrontItem(Node node, ContextMenu contextMenu) {
@@ -133,17 +142,16 @@ public class FXMLTreeView extends TreeTableView<Node> {
 					contextMenu.getItems().add(remove);
 				}
 				private void buildAddItem(Node node, ContextMenu contextMenu) {
-					MenuItem add = new MenuItem("Add Child");
+					Menu add = new Menu("Add Child");
 					Optional<ObservableList<Node>> children = getChildrenIfPublic(node);
 					if (children.isEmpty()) {
 						add.setDisable(true);
 					} else {
-						add.setOnAction(a -> {
-							SelectNodeClassDialog dialog = new SelectNodeClassDialog();
-							dialog.show();
-							dialog.resultProperty().addListener((observable, oldValue, newValue) -> {
+						for (Class<? extends Node> clazz : SelectNodeClassDialog.getNodeClasses()) {
+							MenuItem item = new MenuItem(clazz.getSimpleName());
+							item.setOnAction(a -> {
 								try {
-									Node instance = newValue.getConstructor().newInstance();
+									Node instance = clazz.getConstructor().newInstance();
 									children.get().add(instance);
 								} catch (InstantiationException |
 										 IllegalAccessException |
@@ -152,7 +160,23 @@ public class FXMLTreeView extends TreeTableView<Node> {
 									throw new RuntimeException(e);
 								}
 							});
-						});
+							add.getItems().add(item);
+						}
+//						add.setOnAction(a -> {
+//							SelectNodeClassDialog dialog = new SelectNodeClassDialog();
+//							dialog.show();
+//							dialog.resultProperty().addListener((observable, oldValue, newValue) -> {
+//								try {
+//									Node instance = newValue.getConstructor().newInstance();
+//									children.get().add(instance);
+//								} catch (InstantiationException |
+//										 IllegalAccessException |
+//										 InvocationTargetException |
+//										 NoSuchMethodException e) {
+//									throw new RuntimeException(e);
+//								}
+//							});
+//						});
 					}
 					contextMenu.getItems().add(add);
 				}

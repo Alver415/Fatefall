@@ -75,7 +75,7 @@ public class CachedItemsPropertySheet extends PropertySheet {
 			throw new RuntimeException(e);
 		}
 	}
-	public class EditorFactory extends DefaultPropertyEditorFactory {
+	public static class EditorFactory extends DefaultPropertyEditorFactory {
 
 		@Override
 		public PropertyEditor<?> call(Item item) {
