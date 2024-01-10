@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<StackPane fx:id="root" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+		   fx:controller="com.alver.fatefall.template.mtg.MTGCardTemplate"
+		   prefWidth="${controller.width}"
+		   prefHeight="${controller.height}"
+		   style="  -fx-background-color: grey;
+                    -fx-border-color: black;
+                    -fx-border-style: solid;
+                    -fx-border-width: 73px;
+                    -fx-border-insets: 0px;">
+
+	<Group blendMode="SRC_ATOP">
+		<Group blendMode="MULTIPLY">
+			<ImageView image="${leftBackground}" fitHeight="${root.height}" fitWidth="${root.width}"/>
+			<Pane prefHeight="${root.height}" prefWidth="${root.width}"
+				  style="-fx-background-color:linear-gradient(from 0% 0% to 50% 0%, white, transparent);"/>
+		</Group>
+		<Group blendMode="MULTIPLY">
+			<ImageView image="${rightBackground}" fitHeight="${root.height}" fitWidth="${root.width}"/>
+			<Pane prefHeight="${root.height}" prefWidth="${root.width}"
+				  style="-fx-background-color:linear-gradient(from 50% 0% to 100% 0%, transparent, white);"/>
+		</Group>
+	</Group>
+
+
+	<StackPane>
+		<TextArea id="name" promptText="Card Name"
+				  maxHeight="20"/>
+		<ImageView id="art">
+			<!--		<Image url="images/rcard.jpg"/>-->
+		</ImageView>
+
+		<TextArea id="type" promptText="Type"/>
+
+		<TextArea id="text" promptText="Rules Text"/>
+
+		<TextArea id="developer" promptText="Developer Credit"
+				  maxHeight="20"/>
+	</StackPane>
+</StackPane>

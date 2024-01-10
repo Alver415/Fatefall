@@ -7,7 +7,7 @@
             <bean class="java.util.Properties">
                 <constructor-arg>
                     <props>
-                        <prop key="server.database.0">file:database/fatefall_db</prop>
+                        <prop key="server.database.0">file:database2/fatefall_db</prop>
                         <prop key="server.dbname.0">fatefall</prop><!--DB name for network connection-->
                         <prop key="server.no_system_exit">true</prop>
                         <prop key="server.port">9001</prop><!--default port is 9001 -->

@@ -37,8 +37,8 @@ public class FXMLTreeView extends TreeTableView<Node> {
 
 	public void setCardView(CardView cardView) {
 		TreeItem<Node> root = new TreeItem<>();
-		root.getChildren().add(buildTreeNode(cardView.getFront().controller().getRoot()));
-		root.getChildren().add(buildTreeNode(cardView.getBack().controller().getRoot()));
+		root.getChildren().add(buildTreeNode(cardView.getFront().getContent()));
+		root.getChildren().add(buildTreeNode(cardView.getBack().getContent()));
 		setRoot(root);
 	}
 
@@ -103,12 +103,12 @@ public class FXMLTreeView extends TreeTableView<Node> {
 				}
 				private ContextMenu buildContextMenu(Node node) {
 					ContextMenu contextMenu = new ContextMenu();
-					if (node != null) {
-						buildAddItem(node, contextMenu);
-						buildRemoveItem(node, contextMenu);
-						buildToFrontItem(node, contextMenu);
-						buildToBackItem(node, contextMenu);
-					}
+					if (node == null) return contextMenu;
+
+					buildAddItem(node, contextMenu);
+					buildRemoveItem(node, contextMenu);
+					buildToFrontItem(node, contextMenu);
+					buildToBackItem(node, contextMenu);
 					return contextMenu;
 				}
 				private void buildToFrontItem(Node node, ContextMenu contextMenu) {

@@ -12,7 +12,7 @@ public abstract class AbstractCardViewSkin extends SkinBase<CardView> {
 
     protected AbstractCardViewSkin(CardView control) {
         super(control);
-        this.front = new Group(control.getFront().view());
-        this.back = new Group(control.getBack().view());
+        this.front = new Group(control.getFront());
+        this.back = new Group(control.getBack());
     }
 }

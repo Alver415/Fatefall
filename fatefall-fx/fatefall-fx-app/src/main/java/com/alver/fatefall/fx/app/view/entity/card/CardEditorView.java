@@ -99,7 +99,7 @@ public class CardEditorView {
 	}
 	@FXML
 	public void sceneToFxml(ActionEvent action) {
-		Node root = cardView.getFront().controller().getContent();
+		Node root = cardView.getFront().getContent();
 		String serialize = FXMLSaver.serialize(root);
 		fxmlEditor.setText(serialize);
 	}
@@ -108,6 +108,6 @@ public class CardEditorView {
 		if (!keyEvent.isControlDown() || !keyEvent.getCode().equals(KeyCode.ENTER)) return;
 
 		String fxml = fxmlEditor.getText();
-		cardView.getFront().controller().loadFxml(fxml);
+		cardView.getFront().loadFxml(fxml);
 	}
 }
