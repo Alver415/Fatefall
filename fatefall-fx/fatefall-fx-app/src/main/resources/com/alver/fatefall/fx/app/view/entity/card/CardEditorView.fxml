@@ -5,6 +5,7 @@
 <?import javafx.scene.control.cell.TreeItemPropertyValueFactory?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
+<?import org.fxmisc.richtext.CodeArea?>
 <BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
 			fx:controller="com.alver.fatefall.fx.app.view.entity.card.CardEditorView"
 			stylesheets="@CardEditorView.css"
@@ -88,7 +89,7 @@
 							<Button onAction="#sceneToFxml" text="Refresh"/>
 						</top>
 						<center>
-							<TextArea fx:id="fxmlEditor" onKeyPressed="#fxmlToScene"/>
+							<CodeArea fx:id="fxmlEditor" onKeyPressed="#fxmlToScene"/>
 						</center>
 					</BorderPane>
 				</Tab>

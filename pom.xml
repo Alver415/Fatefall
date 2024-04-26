@@ -19,9 +19,9 @@
 	<properties>
 		<revision>1.0-SNAPSHOT</revision>
 
-		<java.version>17</java.version>
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
+		<java.version>22</java.version>
+		<maven.compiler.source>22</maven.compiler.source>
+		<maven.compiler.target>22</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
@@ -32,8 +32,8 @@
 		<junit.version>5.9.3</junit.version>
 		<jackson.version>2.15.2</jackson.version>
 
-		<spring-core.version>6.0.10</spring-core.version>
-		<spring-boot-starter.version>3.1.1</spring-boot-starter.version>
+		<spring-core.version>6.1.6</spring-core.version>
+		<spring-boot-starter.version>3.2.5</spring-boot-starter.version>
 		<logback-ext-spring.version>0.1.5</logback-ext-spring.version>
 
 		<hsqldb.version>2.7.1</hsqldb.version>

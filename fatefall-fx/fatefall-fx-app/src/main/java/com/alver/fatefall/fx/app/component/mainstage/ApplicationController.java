@@ -12,6 +12,8 @@ import com.alver.fatefall.fx.core.model.CardFX;
 import com.alver.fatefall.fx.core.model.EntityFX;
 import com.alver.fatefall.fx.core.model.WorkspaceFX;
 import com.alver.fatefall.fx.core.utils.StageManager;
+import com.alver.jfxtra.lib.component.console.ConsoleView;
+import com.alver.jfxtra.lib.io.SystemIO;
 import com.alver.springfx.SpringFX;
 import com.alver.springfx.annotations.FXMLComponent;
 import javafx.beans.value.ObservableValue;
@@ -20,6 +22,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +42,9 @@ public class ApplicationController implements AppController {
 	protected final SpringFX springFX;
 	protected final StageManager stageManager;
 	protected final BeanFactory beanFactory;
+
+	protected Stage consoleStage;
+	protected Stage logsStage;
 
 	/**
 	 * FXML Injection
@@ -72,6 +78,10 @@ public class ApplicationController implements AppController {
 	@FXML
 	private void initialize() {
 		menuBar.getMenus().add(pluginMenu);
+
+		consoleStage = stageManager.create("Console", new ConsoleView(SystemIO.console));
+		logsStage = stageManager.create("Logs", (Node) springFX.load(ConsoleController.class).view());
+
 	}
 
 	@EventListener
@@ -87,6 +97,7 @@ public class ApplicationController implements AppController {
 	public void addView(AppView appView) {
 		createTab(appView.title(), appView.node());
 	}
+
 	public TabPane getTabPane() {
 		return tabPane;
 	}
@@ -105,9 +116,13 @@ public class ApplicationController implements AppController {
 	}
 
 	@FXML
+	private void openLogs() {
+		logsStage.show();
+	}
+
+	@FXML
 	private void openConsole() {
-		Object view = springFX.load(ConsoleController.class).view();
-		stageManager.create("Console", (Node) view).show();
+		consoleStage.show();
 	}
 
 	private Tab addCollectionTab(WorkspaceFX workspace) {

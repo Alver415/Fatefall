@@ -57,16 +57,16 @@ public class CardFaceController {
 
 	@FXML
 	public void initialize() {
-		cardFace.addListener((observable, oldValue, newValue) -> {
+		cardFace.subscribe(value -> {
 			FXUtils.runAsync(() -> {
-				if (newValue == null){
+				if (value == null){
 					FXUtils.runFx(() -> root.getChildren().clear());
 					return;
 				}
 				SpringFXLoader loader = beanFactory.getBean(SpringFXLoader.class);
 				try {
-					String imageUrl = newValue.getTemplate().getImageUrl();
-					String fxmlUrl = newValue.getTemplate().getFxmlUrl();
+					String imageUrl = value.getTemplate().getImageUrl();
+					String fxmlUrl = value.getTemplate().getFxmlUrl();
 					URL fxml = fxmlUrl != null ? new URL(fxmlUrl) :
 							imageUrl != null ? TemplateController.class.getResource("ImageTemplate.fxml") :
 									TemplateController.class.getResource("PlaceholderTemplate.fxml");
@@ -87,9 +87,11 @@ public class CardFaceController {
 					log.error(e.getMessage(), e);
 				}
 			});
-			root.setId(getCard().getFront() == cardFace.get() ? "front" : "back");
+			ObjectProperty<CardFaceFX> card = cardProperty().map(CardFX::frontProperty).getValue();
+			if (card != null) {
+				root.setId(card.get() == cardFace.get() ? "front" : "back");
+			}
 		});
-		cardFace.set(null);
 	}
 
 	public CardFX getCard() {

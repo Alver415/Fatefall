@@ -18,6 +18,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
 
 import java.util.List;
 
@@ -34,11 +36,16 @@ public class CardEditorView {
 	private DataTreeView dataTreeView;
 
 	@FXML
-	private TextArea fxmlEditor;
+	private CodeArea fxmlEditor;
 	@FXML
 	private FXMLTreeView fxmlTreeView;
 	@FXML
 	private CachedItemsPropertySheet fxmlPropertySheet;
+
+	@FXML
+	private void initialize(){
+		fxmlEditor.setParagraphGraphicFactory(LineNumberFactory.get(fxmlEditor));
+	}
 
 	public void setCard(CardFX card) {
 		cardView.setCard(card);
@@ -101,8 +108,9 @@ public class CardEditorView {
 	public void sceneToFxml(ActionEvent action) {
 		Node root = cardView.getFront().controller().getContent();
 		String serialize = FXMLSaver.serialize(root);
-		fxmlEditor.setText(serialize);
+		fxmlEditor.replaceText(serialize);
 	}
+
 	@FXML
 	public void fxmlToScene(KeyEvent keyEvent) {
 		if (!keyEvent.isControlDown() || !keyEvent.getCode().equals(KeyCode.ENTER)) return;

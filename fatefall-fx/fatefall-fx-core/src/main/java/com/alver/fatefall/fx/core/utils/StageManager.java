@@ -11,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,8 +22,8 @@ public class StageManager {
 
     @Autowired
     private StageManager(
-            StringProperty titleProperty,
-            ObjectProperty<Image> iconProperty) {
+            @Qualifier("titleProperty") StringProperty titleProperty,
+            @Qualifier("iconProperty") ObjectProperty<Image> iconProperty) {
         this.titleProperty = titleProperty;
         this.iconProperty = iconProperty;
     }

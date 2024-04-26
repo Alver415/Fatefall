@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
+<?import com.alver.fatefall.fx.app.component.mainstage.EntityTreeView?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
-<?import com.alver.fatefall.fx.app.component.mainstage.EntityTreeView?>
 <BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.alver.fatefall.fx.app.component.mainstage.ApplicationController">
     <top>
@@ -15,6 +15,9 @@
             </Menu>
             <Menu text="Edit">
                 <MenuItem text="Preferences" onAction="#openPreferences"/>
+            </Menu>
+            <Menu text="Help">
+                <MenuItem text="Logs" onAction="#openLogs"/>
                 <MenuItem text="Console" onAction="#openConsole"/>
             </Menu>
         </MenuBar>

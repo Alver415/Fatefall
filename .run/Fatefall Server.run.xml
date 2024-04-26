@@ -5,19 +5,4 @@
     <option name="ALTERNATIVE_JRE_PATH" />
     <method v="2" />
   </configuration>
-  <configuration default="false" name="Fatefall Server" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="com.alver.fatefall.server.FatefallServerApp" />
-    <module name="fatefall-server" />
-    <option name="VM_PARAMETERS" value="-Dspring.profiles.active=dev" />
-    <option name="WORKING_DIRECTORY" value="$ProjectFileDir$" />
-    <extension name="coverage">
-      <pattern>
-        <option name="PATTERN" value="com.alver.fatefall.*" />
-        <option name="ENABLED" value="true" />
-      </pattern>
-    </extension>
-    <method v="2">
-      <option name="MakeProject" enabled="true" />
-    </method>
-  </configuration>
 </component>

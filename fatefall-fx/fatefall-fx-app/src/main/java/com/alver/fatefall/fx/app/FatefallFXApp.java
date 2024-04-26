@@ -1,6 +1,7 @@
 package com.alver.fatefall.fx.app;
 
 import com.alver.fatefall.fx.core.model.WorkspaceFX;
+import com.alver.jfxtra.lib.io.SystemIO;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.CacheBuilder;
@@ -23,6 +24,7 @@ import java.util.List;
 public class FatefallFXApp {
 
 	public static void main(String... args) {
+		SystemIO.overrideSystemDefaults();
 		Application.launch(FatefallFXApplication.class, args);
 	}
 
