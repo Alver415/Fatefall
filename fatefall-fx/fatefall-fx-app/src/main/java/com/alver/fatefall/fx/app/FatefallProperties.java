@@ -40,14 +40,26 @@ public class FatefallProperties {
 	@Value("${web.client.port}")
 	private Integer port;
 
+	private static FatefallProperties INSTANCE;
+
+	public static FatefallProperties getInstance() {
+		return INSTANCE;
+	}
+
+	public FatefallProperties() {
+		INSTANCE = this;
+	}
+
 	@Bean
 	public StringProperty schemeProperty() {
 		return new SimpleStringProperty(scheme);
 	}
+
 	@Bean
 	public StringProperty hostProperty() {
 		return new SimpleStringProperty(host);
 	}
+
 	@Bean
 	public IntegerProperty portProperty() {
 		return new SimpleIntegerProperty(port);
@@ -57,6 +69,7 @@ public class FatefallProperties {
 	public ObjectProperty<Image> iconProperty() {
 		return new SimpleObjectProperty<>(ResourceUtil.image("/com/alver/fatefall/icon.png"));
 	}
+
 	@Bean
 	public StringProperty titleProperty() {
 		return new SimpleStringProperty(title);
@@ -124,6 +137,13 @@ public class FatefallProperties {
 	}
 
 	@Bean
+	public ObjectProperty<String> getSubSceneStylesheetSelection() {
+		ObjectProperty<String> stylesheetSelection = new SimpleObjectProperty<>();
+		stylesheetSelection.set("Modena");
+		return stylesheetSelection;
+	}
+
+	@Bean
 	public StringProperty getCustomCss() {
 		StringProperty customCss = new SimpleStringProperty();
 		customCss.addListener((obs, oldValue, newValue) -> {
@@ -164,34 +184,42 @@ public class FatefallProperties {
 	public DoubleProperty getCardViewScale() {
 		return new SimpleDoubleProperty(1);
 	}
+
 	@Bean
 	public DoubleProperty getCardBaseWidth() {
 		return new SimpleDoubleProperty(250);
 	}
+
 	@Bean
 	public DoubleProperty getCardBaseHeight() {
 		return new SimpleDoubleProperty(350);
 	}
+
 	@Bean
 	public DoubleProperty getCardBaseArcWidth() {
 		return new SimpleDoubleProperty(20);
 	}
+
 	@Bean
 	public DoubleProperty getCardBaseArcHeight() {
 		return new SimpleDoubleProperty(20);
 	}
+
 	@Bean
 	public DoubleBinding getCardScaledWidth() {
 		return getCardBaseWidth().multiply(getCardViewScale());
 	}
+
 	@Bean
 	public DoubleBinding getCardScaledHeight() {
 		return getCardBaseHeight().multiply(getCardViewScale());
 	}
+
 	@Bean
 	public DoubleBinding getCardScaledArcWidth() {
 		return getCardBaseArcWidth().multiply(getCardViewScale());
 	}
+
 	@Bean
 	public DoubleBinding getCardScaledArcHeight() {
 		return getCardBaseArcHeight().multiply(getCardViewScale());
@@ -250,6 +278,7 @@ public class FatefallProperties {
 
 		private final Locale locale;
 		private final String displayName;
+
 		LocaleOption(Locale locale) {
 			this.locale = locale;
 			this.displayName = locale.getDisplayLanguage(locale);

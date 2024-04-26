@@ -5,7 +5,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
 <BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.alver.fatefall.fx.app.component.mainstage.ApplicationController">
+            fx:controller="com.alver.fatefall.fx.app.component.mainstage.ApplicationController"
+            stylesheets="@ApplicationController.css">
     <top>
         <MenuBar fx:id="menuBar">
             <Menu text="File">

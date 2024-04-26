@@ -1,5 +1,6 @@
 package com.alver.fatefall.fx.app.view.entity.card;
 
+import com.alver.fatefall.fx.app.FatefallProperties;
 import javafx.beans.DefaultProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
@@ -7,10 +8,13 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.SubScene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @DefaultProperty("content")
 public class Viewport extends StackPane {
@@ -20,6 +24,7 @@ public class Viewport extends StackPane {
 
 	private final StackPane contentWrapper;
 
+	@Autowired
 	public Viewport() {
 		Rectangle clip = new Rectangle();
 		clip.widthProperty().bind(widthProperty());
@@ -42,15 +47,24 @@ public class Viewport extends StackPane {
 			contentWrapper.getChildren().setAll(newValue);
 		});
 
-		getChildren().setAll(contentWrapper);
+		FatefallProperties properties = FatefallProperties.getInstance();
+		SubScene subScene = new SubScene(contentWrapper, 400, 400);
+		subScene.userAgentStylesheetProperty().bind(properties.getSubSceneStylesheetSelection()
+				.map(s -> FatefallProperties.getStylesheetByNameMap().get(s)));
+		subScene.setFill(Color.TRANSPARENT);
+		subScene.widthProperty().bind(widthProperty());
+		subScene.heightProperty().bind(heightProperty());
+		getChildren().setAll(subScene);
 	}
 
 	public ObjectProperty<Node> contentProperty() {
 		return contentProperty;
 	}
+
 	public void setContent(Node node) {
 		contentProperty().set(node);
 	}
+
 	public Node getContent() {
 		return contentProperty().get();
 	}
@@ -66,6 +80,7 @@ public class Viewport extends StackPane {
 	public void setScale(double scale) {
 		scaleProperty.set(scale);
 	}
+
 	public void reset() {
 		setScale(1);
 		contentWrapper.setTranslateX(0);
@@ -115,8 +130,10 @@ public class Viewport extends StackPane {
 			scale = Math.min(Math.max(scale, MIN_SCALE), MAX_SCALE);
 
 			double f = (scale / oldScale) - 1;
-			double dx = (event.getX() - (contentWrapper.getBoundsInParent().getWidth() / 2 + contentWrapper.getBoundsInParent().getMinX()));
-			double dy = (event.getY() - (contentWrapper.getBoundsInParent().getHeight() / 2 + contentWrapper.getBoundsInParent().getMinY()));
+			double dx = (event.getX() - (contentWrapper.getBoundsInParent()
+					.getWidth() / 2 + contentWrapper.getBoundsInParent().getMinX()));
+			double dy = (event.getY() - (contentWrapper.getBoundsInParent()
+					.getHeight() / 2 + contentWrapper.getBoundsInParent().getMinY()));
 
 			setScale(scale);
 			contentWrapper.setTranslateX(contentWrapper.getTranslateX() - (f * dx));

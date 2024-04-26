@@ -32,6 +32,8 @@ public class AppearancePreferenceProvider implements AppPreferenceCategoryProvid
                         Group.of("Application Theme",
                                 Setting.of("Base Color", properties.getBaseColor()),
                                 Setting.of("User Agent Stylesheet", properties.getStylesheetOptions(), properties.getStylesheetSelection()),
+                                Setting.of("SubScene User Agent Stylesheet", properties.getStylesheetOptions(),
+                                        properties.getSubSceneStylesheetSelection()),
                                 Setting.of("Additional Stylesheets", properties.getAdditionalStylesheetsOptions(), properties.getAdditionalStylesheetsSelections())))
                 .subCategories(Category.of("Card View",
                         Group.of("Example", Setting.of(context.getBean(CardView.class))),
