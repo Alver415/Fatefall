@@ -1,104 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.alver.fatefall.fx.app.view.entity.card.*?>
+<?import com.panemu.tiwulfx.control.dock.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.TreeItemPropertyValueFactory?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import org.fxmisc.richtext.CodeArea?>
-<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-			fx:controller="com.alver.fatefall.fx.app.view.entity.card.CardEditorView"
-			stylesheets="@CardEditorView.css"
-			fx:id="root">
-	<left>
-		<TabPane prefWidth="${root.width / 4}">
-			<Tab text="Data">
-				<DataTreeView fx:id="dataTreeView" showRoot="false">
-					<columnResizePolicy>
-						<TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-					</columnResizePolicy>
-					<rowFactory>
-						<DataTreeView.RowFactory/>
-					</rowFactory>
-					<columns>
-						<TreeTableColumn text="Field">
-							<cellValueFactory>
-								<TreeItemPropertyValueFactory property="name"/>
-							</cellValueFactory>
-						</TreeTableColumn>
-						<TreeTableColumn text="Value">
-							<cellValueFactory>
-								<TreeItemPropertyValueFactory property="value"/>
-							</cellValueFactory>
-						</TreeTableColumn>
-					</columns>
-				</DataTreeView>
-			</Tab>
-		</TabPane>
-	</left>
-	<center>
-		<TabPane>
-			<Tab text="Viewport">
-				<BorderPane>
-					<top>
-						<ToolBar>
-							<Button>Save</Button>
-							<Button>Revert</Button>
-							<Separator/>
-							<Button onAction="#createNode">Create Node</Button>
-							<Button onAction="#undoAction">Undo</Button>
-							<Button onAction="#redoAction">Redo</Button>
-							<Separator/>
-							<Button text="Reset" onAction="#reset"/>
-						</ToolBar>
-					</top>
-					<center>
-						<StackPane>
-							<Viewport fx:id="viewport">
-								<CardView fx:id="cardView"/>
-							</Viewport>
-						</StackPane>
-					</center>
-				</BorderPane>
-			</Tab>
-		</TabPane>
-	</center>
-	<right>
-		<SplitPane orientation="VERTICAL">
-			<TabPane prefWidth="${root.width / 4}">
-				<Tab text="Scene Graph">
-					<FXMLTreeView fx:id="fxmlTreeView" showRoot="false">
-						<columnResizePolicy>
-							<TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-						</columnResizePolicy>
-						<columns>
-							<TreeTableColumn text="Node">
-								<cellValueFactory>
-									<FXMLTreeView.CellValueFactory/>
-								</cellValueFactory>
-								<cellFactory>
-									<FXMLTreeView.CellFactory/>
-								</cellFactory>
-							</TreeTableColumn>
-						</columns>
-					</FXMLTreeView>
-				</Tab>
-				<Tab text="FXML Editor">
-					<BorderPane>
-						<top>
-							<Button onAction="#sceneToFxml" text="Refresh"/>
-						</top>
-						<center>
-							<CodeArea fx:id="fxmlEditor" onKeyPressed="#fxmlToScene"/>
-						</center>
-					</BorderPane>
-				</Tab>
-			</TabPane>
-			<TitledPane text="Node Properties" collapsible="false" minHeight="400">
-				<CachedItemsPropertySheet fx:id="fxmlPropertySheet"
-										  modeSwitcherVisible="true"
-										  searchBoxVisible="true"/>
-			</TitledPane>
-		</SplitPane>
-	</right>
-</BorderPane>
+<SplitPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+		   fx:controller="com.alver.fatefall.fx.app.view.entity.card.CardEditorView"
+		   stylesheets="@CardEditorView.css"
+		   fx:id="root"
+		   dividerPositions="0.25, 0.75">
+	<DetachableTabPane scope="${controller.scope}" closeIfEmpty="true">
+		<DetachableTab text="Data">
+			<DataTreeView fx:id="dataTreeView" showRoot="false">
+				<columnResizePolicy>
+					<TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+				</columnResizePolicy>
+				<rowFactory>
+					<DataTreeView.RowFactory/>
+				</rowFactory>
+				<columns>
+					<TreeTableColumn text="Field">
+						<cellValueFactory>
+							<TreeItemPropertyValueFactory property="name"/>
+						</cellValueFactory>
+					</TreeTableColumn>
+					<TreeTableColumn text="Value">
+						<cellValueFactory>
+							<TreeItemPropertyValueFactory property="value"/>
+						</cellValueFactory>
+					</TreeTableColumn>
+				</columns>
+			</DataTreeView>
+		</DetachableTab>
+	</DetachableTabPane>
+	<DetachableTabPane scope="${controller.scope}" closeIfEmpty="true">
+		<DetachableTab text="Viewport">
+			<BorderPane>
+				<top>
+					<ToolBar>
+						<Button>Save</Button>
+						<Button>Revert</Button>
+						<Separator/>
+						<Button onAction="#createNode">Create Node</Button>
+						<Button onAction="#undoAction">Undo</Button>
+						<Button onAction="#redoAction">Redo</Button>
+						<Separator/>
+						<Button text="Reset" onAction="#reset"/>
+					</ToolBar>
+				</top>
+				<center>
+					<StackPane>
+						<Viewport fx:id="viewport">
+							<CardView fx:id="cardView"/>
+						</Viewport>
+					</StackPane>
+				</center>
+				<bottom>
+					<HBox>
+						<Label text="${viewport.width}"/>
+						<Label text=", "/>
+						<Label text="${viewport.height}"/>
+					</HBox>
+				</bottom>
+			</BorderPane>
+		</DetachableTab>
+	</DetachableTabPane>
+	<DetachableTabPane scope="${controller.scope}" closeIfEmpty="true">
+		<DetachableTab text="Scene Graph">
+			<SceneTreeView fx:id="sceneTreeView" showRoot="false">
+				<columnResizePolicy>
+					<TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+				</columnResizePolicy>
+				<columns>
+					<TreeTableColumn text="Node">
+						<cellValueFactory>
+							<SceneTreeView.CellValueFactory/>
+						</cellValueFactory>
+						<cellFactory>
+							<SceneTreeView.CellFactory/>
+						</cellFactory>
+					</TreeTableColumn>
+				</columns>
+			</SceneTreeView>
+		</DetachableTab>
+		<DetachableTab text="FXML Editor">
+			<BorderPane>
+				<top>
+					<Button onAction="#sceneToFxml" text="Refresh"/>
+				</top>
+				<center>
+					<CodeArea fx:id="fxmlEditor" onKeyPressed="#fxmlToScene"/>
+				</center>
+			</BorderPane>
+		</DetachableTab>
+		<DetachableTab text="Node Properties">
+			<CachedItemsPropertySheet fx:id="selectedNodePropertySheet"
+									  modeSwitcherVisible="true"
+									  searchBoxVisible="true"/>
+		</DetachableTab>
+	</DetachableTabPane>
+</SplitPane>

@@ -30,56 +30,56 @@ public class FatefallFXApplication extends Application {
     @Value("${title}")
     private String title;
 
-    private ConfigurableApplicationContext applicationContext;
-    private SpringFX springFX;
-    private StageManager stageManager;
+	private ConfigurableApplicationContext applicationContext;
+	private SpringFX springFX;
+	private StageManager stageManager;
 
-    @Override
-    public void init() {
-        PreloaderBeanPostProcessor preloaderBeanPostProcessor = new PreloaderBeanPostProcessor();
-        notifyPreloader(preloaderBeanPostProcessor);
+	@Override
+	public void init() {
+		PreloaderBeanPostProcessor preloaderBeanPostProcessor = new PreloaderBeanPostProcessor();
+		notifyPreloader(preloaderBeanPostProcessor);
 
-        ApplicationContextInitializer<GenericApplicationContext> initializer = applicationContext -> {
-            applicationContext.registerBean(FatefallFXApplication.class, () -> this);
-            applicationContext.registerBean(PreloaderBeanPostProcessor.class, () -> preloaderBeanPostProcessor);
-        };
+		ApplicationContextInitializer<GenericApplicationContext> initializer = applicationContext -> {
+			applicationContext.registerBean(FatefallFXApplication.class, () -> this);
+			applicationContext.registerBean(PreloaderBeanPostProcessor.class, () -> preloaderBeanPostProcessor);
+		};
 
-        //TODO: Find a better solution.
-        //Problem is that PF4j initializes before you can change the mode programmatically or via spring injection.
-        //So for now, we have to do it via system properties before the bean has a chance to init.
-        ApplicationListener<ApplicationEnvironmentPreparedEvent> listener = event -> {
-            ConfigurableEnvironment environment = event.getEnvironment();
-            boolean devProfile = Arrays.asList(environment.getActiveProfiles()).contains("dev");
-            if (devProfile) {
-                System.setProperty(MODE_PROPERTY_NAME, DEVELOPMENT.toString());
-                System.setProperty(PLUGINS_DIR_PROPERTY_NAME, "../plugin-modules");
-            } else {
-                System.setProperty(MODE_PROPERTY_NAME, DEPLOYMENT.toString());
-                System.setProperty(PLUGINS_DIR_PROPERTY_NAME, "plugins");
-            }
-        };
+		//TODO: Find a better solution.
+		//Problem is that PF4j initializes before you can change the mode programmatically or via spring injection.
+		//So for now, we have to do it via system properties before the bean has a chance to init.
+		ApplicationListener<ApplicationEnvironmentPreparedEvent> listener = event -> {
+			ConfigurableEnvironment environment = event.getEnvironment();
+			boolean devProfile = Arrays.asList(environment.getActiveProfiles()).contains("dev");
+			if (devProfile) {
+				System.setProperty(MODE_PROPERTY_NAME, DEVELOPMENT.toString());
+				System.setProperty(PLUGINS_DIR_PROPERTY_NAME, "../plugin-modules");
+			} else {
+				System.setProperty(MODE_PROPERTY_NAME, DEPLOYMENT.toString());
+				System.setProperty(PLUGINS_DIR_PROPERTY_NAME, "plugins");
+			}
+		};
 
-        applicationContext = new SpringApplicationBuilder(FatefallFXApp.class)
-                .listeners(listener)
-                .initializers(initializer)
-                .run();
-        springFX = applicationContext.getBean(SpringFX.class);
-        stageManager = applicationContext.getBean(StageManager.class);
-    }
+		applicationContext = new SpringApplicationBuilder(FatefallFXApp.class)
+				.listeners(listener)
+				.initializers(initializer)
+				.run();
+		springFX = applicationContext.getBean(SpringFX.class);
+		stageManager = applicationContext.getBean(StageManager.class);
+	}
 
-    @Override
-    public void start(Stage stage) {
-        stage = stageManager.create((Parent) springFX.loadView(ApplicationController.class));
-        stage.setOnCloseRequest(e -> stop());
-        stage.show();
+	@Override
+	public void start(Stage stage) {
+		stage = stageManager.create((Parent) springFX.loadView(ApplicationController.class));
+		stage.setOnCloseRequest(e -> stop());
+		stage.show();
 
-        FXComponentInspectorHandler.handleAll();
-    }
+		FXComponentInspectorHandler.handleAll();
+	}
 
-    @Override
-    public void stop() {
-        applicationContext.close();
-        Platform.exit();
-    }
+	@Override
+	public void stop() {
+		applicationContext.close();
+		Platform.exit();
+	}
 
 }

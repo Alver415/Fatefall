@@ -11,29 +11,33 @@ import javafx.scene.Node;
 import javafx.scene.SubScene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @DefaultProperty("content")
-public class Viewport extends StackPane {
+public class Viewport extends SubScene {
 
 	private final ObjectProperty<Node> contentProperty;
 	private final DoubleProperty scaleProperty;
 
 	private final StackPane contentWrapper;
 
-	@Autowired
+
 	public Viewport() {
-		Rectangle clip = new Rectangle();
-		clip.widthProperty().bind(widthProperty());
-		clip.heightProperty().bind(heightProperty());
-		setClip(clip);
+		this(new StackPane());
+	}
+	public Viewport(StackPane root) {
+		super(root, 400, 400);
+		widthProperty().bind(parentProperty().flatMap(p -> ((Region)p).widthProperty()));
+		heightProperty().bind(parentProperty().flatMap(p -> ((Region)p).heightProperty()));
+		setManaged(false);
+
 
 		contentProperty = new SimpleObjectProperty<>(this, "content", null);
 		scaleProperty = new SimpleDoubleProperty(this, "scale", 1.0);
-		contentWrapper = new StackPane();
+		contentWrapper = root;
 
 		Gestures gestures = new Gestures();
 		addEventFilter(MouseEvent.MOUSE_PRESSED, gestures.onMousePressedEventHandler);
@@ -47,14 +51,11 @@ public class Viewport extends StackPane {
 			contentWrapper.getChildren().setAll(newValue);
 		});
 
-		FatefallProperties properties = FatefallProperties.getInstance();
-		SubScene subScene = new SubScene(contentWrapper, 400, 400);
-		subScene.userAgentStylesheetProperty().bind(properties.getSubSceneStylesheetSelection()
+		userAgentStylesheetProperty().bind(FatefallProperties.getInstance().getSubSceneStylesheetSelection()
 				.map(s -> FatefallProperties.getStylesheetByNameMap().get(s)));
-		subScene.setFill(Color.TRANSPARENT);
-		subScene.widthProperty().bind(widthProperty());
-		subScene.heightProperty().bind(heightProperty());
-		getChildren().setAll(subScene);
+
+		setFill(Color.TRANSPARENT.interpolate(Color.RED, 0.5));
+		contentWrapper.setBackground(Background.fill(Color.TRANSPARENT.interpolate(Color.BLUE, 0.5)));
 	}
 
 	public ObjectProperty<Node> contentProperty() {

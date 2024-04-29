@@ -3,15 +3,14 @@ package com.alver.fatefall.fx.app.view.entity.card;
 import com.alver.fatefall.fx.core.model.CardFX;
 import com.alver.fxmlsaver.FXMLSaver;
 import com.alver.springfx.annotations.FXMLPrototype;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TreeItem;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -22,6 +21,7 @@ import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 
 import java.util.List;
+import java.util.UUID;
 
 import static com.alver.fatefall.fx.core.utils.FXUtils.isAncestorOf;
 
@@ -38,22 +38,36 @@ public class CardEditorView {
 	@FXML
 	private CodeArea fxmlEditor;
 	@FXML
-	private FXMLTreeView fxmlTreeView;
+	private SceneTreeView sceneTreeView;
 	@FXML
-	private CachedItemsPropertySheet fxmlPropertySheet;
+	private CachedItemsPropertySheet selectedNodePropertySheet;
 
 	@FXML
 	private void initialize(){
 		fxmlEditor.setParagraphGraphicFactory(LineNumberFactory.get(fxmlEditor));
+		scope.set(String.valueOf(UUID.randomUUID())); // Prevents moving tabs between different editors.
+	}
+
+	private final StringProperty scope = new SimpleStringProperty(this, "scope");
+	public StringProperty scopeProperty(){
+		return scope;
+	}
+	public String getScope(){
+		return scopeProperty().get();
+	}
+	public void setScope(String scope){
+		scopeProperty().set(scope);
 	}
 
 	public void setCard(CardFX card) {
 		cardView.setCard(card);
-		fxmlTreeView.setCardView(cardView);
+		sceneTreeView.setCardView(cardView);
 		dataTreeView.setCardData(cardView.getCard());
 
 		ChangeListener<Node> focusSelectedListener = (observable, oldValue, newValue) -> {
-			if (isAncestorOf(newValue, cardView)) fxmlTreeView.selectNode(newValue);
+			if (isAncestorOf(newValue, cardView)) {
+				sceneTreeView.selectNode(newValue);
+			}
 		};
 		viewport.sceneProperty().map(Scene::focusOwnerProperty).addListener((observable, oldValue, newValue) -> {
 			if (oldValue != null) oldValue.removeListener(focusSelectedListener);
@@ -62,11 +76,15 @@ public class CardEditorView {
 		viewport.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
 			Object target = event.getTarget();
 			if (target instanceof Node node){
-				if (isAncestorOf(node, cardView)) fxmlTreeView.selectNode(node);
+				if (isAncestorOf(node, cardView)) {
+					sceneTreeView.selectNode(node);
+				}
 			}
 		});
-		fxmlTreeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue != null) fxmlPropertySheet.selectNode(newValue.getValue());
+		sceneTreeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue != null){
+				selectedNodePropertySheet.selectNode(newValue.getValue());
+			}
 		});
 	}
 
@@ -78,7 +96,7 @@ public class CardEditorView {
 		dialog.show();
 		dialog.resultProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue != null) {
-				TreeItem<Node> selectedItem = fxmlTreeView.getSelectionModel().getSelectedItem();
+				TreeItem<Node> selectedItem = sceneTreeView.getSelectionModel().getSelectedItem();
 				Node node = selectedItem.getValue();
 				if (node instanceof Pane pane) {
 					try {

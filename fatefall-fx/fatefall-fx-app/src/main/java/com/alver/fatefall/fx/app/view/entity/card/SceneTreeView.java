@@ -20,13 +20,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class FXMLTreeView extends TreeTableView<Node> {
-	private static final Logger log = LoggerFactory.getLogger(FXMLTreeView.class);
+public class SceneTreeView extends TreeTableView<Node> {
+	private static final Logger log = LoggerFactory.getLogger(SceneTreeView.class);
 
 	private static final PseudoClass SELECTED = PseudoClass.getPseudoClass("selected");
 
 	private final Map<Node, TreeItem<Node>> nodeToItemMap = new HashMap<>();
-	public FXMLTreeView() {
+	public SceneTreeView() {
 		getSelectionModel().getSelectedItems().addListener((ListChangeListener<? super TreeItem<Node>>) change -> {
 			while (change.next()) {
 				change.getRemoved().forEach(removed -> removed.getValue().pseudoClassStateChanged(SELECTED, false));
