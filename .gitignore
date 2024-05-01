@@ -18,5 +18,6 @@
 
 target/
 keystore/
+io-consoles/
 **.flattened-pom.xml
 **/dependency-reduced-pom.xml
