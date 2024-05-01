@@ -60,6 +60,7 @@ public class FatefallFXApplication extends Application {
 		};
 
 		applicationContext = new SpringApplicationBuilder(FatefallFXApp.class)
+				.headless(false)
 				.listeners(listener)
 				.initializers(initializer)
 				.run();

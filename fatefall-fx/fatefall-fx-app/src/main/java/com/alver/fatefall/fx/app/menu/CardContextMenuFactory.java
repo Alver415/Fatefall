@@ -33,7 +33,7 @@ public class CardContextMenuFactory extends EntityContextMenuFactory<CardFX>{
 			FXMLControllerAndView<CardEditorView, BorderPane> cnv = springFX.load(CardEditorView.class);
 			cnv.controller().setCard(card);
 			AppView appView = AppView.of(card.nameProperty(), cnv.view());
-			appController.addView(appView);
+			appController.registerView(appView);
 		});
 		contextMenu.getItems().set(0, edit);
 		return contextMenu;

@@ -14,7 +14,11 @@ import com.alver.springfx.SpringFX;
 import com.alver.springfx.annotations.FXMLComponent;
 import com.alver.springfx.model.FXMLControllerAndView;
 import javafx.collections.ObservableList;
-import javafx.scene.control.*;
+import javafx.scene.Node;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TreeCell;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import org.springframework.beans.factory.BeanFactory;
@@ -70,28 +74,37 @@ public class EntityTreeView extends TreeView<EntityFX> {
 					setText(null);
 				} else {
 					textProperty().bind(item.nameProperty());
-					MenuItem open = new MenuItem("Open");
 					if (item instanceof WorkspaceFX workspaceFX) {
 						this.setContextMenu(workspaceContextMenuFactory.buildContextMenu(workspaceFX));
 					} else if (item instanceof CardFX cardFX) {
 						this.setContextMenu(cardContextMenuFactory.buildContextMenu(cardFX));
 					}
+					MenuItem open = new MenuItem("Open");
 					getContextMenu().getItems().add(open);
-
 					open.setOnAction(a -> {
 						if (item instanceof WorkspaceFX workspaceFX) {
 							WorkspaceView workspaceView = beanFactory.getBean(WorkspaceView.class);
 							workspaceView.setWorkspace(workspaceFX);
-							appController.addView(AppView.of(item.nameProperty(), workspaceView));
+							appController.registerView(buildView(item, workspaceView));
 						} else if (item instanceof CardFX cardFX) {
-							FXMLControllerAndView<CardEditorView, BorderPane> cnv = springFX.load(CardEditorView.class);
+							FXMLControllerAndView<CardEditorView, BorderPane> cnv =
+									springFX.load(CardEditorView.class);
 							CardEditorView cardEditorView = cnv.controller();
 							cardEditorView.setCard(cardFX);
-							appController.addView(AppView.of(item.nameProperty(), cnv.view()));
+							appController.registerView(buildView(item, cnv.view()));
 						}
 					});
-
+					setOnMouseClicked(e -> open.fire());
 				}
+			}
+
+			AppView.Simple view;
+
+			private <T extends EntityFX> AppView.Simple buildView(T item, Node node) {
+				if (view == null) {
+					view = AppView.of(item.nameProperty(), node);
+				}
+				return view;
 			}
 		}
 	}

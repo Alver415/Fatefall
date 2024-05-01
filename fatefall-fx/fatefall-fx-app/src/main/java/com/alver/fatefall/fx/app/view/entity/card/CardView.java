@@ -79,7 +79,7 @@ public class CardView extends Control {
 			FXMLControllerAndView<CardEditorView, BorderPane> cnv = springFX.load(CardEditorView.class);
 			cnv.controller().setCard(getCard());
 			AppView appView = AppView.of(cardProperty.map(EntityFX::getName), cnv.view());
-			appController.addView(appView);
+			appController.registerView(appView);
 		});
 
 		Menu viewMode = new Menu("View Mode");

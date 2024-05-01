@@ -33,7 +33,7 @@ public class ScryfallComponentFactory {
 		openWebView.setOnAction(a -> {
 			WebView webView = new WebView();
 			webView.getEngine().load(getUrl(cardView.getCard()));
-			appController.addView(AppView.of(cardView.cardProperty().map(CardFX::nameProperty).getValue(), webView));
+			appController.registerView(AppView.of(cardView.cardProperty().map(CardFX::nameProperty).getValue(), webView));
 		});
 		return openWebView;
 	}

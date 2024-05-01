@@ -25,7 +25,7 @@ public class FatefallPluginManager extends SpringPluginManager {
     }
 
     public void addView(AppView appView) {
-        applicationController.addView(appView);
+        applicationController.registerView(appView);
     }
 
     public void createWorkspace(WorkspaceFX workspace) {

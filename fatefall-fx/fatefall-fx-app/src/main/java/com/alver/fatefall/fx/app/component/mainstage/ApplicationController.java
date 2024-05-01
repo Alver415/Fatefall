@@ -16,6 +16,8 @@ import com.alver.jfxtra.lib.component.console.ConsoleView;
 import com.alver.jfxtra.lib.io.SystemIO;
 import com.alver.springfx.SpringFX;
 import com.alver.springfx.annotations.FXMLComponent;
+import com.panemu.tiwulfx.control.dock.DetachableTab;
+import com.panemu.tiwulfx.control.dock.DetachableTabPane;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -52,7 +54,7 @@ public class ApplicationController implements AppController {
 	@FXML
 	protected EntityTreeView treeView;
 	@FXML
-	protected TabPane tabPane;
+	protected DetachableTabPane tabPane;
 	@FXML
 	protected MenuBar menuBar;
 
@@ -79,6 +81,8 @@ public class ApplicationController implements AppController {
 	private void initialize() {
 		menuBar.getMenus().add(pluginMenu);
 
+		tabPane.setOnClosedPassSibling((sibling) -> tabPane = sibling);
+
 		consoleStage = stageManager.create("Console", new ConsoleView(SystemIO.console));
 		logsStage = stageManager.create("Logs", (Node) springFX.load(ConsoleController.class).view());
 
@@ -94,20 +98,28 @@ public class ApplicationController implements AppController {
 		workspaces.setAll(workspaceApi.getAll());
 	}
 
-	public void addView(AppView appView) {
-		createTab(appView.title(), appView.node());
+	public void registerView(AppView appView) {
+		selectTab(appView.title(), appView.node());
 	}
 
 	public TabPane getTabPane() {
 		return tabPane;
 	}
 
-	private void createTab(ObservableValue<String> title, Node node) {
-		Tab tab = new Tab();
-		tab.textProperty().bind(title);
-		tab.setContent(node);
-		tabPane.getTabs().add(tab);
-		tabPane.getSelectionModel().select(tab);
+	private void selectTab(ObservableValue<String> title, Node node) {
+		tabPane.getTabs().stream().filter(
+				tab -> tab.getText().equals(title.getValue())).findAny().ifPresentOrElse(
+				tab -> {
+					tabPane.getSelectionModel().select(tab);
+				},
+				() -> {
+					Tab tab = new DetachableTab();
+					tab.textProperty().bind(title);
+					tab.setContent(node);
+					tabPane.getTabs().add(tab);
+					tabPane.getSelectionModel().select(tab);
+				}
+		);
 	}
 
 	@FXML

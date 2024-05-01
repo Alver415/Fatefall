@@ -17,7 +17,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 
 import java.util.List;
-
 @SpringBootApplication
 @ComponentScan("com.alver.fatefall")
 @PropertySource("classpath:/fatefall-fx-app.properties")
