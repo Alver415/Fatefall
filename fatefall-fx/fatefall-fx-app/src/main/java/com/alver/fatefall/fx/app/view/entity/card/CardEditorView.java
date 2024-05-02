@@ -1,5 +1,6 @@
 package com.alver.fatefall.fx.app.view.entity.card;
 
+import com.alver.fatefall.fx.app.editor.file.XMLEditor;
 import com.alver.fatefall.fx.core.model.CardFX;
 import com.alver.fxmlsaver.FXMLSaver;
 import com.alver.springfx.annotations.FXMLPrototype;
@@ -10,15 +11,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TreeItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import org.fxmisc.richtext.CodeArea;
-import org.fxmisc.richtext.LineNumberFactory;
 
 import java.util.List;
 import java.util.UUID;
@@ -36,7 +38,7 @@ public class CardEditorView {
 	private DataTreeView dataTreeView;
 
 	@FXML
-	private CodeArea fxmlEditor;
+	private XMLEditor fxmlEditor;
 	@FXML
 	private SceneTreeView sceneTreeView;
 	@FXML
@@ -44,7 +46,6 @@ public class CardEditorView {
 
 	@FXML
 	private void initialize(){
-		fxmlEditor.setParagraphGraphicFactory(LineNumberFactory.get(fxmlEditor));
 		scope.set(String.valueOf(UUID.randomUUID())); // Prevents moving tabs between different editors.
 	}
 
@@ -126,14 +127,14 @@ public class CardEditorView {
 	public void sceneToFxml(ActionEvent action) {
 		Node root = cardView.getFront().controller().getContent();
 		String serialize = FXMLSaver.serialize(root);
-		fxmlEditor.replaceText(serialize);
+		fxmlEditor.getContent().replaceText(serialize);
 	}
 
 	@FXML
 	public void fxmlToScene(KeyEvent keyEvent) {
 		if (!keyEvent.isControlDown() || !keyEvent.getCode().equals(KeyCode.ENTER)) return;
 
-		String fxml = fxmlEditor.getText();
+		String fxml = fxmlEditor.getContent().getText();
 		cardView.getFront().controller().loadFxml(fxml);
 	}
 }

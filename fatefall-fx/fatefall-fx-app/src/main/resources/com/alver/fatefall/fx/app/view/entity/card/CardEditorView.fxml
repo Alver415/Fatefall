@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.alver.fatefall.fx.app.editor.file.JavaEditor?>
+<?import com.alver.fatefall.fx.app.editor.file.XMLEditor?>
 <?import com.alver.fatefall.fx.app.view.entity.card.*?>
 <?import com.panemu.tiwulfx.control.dock.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.TreeItemPropertyValueFactory?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
-<?import org.fxmisc.richtext.CodeArea?>
 <SplitPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
 		   fx:controller="com.alver.fatefall.fx.app.view.entity.card.CardEditorView"
 		   stylesheets="@CardEditorView.css"
 		   fx:id="root"
 		   dividerPositions="0.25, 0.75">
 	<DetachableTabPane scope="${controller.scope}" closeIfEmpty="true">
-		<DetachableTab text="Data">
+
+		<DetachableTab text="Data Text Editor">
+			<JavaEditor/>
+		</DetachableTab>
+		<DetachableTab text="Data View">
 			<DataTreeView fx:id="dataTreeView" showRoot="false">
 				<columnResizePolicy>
 					<TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
@@ -59,13 +63,6 @@
 						</Viewport>
 					</StackPane>
 				</center>
-				<bottom>
-					<HBox>
-						<Label text="${viewport.width}"/>
-						<Label text=", "/>
-						<Label text="${viewport.height}"/>
-					</HBox>
-				</bottom>
 			</BorderPane>
 		</DetachableTab>
 	</DetachableTabPane>
@@ -93,7 +90,7 @@
 					<Button onAction="#sceneToFxml" text="Refresh"/>
 				</top>
 				<center>
-					<CodeArea fx:id="fxmlEditor" onKeyPressed="#fxmlToScene"/>
+					<XMLEditor fx:id="fxmlEditor" onKeyPressed="#fxmlToScene"/>
 				</center>
 			</BorderPane>
 		</DetachableTab>
