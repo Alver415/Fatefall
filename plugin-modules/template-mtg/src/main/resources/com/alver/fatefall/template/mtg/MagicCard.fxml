@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.StackPane?>
 <StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
 		   fx:controller="com.alver.fatefall.fx.app.view.entity.card.template.TemplateController"
-		   prefWidth="${controller.width}" prefHeight="${controller.height}"
-		   maxWidth="${controller.width}" maxHeight="${controller.height}"
-		   minWidth="${controller.width}" minHeight="${controller.height}"
+		   prefWidth="#{controller.width}" prefHeight="#{controller.height}"
+		   maxWidth="#{controller.width}" maxHeight="#{controller.height}"
+		   minWidth="#{controller.width}" minHeight="#{controller.height}"
 		   style="  -fx-background-color: grey;
                     -fx-border-color: black;
                     -fx-border-style: solid;
@@ -18,17 +18,17 @@
 
 	<Group blendMode="SRC_ATOP">
 		<Group blendMode="MULTIPLY">
-			<ImageView fx:id="first" fitHeight="${controller.height}" fitWidth="${controller.width}">
+			<ImageView fx:id="first" fitHeight="#{controller.height}" fitWidth="#{controller.width}">
 				<Image url="file:assets\mtg\rcard.jpg"/>
 			</ImageView>
-			<Pane prefHeight="${controller.height}" prefWidth="${controller.width}"
+			<Pane prefHeight="#{controller.height}" prefWidth="#{controller.width}"
 					style="-fx-background-color:linear-gradient(from 0% 0% to 50% 0%, white, transparent);"/>
 		</Group>
 		<Group blendMode="MULTIPLY">
-			<ImageView fx:id="second" fitHeight="${controller.height}" fitWidth="${controller.width}">
+			<ImageView fx:id="second" fitHeight="#{controller.height}" fitWidth="#{controller.width}">
 				<Image url="file:assets\mtg\bcard.jpg"/>
 			</ImageView>
-			<Pane prefHeight="${controller.height}" prefWidth="${controller.width}"
+			<Pane prefHeight="#{controller.height}" prefWidth="#{controller.width}"
 				  style="-fx-background-color:linear-gradient(from 50% 0% to 100% 0%, transparent, white);"/>
 		</Group>
 	</Group>

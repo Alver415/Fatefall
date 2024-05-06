@@ -6,11 +6,11 @@
 <StackPane fx:id="root" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.alver.fatefall.fx.app.view.entity.card.face.CardFaceController"
            style="-fx-background-color: linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(155,155,155,0.2));"
-           prefWidth="${controller.width}" prefHeight="${controller.height}"
-           maxWidth="${controller.width}" maxHeight="${controller.height}"
-           minWidth="${controller.width}" minHeight="${controller.height}">
+            prefWidth="#{controller.width}" prefHeight="#{controller.height}"
+           maxWidth="#{controller.width}" maxHeight="#{controller.height}"
+           minWidth="#{controller.width}" minHeight="#{controller.height}">
     <clip>
-        <Rectangle width="${controller.width}" height="${controller.height}"
-                   arcWidth="${controller.arcWidth}" arcHeight="${controller.arcHeight}"/>
+        <Rectangle width="#{controller.width}" height="#{controller.height}"
+                   arcWidth="#{controller.arcWidth}" arcHeight="#{controller.arcHeight}"/>
     </clip>
 </StackPane>

@@ -1,6 +1,7 @@
 package com.alver.fatefall.fx.app.view.entity.card;
 
 import com.alver.fatefall.fx.core.utils.CollectionBindings;
+import com.sun.javafx.binding.BidirectionalBinding;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
@@ -20,13 +21,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class SceneTreeView extends TreeTableView<Node> {
-	private static final Logger log = LoggerFactory.getLogger(SceneTreeView.class);
+public class NodeTreeView extends TreeTableView<Node> {
+	private static final Logger log = LoggerFactory.getLogger(NodeTreeView.class);
 
 	private static final PseudoClass SELECTED = PseudoClass.getPseudoClass("selected");
 
-	private final Map<Node, TreeItem<Node>> nodeToItemMap = new HashMap<>();
-	public SceneTreeView() {
+	public final Map<Node, TreeItem<Node>> nodeToItemMap = new HashMap<>();
+
+	public NodeTreeView() {
+		setRoot(new TreeItem<>());
 		getSelectionModel().getSelectedItems().addListener((ListChangeListener<? super TreeItem<Node>>) change -> {
 			while (change.next()) {
 				change.getRemoved().forEach(removed -> removed.getValue().pseudoClassStateChanged(SELECTED, false));
@@ -35,14 +38,12 @@ public class SceneTreeView extends TreeTableView<Node> {
 		});
 	}
 
-	public void setCardView(CardView cardView) {
-		TreeItem<Node> root = new TreeItem<>();
-		root.getChildren().add(buildTreeNode(cardView.getFront().controller().getRoot()));
-		root.getChildren().add(buildTreeNode(cardView.getBack().controller().getRoot()));
-		setRoot(root);
+	public void addSubRoot(Node node) {
+		TreeItem<Node> root = getRoot();
+		root.getChildren().add(buildTreeNode(node));
 	}
 
-	private TreeItem<Node> buildTreeNode(Node node) {
+	public TreeItem<Node> buildTreeNode(Node node) {
 		TreeItem<Node> item = new TreeItem<>(node);
 		nodeToItemMap.put(node, item);
 		if (node instanceof Parent parent) {
@@ -58,7 +59,8 @@ public class SceneTreeView extends TreeTableView<Node> {
 		scrollTo(getSelectionModel().getSelectedIndex());
 	}
 
-	public static class CellValueFactory implements Callback<TreeTableColumn.CellDataFeatures<Node, Node>, ObservableValue<Node>> {
+	public static class CellValueFactory implements Callback<TreeTableColumn.CellDataFeatures<Node, Node>,
+			ObservableValue<Node>> {
 		@Override
 		public ObservableValue<Node> call(TreeTableColumn.CellDataFeatures<Node, Node> param) {
 			return param.getValue().valueProperty();
@@ -83,11 +85,12 @@ public class SceneTreeView extends TreeTableView<Node> {
 					} else {
 						CheckBox checkBox = new CheckBox();
 						checkBox.disableProperty().bind(
-								Bindings.or(item.disabledProperty(),
+								Bindings.or(
+										item.disabledProperty(),
 										Bindings.createBooleanBinding(
 												() -> item.visibleProperty().isBound(),
 												item.visibleProperty())));
-						checkBox.selectedProperty().bindBidirectional(item.visibleProperty());
+						BidirectionalBinding.bind(checkBox.selectedProperty(), item.visibleProperty());
 						setGraphic(checkBox);
 						Class<? extends Node> clazz = item.getClass();
 						Tooltip.install(this, new Tooltip(clazz.getTypeName()));
@@ -101,6 +104,7 @@ public class SceneTreeView extends TreeTableView<Node> {
 						}));
 					}
 				}
+
 				private ContextMenu buildContextMenu(Node node) {
 					ContextMenu contextMenu = new ContextMenu();
 					if (node != null) {
@@ -111,6 +115,7 @@ public class SceneTreeView extends TreeTableView<Node> {
 					}
 					return contextMenu;
 				}
+
 				private void buildToFrontItem(Node node, ContextMenu contextMenu) {
 					MenuItem toFront = new MenuItem("To Front");
 					toFront.setOnAction(a -> node.toFront());
@@ -121,6 +126,7 @@ public class SceneTreeView extends TreeTableView<Node> {
 					toFront.setDisable(onlyChild || isFront);
 					contextMenu.getItems().add(toFront);
 				}
+
 				private void buildToBackItem(Node node, ContextMenu contextMenu) {
 					MenuItem toBack = new MenuItem("To Back");
 					toBack.setOnAction(a -> node.toBack());
@@ -131,6 +137,7 @@ public class SceneTreeView extends TreeTableView<Node> {
 					toBack.setDisable(onlyChild || isBack);
 					contextMenu.getItems().add(toBack);
 				}
+
 				private void buildRemoveItem(Node node, ContextMenu contextMenu) {
 					MenuItem remove = new MenuItem("Remove");
 					Optional<ObservableList<Node>> children = getChildrenIfPublic(node.getParent());
@@ -141,6 +148,7 @@ public class SceneTreeView extends TreeTableView<Node> {
 					}
 					contextMenu.getItems().add(remove);
 				}
+
 				private void buildAddItem(Node node, ContextMenu contextMenu) {
 					Menu add = new Menu("Add Child");
 					Optional<ObservableList<Node>> children = getChildrenIfPublic(node);

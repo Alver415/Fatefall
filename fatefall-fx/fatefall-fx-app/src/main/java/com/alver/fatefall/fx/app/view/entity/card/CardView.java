@@ -13,7 +13,6 @@ import com.alver.fatefall.fx.core.utils.ResourceUtil;
 import com.alver.springfx.SpringFX;
 import com.alver.springfx.annotations.Prototype;
 import com.alver.springfx.model.FXMLControllerAndView;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
@@ -21,8 +20,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.Optional;
 
 @Prototype
 public class CardView extends Control {
@@ -54,14 +51,9 @@ public class CardView extends Control {
 		CardFaceController frontController = frontControllerAndView.controller();
 		CardFaceController backController = backControllerAndView.controller();
 
-		frontController.cardProperty().bind(cardProperty);
-		backController.cardProperty().bind(cardProperty);
+		frontController.cardFaceProperty().bind(cardProperty().flatMap(CardFX::frontProperty));
+		backController.cardFaceProperty().bind(cardProperty().flatMap(CardFX::backProperty));
 
-		//FIXME
-		frontController.cardFaceProperty().bind(Bindings.createObjectBinding(() ->
-				Optional.ofNullable(getCard()).map(CardFX::getFront).orElse(null), cardProperty));
-		backController.cardFaceProperty().bind(Bindings.createObjectBinding(() ->
-				Optional.ofNullable(getCard()).map(CardFX::getBack).orElse(null), cardProperty));
 		properties.getCardViewSkinSelection().addListener((observable, oldValue, newValue) -> {
 			if (newValue != null) {
 				setSkin(buildSkin(newValue));

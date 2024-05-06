@@ -13,19 +13,13 @@
 		   stylesheets="@CardEditorView.css"
 		   fx:id="root"
 		   dividerPositions="0.25, 0.75">
-	<DetachableTabPane scope="${controller.scope}" closeIfEmpty="true">
+	<DetachableTabPane scope="#{controller.scope}" closeIfEmpty="true">
 
-		<DetachableTab text="Data Text Editor">
-			<JavaEditor/>
-		</DetachableTab>
 		<DetachableTab text="Data View">
 			<DataTreeView fx:id="dataTreeView" showRoot="false">
 				<columnResizePolicy>
 					<TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
 				</columnResizePolicy>
-				<rowFactory>
-					<DataTreeView.RowFactory/>
-				</rowFactory>
 				<columns>
 					<TreeTableColumn text="Field">
 						<cellValueFactory>
@@ -40,8 +34,13 @@
 				</columns>
 			</DataTreeView>
 		</DetachableTab>
+
+		<DetachableTab text="Data Editor">
+			<JavaEditor fx:id="dataEditor"/>
+		</DetachableTab>
+
 	</DetachableTabPane>
-	<DetachableTabPane scope="${controller.scope}" closeIfEmpty="true">
+	<DetachableTabPane scope="#{controller.scope}" closeIfEmpty="true">
 		<DetachableTab text="Viewport">
 			<BorderPane>
 				<top>
@@ -66,23 +65,23 @@
 			</BorderPane>
 		</DetachableTab>
 	</DetachableTabPane>
-	<DetachableTabPane scope="${controller.scope}" closeIfEmpty="true">
+	<DetachableTabPane scope="#{controller.scope}" closeIfEmpty="true">
 		<DetachableTab text="Scene Graph">
-			<SceneTreeView fx:id="sceneTreeView" showRoot="false">
+			<NodeTreeView fx:id="nodeTreeView" showRoot="false">
 				<columnResizePolicy>
 					<TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
 				</columnResizePolicy>
 				<columns>
 					<TreeTableColumn text="Node">
 						<cellValueFactory>
-							<SceneTreeView.CellValueFactory/>
+							<NodeTreeView.CellValueFactory/>
 						</cellValueFactory>
 						<cellFactory>
-							<SceneTreeView.CellFactory/>
+							<NodeTreeView.CellFactory/>
 						</cellFactory>
 					</TreeTableColumn>
 				</columns>
-			</SceneTreeView>
+			</NodeTreeView>
 		</DetachableTab>
 		<DetachableTab text="FXML Editor">
 			<BorderPane>

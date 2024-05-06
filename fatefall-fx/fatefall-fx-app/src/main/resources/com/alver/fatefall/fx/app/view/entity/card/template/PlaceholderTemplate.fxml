@@ -6,17 +6,17 @@
 <?import javafx.scene.shape.Rectangle?>
 <StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.alver.fatefall.fx.app.view.entity.card.template.TemplateController"
-           prefWidth="${controller.width}" prefHeight="${controller.height}"
-           maxWidth="${controller.width}" maxHeight="${controller.height}"
-           minWidth="${controller.width}" minHeight="${controller.height}"
+           prefWidth="#{controller.width}" prefHeight="#{controller.height}"
+           maxWidth="#{controller.width}" maxHeight="#{controller.height}"
+           minWidth="#{controller.width}" minHeight="#{controller.height}"
            style="  -fx-background-color: grey;
                     -fx-border-color: black;
                     -fx-border-style: solid;
                     -fx-border-width: 12px;
                     -fx-border-insets: 0px;">
     <clip>
-        <Rectangle width="${controller.width}" height="${controller.height}"
-                   arcWidth="${controller.arcWidth}" arcHeight="${controller.arcHeight}"/>
+        <Rectangle width="#{controller.width}" height="#{controller.height}"
+                   arcWidth="#{controller.arcWidth}" arcHeight="#{controller.arcHeight}"/>
     </clip>
     <VBox alignment="CENTER">
         <Label text="Placeholder" style="-fx-font-size: 32px"/>

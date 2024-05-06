@@ -27,22 +27,41 @@ import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.util.Map;
 
+import static com.alver.jfxtra.util.JFXUtils.runFX;
+
 @FXMLPrototype
 public class CardFaceController {
 	private static final Logger log = LoggerFactory.getLogger(CardFaceController.class);
+	protected final BeanFactory beanFactory;
 
 	@FXML
 	private Pane root;
-	private Node content;
 
-	protected final ObjectProperty<CardFX> card = new SimpleObjectProperty<>();
+	//region Properties
+	protected final ObjectProperty<Node> content = new SimpleObjectProperty<>(this, "content");
+
+	public ObjectProperty<Node> contentProperty() {
+		return content;
+	}
+
+	public Node getContent() {
+		return contentProperty().get();
+	}
+
+	public void setContent(Node node) {
+		contentProperty().set(node);
+	}
+
 	protected final ObjectProperty<CardFaceFX> cardFace = new SimpleObjectProperty<>();
 	protected final DoubleProperty width = new SimpleDoubleProperty(250);
 	protected final DoubleProperty height = new SimpleDoubleProperty(350);
 	protected final DoubleProperty arcWidth = new SimpleDoubleProperty(25);
 	protected final DoubleProperty arcHeight = new SimpleDoubleProperty(25);
 
-	protected final BeanFactory beanFactory;
+	protected TreeProperty<Object> data;
+
+	//endregion Properties
+
 
 	@Autowired
 	public CardFaceController(BeanFactory beanFactory, FatefallProperties properties) {
@@ -57,9 +76,15 @@ public class CardFaceController {
 
 	@FXML
 	public void initialize() {
+		contentProperty().subscribe(newValue -> runFX(() -> {
+			root.getChildren().clear();
+			if (newValue != null) {
+				root.getChildren().setAll(newValue);
+			}
+		}));
 		cardFace.subscribe(value -> {
 			FXUtils.runAsync(() -> {
-				if (value == null){
+				if (value == null) {
 					FXUtils.runFx(() -> root.getChildren().clear());
 					return;
 				}
@@ -72,38 +97,30 @@ public class CardFaceController {
 									TemplateController.class.getResource("PlaceholderTemplate.fxml");
 					loader.setLocation(fxml);
 
-					TreeProperty<Object> data = TreePropertyBuilder.buildAndBind(Map.of(
-							Source.CARD, card.get().dataProperty(),
-							Source.CARD_FACE, cardFace.get().dataProperty(),
-							Source.TEMPLATE, cardFace.get().getTemplate().dataProperty()));
+					data = TreePropertyBuilder.buildAndBind(Map.of(
+							Source.CARD, value.getCard().dataProperty(),
+							Source.CARD_FACE, value.dataProperty(),
+							Source.TEMPLATE, value.getTemplate().dataProperty()));
 
 					loader.getNamespace().put("data", data);
 
-					content = loader.load();
+					setContent(loader.load());
 					TemplateController controller = loader.getController();
 					controller.imageProperty().set(imageUrl == null ? null : new Image(imageUrl));
-					FXUtils.runFx(() -> root.getChildren().setAll(content));
 				} catch (Exception e) {
 					log.error(e.getMessage(), e);
 				}
 			});
-			ObjectProperty<CardFaceFX> card = cardProperty().map(CardFX::frontProperty).getValue();
-			if (card != null) {
-				root.setId(card.get() == cardFace.get() ? "front" : "back");
-			}
+			root.setId(isFrontFace() ? "front" : "back");
 		});
 	}
 
-	public CardFX getCard() {
-		return card.get();
-	}
 
-	public ObjectProperty<CardFX> cardProperty() {
-		return card;
-	}
 
-	public void setCard(CardFX card) {
-		this.card.set(card);
+	private boolean isFrontFace() {
+		return cardFaceProperty().flatMap(CardFaceFX::cardProperty)
+				.flatMap(CardFX::frontProperty)
+				.getValue() == getCardFace();
 	}
 
 	public ObjectProperty<CardFaceFX> cardFaceProperty() {
@@ -111,11 +128,11 @@ public class CardFaceController {
 	}
 
 	public CardFaceFX getCardFace() {
-		return cardFace.get();
+		return cardFaceProperty().get();
 	}
 
 	public void setCardFace(CardFaceFX cardFace) {
-		this.cardFace.set(cardFace);
+		this.cardFaceProperty().set(cardFace);
 	}
 
 	public double getWidth() {
@@ -166,25 +183,20 @@ public class CardFaceController {
 		this.arcHeight.set(arcHeightProperty);
 	}
 
-	public Node getRoot(){
-		return root;
-	}
-	public Node getContent(){
-		return content;
-	}
 	public void loadFxml(String fxml) {
 		FXUtils.runFx(() -> root.getChildren().setAll());
 		SpringFXLoader loader = beanFactory.getBean(SpringFXLoader.class);
 		try {
+			CardFaceFX cardFace = getCardFace();
 			TreeProperty<Object> data = TreePropertyBuilder.buildAndBind(Map.of(
-					Source.CARD, card.get().dataProperty(),
-					Source.CARD_FACE, cardFace.get().dataProperty(),
-					Source.TEMPLATE, cardFace.get().getTemplate().dataProperty()));
+					Source.CARD, cardFace.getCard().dataProperty(),
+					Source.CARD_FACE, cardFace.dataProperty(),
+					Source.TEMPLATE, cardFace.getTemplate().dataProperty()));
 
 			loader.getNamespace().put("data", data);
 
-			content = loader.load(new ByteArrayInputStream(fxml.getBytes()));
-			FXUtils.runFx(() -> root.getChildren().setAll(content));
+			ByteArrayInputStream fxmlBytes = new ByteArrayInputStream(fxml.getBytes());
+			setContent(loader.load(fxmlBytes));
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}

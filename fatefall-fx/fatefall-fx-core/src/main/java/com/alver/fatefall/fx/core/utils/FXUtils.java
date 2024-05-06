@@ -64,10 +64,11 @@ public class FXUtils {
     }
 
     public static boolean isAncestorOf(Node node, Node ancestor) {
-        while ((node = node.getParent()) != null) {
+        while (node != null) {
             if (node == ancestor) {
                 return true;
             }
+            node = node.getParent();
         }
         return false;
     }

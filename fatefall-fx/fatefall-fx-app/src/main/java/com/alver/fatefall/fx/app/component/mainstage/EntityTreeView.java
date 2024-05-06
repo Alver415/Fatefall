@@ -14,7 +14,6 @@ import com.alver.springfx.SpringFX;
 import com.alver.springfx.annotations.FXMLComponent;
 import com.alver.springfx.model.FXMLControllerAndView;
 import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
@@ -85,26 +84,17 @@ public class EntityTreeView extends TreeView<EntityFX> {
 						if (item instanceof WorkspaceFX workspaceFX) {
 							WorkspaceView workspaceView = beanFactory.getBean(WorkspaceView.class);
 							workspaceView.setWorkspace(workspaceFX);
-							appController.registerView(buildView(item, workspaceView));
+							appController.registerView(AppView.of(item.nameProperty(), workspaceView));
 						} else if (item instanceof CardFX cardFX) {
 							FXMLControllerAndView<CardEditorView, BorderPane> cnv =
 									springFX.load(CardEditorView.class);
 							CardEditorView cardEditorView = cnv.controller();
 							cardEditorView.setCard(cardFX);
-							appController.registerView(buildView(item, cnv.view()));
+							appController.registerView(AppView.of(item.nameProperty(), cnv.view()));
 						}
 					});
 					setOnMouseClicked(e -> open.fire());
 				}
-			}
-
-			AppView.Simple view;
-
-			private <T extends EntityFX> AppView.Simple buildView(T item, Node node) {
-				if (view == null) {
-					view = AppView.of(item.nameProperty(), node);
-				}
-				return view;
 			}
 		}
 	}

@@ -21,7 +21,7 @@ public class CardFX extends EntityFX implements Card{
 	}
 	@Override
 	public CardFaceFX getFront() {
-		return front.get();
+		return frontProperty().get();
 	}
 
 	public ObjectProperty<CardFaceFX> backProperty(){
@@ -29,6 +29,6 @@ public class CardFX extends EntityFX implements Card{
 	}
 	@Override
 	public CardFaceFX getBack() {
-		return back.get();
+		return backProperty().get();
 	}
 }

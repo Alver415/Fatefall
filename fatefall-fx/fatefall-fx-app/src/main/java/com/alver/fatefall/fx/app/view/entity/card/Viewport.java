@@ -1,6 +1,7 @@
 package com.alver.fatefall.fx.app.view.entity.card;
 
 import com.alver.fatefall.fx.app.FatefallProperties;
+import com.alver.fatefall.fx.core.utils.BackgroundUtil;
 import javafx.beans.DefaultProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
@@ -11,7 +12,6 @@ import javafx.scene.Node;
 import javafx.scene.SubScene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -34,7 +34,6 @@ public class Viewport extends SubScene {
 		heightProperty().bind(parentProperty().flatMap(p -> ((Region)p).heightProperty()));
 		setManaged(false);
 
-
 		contentProperty = new SimpleObjectProperty<>(this, "content", null);
 		scaleProperty = new SimpleDoubleProperty(this, "scale", 1.0);
 		contentWrapper = root;
@@ -46,16 +45,12 @@ public class Viewport extends SubScene {
 		contentWrapper.scaleXProperty().bind(scaleProperty);
 		contentWrapper.scaleYProperty().bind(scaleProperty);
 		contentWrapper.scaleZProperty().bind(scaleProperty);
-
-		contentProperty.addListener((observable, oldValue, newValue) -> {
-			contentWrapper.getChildren().setAll(newValue);
-		});
-
+		contentWrapper.setBackground(BackgroundUtil.checkeredBackground());
+		contentProperty.addListener((observable, oldValue, newValue) -> contentWrapper.getChildren().setAll(newValue));
+		setFill(Color.TRANSPARENT);
 		userAgentStylesheetProperty().bind(FatefallProperties.getInstance().getSubSceneStylesheetSelection()
 				.map(s -> FatefallProperties.getStylesheetByNameMap().get(s)));
 
-		setFill(Color.TRANSPARENT.interpolate(Color.RED, 0.5));
-		contentWrapper.setBackground(Background.fill(Color.TRANSPARENT.interpolate(Color.BLUE, 0.5)));
 	}
 
 	public ObjectProperty<Node> contentProperty() {

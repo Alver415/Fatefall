@@ -21,8 +21,9 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
+import static com.alver.jfxtra.util.JFXUtils.run;
+import static com.alver.jfxtra.util.JFXUtils.runFX;
 import static org.controlsfx.property.BeanProperty.CATEGORY_LABEL_KEY;
 
 public class CachedItemsPropertySheet extends PropertySheet {
@@ -68,13 +69,15 @@ public class CachedItemsPropertySheet extends PropertySheet {
 	}
 
 	public void selectNode(Node key) {
-		try {
-			ObservableList<Item> list = cache.get(key);
-			getItems().setAll(list);
-		} catch (ExecutionException e) {
-			throw new RuntimeException(e);
+		if (key == null){
+			return;
 		}
+		run(() -> {
+			ObservableList<Item> list = cache.get(key);
+			runFX(() -> getItems().setAll(list));
+		});
 	}
+
 	public static class EditorFactory extends DefaultPropertyEditorFactory {
 
 		@Override

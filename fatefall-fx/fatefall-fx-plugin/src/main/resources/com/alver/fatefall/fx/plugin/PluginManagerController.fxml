@@ -6,7 +6,7 @@
 <BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
 			fx:controller="com.alver.fatefall.fx.plugin.PluginManagerController">
 	<center>
-		<TableView items="${controller.pluginRows}">
+		<TableView items="#{controller.pluginRows}">
 			<columns>
 				<TableColumn text="Name" editable="false">
 					<cellValueFactory>

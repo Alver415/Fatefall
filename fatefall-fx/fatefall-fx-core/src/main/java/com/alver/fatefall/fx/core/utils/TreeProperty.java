@@ -11,6 +11,8 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
+import static com.sun.javafx.fxml.BeanAdapter.PROPERTY_SUFFIX;
+
 @SuppressWarnings("unchecked")
 public class TreeProperty<T> implements
 		DelegatingProperty<T>,
@@ -34,10 +36,10 @@ public class TreeProperty<T> implements
 		this.valueProperty = new SimpleObjectProperty<>(bean, name, initialValue);
 		this.propertyMap = new SimpleMapProperty<>(FXCollections.observableHashMap());
 		this.propertyMap.addListener((MapChangeListener<? super Source, ? super Property<T>>) change ->
-				FXUtils.runFx(() -> change.getMap().entrySet().stream()
+				change.getMap().entrySet().stream()
 						.peek(entry -> this.unbindBidirectional(entry.getValue()))
 						.min(Comparator.comparingInt(entry -> entry.getKey().ordinal()))
-						.ifPresent(entry -> this.bindBidirectional(entry.getValue()))));
+						.ifPresent(entry -> this.bindBidirectional(entry.getValue())));
 
 		this.source = new ReadOnlyObjectWrapper<>();
 		this.source.bind(Bindings.createObjectBinding(() ->
@@ -231,6 +233,34 @@ public class TreeProperty<T> implements
 		return path.split("\\.");
 	}
 
+	@Override
+	public boolean containsKey(Object key) {
+		boolean result = getDelegateMap().containsKey(key);
+		if (!result) {
+			// Hack: If we fail to find a property with the suffix, try again to see if we have the same property
+			// name without the suffix. Needed to make BeanAdapter be able to find properties without the suffix.
+			result = getDelegateMap().containsKey(keyWithoutPropertySuffix(String.valueOf(key)));
+		}
+		return result;
+	}
+
+	@Override
+	public TreeProperty<Object> get(Object key) {
+		TreeProperty<Object> result = getDelegateMap().get(key);
+		if (result == null) {
+			// Hack: If we fail to find a property with the suffix, try again to see if we have the same property
+			// name without the suffix. Needed to make BeanAdapter be able to find properties without the suffix.
+			result = getDelegateMap().get(keyWithoutPropertySuffix(String.valueOf(key)));
+		}
+		return result;
+	}
+
+	private static String keyWithoutPropertySuffix(String keyString) {
+		if (!keyString.endsWith(PROPERTY_SUFFIX)) {
+			return keyString;
+		}
+		return keyString.substring(0, keyString.length() - PROPERTY_SUFFIX.length());
+	}
 	@Override
 	public String toString() {
 		return getValue().toString();

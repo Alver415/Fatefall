@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 
+import java.util.List;
 import java.util.Objects;
 
 @FXMLComponent
@@ -95,7 +96,18 @@ public class ApplicationController implements AppController {
 
 	@FXML
 	private void refresh() {
-		workspaces.setAll(workspaceApi.getAll());
+		List<WorkspaceFX> fetched = workspaceApi.getAll();
+
+		// TODO: Fix me
+		// Hack: Need to manually assign parent relationship from CardFace to Card.
+		// Json deserializer isn't currently configured correctly to handle it.
+		for (WorkspaceFX workspaceFX : fetched) {
+			workspaceFX.getCards().forEach(cardFX -> {
+				cardFX.getFront().setCard(cardFX);
+				cardFX.getBack().setCard(cardFX);
+			});
+		}
+		workspaces.setAll(fetched);
 	}
 
 	public void registerView(AppView appView) {
@@ -111,6 +123,7 @@ public class ApplicationController implements AppController {
 				tab -> tab.getText().equals(title.getValue())).findAny().ifPresentOrElse(
 				tab -> {
 					tabPane.getSelectionModel().select(tab);
+					tab.setContent(node);
 				},
 				() -> {
 					Tab tab = new DetachableTab();

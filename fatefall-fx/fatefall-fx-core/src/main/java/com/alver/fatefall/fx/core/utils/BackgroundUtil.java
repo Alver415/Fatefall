@@ -8,18 +8,35 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class BackgroundUtil {
+	public static final Color DEFAULT_PRIMARY = Color.TRANSPARENT;
+	public static final Color DEFAULT_SECONDARY = Color.GRAY.interpolate(Color.TRANSPARENT, 0.5);
 
 	public static final Background TRANSPARENCY = checkeredBackground();
 
 	@Bean
-	public static Background checkeredBackground() {
-		return checkeredBackground(Color.BLUE, Color.RED, 10, 10, 2, 2);
+	public static ImagePattern checkeredImagePattern() {
+		return checkeredImagePattern(DEFAULT_PRIMARY, DEFAULT_SECONDARY, 10, 10, 2, 2);
 	}
+
+	public static ImagePattern checkeredImagePattern(
+			Color foreground, Color background,
+			int width, int height,
+			int rows, int cols) {
+		Image image = buildCheckeredImage(foreground, background, width, height, rows, cols);
+		return new ImagePattern(image, 0, 0, width, height, false);
+	}
+
+	@Bean
+	public static Background checkeredBackground() {
+		return checkeredBackground(DEFAULT_PRIMARY, DEFAULT_SECONDARY, 10, 10, 2, 2);
+	}
+
 	public static Background checkeredBackground(
 			Color foreground, Color background,
 			int width, int height,
@@ -28,7 +45,14 @@ public class BackgroundUtil {
 				buildCheckeredImage(foreground, background, width, height, rows, cols),
 				null, null, null, null));
 	}
-	private static Image buildCheckeredImage(Color foreground, Color background, int width, int height, int rows, int cols) {
+
+	private static Image buildCheckeredImage(
+			Color foreground,
+			Color background,
+			int width,
+			int height,
+			int rows,
+			int cols) {
 		WritableImage writableImage = new WritableImage(width, height);
 		PixelWriter pixelWriter = writableImage.getPixelWriter();
 
@@ -57,11 +81,11 @@ public class BackgroundUtil {
 		g.setStroke(Color.GRAY);
 		g.setLineWidth(0.5);
 
-		for (double x = Math.round(xMin); x < xMax; x += 10){
+		for (double x = Math.round(xMin); x < xMax; x += 10) {
 			g.strokeLine(x, yMin, x, yMax);
 		}
 
-		for (double y = Math.round(yMin); y < yMax; y += 10){
+		for (double y = Math.round(yMin); y < yMax; y += 10) {
 			g.strokeLine(xMin, y, xMax, y);
 		}
 
