@@ -16,7 +16,6 @@
 		<controlsfx.version>11.1.2</controlsfx.version>
 
 		<preferencesfx-core.version>11.11.0</preferencesfx-core.version>
-		<guava.version>31.1-jre</guava.version>
 		<undofx.version>2.1.1</undofx.version>
 		<tiwulfx-dock.version>0.3</tiwulfx-dock.version>
 	</properties>

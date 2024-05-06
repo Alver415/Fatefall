@@ -13,7 +13,7 @@
 	<packaging>jar</packaging>
 
 	<properties>
-		<pf4j.version>3.8.0</pf4j.version>
+		<pf4j.version>3.11.0</pf4j.version>
 		<pf4j-spring.version>0.9.0-SNAPSHOT</pf4j-spring.version>
 	</properties>
 
