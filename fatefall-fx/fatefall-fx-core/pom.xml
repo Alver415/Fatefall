@@ -14,9 +14,8 @@
 
 	<properties>
 		<controlsfx.version>11.1.2</controlsfx.version>
-
-		<preferencesfx-core.version>11.11.0</preferencesfx-core.version>
 		<guava.version>31.1-jre</guava.version>
+		<preferencesfx-core.version>11.11.0</preferencesfx-core.version>
 		<undofx.version>2.1.1</undofx.version>
 		<tiwulfx-dock.version>0.3</tiwulfx-dock.version>
 	</properties>
@@ -46,6 +45,13 @@
 			<groupId>org.controlsfx</groupId>
 			<artifactId>controlsfx</artifactId>
 			<version>${controlsfx.version}</version>
+		</dependency>
+
+		<!-- Google Guava (used for LoadingCache)-->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
 		</dependency>
 
 		<dependency>
