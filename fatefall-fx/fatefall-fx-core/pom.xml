@@ -48,13 +48,6 @@
 			<version>${controlsfx.version}</version>
 		</dependency>
 
-		<!-- Google Guava -->
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>${guava.version}</version>
-		</dependency>
-
 		<dependency>
 			<groupId>org.fxmisc.undo</groupId>
 			<artifactId>undofx</artifactId>

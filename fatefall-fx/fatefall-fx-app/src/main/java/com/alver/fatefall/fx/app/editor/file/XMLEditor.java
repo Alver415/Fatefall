@@ -8,6 +8,7 @@ import org.fxmisc.richtext.model.StyleSpansBuilder;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,6 +16,7 @@ import static com.alver.jfxtra.util.JFXUtils.run;
 import static com.alver.jfxtra.util.JFXUtils.runFX;
 
 public class XMLEditor extends VirtualizedScrollPane<CodeArea> {
+	private static final String CSS = Objects.requireNonNull(XMLEditor.class.getResource("xml-editor.css")).toExternalForm();
 
 	private static final Pattern XML_TAG = Pattern.compile(
 			"(?<ELEMENT>(</?\\h*)(\\w+)([^<>]*)(\\h*/?>))|" +
@@ -31,60 +33,19 @@ public class XMLEditor extends VirtualizedScrollPane<CodeArea> {
 	private static final int GROUP_EQUAL_SYMBOL = 2;
 	private static final int GROUP_ATTRIBUTE_VALUE = 3;
 
-	private static final String sampleCode = String.join("\n", new String[]{
-			"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>",
-			"<!-- Sample XML -->",
-			"< orders >",
-			"	<Order number=\"1\" table=\"center\">",
-			"		<items>",
-			"			<Item>",
-			"				<type>ESPRESSO</type>",
-			"				<shots>2</shots>",
-			"				<iced>false</iced>",
-			"				<orderNumber>1</orderNumber>",
-			"			</Item>",
-			"			<Item>",
-			"				<type>CAPPUCCINO</type>",
-			"				<shots>1</shots>",
-			"				<iced>false</iced>",
-			"				<orderNumber>1</orderNumber>",
-			"			</Item>",
-			"			<Item>",
-			"			<type>LATTE</type>",
-			"				<shots>2</shots>",
-			"				<iced>false</iced>",
-			"				<orderNumber>1</orderNumber>",
-			"			</Item>",
-			"			<Item>",
-			"				<type>MOCHA</type>",
-			"				<shots>3</shots>",
-			"				<iced>true</iced>",
-			"				<orderNumber>1</orderNumber>",
-			"			</Item>",
-			"		</items>",
-			"	</Order>",
-			"</orders>"
-	});
-
 	public XMLEditor() {
 		super(new CodeArea());
 		CodeArea codeArea = getContent();
+		codeArea.getStylesheets().add(CSS);
 		codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
+		codeArea.textProperty().addListener((obs, oldText, newText) -> run(() -> {
+			StyleSpans<Collection<String>> styleSpans = computeHighlighting(newText);
+			runFX(() -> codeArea.setStyleSpans(0, styleSpans));
+		}));
 
-		codeArea.textProperty().addListener((obs, oldText, newText) -> {
-			run(() -> {
-				StyleSpans<Collection<String>> styleSpans = computeHighlighting(newText);
-				runFX(() -> codeArea.setStyleSpans(0, styleSpans));
-
-			});
-		});
-		codeArea.replaceText(0, 0, sampleCode);
-
-		codeArea.getStylesheets().add(XMLEditor.class.getResource("xml-highlighting.css").toExternalForm());
 	}
 
 	private static StyleSpans<Collection<String>> computeHighlighting(String text) {
-
 		Matcher matcher = XML_TAG.matcher(text);
 		int lastKwEnd = 0;
 		StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();

@@ -10,25 +10,18 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 import java.util.List;
 import java.util.UUID;
-
-import static com.alver.fatefall.fx.core.utils.FXUtils.isAncestorOf;
-import static com.alver.jfxtra.util.JFXUtils.run;
-import static com.alver.jfxtra.util.JFXUtils.runFX;
 
 @FXMLPrototype
 public class CardEditorView {
@@ -47,7 +40,7 @@ public class CardEditorView {
 	private NodeTreeView nodeTreeView;
 	@FXML
 	private CachedItemsPropertySheet selectedNodePropertySheet;
-//
+
 	@FXML
 	private void initialize() {
 		scope.set(String.valueOf(UUID.randomUUID())); // Prevents moving tabs between different editors.
@@ -55,8 +48,31 @@ public class CardEditorView {
 		BidirectionalBinding.bind(cardProperty(), cardView.cardProperty());
 		BidirectionalBinding.bind(cardProperty(), dataTreeView.cardProperty());
 
+		BidirectionalBinding.bind(selectedProperty(), selectedNodePropertySheet.selectedProperty());
+
+		buildNodeTreeView();
+
+//
+//		ChangeListener<Node> focusSelectedListener = (_, _, newValue) -> run(() -> {
+//			if (isAncestorOf(newValue, cardView)) runFX(() -> setSelected(newValue));
+//		});
+//		viewport.sceneProperty().map(Scene::focusOwnerProperty).subscribe((oldValue, newValue) -> {
+//			if (oldValue != null) oldValue.removeListener(focusSelectedListener);
+//			if (newValue != null) newValue.addListener(focusSelectedListener);
+//		});
+//		viewport.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+//			if (event.getTarget() instanceof Node node) {
+//				run(() -> {
+//					if (isAncestorOf(node, cardView)) setSelected(node);
+//				});
+//			}
+//		});
+	}
+
+	private void buildNodeTreeView() {
 		TreeItem<Node> frontRoot = new TreeItem<>();
-		frontRoot.valueProperty().bind(cardView.getFront().controller().contentProperty().flatMap(Node::parentProperty));
+		frontRoot.valueProperty().bind(
+				cardView.getFront().controller().contentProperty().flatMap(Node::parentProperty));
 		frontRoot.valueProperty().subscribe(value -> {
 			TreeItem<Node> nodeTreeItem = nodeTreeView.buildTreeNode(value);
 			frontRoot.getChildren().setAll(nodeTreeItem.getChildren());
@@ -71,6 +87,7 @@ public class CardEditorView {
 		nodeTreeView.getRoot().getChildren().add(frontRoot);
 		nodeTreeView.getRoot().getChildren().add(backRoot);
 
+
 		SelectionBinding.bindBidirectional(
 				nodeTreeView.selectionModelProperty()
 						.flatMap(SelectionModel::selectedItemProperty)
@@ -78,42 +95,11 @@ public class CardEditorView {
 				v -> nodeTreeView.getSelectionModel().select(nodeTreeView.nodeToItemMap.get(v)),
 				selectedProperty(),
 				this::setSelected);
-
-		nodeTreeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-			if (newValue != null) selectedNodePropertySheet.selectNode(newValue.getValue());
-		});
-
-		ChangeListener<Node> focusSelectedListener = (_, _, newValue) -> run(() -> {
-			if (isAncestorOf(newValue, cardView)) runFX(() -> setSelected(newValue));
-		});
-		viewport.sceneProperty().map(Scene::focusOwnerProperty).addListener((_, oldValue, newValue) -> {
-			if (oldValue != null) oldValue.removeListener(focusSelectedListener);
-			if (newValue != null) newValue.addListener(focusSelectedListener);
-		});
-		viewport.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
-			if (event.getTarget() instanceof Node node) {
-				run(() -> {
-					if (isAncestorOf(node, cardView)) setSelected(node);
-				});
-			}
-		});
 	}
 
-	//endregion
+	//endregion FXML
+
 	//region Properties
-	private final ObjectProperty<Node> selected = new SimpleObjectProperty<>(this, "selected");
-
-	public ObjectProperty<Node> selectedProperty() {
-		return selected;
-	}
-
-	public Node getSelected() {
-		return selectedProperty().get();
-	}
-
-	public void setSelected(Node selected) {
-		selectedProperty().set(selected);
-	}
 
 	private final StringProperty scope = new SimpleStringProperty(this, "scope");
 
@@ -127,6 +113,20 @@ public class CardEditorView {
 
 	public void setScope(String scope) {
 		scopeProperty().set(scope);
+	}
+
+	private final ObjectProperty<Node> selected = new SimpleObjectProperty<>(this, "selected");
+
+	public ObjectProperty<Node> selectedProperty() {
+		return selected;
+	}
+
+	public Node getSelected() {
+		return selectedProperty().get();
+	}
+
+	public void setSelected(Node selected) {
+		selectedProperty().set(selected);
 	}
 
 

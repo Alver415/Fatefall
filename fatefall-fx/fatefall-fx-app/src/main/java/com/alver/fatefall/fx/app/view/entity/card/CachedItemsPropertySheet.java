@@ -4,6 +4,8 @@ import com.alver.fatefall.fx.app.editor.components.image.ImageSelectionEditor;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -21,8 +23,8 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.function.Function;
 
-import static com.alver.jfxtra.util.JFXUtils.run;
 import static com.alver.jfxtra.util.JFXUtils.runFX;
 import static org.controlsfx.property.BeanProperty.CATEGORY_LABEL_KEY;
 
@@ -30,16 +32,29 @@ public class CachedItemsPropertySheet extends PropertySheet {
 
 	private static final Logger log = LoggerFactory.getLogger(CachedItemsPropertySheet.class);
 
+	// region Properties
+	private final ObjectProperty<Node> selected = new SimpleObjectProperty<>(this, "selected");
+
+	public ObjectProperty<Node> selectedProperty() {
+		return selected;
+	}
+
+	public Node getSelected() {
+		return selectedProperty().get();
+	}
+
+	public void setSelected(Node node) {
+		selectedProperty().set(node);
+	}
+
+	// endregion Properties
+
 	private final LoadingCache<Node, ObservableList<Item>> cache;
 
 	public CachedItemsPropertySheet() {
-		this.setPropertyEditorFactory(new EditorFactory());
-		cache = CacheBuilder.newBuilder().build(new CacheLoader<>() {
-			@Override
-			public ObservableList<Item> load(Node key) {
-				return buildProperties(key);
-			}
-		});
+		setPropertyEditorFactory(new EditorFactory());
+		cache = CacheBuilder.newBuilder().build(new SimpleCacheLoader<>(this::buildProperties));
+		selectedProperty().subscribe(key -> runFX(() -> getItems().setAll(cache.get(key))));
 	}
 
 	private static final Map<Class<?>, String> categoryMap = Map.of(
@@ -60,25 +75,14 @@ public class CachedItemsPropertySheet extends PropertySheet {
 				}
 				list.add(new BeanProperty(bean, p));
 			}
-		} catch (
-				IntrospectionException e) {
+		} catch (IntrospectionException e) {
 			log.error(e.getMessage(), e);
 		}
 
 		return list;
 	}
 
-	public void selectNode(Node key) {
-		if (key == null){
-			return;
-		}
-		run(() -> {
-			ObservableList<Item> list = cache.get(key);
-			runFX(() -> getItems().setAll(list));
-		});
-	}
-
-	public static class EditorFactory extends DefaultPropertyEditorFactory {
+	private static class EditorFactory extends DefaultPropertyEditorFactory {
 
 		@Override
 		public PropertyEditor<?> call(Item item) {
@@ -89,6 +93,18 @@ public class CachedItemsPropertySheet extends PropertySheet {
 			}
 
 			return super.call(item);
+		}
+	}
+
+	private static class SimpleCacheLoader<K, V> extends CacheLoader<K, V> {
+
+		private final Function<K, V> function;
+
+		private SimpleCacheLoader(Function<K, V> function) {this.function = function;}
+
+		@Override
+		public V load(K key) {
+			return function.apply(key);
 		}
 	}
 }

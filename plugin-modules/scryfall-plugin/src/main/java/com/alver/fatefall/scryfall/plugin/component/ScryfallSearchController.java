@@ -59,6 +59,8 @@ public class ScryfallSearchController {
     protected void refresh() {
         flowPane.getChildren().clear();
         for (CardFX card : getWorkspace().getCards()) {
+            card.getFront().setCard(card);
+            card.getBack().setCard(card);
             CardView cardView = beanFactory.getBean(CardView.class);
             cardView.setCard(card);
             MenuItem menuItem = componentFactory.buildOpenInBrowserMenuItem(cardView);
