@@ -103,6 +103,11 @@
 			</dependency>
 			<dependency>
 				<groupId>com.alver.fatefall</groupId>
+				<artifactId>fatefall-fx-theme</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alver.fatefall</groupId>
 				<artifactId>fatefall-fx-plugin</artifactId>
 				<version>${revision}</version>
 			</dependency>

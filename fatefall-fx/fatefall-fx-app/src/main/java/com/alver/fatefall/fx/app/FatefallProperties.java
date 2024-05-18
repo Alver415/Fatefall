@@ -1,6 +1,8 @@
 package com.alver.fatefall.fx.app;
 
+import atlantafx.base.theme.Theme;
 import com.alver.fatefall.fx.core.utils.ResourceUtil;
+import com.alver.fatefall.fx.theme.Themes;
 import com.sun.javafx.css.StyleManager;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.*;
@@ -24,6 +26,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Configuration
@@ -77,8 +80,8 @@ public class FatefallProperties {
 
 	@Bean
 	public ListProperty<String> getAdditionalStylesheetsOptions() {
-		Path styleSheetsDirectory = installationDirectory.resolve("stylesheets");
 		try {
+			Path styleSheetsDirectory = installationDirectory.resolve("stylesheets");
 			Files.createDirectories(styleSheetsDirectory);
 			try (Stream<Path> paths = Files.walk(styleSheetsDirectory)) {
 				List<String> cssFileNames = paths
@@ -86,7 +89,8 @@ public class FatefallProperties {
 						.map(Path::toString)
 						.toList();
 
-				return new SimpleListProperty<>(FXCollections.observableArrayList(cssFileNames));
+				SimpleListProperty<String> additionalStylesheetsOptions = new SimpleListProperty<>(FXCollections.observableArrayList(cssFileNames));
+				return additionalStylesheetsOptions;
 			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -115,9 +119,8 @@ public class FatefallProperties {
 
 	@Bean
 	public static Map<String, String> getStylesheetByNameMap() {
-		return FXCollections.observableMap(Map.of(
-				"Modena", "com/sun/javafx/scene/control/skin/modena/modena.css",
-				"Caspian", "com/sun/javafx/scene/control/skin/caspian/caspian.css"));
+		return FXCollections.observableMap(Themes.getThemes().stream()
+				.collect(Collectors.toMap(Theme::getName, Theme::getUserAgentStylesheet)));
 	}
 
 	@Bean

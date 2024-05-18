@@ -32,6 +32,10 @@
 		</dependency>
 		<dependency>
 			<groupId>com.alver.fatefall</groupId>
+			<artifactId>fatefall-fx-theme</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.alver.fatefall</groupId>
 			<artifactId>fatefall-fx-plugin</artifactId>
 		</dependency>
 

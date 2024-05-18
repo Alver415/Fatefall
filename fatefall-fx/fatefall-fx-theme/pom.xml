@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.alver.fatefall</groupId>
+		<artifactId>fatefall-fx</artifactId>
+		<version>${revision}</version>
+	</parent>
+
+	<artifactId>fatefall-fx-theme</artifactId>
+	<packaging>jar</packaging>
+
+	<properties>
+		<atlantafx.version>2.0.0</atlantafx.version>
+<!--		<jmetro.version>11.6.15</jmetro.version>-->
+<!--		<transit.version>1.0.0</transit.version>-->
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>io.github.mkpaz</groupId>
+			<artifactId>atlantafx-base</artifactId>
+			<version>${atlantafx.version}</version>
+		</dependency>
+		<!--	For some reason, these require runtime scoped versions of javafx dependencies of version 11	-->
+		<!--	This causes issues that can't be resolved via pom dependencyManagement. -->
+		<!--		<dependency>-->
+		<!--			<groupId>org.jfxtras</groupId>-->
+		<!--			<artifactId>jmetro</artifactId>-->
+		<!--			<version>${jmetro.version}</version>-->
+		<!--		</dependency>-->
+		<!--		<dependency>-->
+		<!--			<groupId>com.pixelduke</groupId>-->
+		<!--			<artifactId>transit</artifactId>-->
+		<!--			<version>${transit.version}</version>-->
+		<!--		</dependency>-->
+
+	</dependencies>
+</project>

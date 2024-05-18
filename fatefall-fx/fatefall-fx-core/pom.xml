@@ -23,6 +23,11 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>com.alver.fatefall</groupId>
+			<artifactId>fatefall-fx-theme</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webflux</artifactId>
 		</dependency>
