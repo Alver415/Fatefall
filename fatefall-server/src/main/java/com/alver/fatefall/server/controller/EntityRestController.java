@@ -23,7 +23,7 @@ public abstract class EntityRestController<E extends Entity, R extends EntityRow
 
 	@GetMapping("/{id}")
 	public ResponseEntity<E> getById(
-			@PathVariable Long id) {
+			@PathVariable("id") Long id) {
 		return ResponseEntity.of(service.getById(id));
 	}
 
@@ -35,14 +35,14 @@ public abstract class EntityRestController<E extends Entity, R extends EntityRow
 
 	@PutMapping("/{id}")
 	public ResponseEntity<E> update(
-			@PathVariable Long id,
+			@PathVariable("id") Long id,
 			@RequestBody E updated) {
 		return ResponseEntity.ok(service.update(id, updated));
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> delete(
-			@PathVariable Long id) {
+			@PathVariable("id") Long id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
