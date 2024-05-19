@@ -9,7 +9,6 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent;
 import org.springframework.context.ApplicationContextInitializer;
@@ -26,9 +25,6 @@ import static org.pf4j.RuntimeMode.DEPLOYMENT;
 import static org.pf4j.RuntimeMode.DEVELOPMENT;
 
 public class FatefallFXApplication extends Application {
-
-    @Value("${title}")
-    private String title;
 
 	private ConfigurableApplicationContext applicationContext;
 	private SpringFX springFX;
@@ -71,7 +67,7 @@ public class FatefallFXApplication extends Application {
 	@Override
 	public void start(Stage stage) {
 		stage = stageManager.create((Parent) springFX.loadView(ApplicationController.class));
-		stage.setOnCloseRequest(e -> stop());
+		stage.setOnCloseRequest(_ -> stop());
 		stage.show();
 
 		FXComponentInspectorHandler.handleAll();

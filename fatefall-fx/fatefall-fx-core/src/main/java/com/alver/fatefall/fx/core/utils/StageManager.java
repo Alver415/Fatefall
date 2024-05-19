@@ -8,7 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -96,14 +95,14 @@ public class StageManager {
     public Stage create(StringProperty titleProperty, Stage stage) {
         stage.titleProperty().bind(titleProperty);
         stage.getIcons().setAll(iconProperty.get());
-        iconProperty.addListener(((observable, oldValue, newValue) -> stage.getIcons().setAll(iconProperty.get())));
+        iconProperty.subscribe(_ -> stage.getIcons().setAll(iconProperty.get()));
 
-        Screen screen = Screen.getScreens().get(Screen.getScreens().size() - 1);
-        stage.setX(screen.getBounds().getMinX());
-        stage.setY(screen.getBounds().getMinY());
-        stage.setMaximized(true);
+//        Screen screen = Screen.getScreens().getLast();
+//        stage.setX(screen.getBounds().getMinX());
+//        stage.setY(screen.getBounds().getMinY());
+//        stage.setMaximized(true);
+//        stage.centerOnScreen();
 
-        stage.centerOnScreen();
         return stage;
     }
 
