@@ -5,14 +5,14 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.SkinBase;
 
-public abstract class AbstractCardViewSkin extends SkinBase<CardView> {
+public abstract class CardViewSkinBase extends SkinBase<CardView> {
 
     protected final Node front;
     protected final Node back;
 
-    protected AbstractCardViewSkin(CardView control) {
+    protected CardViewSkinBase(CardView control) {
         super(control);
-        this.front = new Group(control.getFront().view());
-        this.back = new Group(control.getBack().view());
+        front = new Group(control.getFront());
+        back = new Group(control.getBack());
     }
 }

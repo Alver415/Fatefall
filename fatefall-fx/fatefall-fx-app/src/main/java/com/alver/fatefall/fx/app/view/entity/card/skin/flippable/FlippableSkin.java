@@ -2,7 +2,7 @@ package com.alver.fatefall.fx.app.view.entity.card.skin.flippable;
 
 import com.alver.fatefall.fx.app.FatefallProperties;
 import com.alver.fatefall.fx.app.view.entity.card.CardView;
-import com.alver.fatefall.fx.app.view.entity.card.skin.AbstractCardViewSkin;
+import com.alver.fatefall.fx.app.view.entity.card.skin.CardViewSkinBase;
 import com.alver.fatefall.fx.core.utils.ResourceUtil;
 import javafx.animation.*;
 import javafx.beans.property.ObjectProperty;
@@ -17,7 +17,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
-public class FlippableSkin extends AbstractCardViewSkin {
+public class FlippableSkin extends CardViewSkinBase {
 
     private static final Image SPIN_LEFT = ResourceUtil.image("spinLeft.png");
     private static final Image FLIP_OVER = ResourceUtil.image("flipOver.png");
@@ -33,10 +33,7 @@ public class FlippableSkin extends AbstractCardViewSkin {
     public FlippableSkin(CardView control, FatefallProperties properties) {
         super(control);
         wrapper = new StackPane();
-
-        wrapper.setMaxWidth(0);
-        wrapper.setMaxHeight(0);
-        wrapper.getChildren().setAll(front, back);
+        wrapper.getChildren().setAll(back, front);
 
         buttons = new HBox();
         buttons.setPickOnBounds(false);
@@ -48,6 +45,11 @@ public class FlippableSkin extends AbstractCardViewSkin {
         front.setVisible(true);
         back.setVisible(false);
 
+        sideProperty.subscribe(face -> {
+            front.setVisible(face == Side.FRONT);
+            back.setVisible(face == Side.BACK);
+        });
+
         buttons.getChildren().setAll(
                 buildButton(SPIN_LEFT, this::spinLeft),
                 buildButton(FLIP_OVER, this::flip),
@@ -55,8 +57,8 @@ public class FlippableSkin extends AbstractCardViewSkin {
 
         control.maxWidthProperty().bind(wrapper.widthProperty());
         control.maxHeightProperty().bind(wrapper.heightProperty());
-        control.setOnMouseEntered(e -> animateButtons(true));
-        control.setOnMouseExited(e -> animateButtons(false));
+        control.setOnMouseEntered(_ -> animateButtons(true));
+        control.setOnMouseExited(_ -> animateButtons(false));
 
         getChildren().setAll(wrapper, buttons);
     }
@@ -69,7 +71,7 @@ public class FlippableSkin extends AbstractCardViewSkin {
         Button button = new Button();
         button.setOpacity(0.5);
         button.setGraphic(imageView);
-        button.setOnAction(a -> runnable.run());
+        button.setOnAction(_ -> runnable.run());
         return button;
     }
 
@@ -93,14 +95,7 @@ public class FlippableSkin extends AbstractCardViewSkin {
     /**
      * === Card Side Property ==
      */
-    protected ObjectProperty<Side> sideProperty = new SimpleObjectProperty<>(Side.FRONT) {
-        {
-            addListener((observable, oldValue, newValue) -> {
-                front.setVisible(newValue == Side.FRONT);
-                back.setVisible(newValue == Side.BACK);
-            });
-        }
-    };
+    protected ObjectProperty<Side> sideProperty = new SimpleObjectProperty<>(Side.FRONT);
 
     public final void setSide(Side value) {
         sideProperty.set(value);
@@ -148,7 +143,7 @@ public class FlippableSkin extends AbstractCardViewSkin {
         spinTimeline.getKeyFrames().setAll(
                 new KeyFrame(start, new KeyValue(wrapper.rotateProperty(), rotationStart)),
                 new KeyFrame(end, new KeyValue(wrapper.rotateProperty(), rotationEnd)));
-        spinTimeline.setOnFinished((event) -> wrapper.setRotate(getSpin().ordinal() * 90));
+        spinTimeline.setOnFinished(_ -> wrapper.setRotate(getSpin().ordinal() * 90));
         spinTimeline.playFromStart();
     }
 

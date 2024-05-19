@@ -19,11 +19,10 @@ import javafx.scene.paint.Color;
 @DefaultProperty("content")
 public class Viewport extends SubScene {
 
-	private final ObjectProperty<Node> contentProperty;
-	private final DoubleProperty scaleProperty;
+	private final ObjectProperty<Node> contentProperty = new SimpleObjectProperty<>(this, "content", null);
+	private final DoubleProperty scaleProperty = new SimpleDoubleProperty(this, "scale", 1.0);
 
 	private final StackPane contentWrapper;
-
 
 	public Viewport() {
 		this(new StackPane());
@@ -34,8 +33,6 @@ public class Viewport extends SubScene {
 		heightProperty().bind(parentProperty().flatMap(p -> ((Region)p).heightProperty()));
 		setManaged(false);
 
-		contentProperty = new SimpleObjectProperty<>(this, "content", null);
-		scaleProperty = new SimpleDoubleProperty(this, "scale", 1.0);
 		contentWrapper = root;
 
 		Gestures gestures = new Gestures();
@@ -46,7 +43,7 @@ public class Viewport extends SubScene {
 		contentWrapper.scaleYProperty().bind(scaleProperty);
 		contentWrapper.scaleZProperty().bind(scaleProperty);
 		contentWrapper.setBackground(BackgroundUtil.checkeredBackground());
-		contentProperty.addListener((observable, oldValue, newValue) -> contentWrapper.getChildren().setAll(newValue));
+		contentProperty.addListener((_, _, newValue) -> contentWrapper.getChildren().setAll(newValue));
 		setFill(Color.TRANSPARENT);
 		userAgentStylesheetProperty().bind(FatefallProperties.getInstance().getSubSceneStylesheetSelection()
 				.map(s -> FatefallProperties.getStylesheetByNameMap().get(s)));

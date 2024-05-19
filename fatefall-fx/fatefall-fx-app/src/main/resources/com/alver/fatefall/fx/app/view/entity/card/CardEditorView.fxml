@@ -11,7 +11,6 @@
 <SplitPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
 		   fx:controller="com.alver.fatefall.fx.app.view.entity.card.CardEditorView"
 		   stylesheets="@CardEditorView.css"
-		   fx:id="root"
 		   dividerPositions="0.25, 0.75">
 	<DetachableTabPane scope="#{controller.scope}" closeIfEmpty="true">
 
