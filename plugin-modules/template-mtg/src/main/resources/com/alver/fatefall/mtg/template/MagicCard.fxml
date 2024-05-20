@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<StackPane fx:id="root" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+		   fx:controller="com.alver.fatefall.mtg.plugin.template.MagicCardController"
+		   stylesheets="@MagicCard.css">
+
+	<Group blendMode="SRC_ATOP">
+		<Group blendMode="MULTIPLY">
+			<ImageView image="${leftBackground}" fitHeight="${root.height}" fitWidth="${root.width}"/>
+			<Pane prefHeight="${root.height}" prefWidth="${root.width}"
+				  style="-fx-background-color:linear-gradient(from 0% 0% to 50% 0%, white, transparent);"/>
+		</Group>
+		<Group blendMode="MULTIPLY">
+			<ImageView image="${rightBackground}" fitHeight="${root.height}" fitWidth="${root.width}"/>
+			<Pane prefHeight="${root.height}" prefWidth="${root.width}"
+				  style="-fx-background-color:linear-gradient(from 50% 0% to 100% 0%, transparent, white);"/>
+		</Group>
+	</Group>
+
+	<Group blendMode="SRC_ATOP">
+		<Group blendMode="MULTIPLY">
+			<ImageView fx:id="first" fitHeight="#{controller.height}" fitWidth="#{controller.width}">
+				<Image url="file:assets\mtg\rcard.jpg"/>
+			</ImageView>
+			<Pane prefHeight="#{controller.height}" prefWidth="#{controller.width}"
+					style="-fx-background-color:linear-gradient(from 0% 0% to 50% 0%, white, transparent);"/>
+		</Group>
+		<Group blendMode="MULTIPLY">
+			<ImageView fx:id="second" fitHeight="#{controller.height}" fitWidth="#{controller.width}">
+				<Image url="file:assets\mtg\bcard.jpg"/>
+			</ImageView>
+			<Pane prefHeight="#{controller.height}" prefWidth="#{controller.width}"
+				  style="-fx-background-color:linear-gradient(from 50% 0% to 100% 0%, transparent, white);"/>
+		</Group>
+	</Group>
+
+	<Pane style="-fx-border-color:red">
+		<TextArea id="name" promptText="Card Name" text="#{data.name}"
+				  maxHeight="20"
+				  layoutY="6"
+				  layoutX="6"/>
+
+<!--		<ImageView id="art">-->
+<!--			&lt;!&ndash;		<Image url="images/rcard.jpg"/>&ndash;&gt;-->
+<!--		</ImageView>-->
+
+<!--		<TextArea id="type" promptText="Type" text="#{data.type}"-->
+<!--				  AnchorPane.bottomAnchor="0"-->
+<!--				  AnchorPane.rightAnchor="20"-->
+<!--				  AnchorPane.leftAnchor="20"-->
+<!--				  AnchorPane.topAnchor="100"/>-->
+
+<!--		<TextArea id="text" promptText="Rules Text" text="#{data.text}"-->
+<!--				  AnchorPane.bottomAnchor="0"-->
+<!--				  AnchorPane.rightAnchor="20"-->
+<!--				  AnchorPane.leftAnchor="20"-->
+<!--				  AnchorPane.topAnchor="100"/>-->
+
+<!--		<TextArea id="developer" promptText="Developer Credit Testing" text="#{data.developer}"-->
+<!--				  maxHeight="20"/>-->
+	</Pane>
+</StackPane>

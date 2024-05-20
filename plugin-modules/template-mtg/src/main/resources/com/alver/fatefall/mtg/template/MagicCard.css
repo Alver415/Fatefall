@@ -1,0 +1,25 @@
+root {
+    -fx-background-color: transparent;
+}
+
+.text-area {
+    -fx-background-color:transparent;
+}
+
+.text-area:focused{
+    -fx-background-color: rgba(53,89,119,0.2);
+    -fx-border-color: rgba(53,89,119,0.5);
+    -fx-border-style: dotted;
+}
+
+.text-area .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-pane .content{
+    -fx-background-color: transparent;
+}
