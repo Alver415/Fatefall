@@ -2,16 +2,33 @@ package com.alver.fatefall.fx.app.view.entity.card.template;
 
 import com.alver.fatefall.fx.app.FatefallProperties;
 import com.alver.fatefall.fx.core.utils.FXUtils;
+import com.alver.fatefall.fx.core.utils.TreeProperty;
 import com.alver.springfx.annotations.FXMLPrototype;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 @FXMLPrototype(location = "PlaceholderTemplate.fxml")
 public class TemplateController {
+	protected final ObjectProperty<TreeProperty<?>> data = new SimpleObjectProperty<>(this, "data");
+
+	public ObjectProperty<TreeProperty<?>> dataProperty() {
+		return data;
+	}
+
+	public TreeProperty<?> getData() {
+		return dataProperty().get();
+	}
+
+	public void setData(TreeProperty<?> data) {
+		dataProperty().set(data);
+	}
 
 	protected DoubleProperty widthProperty = new SimpleDoubleProperty();
 	protected DoubleProperty heightProperty = new SimpleDoubleProperty();
@@ -88,5 +105,9 @@ public class TemplateController {
 
 	public void setImage(Image image) {
 		this.imageProperty.set(image);
+	}
+
+	public List<MenuItem> getContextMenuItems(){
+		return List.of();
 	}
 }

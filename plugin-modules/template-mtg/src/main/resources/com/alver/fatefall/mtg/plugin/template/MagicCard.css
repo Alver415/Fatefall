@@ -5,6 +5,23 @@ root {
 .text-area {
     -fx-background-color:transparent;
 }
+#name {
+    -fx-font-family: Beleren Bold;
+    -fx-text-fill: black;
+}
+#type {
+    -fx-font-family: Beleren Bold;
+    -fx-text-fill: black;
+}
+#text {
+    -fx-font-family: MPlantin;
+    -fx-text-fill: black;
+}
+#developer {
+    -fx-font-family: Beleren;
+    -fx-font-size: 10px;
+    -fx-text-fill: white;
+}
 
 .text-area:focused{
     -fx-background-color: rgba(53,89,119,0.2);

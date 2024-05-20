@@ -31,4 +31,8 @@ public class FatefallPluginManager extends SpringPluginManager {
     public void createWorkspace(WorkspaceFX workspace) {
         this.workspaces.add(workspace);
     }
+
+    public ClassLoader getClassLoader() {
+        return new DelegatingClassLoader(getPluginClassLoaders().values().stream().toList());
+    }
 }

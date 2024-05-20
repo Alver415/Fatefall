@@ -6,19 +6,26 @@ import com.alver.fatefall.fx.core.model.CardFX;
 import com.alver.fatefall.fx.core.model.CardFaceFX;
 import com.alver.fatefall.fx.core.model.Source;
 import com.alver.fatefall.fx.core.utils.*;
+import com.alver.fatefall.fx.plugin.FatefallPluginManager;
 import com.alver.springfx.SpringFXLoader;
 import com.alver.springfx.annotations.Prototype;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.SubScene;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import org.pf4j.PluginWrapper;
+import org.pf4j.spring.SpringPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
 import java.io.ByteArrayInputStream;
 import java.net.URL;
@@ -69,10 +76,22 @@ public class CardFaceView extends SubScene {
                             Source.TEMPLATE, value.getTemplate().dataProperty()));
 
                     loader.getNamespace().put("data", data);
-
+                    FatefallPluginManager pluginManager = beanFactory.getBean(FatefallPluginManager.class);
+                    PluginWrapper plugin = pluginManager.getPlugin("Magic: The Gathering");
+                    ApplicationContext applicationContext = ((SpringPlugin) plugin.getPlugin()).getApplicationContext();
+                    loader.setClassLoader(plugin.getPluginClassLoader());
+                    loader.setApplicationContext(applicationContext);
+                    loader.setControllerFactory(applicationContext::getBean);
                     setRoot(loader.load());
                     TemplateController controller = loader.getController();
+                    controller.setData(data);
                     controller.imageProperty().set(imageUrl == null ? null : new Image(imageUrl));
+
+                    getRoot().setOnContextMenuRequested(event -> {
+                        ContextMenu contextMenu = new ContextMenu(controller.getContextMenuItems().toArray(new MenuItem[0]));
+                        contextMenu.show((Node) event.getSource(), event.getScreenX(), event.getScreenY());
+                    });
+
                 } catch (Exception e) {
                     log.error(e.getMessage(), e);
                 }
@@ -114,9 +133,9 @@ public class CardFaceView extends SubScene {
     }
 
 
-    //region Properties
-
     protected TreeProperty<Object> data;
+
+    //region Properties
 
     protected final ObjectProperty<CardFaceFX> cardFace = new SimpleObjectProperty<>(this, "cardFace");
 

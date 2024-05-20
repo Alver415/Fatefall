@@ -1,4 +1,4 @@
-package com.alver.fatefall.template.mtg;
+package com.alver.fatefall.mtg.plugin.template;
 
 public enum Color {
     WHITE(ManaPip.W),

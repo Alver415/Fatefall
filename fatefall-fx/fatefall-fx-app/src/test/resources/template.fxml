@@ -20,7 +20,7 @@
     </clip>
     <VBox fx:id="container">
         <TextField fx:id="workspace" text="#{data.workspace}"/>
-        <TextField fx:id="card" text="#{data.card}"/>
+        <TextField fx:id="data" text="#{data.card}"/>
         <TextField fx:id="front_face" text="#{data.front_face}"/>
         <TextField fx:id="front_template" text="#{data.front_template}"/>
         <TextField fx:id="back_face" text="#{data.back_face}"/>

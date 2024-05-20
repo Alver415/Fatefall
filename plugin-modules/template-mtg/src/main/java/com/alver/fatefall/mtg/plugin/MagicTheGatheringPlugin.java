@@ -1,6 +1,6 @@
-package com.alver.fatefall.plugin;
+package com.alver.fatefall.mtg.plugin;
 
-import com.alver.fatefall.MagicTheGatheringConfiguration;
+import com.alver.fatefall.mtg.MagicTheGatheringConfiguration;
 import com.alver.fatefall.fx.plugin.FatefallPlugin;
 import org.pf4j.PluginWrapper;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

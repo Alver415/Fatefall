@@ -76,7 +76,7 @@ public class CardView extends Control {
 
 		ContextMenu contextMenu = new ContextMenu();
 		contextMenu.getItems().setAll(edit, viewMode);
-		setContextMenu(contextMenu);
+//		setContextMenu(contextMenu);
 	}
 
 	private MenuItem buildMenuItem(String text, Class<?> clazz, Runnable action) {

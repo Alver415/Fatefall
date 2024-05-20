@@ -1,4 +1,4 @@
-package com.alver.fatefall;
+package com.alver.fatefall.mtg;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

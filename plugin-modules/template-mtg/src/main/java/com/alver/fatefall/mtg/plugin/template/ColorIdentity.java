@@ -1,8 +1,8 @@
-package com.alver.fatefall.template.mtg;
+package com.alver.fatefall.mtg.plugin.template;
 
 import java.util.Set;
 
-import static com.alver.fatefall.template.mtg.Color.*;
+import static com.alver.fatefall.mtg.plugin.template.Color.*;
 
 public enum ColorIdentity {
 	// region Zero

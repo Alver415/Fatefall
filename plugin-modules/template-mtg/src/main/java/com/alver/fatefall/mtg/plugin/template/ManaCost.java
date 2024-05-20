@@ -1,4 +1,4 @@
-package com.alver.fatefall.template.mtg;
+package com.alver.fatefall.mtg.plugin.template;
 
 import java.util.Set;
 

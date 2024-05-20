@@ -23,6 +23,7 @@ import java.util.List;
 public class FatefallFXApp {
 
 	public static void main(String... args) {
+		com.sun.javafx.util.Logging.getCSSLogger().disableLogging();
 		SystemIO.overrideSystemDefaults();
 		Application.launch(FatefallFXApplication.class, args);
 	}
