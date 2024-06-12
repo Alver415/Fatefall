@@ -28,6 +28,7 @@ public class SimpleObjectPropertyDeserializer extends JsonDeserializer<SimpleObj
             throws IOException {
         ObjectCodec codec = jsonParser.getCodec();
         JsonNode node = codec.readTree(jsonParser);
-        return new SimpleObjectProperty(deserializationContext.readTreeAsValue(node, elementType));
+		//noinspection unchecked
+		return new SimpleObjectProperty(deserializationContext.readTreeAsValue(node, elementType));
     }
 }

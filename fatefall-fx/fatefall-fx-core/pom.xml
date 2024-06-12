@@ -18,6 +18,7 @@
 		<preferencesfx-core.version>11.11.0</preferencesfx-core.version>
 		<undofx.version>2.1.1</undofx.version>
 		<tiwulfx-dock.version>0.3</tiwulfx-dock.version>
+		<livdirfx.version>1.0-SNAPSHOT</livdirfx.version>
 	</properties>
 
 	<dependencies>
@@ -89,6 +90,10 @@
 			<artifactId>tiwulfx-dock</artifactId>
 			<version>${tiwulfx-dock.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.fxmisc.livedirs</groupId>
+			<artifactId>livedirfx</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>

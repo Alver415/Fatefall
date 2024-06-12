@@ -2,7 +2,7 @@
 
 
 <?import com.alver.fatefall.fx.app.component.mainstage.EntityTreeView?>
-<?import com.panemu.tiwulfx.control.dock.DetachableTabPane?>
+<?import com.panemu.tiwulfx.control.dock.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
 <BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
@@ -24,25 +24,37 @@
 			</Menu>
 		</MenuBar>
 	</top>
-	<left>
-		<BorderPane>
-			<top>
-				<ToolBar>
-					<Button text="Refresh" onAction="#refresh"/>
-					<Button text="Create" onAction="#create"/>
-					<Button text="Save" onAction="#save"/>
-					<Button text="Delete" onAction="#delete"/>
-				</ToolBar>
-			</top>
-			<center>
-				<ScrollPane fitToWidth="true" fitToHeight="true">
-					<EntityTreeView fx:id="treeView" showRoot="false"/>
-				</ScrollPane>
-			</center>
-		</BorderPane>
-	</left>
 	<center>
 		<SplitPane>
+			<DetachableTabPane>
+				<DetachableTab text="Project">
+					<BorderPane>
+						<top>
+							<ToolBar>
+								<Button text="Refresh" onAction="#refresh"/>
+								<Button text="Create" onAction="#create"/>
+								<Button text="Save" onAction="#save"/>
+								<Button text="Delete" onAction="#delete"/>
+							</ToolBar>
+						</top>
+						<center>
+							<DetachableTabPane scope="leftBar">
+								<DetachableTab text="Directory">
+									<ScrollPane fitToWidth="true" fitToHeight="true">
+										<TreeView fx:id="dirTreeView" showRoot="false"/>
+									</ScrollPane>
+								</DetachableTab>
+								<DetachableTab text="Entity">
+									<ScrollPane fitToWidth="true" fitToHeight="true">
+										<EntityTreeView fx:id="entityTreeView" showRoot="false"/>
+									</ScrollPane>
+								</DetachableTab>
+							</DetachableTabPane>
+						</center>
+					</BorderPane>
+				</DetachableTab>
+			</DetachableTabPane>
+
 			<DetachableTabPane fx:id="tabPane" scope="application" prefWidth="600"/>
 		</SplitPane>
 	</center>

@@ -26,13 +26,17 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.fxmisc.livedirs.LiveDirs;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Executors;
 
 @FXMLComponent
 public class ApplicationController implements AppController {
@@ -53,7 +57,9 @@ public class ApplicationController implements AppController {
 	 * FXML Injection
 	 */
 	@FXML
-	protected EntityTreeView treeView;
+	protected EntityTreeView entityTreeView;
+	@FXML
+	protected TreeView<Path> dirTreeView;
 	@FXML
 	protected DetachableTabPane tabPane;
 	@FXML
@@ -79,13 +85,29 @@ public class ApplicationController implements AppController {
 	}
 
 	@FXML
-	private void initialize() {
+	private void initialize() throws IOException {
 		menuBar.getMenus().add(pluginMenu);
 
 		tabPane.setOnClosedPassSibling((sibling) -> tabPane = sibling);
 
 		consoleStage = stageManager.create("Console", new ConsoleView(SystemIO.console));
 		logsStage = stageManager.create("Logs", (Node) springFX.load(ConsoleController.class).view());
+
+
+		LiveDirs<String, Path> liveDirs = LiveDirs.getInstance("external", Executors.newVirtualThreadPerTaskExecutor());
+		liveDirs.addTopLevelDirectory(Path.of(".").toAbsolutePath());
+		TreeItem<Path> root = liveDirs.model().getRoot();
+		dirTreeView.setRoot(root);
+
+		liveDirs.model().modifications().subscribe(m -> {
+			if(Objects.equals(m.getInitiator(), "external")) {
+				// handle external modification, e.g. reload the modified file
+				System.err.println(m.getPath());
+			} else {
+				// modification done by this application, no extra action needed
+			}
+		});
+
 
 	}
 
@@ -182,7 +204,7 @@ public class ApplicationController implements AppController {
 
 	@FXML
 	private void createCard() {
-		TreeItem<EntityFX> selectedItem = treeView.getSelectionModel().getSelectedItem();
+		TreeItem<EntityFX> selectedItem = entityTreeView.getSelectionModel().getSelectedItem();
 		if (selectedItem.getValue() instanceof WorkspaceFX workspaceFX) {
 			CardFX card = new CardFX();
 			card.setName("New Card Name");
@@ -209,7 +231,7 @@ public class ApplicationController implements AppController {
 
 	@FXML
 	protected void save() {
-		TreeItem<EntityFX> selected = treeView.getSelectionModel().getSelectedItem();
+		TreeItem<EntityFX> selected = entityTreeView.getSelectionModel().getSelectedItem();
 		if (selected.getValue() instanceof WorkspaceFX workspaceFX) {
 			if (workspaceFX.getId() == null) {
 				workspaceApi.create(workspaceFX);
@@ -222,7 +244,7 @@ public class ApplicationController implements AppController {
 
 	@FXML
 	protected void delete() {
-		TreeItem<EntityFX> selected = treeView.getSelectionModel().getSelectedItem();
+		TreeItem<EntityFX> selected = entityTreeView.getSelectionModel().getSelectedItem();
 		if (selected.getValue() instanceof WorkspaceFX workspaceFX) {
 			if (workspaceFX.getId() != null) {
 				workspaceApi.delete(workspaceFX.getId());
