@@ -20,8 +20,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.net.URL;
+
 @Prototype
 public class CardView extends Control {
+
+	public static final URL FXML = CardView.class.getResource("CardView.fxml");
 
 	private final FatefallProperties properties;
 	private final AppController appController;

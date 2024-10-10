@@ -9,8 +9,12 @@ import javafx.scene.control.Skin;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.net.URL;
+
 @Prototype
 public class WorkspaceView extends Control {
+
+	public static final URL FXML = WorkspaceView.class.getResource("WorkspaceView.fxml");
 
 	protected final ObjectProperty<WorkspaceFX> workspaceProperty = new SimpleObjectProperty<>();
 	public ObjectProperty<WorkspaceFX> workspaceProperty() {

@@ -39,8 +39,7 @@ public class CardFaceView extends SubScene {
 
     @Autowired
     public CardFaceView(BeanFactory beanFactory, FatefallProperties properties) {
-        Group root = new Group();
-        super(root, 400, 400);
+        super(new Group(), 400, 400);
         userAgentStylesheetProperty().bind(properties.getSubSceneStylesheetSelection()
                 .map(s -> FatefallProperties.getStylesheetByNameMap().get(s)));
 
@@ -96,7 +95,7 @@ public class CardFaceView extends SubScene {
                     log.error(e.getMessage(), e);
                 }
             });
-            root.setId(isFrontFace() ? "front" : "back");
+            getRoot().setId(isFrontFace() ? "front" : "back");
         });
     }
 

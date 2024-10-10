@@ -1,17 +1,20 @@
 package com.alver.fatefall.fx.app.component.mainstage;
 
 import com.alver.fatefall.core.api.WorkspacesApi;
-import com.alver.fatefall.core.entity.Workspace;
 import com.alver.fatefall.fx.app.action.WorkspaceCreateAction;
 import com.alver.fatefall.fx.app.component.settings.PreferencesController;
 import com.alver.fatefall.fx.app.view.console.ConsoleController;
-import com.alver.fatefall.fx.app.view.entity.workspace.WorkspaceView;
 import com.alver.fatefall.fx.core.interfaces.AppController;
 import com.alver.fatefall.fx.core.interfaces.AppView;
-import com.alver.fatefall.fx.core.model.CardFX;
-import com.alver.fatefall.fx.core.model.EntityFX;
 import com.alver.fatefall.fx.core.model.WorkspaceFX;
 import com.alver.fatefall.fx.core.utils.StageManager;
+import com.alver.fsfx.FileSystemEntry;
+import com.alver.fsfx.FileSystemFX;
+import com.alver.fsfx.view.ModelCache;
+import com.alver.fsfx.view.folder.FileSystemNodeTreeItem;
+import com.alver.fsfx.view.folder.FileSystemTreeView;
+import com.alver.fsfx.view.mvc.Controller;
+import com.alver.fsfx.view.mvc.Model;
 import com.alver.jfxtra.lib.component.console.ConsoleView;
 import com.alver.jfxtra.lib.io.SystemIO;
 import com.alver.springfx.SpringFX;
@@ -20,23 +23,29 @@ import com.panemu.tiwulfx.control.dock.DetachableTab;
 import com.panemu.tiwulfx.control.dock.DetachableTabPane;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
-import javafx.util.Callback;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
-import java.util.Objects;
 
 @FXMLComponent
 public class ApplicationController implements AppController {
 
+	private static final Logger log = LoggerFactory.getLogger(ApplicationController.class);
 	protected final ObservableList<WorkspaceFX> workspaces;
 	protected final WorkspacesApi<WorkspaceFX> workspaceApi;
 	protected final WorkspaceCreateAction workspaceCreateAction;
@@ -45,6 +54,9 @@ public class ApplicationController implements AppController {
 	protected final SpringFX springFX;
 	protected final StageManager stageManager;
 	protected final BeanFactory beanFactory;
+	protected final FileSystemFX fileSystem;
+	protected final ModelCache modelCache;
+
 
 	protected Stage consoleStage;
 	protected Stage logsStage;
@@ -53,7 +65,7 @@ public class ApplicationController implements AppController {
 	 * FXML Injection
 	 */
 	@FXML
-	protected EntityTreeView treeView;
+	protected FileSystemTreeView treeView;
 	@FXML
 	protected DetachableTabPane tabPane;
 	@FXML
@@ -61,6 +73,8 @@ public class ApplicationController implements AppController {
 
 	@Autowired
 	public ApplicationController(
+			FileSystemFX fileSystem,
+			ModelCache modelCache,
 			ObservableList<WorkspaceFX> workspaces,
 			WorkspacesApi<WorkspaceFX> workspaceApi,
 			WorkspaceCreateAction workspaceCreateAction,
@@ -68,6 +82,8 @@ public class ApplicationController implements AppController {
 			PluginMenu pluginMenu,
 			SpringFX springFX,
 			StageManager stageManager, BeanFactory beanFactory) {
+		this.fileSystem = fileSystem;
+		this.modelCache = modelCache;
 		this.workspaces = workspaces;
 		this.workspaceApi = workspaceApi;
 		this.workspaceCreateAction = workspaceCreateAction;
@@ -87,6 +103,26 @@ public class ApplicationController implements AppController {
 		consoleStage = stageManager.create("Console", new ConsoleView(SystemIO.console));
 		logsStage = stageManager.create("Logs", (Node) springFX.load(ConsoleController.class).view());
 
+		treeView.setRoot(new FileSystemNodeTreeItem(fileSystem.getRoot()));
+		treeView.setOnSyncRequested(e -> e.getEntry().requestSync());
+		treeView.setOnOpenRequested(e -> {
+			tabPane.addTab("test", getView(e.getEntry()));
+		});
+	}
+
+	private <M extends Model> Node getView(FileSystemEntry entry) {
+		try {
+			M model = modelCache.getModel(entry);
+			URL fxml = modelCache.getFXML(model.getClass());
+			FXMLLoader loader = new FXMLLoader(fxml);
+			Node view = loader.load();
+			Controller<M> controller = loader.getController();
+			controller.setModel(model);
+			return view;
+		} catch (IOException e) {
+			log.warn(e.getMessage(), e);
+			return new Label("ERROR: " + e.getMessage());
+		}
 	}
 
 	@EventListener
@@ -150,116 +186,4 @@ public class ApplicationController implements AppController {
 		consoleStage.show();
 	}
 
-	private Tab addCollectionTab(WorkspaceFX workspace) {
-
-		WorkspaceView workspaceView = beanFactory.getBean(WorkspaceView.class);
-		workspaceView.setWorkspace(workspace);
-
-		Tab tab = new Tab(workspace.getName());
-		tab.setContent(workspaceView);
-
-		tabPane.getTabs().add(tab);
-		return tab;
-	}
-
-	@FXML
-	private void openCreateCollectionDialog() {
-		TextInputDialog dialog = new TextInputDialog();
-		dialog.setHeaderText("Create a Collection");
-		dialog.setContentText("Enter a name for the new collection.");
-		dialog.showAndWait().ifPresent(name -> {
-			boolean nameAlreadyExists = workspaces.stream()
-					.map(Workspace::getName)
-					.anyMatch(n -> Objects.equals(n, name));
-			if (nameAlreadyExists) {
-				throw new RuntimeException("A collection with that name already exists.");
-			}
-			WorkspaceFX workspace = new WorkspaceFX();
-			workspace.setName(name);
-			workspaces.add(workspace);
-		});
-	}
-
-	@FXML
-	private void createCard() {
-		TreeItem<EntityFX> selectedItem = treeView.getSelectionModel().getSelectedItem();
-		if (selectedItem.getValue() instanceof WorkspaceFX workspaceFX) {
-			CardFX card = new CardFX();
-			card.setName("New Card Name");
-			card.setJson("New Card Data");
-			workspaceFX.addCards(card);
-		} else {
-			throw new RuntimeException("Please select a workspace");
-		}
-	}
-
-	protected void openCollection(WorkspaceFX workspace) {
-		tabPane.getTabs().stream()
-				.filter(tab -> tab.getText().equals(workspace.getName()))
-				.findFirst()
-				.ifPresentOrElse(
-						(tab) -> tabPane.getSelectionModel().select(tab),
-						() -> tabPane.getSelectionModel().select(addCollectionTab(workspace)));
-	}
-
-	@FXML
-	protected void create(ActionEvent event) {
-		workspaceCreateAction.handle(event);
-	}
-
-	@FXML
-	protected void save() {
-		TreeItem<EntityFX> selected = treeView.getSelectionModel().getSelectedItem();
-		if (selected.getValue() instanceof WorkspaceFX workspaceFX) {
-			if (workspaceFX.getId() == null) {
-				workspaceApi.create(workspaceFX);
-			} else {
-				workspaceApi.update(workspaceFX.getId(), workspaceFX);
-			}
-			refresh();
-		}
-	}
-
-	@FXML
-	protected void delete() {
-		TreeItem<EntityFX> selected = treeView.getSelectionModel().getSelectedItem();
-		if (selected.getValue() instanceof WorkspaceFX workspaceFX) {
-			if (workspaceFX.getId() != null) {
-				workspaceApi.delete(workspaceFX.getId());
-				refresh();
-			}
-		}
-	}
-
-	private final Callback<ListView<WorkspaceFX>, ListCell<WorkspaceFX>> workspaceCellFactory = (z) -> {
-		ListCell<WorkspaceFX> cell = new ListCell<>() {
-			@Override
-			protected void updateItem(WorkspaceFX item, boolean empty) {
-				super.updateItem(item, empty);
-				setText(empty ? null : item.getName());
-			}
-		};
-		//When double-clicked, open that workspace.
-		cell.setOnMouseClicked(e -> {
-			if (!cell.isEmpty() && cell.getItem() != null && e.getClickCount() == 2) {
-				openCollection(cell.getItem());
-			}
-		});
-		ContextMenu contextMenu = new ContextMenu();
-		MenuItem save = new MenuItem("Save");
-		save.setOnAction(a -> saveAction(cell));
-		contextMenu.getItems().add(save);
-
-		cell.setContextMenu(contextMenu);
-		return cell;
-	};
-
-	private void saveAction(ListCell<WorkspaceFX> cell) {
-		WorkspaceFX workspace = cell.getItem();
-		WorkspaceFX saved = workspace.getId() == null ?
-				workspaceApi.create(workspace) :
-				workspaceApi.update(workspace.getId(), workspace);
-		workspaces.remove(workspace);
-		workspaces.add(saved);
-	}
 }

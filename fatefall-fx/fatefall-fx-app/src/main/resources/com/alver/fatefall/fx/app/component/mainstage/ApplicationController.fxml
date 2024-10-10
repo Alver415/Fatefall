@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
-<?import com.alver.fatefall.fx.app.component.mainstage.EntityTreeView?>
+<?import com.alver.fsfx.view.folder.FileSystemTreeView?>
 <?import com.panemu.tiwulfx.control.dock.DetachableTabPane?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
@@ -11,9 +11,11 @@
 	<top>
 		<MenuBar fx:id="menuBar">
 			<Menu text="File">
-				<MenuItem text="New Workspace" onAction="#openCreateCollectionDialog"/>
+				<MenuItem text="New Workspace"/>
+<!--				onAction="#openCreateCollectionDialog"/>-->
 				<SeparatorMenuItem/>
-				<MenuItem text="New Card" onAction="#createCard"/>
+				<MenuItem text="New Card"/>
+<!--				onAction="#createCard"/>-->
 			</Menu>
 			<Menu text="Edit">
 				<MenuItem text="Preferences" onAction="#openPreferences"/>
@@ -26,17 +28,9 @@
 	</top>
 	<left>
 		<BorderPane>
-			<top>
-				<ToolBar>
-					<Button text="Refresh" onAction="#refresh"/>
-					<Button text="Create" onAction="#create"/>
-					<Button text="Save" onAction="#save"/>
-					<Button text="Delete" onAction="#delete"/>
-				</ToolBar>
-			</top>
 			<center>
 				<ScrollPane fitToWidth="true" fitToHeight="true">
-					<EntityTreeView fx:id="treeView" showRoot="false"/>
+					<FileSystemTreeView fx:id="treeView" showRoot="false"/>
 				</ScrollPane>
 			</center>
 		</BorderPane>
