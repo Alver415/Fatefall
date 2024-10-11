@@ -6,14 +6,19 @@ import javafx.beans.property.SimpleObjectProperty;
 
 public class CardFaceFX extends EntityFX implements CardFace {
 
-	private final ObjectProperty<CardFX> cardProperty = new SimpleObjectProperty<>(this, "card");
-	private final ObjectProperty<TemplateFX> templateProperty = new SimpleObjectProperty<>(this, "template", new TemplateFX());
+	private final SimpleObjectProperty<CardFX> cardProperty = new SimpleObjectProperty<>(this, "card");
+	private final SimpleObjectProperty<TemplateFX> templateProperty = new SimpleObjectProperty<>(this, "template", new TemplateFX());
 
 	public CardFaceFX() {
 		super();
 	}
 	public CardFaceFX(Long id) {
 		super(id);
+	}
+
+	public CardFaceFX(CardFX cardFX){
+		super();
+		cardProperty.set(cardFX);
 	}
 
 	public ObjectProperty<CardFX> cardProperty(){

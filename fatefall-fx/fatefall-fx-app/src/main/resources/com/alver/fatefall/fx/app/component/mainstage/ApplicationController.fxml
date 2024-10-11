@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
-<?import com.alver.fsfx.view.folder.FileSystemTreeView?>
+<?import com.alver.fsfx.view.folder.FileSystemEditorView?>
 <?import com.panemu.tiwulfx.control.dock.DetachableTabPane?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
@@ -30,7 +30,7 @@
 		<BorderPane>
 			<center>
 				<ScrollPane fitToWidth="true" fitToHeight="true">
-					<FileSystemTreeView fx:id="treeView" showRoot="false"/>
+					<FileSystemEditorView fx:id="treeView" showRoot="false"/>
 				</ScrollPane>
 			</center>
 		</BorderPane>

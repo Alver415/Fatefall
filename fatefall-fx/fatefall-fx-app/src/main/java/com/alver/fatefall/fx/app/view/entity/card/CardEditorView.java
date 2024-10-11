@@ -1,11 +1,11 @@
 package com.alver.fatefall.fx.app.view.entity.card;
 
+import com.alver.fatefall.fx.app.editor.file.JavaEditor;
 import com.alver.fatefall.fx.app.editor.file.XMLEditor;
 import com.alver.fatefall.fx.core.model.CardFX;
 import com.alver.fatefall.fx.core.utils.SelectionBinding;
 import com.alver.fxmlsaver.FXMLSaver;
 import com.alver.springfx.annotations.FXMLPrototype;
-import com.sun.javafx.binding.BidirectionalBinding;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -23,6 +23,8 @@ import javafx.scene.layout.StackPane;
 import java.util.List;
 import java.util.UUID;
 
+import static com.sun.javafx.binding.BidirectionalBinding.bind;
+
 @FXMLPrototype
 public class CardEditorView {
 
@@ -33,6 +35,8 @@ public class CardEditorView {
     private CardView cardView;
     @FXML
     private DataTreeView dataTreeView;
+    @FXML
+    private JavaEditor dataEditor;
 
     @FXML
     private XMLEditor fxmlEditor;
@@ -43,16 +47,15 @@ public class CardEditorView {
 
     @FXML
     private void initialize() {
-        scope.set(String.valueOf(UUID.randomUUID())); // Prevents moving tabs between different editors.
+        // Prevents moving tabs between different editors.
+        scope.set(UUID.randomUUID().toString());
 
-        BidirectionalBinding.bind(cardProperty(), cardView.cardProperty());
-        BidirectionalBinding.bind(cardProperty(), dataTreeView.cardProperty());
-
-        BidirectionalBinding.bind(selectedProperty(), selectedNodePropertySheet.selectedProperty());
+        bind(cardProperty(), cardView.cardProperty());
+        bind(cardProperty(), dataTreeView.cardProperty());
+        bind(selectedProperty(), selectedNodePropertySheet.selectedProperty());
 
         buildNodeTreeView();
 
-//
 //		ChangeListener<Node> focusSelectedListener = (_, _, newValue) -> run(() -> {
 //			if (isAncestorOf(newValue, cardView)) runFX(() -> setSelected(newValue));
 //		});
