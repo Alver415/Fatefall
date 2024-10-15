@@ -62,7 +62,7 @@ public class CachedItemsPropertySheet extends PropertySheet {
                 try {
                     items = cache.get(key);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.warn(e.getMessage(), e);
                 }
             }
             ObservableList<Item> finalItems = items;

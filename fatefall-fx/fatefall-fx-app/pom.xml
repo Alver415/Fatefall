@@ -22,10 +22,10 @@
 			<groupId>com.alver.fatefall</groupId>
 			<artifactId>fatefall-client</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.alver.fatefall</groupId>
-			<artifactId>fatefall-server</artifactId>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.alver.fatefall</groupId>-->
+<!--			<artifactId>fatefall-server</artifactId>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>com.alver.fatefall</groupId>
 			<artifactId>fatefall-fx-core</artifactId>

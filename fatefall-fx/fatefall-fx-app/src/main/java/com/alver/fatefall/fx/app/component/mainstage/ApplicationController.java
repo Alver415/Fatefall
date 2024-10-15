@@ -81,7 +81,7 @@ public class ApplicationController implements AppController {
 			WorkspacesApi<WorkspaceFX> workspaceApi,
 			WorkspaceCreateAction workspaceCreateAction,
 			PreferencesController preferences,
-			PluginMenu pluginMenu,
+			@Autowired(required = false) PluginMenu pluginMenu,
 			SpringFX springFX,
 			StageManager stageManager, BeanFactory beanFactory) {
 		this.fileSystem = fileSystem;
@@ -97,7 +97,9 @@ public class ApplicationController implements AppController {
 
 	@FXML
 	private void initialize() {
-		menuBar.getMenus().add(pluginMenu);
+		if (pluginMenu != null) {
+			menuBar.getMenus().add(pluginMenu);
+		}
 
 		tabPane.setOnClosedPassSibling((sibling) -> tabPane = sibling);
 
@@ -205,4 +207,11 @@ public class ApplicationController implements AppController {
 		consoleStage.show();
 	}
 
+	@FXML
+	private void createCard() {
+		CardFX card = new CardFX(1l);
+		FXMLControllerAndView<CardEditorView, Object> viewAndController = springFX.load(CardEditorView.class);
+		viewAndController.controller().setCard(card);
+		tabPane.addTab("New Card", (Node)viewAndController.view());
+	}
 }

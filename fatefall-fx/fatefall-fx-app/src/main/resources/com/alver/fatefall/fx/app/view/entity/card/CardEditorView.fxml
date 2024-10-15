@@ -3,6 +3,7 @@
 <?import com.alver.fatefall.fx.app.editor.file.JavaEditor?>
 <?import com.alver.fatefall.fx.app.editor.file.XMLEditor?>
 <?import com.alver.fatefall.fx.app.view.entity.card.*?>
+<?import com.alver.fatefall.fx.core.view.IntrospectingPropertyEditor?>
 <?import com.panemu.tiwulfx.control.dock.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.TreeItemPropertyValueFactory?>
@@ -13,7 +14,19 @@
 		   stylesheets="@CardEditorView.css"
 		   dividerPositions="0.25, 0.75">
 	<DetachableTabPane scope="#{controller.scope}" closeIfEmpty="true">
-
+		<DetachableTab text="propertyEditor">
+			<IntrospectingPropertyEditor fx:id="propertyEditor"/>
+		</DetachableTab>
+		<DetachableTab text="Data Form">
+			<DataEditorView fx:id="dataEditorView"
+							modeSwitcherVisible="true"
+							searchBoxVisible="true"/>
+		</DetachableTab>
+		<DetachableTab text="Recursive Form">
+			<RecursivePropertySheet fx:id="recursivePropertySheet"
+							modeSwitcherVisible="true"
+							searchBoxVisible="true"/>
+		</DetachableTab>
 		<DetachableTab text="Data View">
 			<DataTreeView fx:id="dataTreeView" showRoot="false">
 				<columnResizePolicy>

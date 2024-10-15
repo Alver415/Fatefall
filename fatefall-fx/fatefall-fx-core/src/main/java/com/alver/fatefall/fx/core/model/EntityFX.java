@@ -13,7 +13,7 @@ public class EntityFX implements Entity {
 	private final TreeProperty<Object> data = new TreeProperty<>(this, "data");
 
 	public EntityFX() {
-		this(null);
+		this(-1l);
 	}
 	public EntityFX(Long id) {
 		this.id = id;

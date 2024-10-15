@@ -11,7 +11,6 @@ import com.dlsc.preferencesfx.model.Category;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.image.Image;
-import org.pf4j.PluginManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -22,7 +21,6 @@ import java.util.List;
 public class PreferencesController {
 
     protected final FatefallProperties properties;
-    protected final PluginManager pluginManager;
     protected final SpringFX springFX;
     protected final StageManager stageManager;
     protected final List<AppPreferenceCategoryProvider> categoryProviders;
@@ -30,13 +28,11 @@ public class PreferencesController {
     @Autowired
     public PreferencesController(
             FatefallProperties properties,
-            PluginManager pluginManager,
             SpringFX springFX,
             StageManager stageManager,
             List<AppPreferenceCategoryProvider> categoryProviders,
             ObjectProperty<Image> iconProperty) {
         this.properties = properties;
-        this.pluginManager = pluginManager;
         this.springFX = springFX;
         this.stageManager = stageManager;
         this.categoryProviders = categoryProviders;

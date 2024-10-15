@@ -14,8 +14,7 @@
 				<MenuItem text="New Workspace"/>
 <!--				onAction="#openCreateCollectionDialog"/>-->
 				<SeparatorMenuItem/>
-				<MenuItem text="New Card"/>
-<!--				onAction="#createCard"/>-->
+				<MenuItem text="New Card" onAction="#createCard"/>
 			</Menu>
 			<Menu text="Edit">
 				<MenuItem text="Preferences" onAction="#openPreferences"/>

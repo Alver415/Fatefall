@@ -1,0 +1,13 @@
+Label {
+	-fx-font-weight: bold;
+}
+
+VBox {
+	-fx-padding: 2px 2px 2px 5px;
+}
+
+.editor {
+	-fx-border-color:red;
+	-fx-border-width: 0 0 0 2;
+	-fx-border-insets: -2;
+}

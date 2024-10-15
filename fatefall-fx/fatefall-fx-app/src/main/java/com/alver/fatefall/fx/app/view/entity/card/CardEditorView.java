@@ -4,6 +4,7 @@ import com.alver.fatefall.fx.app.editor.file.JavaEditor;
 import com.alver.fatefall.fx.app.editor.file.XMLEditor;
 import com.alver.fatefall.fx.core.model.CardFX;
 import com.alver.fatefall.fx.core.utils.SelectionBinding;
+import com.alver.fatefall.fx.core.view.IntrospectingPropertyEditor;
 import com.alver.fxmlsaver.FXMLSaver;
 import com.alver.springfx.annotations.FXMLPrototype;
 import javafx.beans.property.ObjectProperty;
@@ -19,6 +20,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,33 +31,46 @@ import static com.sun.javafx.binding.BidirectionalBinding.bind;
 @FXMLPrototype
 public class CardEditorView {
 
+    private static final Logger log = LoggerFactory.getLogger(CardEditorView.class);
     //region FXML
-    @FXML
-    private Viewport viewport;
-    @FXML
-    private CardView cardView;
-    @FXML
-    private DataTreeView dataTreeView;
-    @FXML
-    private JavaEditor dataEditor;
+	@FXML
+	private Viewport viewport;
+	@FXML
+	private CardView cardView;
 
-    @FXML
-    private XMLEditor fxmlEditor;
-    @FXML
-    private NodeTreeView nodeTreeView;
-    @FXML
-    private CachedItemsPropertySheet selectedNodePropertySheet;
+	@FXML
+	private IntrospectingPropertyEditor<CardFX> propertyEditor;
+	@FXML
+	private DataEditorView dataEditorView;
+	@FXML
+	private RecursivePropertySheet<CardFX> recursivePropertySheet;
+	@FXML
+	private DataTreeView dataTreeView;
+	@FXML
+	private JavaEditor dataEditor;
 
-    @FXML
-    private void initialize() {
-        // Prevents moving tabs between different editors.
-        scope.set(UUID.randomUUID().toString());
+	@FXML
+	private XMLEditor fxmlEditor;
+	@FXML
+	private NodeTreeView nodeTreeView;
+	@FXML
+	private CachedItemsPropertySheet selectedNodePropertySheet;
 
-        bind(cardProperty(), cardView.cardProperty());
-        bind(cardProperty(), dataTreeView.cardProperty());
-        bind(selectedProperty(), selectedNodePropertySheet.selectedProperty());
+	@FXML
+	private void initialize() {
+		// Prevents moving tabs between different editors.
+		scope.set(UUID.randomUUID().toString());
 
-        buildNodeTreeView();
+		bind(cardProperty(), cardView.cardProperty());
+		bind(cardProperty(), dataTreeView.cardProperty());
+		bind(cardProperty(), dataEditorView.cardProperty());
+		bind(cardProperty(), recursivePropertySheet.valueProperty());
+		bind(cardProperty(), propertyEditor.valueProperty());
+
+		bind(selectedProperty(), selectedNodePropertySheet.selectedProperty());
+
+		buildNodeTreeView();
+
 
 //		ChangeListener<Node> focusSelectedListener = (_, _, newValue) -> run(() -> {
 //			if (isAncestorOf(newValue, cardView)) runFX(() -> setSelected(newValue));
@@ -70,129 +86,129 @@ public class CardEditorView {
 //				});
 //			}
 //		});
-    }
+	}
 
-    private void buildNodeTreeView() {
-        TreeItem<Node> frontRoot = new TreeItem<>();
-        frontRoot.valueProperty().bind(
-                cardView.getFront().rootProperty());
-        frontRoot.valueProperty().subscribe(value ->
-                frontRoot.getChildren().setAll(nodeTreeView.buildTreeNode(value).getChildren()));
-        TreeItem<Node> backRoot = new TreeItem<>();
-        backRoot.valueProperty().bind(cardView.getBack().rootProperty());
-        backRoot.valueProperty().subscribe(value ->
-                backRoot.getChildren().setAll(nodeTreeView.buildTreeNode(value).getChildren()));
+	private void buildNodeTreeView() {
+		TreeItem<Node> frontRoot = new TreeItem<>();
+		frontRoot.valueProperty().bind(
+				cardView.getFront().rootProperty());
+		frontRoot.valueProperty().subscribe(value ->
+				frontRoot.getChildren().setAll(nodeTreeView.buildTreeNode(value).getChildren()));
+		TreeItem<Node> backRoot = new TreeItem<>();
+		backRoot.valueProperty().bind(cardView.getBack().rootProperty());
+		backRoot.valueProperty().subscribe(value ->
+				backRoot.getChildren().setAll(nodeTreeView.buildTreeNode(value).getChildren()));
 
-        nodeTreeView.getRoot().getChildren().add(frontRoot);
-        nodeTreeView.getRoot().getChildren().add(backRoot);
-
-
-        SelectionBinding.bindBidirectional(
-                nodeTreeView.selectionModelProperty()
-                        .flatMap(SelectionModel::selectedItemProperty)
-                        .flatMap(TreeItem::valueProperty),
-                v -> nodeTreeView.getSelectionModel().select(nodeTreeView.nodeToItemMap.get(v)),
-                selectedProperty(),
-                this::setSelected);
-    }
-
-    //endregion FXML
-
-    //region Properties
-
-    private final StringProperty scope = new SimpleStringProperty(this, "scope");
-
-    public StringProperty scopeProperty() {
-        return scope;
-    }
-
-    public String getScope() {
-        return scopeProperty().get();
-    }
-
-    public void setScope(String scope) {
-        scopeProperty().set(scope);
-    }
-
-    private final ObjectProperty<Node> selected = new SimpleObjectProperty<>(this, "selected");
-
-    public ObjectProperty<Node> selectedProperty() {
-        return selected;
-    }
-
-    public Node getSelected() {
-        return selectedProperty().get();
-    }
-
-    public void setSelected(Node selected) {
-        selectedProperty().set(selected);
-    }
+		nodeTreeView.getRoot().getChildren().add(frontRoot);
+		nodeTreeView.getRoot().getChildren().add(backRoot);
 
 
-    private final ObjectProperty<CardFX> card = new SimpleObjectProperty<>(this, "card");
+		SelectionBinding.bindBidirectional(
+				nodeTreeView.selectionModelProperty()
+						.flatMap(SelectionModel::selectedItemProperty)
+						.flatMap(TreeItem::valueProperty),
+				v -> nodeTreeView.getSelectionModel().select(nodeTreeView.nodeToItemMap.get(v)),
+				selectedProperty(),
+				this::setSelected);
+	}
 
-    public ObjectProperty<CardFX> cardProperty() {
-        return card;
-    }
+	//endregion FXML
 
-    public CardFX getCard() {
-        return cardProperty().get();
-    }
+	//region Properties
 
-    public void setCard(CardFX card) {
-        cardProperty().set(card);
-    }
-    //endregion
+	private final StringProperty scope = new SimpleStringProperty(this, "scope");
 
-    @FXML
-    public void createNode(ActionEvent action) {
-        Dialog<Class<? extends Node>> dialog = new ChoiceDialog<>(
-                StackPane.class,
-                List.of(StackPane.class, TextArea.class, ImageView.class));
-        dialog.show();
-        dialog.resultProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                TreeItem<Node> selectedItem = nodeTreeView.getSelectionModel().getSelectedItem();
-                Node node = selectedItem.getValue();
-                if (node instanceof Pane pane) {
-                    try {
-                        pane.getChildren().add(newValue.getConstructor().newInstance());
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
-        });
-    }
+	public StringProperty scopeProperty() {
+		return scope;
+	}
 
-    @FXML
-    public void reset() {
-        viewport.reset();
-    }
+	public String getScope() {
+		return scopeProperty().get();
+	}
 
-    @FXML
-    public void undoAction(ActionEvent action) {
-        //TODO: Implement transactional undo/redo using UndoFX
-    }
+	public void setScope(String scope) {
+		scopeProperty().set(scope);
+	}
 
-    @FXML
-    public void redoAction(ActionEvent action) {
-        //TODO: Implement transactional undo/redo using UndoFX
-    }
+	private final ObjectProperty<Node> selected = new SimpleObjectProperty<>(this, "selected");
 
-    @FXML
-    public void sceneToFxml(ActionEvent action) {
-        Node root = cardView.getFront().getRoot();
-        String serialize = FXMLSaver.serialize(root);
-        fxmlEditor.getContent().replaceText(serialize);
-    }
+	public ObjectProperty<Node> selectedProperty() {
+		return selected;
+	}
 
-    @FXML
-    public void fxmlToScene(KeyEvent keyEvent) {
-        if (!keyEvent.isControlDown() || !keyEvent.getCode().equals(KeyCode.ENTER)) return;
+	public Node getSelected() {
+		return selectedProperty().get();
+	}
 
-        String fxml = fxmlEditor.getContent().getText();
-        cardView.getFront().loadFxml(fxml);
-    }
+	public void setSelected(Node selected) {
+		selectedProperty().set(selected);
+	}
+
+
+	private final ObjectProperty<CardFX> card = new SimpleObjectProperty<>(this, "card");
+
+	public ObjectProperty<CardFX> cardProperty() {
+		return card;
+	}
+
+	public CardFX getCard() {
+		return cardProperty().get();
+	}
+
+	public void setCard(CardFX card) {
+		cardProperty().set(card);
+	}
+	//endregion
+
+	@FXML
+	public void createNode(ActionEvent action) {
+		Dialog<Class<? extends Node>> dialog = new ChoiceDialog<>(
+				StackPane.class,
+				List.of(StackPane.class, TextArea.class, ImageView.class));
+		dialog.show();
+		dialog.resultProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue != null) {
+				TreeItem<Node> selectedItem = nodeTreeView.getSelectionModel().getSelectedItem();
+				Node node = selectedItem.getValue();
+				if (node instanceof Pane pane) {
+					try {
+						pane.getChildren().add(newValue.getConstructor().newInstance());
+					} catch (Exception e) {
+						throw new RuntimeException(e);
+					}
+				}
+			}
+		});
+	}
+
+	@FXML
+	public void reset() {
+		viewport.reset();
+	}
+
+	@FXML
+	public void undoAction(ActionEvent action) {
+		//TODO: Implement transactional undo/redo using UndoFX
+	}
+
+	@FXML
+	public void redoAction(ActionEvent action) {
+		//TODO: Implement transactional undo/redo using UndoFX
+	}
+
+	@FXML
+	public void sceneToFxml(ActionEvent action) {
+		Node root = cardView.getFront().getRoot();
+		String serialize = FXMLSaver.serialize(root);
+		fxmlEditor.getContent().replaceText(serialize);
+	}
+
+	@FXML
+	public void fxmlToScene(KeyEvent keyEvent) {
+		if (!keyEvent.isControlDown() || !keyEvent.getCode().equals(KeyCode.ENTER)) return;
+
+		String fxml = fxmlEditor.getContent().getText();
+		cardView.getFront().loadFxml(fxml);
+	}
 }
 

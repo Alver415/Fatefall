@@ -263,6 +263,6 @@ public class TreeProperty<T> implements
 	}
 	@Override
 	public String toString() {
-		return getValue().toString();
+		return String.valueOf(getValue());
 	}
 }

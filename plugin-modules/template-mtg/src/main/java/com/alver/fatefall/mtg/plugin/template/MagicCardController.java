@@ -19,6 +19,20 @@ import static com.alver.fatefall.mtg.plugin.template.ColorIdentity.*;
 @FXMLPrototype
 public class MagicCardController extends TemplateController {
 
+    protected final StringProperty name = new SimpleStringProperty(this, "name");
+    protected final ObjectProperty<ManaCost> manaCost = new SimpleObjectProperty<>(this, "manaCost");
+    protected final SetProperty<Color> colors = new SimpleSetProperty<>(this, "colors", FXCollections.observableSet());
+
+    protected final ListProperty<String> cardTypes = new SimpleListProperty<>(this, "cardTypes");
+    protected final ListProperty<String> superTypes = new SimpleListProperty<>(this, "superTypes");
+    protected final ListProperty<String> subTypes = new SimpleListProperty<>(this, "subTypes");
+    protected final ObjectProperty<Rarity> rarity = new SimpleObjectProperty<>(this, "rarity");
+
+    protected final IntegerProperty power = new SimpleIntegerProperty(this, "power");
+    protected final IntegerProperty toughness = new SimpleIntegerProperty(this, "toughness");
+    protected final IntegerProperty loyalty = new SimpleIntegerProperty(this, "loyalty");
+
+
     public MagicCardController(FatefallProperties properties) {
         super(properties);
     }
@@ -140,20 +154,6 @@ public class MagicCardController extends TemplateController {
     public void setArt(Image image) {
         artProperty().set(image);
     }
-
-    protected final StringProperty name = new SimpleStringProperty(this, "name");
-    protected final ObjectProperty<ManaCost> manaCost = new SimpleObjectProperty<>(this, "manaCost");
-    protected final SetProperty<Color> colors = new SimpleSetProperty<>(this, "colors", FXCollections.observableSet());
-
-    protected final ListProperty<String> cardTypes = new SimpleListProperty<>(this, "cardTypes");
-    protected final ListProperty<String> superTypes = new SimpleListProperty<>(this, "superTypes");
-    protected final ListProperty<String> subTypes = new SimpleListProperty<>(this, "subTypes");
-    protected final ObjectProperty<Rarity> rarity = new SimpleObjectProperty<>(this, "rarity");
-
-    protected final IntegerProperty power = new SimpleIntegerProperty(this, "power");
-    protected final IntegerProperty toughness = new SimpleIntegerProperty(this, "toughness");
-    protected final IntegerProperty loyalty = new SimpleIntegerProperty(this, "loyalty");
-
     //endregion Properties
 
     //region Context Menu

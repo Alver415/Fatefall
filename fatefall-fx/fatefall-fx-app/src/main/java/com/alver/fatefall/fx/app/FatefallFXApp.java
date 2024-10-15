@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.PropertySource;
 
 import java.io.IOException;
@@ -24,7 +25,12 @@ import java.util.List;
 
 
 @SpringBootApplication
-@ComponentScan("com.alver.fatefall")
+@ComponentScan(basePackages = {"com.alver.fatefall"},
+		excludeFilters = @ComponentScan.Filter(
+				type = FilterType.REGEX,
+				pattern = "com\\.alver\\.fatefall\\.fx\\.plugin\\..*"
+		)
+)
 @PropertySource("classpath:/fatefall-fx-app.properties")
 public class FatefallFXApp {
 
