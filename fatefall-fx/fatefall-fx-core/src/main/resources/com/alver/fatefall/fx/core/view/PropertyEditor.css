@@ -7,7 +7,7 @@ VBox {
 }
 
 .editor {
-	-fx-border-color:red;
+	-fx-border-color: rgba(0, 0, 100, 0.5);
 	-fx-border-width: 0 0 0 2;
 	-fx-border-insets: -2;
 }

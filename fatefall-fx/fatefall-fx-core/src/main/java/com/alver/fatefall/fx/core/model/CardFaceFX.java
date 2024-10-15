@@ -1,7 +1,7 @@
 package com.alver.fatefall.fx.core.model;
 
 import com.alver.fatefall.core.entity.CardFace;
-import com.alver.fatefall.fx.core.view.PropertyEditorInfo;
+import com.alver.fatefall.fx.core.view.EditorInfo;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
@@ -22,7 +22,7 @@ public class CardFaceFX extends EntityFX implements CardFace {
 		cardProperty.set(cardFX);
 	}
 
-	@PropertyEditorInfo(ignore = true)
+	@EditorInfo(ignore = true)
 	public ObjectProperty<CardFX> cardProperty(){
 		return cardProperty;
 	}

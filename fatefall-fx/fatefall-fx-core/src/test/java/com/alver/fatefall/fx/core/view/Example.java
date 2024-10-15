@@ -20,7 +20,7 @@ public class Example {
 
 	private final StringProperty description = new SimpleStringProperty(this, "description");
 
-	@PropertyEditorInfo(displayName = "Description", category = "General")
+	@EditorInfo(displayName = "Description", category = "General")
 	public StringProperty descriptionProperty() {
 		return this.description;
 	}

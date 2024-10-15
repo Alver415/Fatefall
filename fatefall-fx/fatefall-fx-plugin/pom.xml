@@ -9,7 +9,7 @@
 		<version>${revision}</version>
 	</parent>
 
-	<artifactId>Ffatefall-fx-plugin</artifactId>
+	<artifactId>fatefall-fx-plugin</artifactId>
 	<packaging>jar</packaging>
 
 	<properties>

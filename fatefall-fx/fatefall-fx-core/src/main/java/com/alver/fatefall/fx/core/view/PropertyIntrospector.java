@@ -74,12 +74,12 @@ public class PropertyIntrospector {
 			Method setter = setMethods.get(name);
 			Method getter = getMethods.get(name);
 
-			Optional<PropertyEditorInfo> propertyDetails = Optional.ofNullable(property.getAnnotation(PropertyEditorInfo.class));
-			if (propertyDetails.map(PropertyEditorInfo::ignore).orElse(false)){
+			Optional<EditorInfo> propertyDetails = Optional.ofNullable(property.getAnnotation(EditorInfo.class));
+			if (propertyDetails.map(EditorInfo::ignore).orElse(false)){
 				continue;
 			}
-			String displayName = propertyDetails.map(PropertyEditorInfo::displayName).orElse(null);
-			String category = propertyDetails.map(PropertyEditorInfo::category).orElse(null);
+			String displayName = propertyDetails.map(EditorInfo::displayName).orElse(null);
+			String category = propertyDetails.map(EditorInfo::category).orElse(null);
 
 
 
