@@ -2,6 +2,7 @@ package com.alver.fatefall.fx.core.model;
 
 import com.alver.fatefall.core.entity.Entity;
 import com.alver.fatefall.fx.core.utils.TreeProperty;
+import com.alver.fatefall.fx.core.view.EditorInfo;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -22,6 +23,7 @@ public class EntityFX implements Entity {
 		return this.id;
 	}
 
+	@EditorInfo(ignore = true)
 	public StringProperty nameProperty() {
 		return this.name;
 	}
@@ -32,6 +34,7 @@ public class EntityFX implements Entity {
 		this.name.set(name);
 	}
 
+	@EditorInfo(ignore = true)
 	public StringProperty jsonProperty() {
 		return this.json;
 	}
@@ -42,6 +45,7 @@ public class EntityFX implements Entity {
 		this.json.set(json);
 	}
 
+	@EditorInfo(ignore = true)
 	public TreeProperty<Object> dataProperty() {
 		return data;
 	}

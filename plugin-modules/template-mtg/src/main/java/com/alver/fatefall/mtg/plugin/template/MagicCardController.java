@@ -1,13 +1,11 @@
 package com.alver.fatefall.mtg.plugin.template;
 
-import com.alver.fatefall.fx.app.FatefallProperties;
 import com.alver.fatefall.fx.app.view.entity.card.template.TemplateController;
+import com.alver.fatefall.mtg.plugin.MagicCard;
 import com.alver.springfx.annotations.FXMLPrototype;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import org.reactfx.value.Var;
 
@@ -17,7 +15,7 @@ import java.util.stream.Collectors;
 import static com.alver.fatefall.mtg.plugin.template.ColorIdentity.*;
 
 @FXMLPrototype
-public class MagicCardController extends TemplateController {
+public class MagicCardController implements TemplateController<MagicCard> {
 
     protected final StringProperty name = new SimpleStringProperty(this, "name");
     protected final ObjectProperty<ManaCost> manaCost = new SimpleObjectProperty<>(this, "manaCost");
@@ -32,11 +30,6 @@ public class MagicCardController extends TemplateController {
     protected final IntegerProperty toughness = new SimpleIntegerProperty(this, "toughness");
     protected final IntegerProperty loyalty = new SimpleIntegerProperty(this, "loyalty");
 
-
-    public MagicCardController(FatefallProperties properties) {
-        super(properties);
-    }
-
     @FXML
     protected void initialize() {
         initializeColorBindings();
@@ -45,8 +38,8 @@ public class MagicCardController extends TemplateController {
 
     private void initializeArtBindings() {
         Property<Object> artUrl = Var.mapBidirectional(this.art, Image::getUrl, url -> new Image(url == null || url.toString().isBlank() ? "file:/missing" : (String)url));
-        Property<Object> artProp = Var.fromVal(dataProperty().flatMap(a -> a.get("art")), value -> getData().get("art").set(value));
-        artUrl.bindBidirectional(artProp);
+//        Property<Object> artProp = Var.fromVal(dataProperty().flatMap(a -> a.get("art")), value -> getData().get("art").set(value));
+//        artUrl.bindBidirectional(artProp);
     }
 
     private void initializeColorBindings() {
@@ -90,9 +83,9 @@ public class MagicCardController extends TemplateController {
                 set -> set.stream().map(Object::toString).collect(Collectors.joining(",")),
                 string -> FXCollections.observableSet(string == null ? Set.of() : Arrays.stream(((String)string).split(",")).map(String::trim).map(Color::valueOf).collect(Collectors.toSet())));
 
-        Property<Object> colorProp = Var.fromVal(dataProperty().flatMap(a -> a.get("colors")), value -> getData().get("colors").set(value));
+//        Property<Object> colorProp = Var.fromVal(dataProperty().flatMap(a -> a.get("colors")), value -> getData().get("colors").set(value));
 
-        colorStringProp.bindBidirectional(colorProp);
+//        colorStringProp.bindBidirectional(colorProp);
     }
 
     private static final Map<ColorIdentity, Image> backgrounds = Map.of(
@@ -154,27 +147,34 @@ public class MagicCardController extends TemplateController {
     public void setArt(Image image) {
         artProperty().set(image);
     }
+
+    private final ObjectProperty<MagicCard> model = new SimpleObjectProperty<>(this, "model");
+
+    @Override
+    public Property<MagicCard> modelProperty() {
+        return model;
+    }
     //endregion Properties
 
     //region Context Menu
 
-    @Override
-    public List<MenuItem> getContextMenuItems(){
-        Menu menu = new Menu("Colors");
-        menu.getItems().setAll(Arrays.stream(Color.values())
-                .map(color -> {
-                    MenuItem menuItem = new MenuItem(color.name());
-                    menuItem.setOnAction(_ -> {
-                        if (colors.contains(color))
-                            colors.remove(color);
-                        else
-                            colors.add(color);
-                    });
-                    return menuItem;
-                })
-                .toList());
-        return List.of(menu);
-    }
+//    @Override
+//    public List<MenuItem> getContextMenuItems(){
+//        Menu menu = new Menu("Colors");
+//        menu.getItems().setAll(Arrays.stream(Color.values())
+//                .map(color -> {
+//                    MenuItem menuItem = new MenuItem(color.name());
+//                    menuItem.setOnAction(_ -> {
+//                        if (colors.contains(color))
+//                            colors.remove(color);
+//                        else
+//                            colors.add(color);
+//                    });
+//                    return menuItem;
+//                })
+//                .toList());
+//        return List.of(menu);
+//    }
 
     //endregion Context Menu
 }

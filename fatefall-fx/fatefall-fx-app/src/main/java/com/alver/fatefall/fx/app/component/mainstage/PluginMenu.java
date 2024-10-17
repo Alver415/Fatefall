@@ -14,7 +14,7 @@ import java.util.List;
 public class PluginMenu extends Menu {
 
 	@Autowired
-	public PluginMenu(@Autowired(required = false) PluginManager pluginManager){
+	public PluginMenu(PluginManager pluginManager){
 		setText("Plugins");
 		List<PluginWrapper> plugins = pluginManager == null ? List.of() : pluginManager.getPlugins();
 		List<Menu> menuList = plugins.stream()

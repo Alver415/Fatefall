@@ -1,6 +1,5 @@
 package com.alver.fatefall.fx.app.view.entity.card;
 
-import com.alver.fatefall.fx.app.editor.file.JavaEditor;
 import com.alver.fatefall.fx.app.editor.file.XMLEditor;
 import com.alver.fatefall.fx.core.model.CardFX;
 import com.alver.fatefall.fx.core.utils.SelectionBinding;
@@ -39,15 +38,7 @@ public class CardEditorView {
 	private CardView cardView;
 
 	@FXML
-	private IntrospectingPropertyEditor<CardFX> propertyEditor;
-	@FXML
-	private DataEditorView dataEditorView;
-	@FXML
-	private RecursivePropertySheet<CardFX> recursivePropertySheet;
-	@FXML
-	private DataTreeView dataTreeView;
-	@FXML
-	private JavaEditor dataEditor;
+	private IntrospectingPropertyEditor<CardFX<?,?>> cardEditor;
 
 	@FXML
 	private XMLEditor fxmlEditor;
@@ -58,14 +49,12 @@ public class CardEditorView {
 
 	@FXML
 	private void initialize() {
+
 		// Prevents moving tabs between different editors.
 		scope.set(UUID.randomUUID().toString());
 
 		bind(cardProperty(), cardView.cardProperty());
-		bind(cardProperty(), dataTreeView.cardProperty());
-		bind(cardProperty(), dataEditorView.cardProperty());
-		bind(cardProperty(), recursivePropertySheet.valueProperty());
-		bind(cardProperty(), propertyEditor.valueProperty());
+		bind(cardProperty(), cardEditor.valueProperty());
 
 		bind(selectedProperty(), selectedNodePropertySheet.selectedProperty());
 
@@ -145,17 +134,17 @@ public class CardEditorView {
 	}
 
 
-	private final ObjectProperty<CardFX> card = new SimpleObjectProperty<>(this, "card");
+	private final ObjectProperty<CardFX<?,?>> card = new SimpleObjectProperty<>(this, "card");
 
-	public ObjectProperty<CardFX> cardProperty() {
+	public ObjectProperty<CardFX<?,?>> cardProperty() {
 		return card;
 	}
 
-	public CardFX getCard() {
+	public CardFX<?,?> getCard() {
 		return cardProperty().get();
 	}
 
-	public void setCard(CardFX card) {
+	public void setCard(CardFX<?,?> card) {
 		cardProperty().set(card);
 	}
 	//endregion

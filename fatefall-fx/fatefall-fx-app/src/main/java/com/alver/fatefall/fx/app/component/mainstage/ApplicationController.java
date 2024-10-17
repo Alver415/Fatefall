@@ -78,10 +78,10 @@ public class ApplicationController implements AppController {
 	public ApplicationController(
 			FileSystemFX fileSystem,
 			ObservableList<WorkspaceFX> workspaces,
-			WorkspacesApi<WorkspaceFX> workspaceApi,
+			@Autowired(required = false) WorkspacesApi<WorkspaceFX> workspaceApi,
 			WorkspaceCreateAction workspaceCreateAction,
 			PreferencesController preferences,
-			@Autowired(required = false) PluginMenu pluginMenu,
+			PluginMenu pluginMenu,
 			SpringFX springFX,
 			StageManager stageManager, BeanFactory beanFactory) {
 		this.fileSystem = fileSystem;
@@ -153,6 +153,7 @@ public class ApplicationController implements AppController {
 
 	@FXML
 	private void refresh() {
+		if (workspaceApi == null) return;
 		List<WorkspaceFX> fetched = workspaceApi.getAll();
 
 		// TODO: Fix me
@@ -208,10 +209,15 @@ public class ApplicationController implements AppController {
 	}
 
 	@FXML
-	private void createCard() {
+	public void createCard() {
 		CardFX card = new CardFX(1l);
+		createCard(card);
+	}
+	public void createCard(CardFX card) {
 		FXMLControllerAndView<CardEditorView, Object> viewAndController = springFX.load(CardEditorView.class);
 		viewAndController.controller().setCard(card);
-		tabPane.addTab("New Card", (Node)viewAndController.view());
+		Node view = (Node) viewAndController.view();
+		DetachableTab tab = tabPane.addTab("New Card", view);
+		tabPane.getSelectionModel().select(tab);
 	}
 }

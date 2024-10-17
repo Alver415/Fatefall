@@ -1,113 +1,18 @@
 package com.alver.fatefall.fx.app.view.entity.card.template;
 
-import com.alver.fatefall.fx.app.FatefallProperties;
-import com.alver.fatefall.fx.core.utils.FXUtils;
-import com.alver.fatefall.fx.core.utils.TreeProperty;
-import com.alver.springfx.annotations.FXMLPrototype;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
+import javafx.beans.property.Property;
 
-@FXMLPrototype(location = "PlaceholderTemplate.fxml")
-public class TemplateController {
-	protected final ObjectProperty<TreeProperty<?>> data = new SimpleObjectProperty<>(this, "data");
+public interface TemplateController<M> {
 
-	public ObjectProperty<TreeProperty<?>> dataProperty() {
-		return data;
+
+	Property<M> modelProperty();
+
+	default M getModel() {
+		return this.modelProperty().getValue();
 	}
 
-	public TreeProperty<?> getData() {
-		return dataProperty().get();
-	}
-
-	public void setData(TreeProperty<?> data) {
-		dataProperty().set(data);
-	}
-
-	protected DoubleProperty widthProperty = new SimpleDoubleProperty();
-	protected DoubleProperty heightProperty = new SimpleDoubleProperty();
-	protected DoubleProperty arcWidthProperty = new SimpleDoubleProperty();
-	protected DoubleProperty arcHeightProperty = new SimpleDoubleProperty();
-
-	protected ObjectProperty<Image> imageProperty = new SimpleObjectProperty<>();
-
-	@Autowired
-	public TemplateController(FatefallProperties properties) {
-		FXUtils.runFx(() -> {
-			widthProperty.bind(properties.getCardBaseWidth());
-			heightProperty.bind(properties.getCardBaseHeight());
-			arcWidthProperty.bind(properties.getCardBaseArcWidth());
-			arcHeightProperty.bind(properties.getCardBaseArcHeight());
-		});
-	}
-
-	public double getWidth() {
-		return widthProperty.get();
-	}
-
-	public DoubleProperty widthProperty() {
-		return widthProperty;
-	}
-
-	public void setWidth(double widthProperty) {
-		this.widthProperty.set(widthProperty);
-	}
-
-	public double getHeight() {
-		return heightProperty.get();
-	}
-
-	public DoubleProperty heightProperty() {
-		return heightProperty;
-	}
-
-	public void setHeight(double heightProperty) {
-		this.heightProperty.set(heightProperty);
-	}
-
-	public double getArcWidth() {
-		return arcWidthProperty.get();
-	}
-
-	public DoubleProperty arcWidthProperty() {
-		return arcWidthProperty;
-	}
-
-	public void setArcWidth(double arcWidthProperty) {
-		this.arcWidthProperty.set(arcWidthProperty);
-	}
-
-	public double getArcHeight() {
-		return arcHeightProperty.get();
-	}
-
-	public DoubleProperty arcHeightProperty() {
-		return arcHeightProperty;
-	}
-
-	public void setArcHeight(double arcHeightProperty) {
-		this.arcHeightProperty.set(arcHeightProperty);
-	}
-
-	public Image getImage() {
-		return imageProperty.get();
-	}
-
-	public ObjectProperty<Image> imageProperty() {
-		return imageProperty;
-	}
-
-	public void setImage(Image image) {
-		this.imageProperty.set(image);
-	}
-
-	public List<MenuItem> getContextMenuItems(){
-		return List.of();
+	default void setModel(M value) {
+		this.modelProperty().setValue(value);
 	}
 }

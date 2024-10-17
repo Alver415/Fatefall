@@ -1,0 +1,9 @@
+* {
+   -fx-suit-color: #66f;
+}
+
+Label {
+    -fx-font-size: 64;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-suit-color;
+}

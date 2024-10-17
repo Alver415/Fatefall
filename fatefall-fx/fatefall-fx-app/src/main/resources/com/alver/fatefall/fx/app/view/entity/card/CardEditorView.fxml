@@ -14,37 +14,8 @@
 		   stylesheets="@CardEditorView.css"
 		   dividerPositions="0.25, 0.75">
 	<DetachableTabPane scope="#{controller.scope}" closeIfEmpty="true">
-		<DetachableTab text="propertyEditor">
-			<IntrospectingPropertyEditor fx:id="propertyEditor"/>
-		</DetachableTab>
-		<DetachableTab text="Data Form">
-			<DataEditorView fx:id="dataEditorView"
-							modeSwitcherVisible="true"
-							searchBoxVisible="true"/>
-		</DetachableTab>
-		<DetachableTab text="Recursive Form">
-			<RecursivePropertySheet fx:id="recursivePropertySheet"
-							modeSwitcherVisible="true"
-							searchBoxVisible="true"/>
-		</DetachableTab>
-		<DetachableTab text="Data View">
-			<DataTreeView fx:id="dataTreeView" showRoot="false">
-				<columnResizePolicy>
-					<TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-				</columnResizePolicy>
-				<columns>
-					<TreeTableColumn text="Field">
-						<cellValueFactory>
-							<TreeItemPropertyValueFactory property="name"/>
-						</cellValueFactory>
-					</TreeTableColumn>
-					<TreeTableColumn text="Value">
-						<cellValueFactory>
-							<TreeItemPropertyValueFactory property="value"/>
-						</cellValueFactory>
-					</TreeTableColumn>
-				</columns>
-			</DataTreeView>
+		<DetachableTab text="Card Editor">
+			<IntrospectingPropertyEditor fx:id="cardEditor"/>
 		</DetachableTab>
 
 		<DetachableTab text="Data Editor">

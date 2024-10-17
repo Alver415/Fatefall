@@ -9,17 +9,20 @@ import javafx.scene.control.Skin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
+
 public class PropertyEditor<T> extends Control implements Editor<T>{
 
 	private static final Logger log = LoggerFactory.getLogger(PropertyEditor.class);
+	private static final String CSS = Objects.requireNonNull(PropertyEditor.class.getResource("PropertyEditor.css")).toExternalForm();
 
 	public PropertyEditor(String name, Property<T> property){
+		getStylesheets().add(CSS);
 		setName(name);
 		if (property != null) {
 			valueProperty().bind(property);
 		}
 		setNode(this);
-		getStylesheets().add("com/alver/fatefall/fx/core/view/PropertyEditor.css");
 	}
 
 	@Override
@@ -28,7 +31,6 @@ public class PropertyEditor<T> extends Control implements Editor<T>{
 	}
 
 	private final ObjectProperty<T> value = new SimpleObjectProperty<>(this, "value");
-
 	public ObjectProperty<T> valueProperty() {
 		return this.value;
 	}

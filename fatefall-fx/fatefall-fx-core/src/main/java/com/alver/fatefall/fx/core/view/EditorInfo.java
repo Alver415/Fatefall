@@ -10,13 +10,15 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface EditorInfo {
 
-	String displayName() default "";
+	String DEFAULT_DISPLAY_NAME = "";
+	String displayName() default DEFAULT_DISPLAY_NAME;
 
-	String category() default "";
+	String DEFAULT_CATEGORY = "";
+	String category() default DEFAULT_CATEGORY;
 
-	String[] categoryOrder() default {};
+	int DEFAULT_ORDER = 0;
+	int order() default DEFAULT_ORDER;
 
-	int order() default 0;
-
-	boolean ignore() default false;
+	boolean DEFAULT_IGNORE = false;
+	boolean ignore() default DEFAULT_IGNORE;
 }

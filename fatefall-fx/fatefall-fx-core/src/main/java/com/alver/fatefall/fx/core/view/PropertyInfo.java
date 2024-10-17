@@ -6,6 +6,7 @@ public record PropertyInfo(
 		String name,
 		String displayName,
 		String category,
+		int order,
 		Method property,
 		Method setter,
 		Method getter,

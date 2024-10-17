@@ -80,7 +80,7 @@ public class CardView extends Control {
 
 		ContextMenu contextMenu = new ContextMenu();
 		contextMenu.getItems().setAll(edit, viewMode);
-//		setContextMenu(contextMenu);
+		setContextMenu(contextMenu);
 	}
 
 	private MenuItem buildMenuItem(String text, Class<?> clazz, Runnable action) {
@@ -115,17 +115,17 @@ public class CardView extends Control {
 	/**
 	 * === Properties ===
 	 */
-	protected ObjectProperty<CardFX> cardProperty = new SimpleObjectProperty<>();
+	protected ObjectProperty<CardFX<?,?>> cardProperty = new SimpleObjectProperty<>();
 
-	public ObjectProperty<CardFX> cardProperty() {
+	public ObjectProperty<CardFX<?,?>> cardProperty() {
 		return cardProperty;
 	}
 
-	public CardFX getCard() {
+	public CardFX<?,?> getCard() {
 		return cardProperty().get();
 	}
 
-	public void setCard(CardFX card) {
+	public void setCard(CardFX<?,?> card) {
 		cardProperty().set(card);
 	}
 

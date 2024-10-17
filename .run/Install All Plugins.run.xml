@@ -1,8 +1,9 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Install All Plugins" type="CompoundRunConfigurationType">
     <toRun name="Install MSE Plugin" type="MavenRunConfiguration" />
+    <toRun name="Install Poker Plugin" type="MavenRunConfiguration" />
     <toRun name="Install Scryfall Plugin" type="MavenRunConfiguration" />
-    <toRun name="Install Template MTG Plugin" type="MavenRunConfiguration" />
+    <toRun name="Install MTG Plugin" type="MavenRunConfiguration" />
     <method v="2" />
   </configuration>
 </component>

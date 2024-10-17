@@ -27,10 +27,10 @@
 			<artifactId>fatefall-fx-theme</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webflux</artifactId>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.springframework</groupId>-->
+<!--			<artifactId>spring-webflux</artifactId>-->
+<!--		</dependency>-->
 
 		<!-- PreferencesFX -->
 		<dependency>

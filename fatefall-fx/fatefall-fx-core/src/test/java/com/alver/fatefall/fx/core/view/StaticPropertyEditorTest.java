@@ -31,8 +31,6 @@ public class StaticPropertyEditorTest extends Application {
 
 		child.descriptionProperty().bindBidirectional(example.descriptionProperty());
 
-		EditorFactory factory = new EditorFactory();
-		PropertyIntrospector introspector = new PropertyIntrospector(factory);
 		StaticPropertyEditor propertyEditor = new StaticPropertyEditor("Test", new SimpleObjectProperty<>(example));
 
 		Scene scene = new Scene(new VBox(propertyEditor));

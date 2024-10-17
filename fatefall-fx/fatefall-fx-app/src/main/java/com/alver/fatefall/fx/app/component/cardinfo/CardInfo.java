@@ -20,17 +20,17 @@ public class CardInfo  {
 	/**
 	 * === Selected Property ==
 	 */
-	protected ObjectProperty<CardFX> cardProperty = new SimpleObjectProperty<>();
+	protected ObjectProperty<CardFX<?,?>> cardProperty = new SimpleObjectProperty<>();
 
-	public final void setCard(CardFX value) {
+	public final void setCard(CardFX<?,?> value) {
 		cardProperty.set(value);
 	}
 
-	public final CardFX getCard() {
+	public final CardFX<?,?> getCard() {
 		return cardProperty.get();
 	}
 
-	public final ObjectProperty<CardFX> cardProperty() {
+	public final ObjectProperty<CardFX<?,?>> cardProperty() {
 		return cardProperty;
 	}
 

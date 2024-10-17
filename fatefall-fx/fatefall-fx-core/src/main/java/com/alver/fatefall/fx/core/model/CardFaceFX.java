@@ -35,6 +35,7 @@ public class CardFaceFX extends EntityFX implements CardFace {
 		cardProperty().set(card);
 	}
 
+	@EditorInfo(ignore = true)
 	public ObjectProperty<TemplateFX> templateProperty(){
 		return templateProperty;
 	}
