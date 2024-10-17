@@ -1,9 +1,7 @@
-package com.alver.fatefall.poker.plugin;
+package com.alver.fatefall.poker.plugin.model;
 
 import com.alver.fatefall.fx.core.model.CardFX;
 import com.alver.fatefall.fx.core.model.CardFaceFX;
-import com.alver.fatefall.poker.plugin.template.Rank;
-import com.alver.fatefall.poker.plugin.template.Suit;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;

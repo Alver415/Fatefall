@@ -1,4 +1,6 @@
-package com.alver.fatefall.poker.plugin.template;
+package com.alver.fatefall.poker.plugin.model;
+
+import javafx.scene.paint.Color;
 
 public enum Suit {
     SPADE(Color.BLACK, "♠"),

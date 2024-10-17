@@ -2,7 +2,7 @@ package com.alver.fatefall.poker.plugin.template;
 
 import com.alver.fatefall.fx.app.FatefallProperties;
 import com.alver.fatefall.fx.app.view.entity.card.template.TemplateControllerBase;
-import com.alver.fatefall.poker.plugin.PokerCard;
+import com.alver.fatefall.poker.plugin.model.PokerCard;
 import com.alver.springfx.annotations.FXMLPrototype;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.Property;

@@ -1,4 +1,4 @@
-package com.alver.fatefall.poker.plugin.template;
+package com.alver.fatefall.poker.plugin.model;
 
 public enum Rank {
 	ACE(1, "A"),

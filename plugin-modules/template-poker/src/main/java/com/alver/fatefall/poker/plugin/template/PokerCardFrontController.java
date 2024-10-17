@@ -1,12 +1,17 @@
 package com.alver.fatefall.poker.plugin.template;
 
 import com.alver.fatefall.fx.app.view.entity.card.template.TemplateController;
-import com.alver.fatefall.poker.plugin.PokerCard;
+import com.alver.fatefall.poker.plugin.model.PokerCard;
+import com.alver.fatefall.poker.plugin.model.Rank;
+import com.alver.fatefall.poker.plugin.model.Suit;
 import com.alver.fsfx.util.Converter;
 import com.alver.springfx.annotations.FXMLPrototype;
 import javafx.beans.property.*;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
 
 @FXMLPrototype
 public class PokerCardFrontController implements TemplateController<PokerCard.Front> {
@@ -21,15 +26,20 @@ public class PokerCardFrontController implements TemplateController<PokerCard.Fr
 			if (face == null) return;
 			rankConverter.bindBidirectional(this.rankProperty(), face.rankProperty());
 			suitConverter.bindBidirectional(this.suitProperty(), face.suitProperty());
-
-			face.suitProperty().subscribe(suit -> {
-				if (root != null && suit != null){
-					root.getChildrenUnmodifiable().forEach(child -> {
-						child.setStyle("-fx-suit-color: " + suit.getColor());
-					});
-				}
-			});
 		});
+	}
+
+	@FXML
+	private void initialize() {
+		root.getChildrenUnmodifiable().stream().
+				filter(child -> child instanceof Label)
+				.map(cast -> (Label) cast)
+				.forEach(label -> {
+					ObservableValue<Color> color = modelProperty()
+							.flatMap(PokerCard.Front::suitProperty)
+							.map(Suit::getColor);
+					label.textFillProperty().bind(color);
+				});
 	}
 
 	private final ObjectProperty<PokerCard> card = new SimpleObjectProperty<>(this, "card");
