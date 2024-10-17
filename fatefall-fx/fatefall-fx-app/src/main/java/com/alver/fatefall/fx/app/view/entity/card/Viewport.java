@@ -2,6 +2,7 @@ package com.alver.fatefall.fx.app.view.entity.card;
 
 import com.alver.fatefall.fx.app.FatefallProperties;
 import com.alver.fatefall.fx.core.utils.BackgroundUtil;
+import com.alver.jfxtra.util.JFXUtils;
 import javafx.beans.DefaultProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
@@ -48,6 +49,9 @@ public class Viewport extends SubScene {
 		userAgentStylesheetProperty().bind(FatefallProperties.getInstance().getSubSceneStylesheetSelection()
 				.map(s -> FatefallProperties.getStylesheetByNameMap().get(s)));
 
+		// This is an unknown fix for a bug that causes subscenes to not update/render changes.
+		// Not sure how requestLayout fixes the issue, and not sure why it needs to be called in the future.. but this works.
+		JFXUtils.runFX(root::requestLayout);
 	}
 
 	public ObjectProperty<Node> contentProperty() {
