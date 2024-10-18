@@ -5,6 +5,7 @@ import com.alver.fatefall.fx.core.model.CardFaceFX;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
+import javafx.scene.text.Font;
 
 public class PokerCard extends CardFX<PokerCard.Front, PokerCard.Back> {
 
@@ -14,20 +15,6 @@ public class PokerCard extends CardFX<PokerCard.Front, PokerCard.Back> {
 	}
 
 	public static class Front extends CardFaceFX {
-
-		private final ObjectProperty<Suit> suit = new SimpleObjectProperty<>(this, "suit");
-
-		public ObjectProperty<Suit> suitProperty() {
-			return this.suit;
-		}
-
-		public Suit getSuit() {
-			return this.suitProperty().get();
-		}
-
-		public void setSuit(Suit value) {
-			this.suitProperty().set(value);
-		}
 
 		private final ObjectProperty<Rank> rank = new SimpleObjectProperty<>(this, "rank");
 
@@ -41,6 +28,20 @@ public class PokerCard extends CardFX<PokerCard.Front, PokerCard.Back> {
 
 		public void setRank(Rank value) {
 			this.rankProperty().set(value);
+		}
+
+		private final ObjectProperty<Suit> suit = new SimpleObjectProperty<>(this, "suit");
+
+		public ObjectProperty<Suit> suitProperty() {
+			return this.suit;
+		}
+
+		public Suit getSuit() {
+			return this.suitProperty().get();
+		}
+
+		public void setSuit(Suit value) {
+			this.suitProperty().set(value);
 		}
 
 	}

@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.StackPane?>
-<StackPane fx:id="root" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+<?import javafx.scene.text.Text?>
+<StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.alver.fatefall.poker.plugin.template.PokerCardFrontController"
            stylesheets="@PokerCard.css">
 
-    <Label text="${controller.rank}" translateX="-80" translateY="-120"/>
-    <Label text="${controller.suit}" translateX="-80" translateY="-50"/>
+    <Text text="${controller.model.rank.symbol}"
+          fill="${controller.model.suit.color}"
+          styleClass="symbol" translateX="-80" translateY="-120"/>
+    <Text text="${controller.model.suit.symbol}"
+          fill="${controller.model.suit.color}"
+          styleClass="suit" translateX="-80" translateY="-50"/>
 
-    <Label text="${controller.suit}" translateX="80" translateY="50" rotate="180"/>
-    <Label text="${controller.rank}" translateX="80" translateY="120" rotate="180"/>
+    <Text text="${controller.model.rank.symbol}"
+          fill="${controller.model.suit.color}"
+          styleClass="symbol" translateX="80" translateY="120" rotate="180"/>
+    <Text text="${controller.model.suit.symbol}"
+          fill="${controller.model.suit.color}"
+          styleClass="suit" translateX="80" translateY="50" rotate="180"/>
 
 </StackPane>

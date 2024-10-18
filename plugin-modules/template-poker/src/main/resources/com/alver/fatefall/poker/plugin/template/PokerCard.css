@@ -1,9 +1,11 @@
-* {
-   -fx-suit-color: #66f;
+Text {
+    -fx-font-weight: bold;
 }
 
-Label {
-    -fx-font-size: 64;
-    -fx-font-weight: bold;
-    -fx-text-fill: -fx-suit-color;
+.symbol {
+    -fx-font-size: 75;
+}
+
+.suit {
+    -fx-font-size: 100;
 }
