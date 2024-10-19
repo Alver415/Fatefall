@@ -31,7 +31,8 @@ public enum Rank {
 		return symbol;
 	}
 	public static Rank fromSymbol(String symbol) {
-		return switch (symbol){
+
+		return symbol == null ? null : switch (symbol){
 			case "A": yield ACE;
 			case "2": yield TWO;
 			case "3": yield THREE;

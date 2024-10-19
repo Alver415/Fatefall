@@ -9,7 +9,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.RuntimeJsonMappingException;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
-import javafx.beans.property.*;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +29,8 @@ public class EntryToCardMapping {
 
 	private static final List<Object> list = new ArrayList<>();
 
-	public static CardFX map(FileSystemEntry entry){
+	public static CardFX<?, ?> map(FileSystemEntry entry){
+
 		CardFX card = new CardFX();
 		ObjectProperty<JsonNode> json = new SimpleObjectProperty<>(card, "json");
 		BYTES_TO_JSON.inverted().bindBidirectional(json, entry.contentProperty());

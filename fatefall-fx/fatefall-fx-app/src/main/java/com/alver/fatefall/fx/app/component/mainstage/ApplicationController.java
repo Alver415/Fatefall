@@ -3,7 +3,6 @@ package com.alver.fatefall.fx.app.component.mainstage;
 import com.alver.fatefall.core.api.WorkspacesApi;
 import com.alver.fatefall.fx.app.action.WorkspaceCreateAction;
 import com.alver.fatefall.fx.app.component.settings.PreferencesController;
-import com.alver.fatefall.fx.app.mapping.EntryToCardMapping;
 import com.alver.fatefall.fx.app.view.console.ConsoleController;
 import com.alver.fatefall.fx.app.view.entity.card.CardEditorView;
 import com.alver.fatefall.fx.core.interfaces.AppController;
@@ -11,6 +10,7 @@ import com.alver.fatefall.fx.core.interfaces.AppView;
 import com.alver.fatefall.fx.core.model.CardFX;
 import com.alver.fatefall.fx.core.model.WorkspaceFX;
 import com.alver.fatefall.fx.core.utils.StageManager;
+import com.alver.fatefall.fx.plugin.FatefallPluginManager;
 import com.alver.fsfx.FileSystemEntry;
 import com.alver.fsfx.FileSystemFX;
 import com.alver.fsfx.view.folder.FileSystemEditorModel;
@@ -55,6 +55,7 @@ public class ApplicationController implements AppController {
 	protected final WorkspacesApi<WorkspaceFX> workspaceApi;
 	protected final WorkspaceCreateAction workspaceCreateAction;
 	protected final PreferencesController preferences;
+	protected final FatefallPluginManager pluginManager;
 	protected final PluginMenu pluginMenu;
 	protected final SpringFX springFX;
 	protected final StageManager stageManager;
@@ -81,14 +82,17 @@ public class ApplicationController implements AppController {
 			@Autowired(required = false) WorkspacesApi<WorkspaceFX> workspaceApi,
 			WorkspaceCreateAction workspaceCreateAction,
 			PreferencesController preferences,
+			FatefallPluginManager pluginManager,
 			PluginMenu pluginMenu,
 			SpringFX springFX,
-			StageManager stageManager, BeanFactory beanFactory) {
+			StageManager stageManager,
+			BeanFactory beanFactory) {
 		this.fileSystem = fileSystem;
 		this.workspaces = workspaces;
 		this.workspaceApi = workspaceApi;
 		this.workspaceCreateAction = workspaceCreateAction;
 		this.preferences = preferences;
+		this.pluginManager = pluginManager;
 		this.pluginMenu = pluginMenu;
 		this.springFX = springFX;
 		this.stageManager = stageManager;
@@ -119,7 +123,8 @@ public class ApplicationController implements AppController {
 	private void openEntry(FileSystemEntry entry) {
 
 		if (entry.getName().endsWith(".card")){
-			CardFX card = EntryToCardMapping.map(entry);
+//			CardFX<?, ?> card = EntryToCardMapping.map(entry);
+			CardFX<?, ?> card = pluginManager.loadCard(entry);
 			FXMLControllerAndView<CardEditorView, Object> viewAndController = springFX.load(CardEditorView.class);
 			viewAndController.controller().setCard(card);
 			tabPane.addTab(entry.getName(), (Node)viewAndController.view());
