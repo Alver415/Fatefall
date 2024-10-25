@@ -11,6 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 @FXMLPrototype(location = "PlaceholderTemplate.fxml")
 public class PlaceholderTemplateController extends TemplateControllerBase<CardFaceFX> {
 
+	public PlaceholderTemplateController() {
+		super(FatefallProperties.getInstance());
+	}
+
 	@Autowired
 	public PlaceholderTemplateController(FatefallProperties properties) {
 		super(properties);

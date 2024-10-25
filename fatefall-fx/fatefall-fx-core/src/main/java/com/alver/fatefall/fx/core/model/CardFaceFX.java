@@ -7,7 +7,7 @@ import javafx.beans.property.SimpleObjectProperty;
 
 public class CardFaceFX extends EntityFX implements CardFace {
 
-	private final SimpleObjectProperty<CardFX> cardProperty = new SimpleObjectProperty<>(this, "card");
+	private final SimpleObjectProperty<CardFX<?,?>> cardProperty = new SimpleObjectProperty<>(this, "card");
 	private final SimpleObjectProperty<TemplateFX> templateProperty = new SimpleObjectProperty<>(this, "template", new TemplateFX());
 
 	public CardFaceFX() {
@@ -17,21 +17,21 @@ public class CardFaceFX extends EntityFX implements CardFace {
 		super(id);
 	}
 
-	public CardFaceFX(CardFX cardFX){
+	public CardFaceFX(CardFX<?,?> cardFX){
 		super();
 		cardProperty.set(cardFX);
 	}
 
 	@EditorInfo(ignore = true)
-	public ObjectProperty<CardFX> cardProperty(){
+	public ObjectProperty<CardFX<?,?>> cardProperty(){
 		return cardProperty;
 	}
 	@Override
-	public CardFX getCard() {
+	public CardFX<?,?> getCard() {
 		return cardProperty().get();
 	}
 
-	public void setCard(CardFX card) {
+	public void setCard(CardFX<?,?> card) {
 		cardProperty().set(card);
 	}
 

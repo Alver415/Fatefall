@@ -46,6 +46,9 @@ public class FatefallProperties {
 	private static FatefallProperties INSTANCE;
 
 	public static FatefallProperties getInstance() {
+		if (INSTANCE == null){
+			new FatefallProperties();
+		}
 		return INSTANCE;
 	}
 

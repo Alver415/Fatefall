@@ -22,6 +22,7 @@ import javafx.scene.layout.StackPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.URL;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,15 +31,17 @@ import static com.sun.javafx.binding.BidirectionalBinding.bind;
 @FXMLPrototype
 public class CardEditorView {
 
-    private static final Logger log = LoggerFactory.getLogger(CardEditorView.class);
-    //region FXML
+	private static final Logger log = LoggerFactory.getLogger(CardEditorView.class);
+	public static final URL FXML = CardEditorView.class.getResource("CardEditorView.fxml");
+
+	//region FXML
 	@FXML
 	private Viewport viewport;
 	@FXML
 	private CardView cardView;
 
 	@FXML
-	private IntrospectingPropertyEditor<CardFX<?,?>> cardEditor;
+	private IntrospectingPropertyEditor<CardFX<?, ?>> cardEditor;
 
 	@FXML
 	private XMLEditor fxmlEditor;
@@ -134,17 +137,17 @@ public class CardEditorView {
 	}
 
 
-	private final ObjectProperty<CardFX<?,?>> card = new SimpleObjectProperty<>(this, "card");
+	private final ObjectProperty<CardFX<?, ?>> card = new SimpleObjectProperty<>(this, "card");
 
-	public ObjectProperty<CardFX<?,?>> cardProperty() {
+	public ObjectProperty<CardFX<?, ?>> cardProperty() {
 		return card;
 	}
 
-	public CardFX<?,?> getCard() {
+	public CardFX<?, ?> getCard() {
 		return cardProperty().get();
 	}
 
-	public void setCard(CardFX<?,?> card) {
+	public void setCard(CardFX<?, ?> card) {
 		cardProperty().set(card);
 	}
 	//endregion

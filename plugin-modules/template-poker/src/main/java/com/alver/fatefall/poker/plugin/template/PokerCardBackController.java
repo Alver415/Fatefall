@@ -1,7 +1,6 @@
 package com.alver.fatefall.poker.plugin.template;
 
-import com.alver.fatefall.fx.app.FatefallProperties;
-import com.alver.fatefall.fx.app.view.entity.card.template.TemplateControllerBase;
+import com.alver.fatefall.fx.app.view.entity.card.template.TemplateController;
 import com.alver.fatefall.poker.plugin.model.PokerCard;
 import com.alver.springfx.annotations.FXMLPrototype;
 import javafx.beans.property.ObjectProperty;
@@ -11,12 +10,10 @@ import javafx.scene.image.Image;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @FXMLPrototype
-public class PokerCardBackController extends TemplateControllerBase<PokerCard.Back> {
+public class PokerCardBackController implements TemplateController<PokerCard.Back> {
 
 	@Autowired
-	public PokerCardBackController(FatefallProperties properties) {
-		super(properties);
-
+	public PokerCardBackController() {
 		modelProperty().subscribe(face -> {
 			if (face == null) return;
 			imageProperty().bindBidirectional(face.imageProperty());

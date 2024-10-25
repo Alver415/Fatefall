@@ -13,17 +13,13 @@
 		   fx:controller="com.alver.fatefall.fx.app.view.entity.card.CardEditorView"
 		   stylesheets="@CardEditorView.css"
 		   dividerPositions="0.25, 0.75">
-	<DetachableTabPane scope="#{controller.scope}" closeIfEmpty="true">
+	<DetachableTabPane scope="${controller.scope}" closeIfEmpty="true">
 		<DetachableTab text="Card Editor">
 			<IntrospectingPropertyEditor fx:id="cardEditor"/>
 		</DetachableTab>
 
-		<DetachableTab text="Data Editor">
-			<JavaEditor fx:id="dataEditor"/>
-		</DetachableTab>
-
 	</DetachableTabPane>
-	<DetachableTabPane scope="#{controller.scope}" closeIfEmpty="true">
+	<DetachableTabPane scope="${controller.scope}" closeIfEmpty="true">
 		<DetachableTab text="Viewport">
 			<BorderPane>
 				<top>
@@ -48,7 +44,7 @@
 			</BorderPane>
 		</DetachableTab>
 	</DetachableTabPane>
-	<DetachableTabPane scope="#{controller.scope}" closeIfEmpty="true">
+	<DetachableTabPane scope="${controller.scope}" closeIfEmpty="true">
 		<DetachableTab text="Scene Graph">
 			<NodeTreeView fx:id="nodeTreeView" showRoot="false">
 				<columnResizePolicy>

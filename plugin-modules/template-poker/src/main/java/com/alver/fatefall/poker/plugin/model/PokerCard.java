@@ -2,6 +2,7 @@ package com.alver.fatefall.poker.plugin.model;
 
 import com.alver.fatefall.fx.core.model.CardFX;
 import com.alver.fatefall.fx.core.model.CardFaceFX;
+import com.alver.fatefall.poker.plugin.PokerCardLoader;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
@@ -15,6 +16,9 @@ public class PokerCard extends CardFX<PokerCard.Front, PokerCard.Back> {
 
 	public static class Front extends CardFaceFX {
 
+		private Front(){
+			getTemplate().setFxmlUrl(PokerCardLoader.FRONT_FXML);
+		}
 		private final ObjectProperty<Rank> rank = new SimpleObjectProperty<>(this, "rank", Rank.ACE);
 
 		public ObjectProperty<Rank> rankProperty() {
@@ -46,7 +50,10 @@ public class PokerCard extends CardFX<PokerCard.Front, PokerCard.Back> {
 	}
 	public static class Back extends CardFaceFX {
 
-		private final ObjectProperty<Image> image = new SimpleObjectProperty<>(this, "image");
+		private Back(){
+			getTemplate().setFxmlUrl(PokerCardLoader.BACK_FXML);
+		}
+		private final ObjectProperty<Image> image = new SimpleObjectProperty<>(this, "image", PokerCardLoader.BACK_IMAGE);
 
 		public ObjectProperty<Image> imageProperty() {
 			return this.image;

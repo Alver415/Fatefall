@@ -1,23 +1,19 @@
 package com.alver.fatefall.fx.app.view.entity.card;
 
 import com.alver.fatefall.fx.app.FatefallProperties;
+import com.alver.fatefall.fx.app.view.entity.card.face.CardFaceRenderer;
 import com.alver.fatefall.fx.app.view.entity.card.face.CardFaceView;
 import com.alver.fatefall.fx.app.view.entity.card.skin.adjacent.AdjacentSkin;
 import com.alver.fatefall.fx.app.view.entity.card.skin.flippable.FlippableSkin;
 import com.alver.fatefall.fx.app.view.entity.card.skin.stacked.StackedSkin;
-import com.alver.fatefall.fx.core.interfaces.AppController;
-import com.alver.fatefall.fx.core.interfaces.AppView;
 import com.alver.fatefall.fx.core.model.CardFX;
-import com.alver.fatefall.fx.core.model.EntityFX;
 import com.alver.fatefall.fx.core.utils.ResourceUtil;
-import com.alver.springfx.SpringFX;
+import com.alver.springfx.SpringFXLoader;
 import com.alver.springfx.annotations.Prototype;
-import com.alver.springfx.model.FXMLControllerAndView;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.net.URL;
@@ -28,8 +24,6 @@ public class CardView extends Control {
 	public static final URL FXML = CardView.class.getResource("CardView.fxml");
 
 	private final FatefallProperties properties;
-	private final AppController appController;
-	private final SpringFX springFX;
 
 	private final CardFaceView front;
 	private final CardFaceView back;
@@ -37,19 +31,22 @@ public class CardView extends Control {
 	/**
 	 * === Constructor ===
 	 */
+	public CardView() {
+		this(
+				new CardFaceView(new CardFaceRenderer(SpringFXLoader::new), FatefallProperties.getInstance()),
+				new CardFaceView(new CardFaceRenderer(SpringFXLoader::new), FatefallProperties.getInstance()),
+				FatefallProperties.getInstance());
+	}
+
 	@Autowired
 	public CardView(
 			CardFaceView front,
-			CardFaceView  back,
-			AppController appController,
-			FatefallProperties properties,
-			SpringFX springFX) {
+			CardFaceView back,
+			FatefallProperties properties) {
 		this.front = front;
 		this.back = back;
 
 		this.properties = properties;
-		this.appController = appController;
-		this.springFX = springFX;
 
 		front.cardFaceProperty().bind(cardProperty().flatMap(CardFX::frontProperty));
 		back.cardFaceProperty().bind(cardProperty().flatMap(CardFX::backProperty));
@@ -64,13 +61,6 @@ public class CardView extends Control {
 	}
 
 	private void buildContextMenu() {
-		MenuItem edit = new MenuItem("Edit");
-		edit.setOnAction(_ -> {
-			FXMLControllerAndView<CardEditorView, BorderPane> cnv = springFX.load(CardEditorView.class);
-			cnv.controller().setCard(getCard());
-			AppView appView = AppView.of(cardProperty.map(EntityFX::getName), cnv.view());
-			appController.registerView(appView);
-		});
 
 		Menu viewMode = new Menu("View Mode");
 		viewMode.getItems().setAll(
@@ -79,7 +69,7 @@ public class CardView extends Control {
 				buildMenuItem("Flippable", FlippableSkin.class, () -> setSkin(buildSkin("Flippable"))));
 
 		ContextMenu contextMenu = new ContextMenu();
-		contextMenu.getItems().setAll(edit, viewMode);
+		contextMenu.getItems().setAll(viewMode);
 		setContextMenu(contextMenu);
 	}
 
@@ -115,17 +105,17 @@ public class CardView extends Control {
 	/**
 	 * === Properties ===
 	 */
-	protected ObjectProperty<CardFX<?,?>> cardProperty = new SimpleObjectProperty<>();
+	protected ObjectProperty<CardFX<?, ?>> cardProperty = new SimpleObjectProperty<>();
 
-	public ObjectProperty<CardFX<?,?>> cardProperty() {
+	public ObjectProperty<CardFX<?, ?>> cardProperty() {
 		return cardProperty;
 	}
 
-	public CardFX<?,?> getCard() {
+	public CardFX<?, ?> getCard() {
 		return cardProperty().get();
 	}
 
-	public void setCard(CardFX<?,?> card) {
+	public void setCard(CardFX<?, ?> card) {
 		cardProperty().set(card);
 	}
 

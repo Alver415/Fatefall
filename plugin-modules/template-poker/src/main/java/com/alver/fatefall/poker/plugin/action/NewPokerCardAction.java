@@ -22,16 +22,6 @@ import java.util.Objects;
 @Extension
 public class NewPokerCardAction implements AppEvent, ExtensionPoint {
 
-	public static final String FRONT_FXML = Objects.requireNonNull(
-			PokerCardFrontController.class.getResource("front.fxml")).toExternalForm();
-
-	public static final String BACK_FXML = Objects.requireNonNull(
-			PokerCardBackController.class.getResource("back.fxml")).toExternalForm();
-
-	public static final Image BACK_IMAGE = new Image(Objects.requireNonNull(
-			PokerCardBackController.class.getResource("back.png")).toExternalForm());
-
-
 	@Autowired
 	@Lazy
 	protected ApplicationController applicationController;
@@ -39,20 +29,6 @@ public class NewPokerCardAction implements AppEvent, ExtensionPoint {
 	@Override
 	public void handle(ActionEvent event) {
 		PokerCard card = new PokerCard();
-
-		card.getFront().setRank(Rank.ACE);
-		card.getFront().setSuit(Suit.SPADE);
-
-		card.getBack().setImage(BACK_IMAGE);
-
-		TemplateFX frontTemplate = new TemplateFX();
-		frontTemplate.setFxmlUrl(FRONT_FXML);
-		card.getFront().setTemplate(frontTemplate);
-
-		TemplateFX backTemplate = new TemplateFX();
-		backTemplate.setFxmlUrl(BACK_FXML);
-		card.getBack().setTemplate(backTemplate);
-
 		applicationController.createCard(card);
 	}
 	@Override
