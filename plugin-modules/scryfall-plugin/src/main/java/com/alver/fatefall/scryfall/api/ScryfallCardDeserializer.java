@@ -1,18 +1,20 @@
 package com.alver.fatefall.scryfall.api;
 
+import com.alver.fatefall.fx.app.view.entity.card.template.ImageTemplate;
 import com.alver.fatefall.fx.core.model.CardFX;
 import com.alver.fatefall.fx.core.utils.TreeProperty;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import javafx.scene.image.Image;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Objects;
 
 @Component
-public class ScryfallCardDeserializer extends StdDeserializer<CardFX> {
+public class ScryfallCardDeserializer extends StdDeserializer<CardFX<?,?>> {
 
 	private final String defaultCardBackUrl = Objects.requireNonNull(CardApi.class.getResource("magic_card_back.png")).toExternalForm();
 
@@ -45,8 +47,8 @@ public class ScryfallCardDeserializer extends StdDeserializer<CardFX> {
 			backUrl = defaultCardBackUrl;
 		}
 
-		card.getFront().getTemplate().setImageUrl(frontUrl);
-		card.getBack().getTemplate().setImageUrl(backUrl);
+		card.getFront().setTemplate(new ImageTemplate(new Image(frontUrl, true)));
+		card.getBack().setTemplate(new ImageTemplate(new Image(backUrl, true)));
 
 		return card;
 	}

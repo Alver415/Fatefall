@@ -37,12 +37,12 @@ public abstract class FatefallPlugin extends SpringPlugin {
 		if (wrapper.getPluginManager() instanceof SpringPluginManager springPluginManager) {
 			applicationContext.setParent(springPluginManager.getApplicationContext());
 		}
-		applicationContext.setClassLoader(getWrapper().getPluginClassLoader());
+		applicationContext.setClassLoader(wrapper.getPluginClassLoader());
 		return applicationContext;
 	}
 
 	public void addView(AppView appView) {
-		PluginManager pluginManager = getWrapper().getPluginManager();
+		PluginManager pluginManager = wrapper.getPluginManager();
 		if (pluginManager instanceof FatefallPluginManager fatefallPluginManager) {
 			fatefallPluginManager.addView(appView);
 		} else {

@@ -9,3 +9,7 @@ Text {
 .suit {
     -fx-font-size: 100;
 }
+
+.background {
+	-fx-background-color: white;
+}

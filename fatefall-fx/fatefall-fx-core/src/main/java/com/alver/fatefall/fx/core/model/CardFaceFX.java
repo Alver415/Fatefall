@@ -5,10 +5,10 @@ import com.alver.fatefall.fx.core.view.EditorInfo;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
-public class CardFaceFX extends EntityFX implements CardFace {
+public class CardFaceFX<T extends TemplateFX> extends EntityFX implements CardFace {
 
 	private final SimpleObjectProperty<CardFX<?,?>> cardProperty = new SimpleObjectProperty<>(this, "card");
-	private final SimpleObjectProperty<TemplateFX> templateProperty = new SimpleObjectProperty<>(this, "template", new TemplateFX());
+	private final SimpleObjectProperty<T> templateProperty = new SimpleObjectProperty<>(this, "template");
 
 	public CardFaceFX() {
 		super();
@@ -36,16 +36,16 @@ public class CardFaceFX extends EntityFX implements CardFace {
 	}
 
 	@EditorInfo(ignore = true)
-	public ObjectProperty<TemplateFX> templateProperty(){
+	public ObjectProperty<T> templateProperty(){
 		return templateProperty;
 	}
 
 	@Override
-	public TemplateFX getTemplate() {
+	public T getTemplate() {
 		return templateProperty().get();
 	}
 
-	public void setTemplate(TemplateFX template) {
+	public void setTemplate(T template) {
 		templateProperty().set(template);
 	}
 }

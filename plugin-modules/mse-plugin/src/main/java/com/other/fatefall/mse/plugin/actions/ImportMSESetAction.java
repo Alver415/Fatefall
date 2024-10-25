@@ -1,5 +1,6 @@
 package com.other.fatefall.mse.plugin.actions;
 
+import com.alver.fatefall.fx.app.view.entity.card.template.ImageTemplate;
 import com.alver.fatefall.fx.core.interfaces.AppEvent;
 import com.alver.fatefall.fx.core.model.CardFX;
 import com.alver.fatefall.fx.core.model.WorkspaceFX;
@@ -13,6 +14,7 @@ import com.other.fatefall.mse.SetManager;
 import com.other.fatefall.mse.plugin.MSEPlugin;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import org.pf4j.Extension;
 import org.pf4j.ExtensionPoint;
@@ -37,6 +39,9 @@ public class ImportMSESetAction implements AppEvent, ExtensionPoint {
 	public String getTitle() {
 		return "Import from Magic Set Editor";
 	}
+
+	private static final ImageTemplate DEFAULT_BACK_TEMPLATE =
+			new ImageTemplate(new Image(SetManager.DEFAULT_CARD_BACK_FACE));
 
 	@Override
 	public void handle(ActionEvent event) {
@@ -78,13 +83,15 @@ public class ImportMSESetAction implements AppEvent, ExtensionPoint {
 				String name_2 = json.findPath("name_2").asText();
 				if (name_2.isEmpty()) {
 					String frontUrl = "file:" + setManager.getImagesPath().resolve(cardImageFileName + ".png");
-					card.getFront().getTemplate().setImageUrl(frontUrl);
-					card.getBack().getTemplate().setImageUrl(SetManager.DEFAULT_CARD_BACK_FACE);
+					card.getFront().setTemplate(new ImageTemplate(new Image(frontUrl)));
+					card.getBack().setTemplate(DEFAULT_BACK_TEMPLATE);
 				} else {
-					String frontUrl = "file:" + setManager.getImagesPath().resolve(cardImageFileName + ".card_front.png");
-					String backUrl = "file:" + setManager.getImagesPath().resolve(cardImageFileName + ".card_back.png");
-					card.getFront().getTemplate().setImageUrl(frontUrl);
-					card.getBack().getTemplate().setImageUrl(backUrl);
+					String frontUrl = "file:" + setManager.getImagesPath().resolve(
+							cardImageFileName + ".card_front.png");
+					String backUrl = "file:" + setManager.getImagesPath().resolve(cardImageFileName + ".card_back" +
+							".png");
+					card.getFront().setTemplate(new ImageTemplate(new Image(frontUrl)));
+					card.getBack().setTemplate(new ImageTemplate(new Image(backUrl)));
 				}
 				workspace.addCards(card);
 			});

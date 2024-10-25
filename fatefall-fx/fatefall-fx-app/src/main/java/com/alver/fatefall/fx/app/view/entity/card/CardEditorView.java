@@ -200,7 +200,7 @@ public class CardEditorView {
 		if (!keyEvent.isControlDown() || !keyEvent.getCode().equals(KeyCode.ENTER)) return;
 
 		String fxml = fxmlEditor.getContent().getText();
-		cardView.getFront().loadFxml(fxml);
+//		cardView.getFront().loadFxml(fxml);
 	}
 }
 

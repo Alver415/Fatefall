@@ -39,7 +39,6 @@ public class FatefallPluginManager extends SpringPluginManager {
         return (CardFX<?, ?>) getExtensions(EntityLoader.class).getFirst().load(entry);
     }
 
-
     public ClassLoader getClassLoader() {
         return new DelegatingClassLoader(getPluginClassLoaders().values().stream().toList());
     }

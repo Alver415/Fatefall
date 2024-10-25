@@ -1,6 +1,5 @@
 package com.alver.fatefall.fx.app.view.entity.card.skin.flippable;
 
-import com.alver.fatefall.fx.app.FatefallProperties;
 import com.alver.fatefall.fx.app.view.entity.card.CardView;
 import com.alver.fatefall.fx.app.view.entity.card.skin.CardViewSkinBase;
 import com.alver.fatefall.fx.core.utils.ResourceUtil;
@@ -30,7 +29,7 @@ public class FlippableSkin extends CardViewSkinBase {
     protected StackPane wrapper;
     protected HBox buttons;
 
-    public FlippableSkin(CardView control, FatefallProperties properties) {
+    public FlippableSkin(CardView control) {
         super(control);
         wrapper = new StackPane();
         wrapper.getChildren().setAll(back, front);
