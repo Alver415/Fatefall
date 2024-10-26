@@ -10,15 +10,7 @@ public class CardFaceFX<T extends TemplateFX> extends EntityFX implements CardFa
 	private final SimpleObjectProperty<CardFX<?,?>> cardProperty = new SimpleObjectProperty<>(this, "card");
 	private final SimpleObjectProperty<T> templateProperty = new SimpleObjectProperty<>(this, "template");
 
-	public CardFaceFX() {
-		super();
-	}
-	public CardFaceFX(Long id) {
-		super(id);
-	}
-
 	public CardFaceFX(CardFX<?,?> cardFX){
-		super();
 		cardProperty.set(cardFX);
 	}
 

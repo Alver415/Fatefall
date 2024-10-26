@@ -14,7 +14,7 @@ public class EntityFX implements Entity {
 	private final TreeProperty<Object> data = new TreeProperty<>(this, "data");
 
 	public EntityFX() {
-		this(-1l);
+		this(-1L);
 	}
 	public EntityFX(Long id) {
 		this.id = id;

@@ -7,42 +7,35 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
-public class CardFX<Front extends CardFaceFX<?>, Back extends CardFaceFX<?>> extends EntityFX implements Card {
+public class CardFX<F extends CardFaceFX<?>, B extends CardFaceFX<?>> extends EntityFX implements Card {
 
-	public CardFX() {
-		super();
-	}
-	public CardFX(Long id) {
-		super(id);
-	}
-
-	private final ObjectProperty<Front> front = new SimpleObjectProperty<>(this, "front");
+	private final ObjectProperty<F> front = new SimpleObjectProperty<>(this, "front");
 
 	@EditorInfo(displayName = "Front Face", order = Integer.MIN_VALUE)
-	public ObjectProperty<Front> frontProperty() {
+	public ObjectProperty<F> frontProperty() {
 		return this.front;
 	}
 
-	public Front getFront() {
+	public F getFront() {
 		return this.frontProperty().get();
 	}
 
-	public void setFront(Front value) {
+	public void setFront(F value) {
 		this.frontProperty().set(value);
 	}
 
-	private final ObjectProperty<Back> back = new SimpleObjectProperty<>(this, "back");
+	private final ObjectProperty<B> back = new SimpleObjectProperty<>(this, "back");
 
 	@EditorInfo(displayName = "Back Face", order = Integer.MIN_VALUE + 1)
-	public ObjectProperty<Back> backProperty() {
+	public ObjectProperty<B> backProperty() {
 		return this.back;
 	}
 
-	public Back getBack() {
+	public B getBack() {
 		return this.backProperty().get();
 	}
 
-	public void setBack(Back value) {
+	public void setBack(B value) {
 		this.backProperty().set(value);
 	}
 

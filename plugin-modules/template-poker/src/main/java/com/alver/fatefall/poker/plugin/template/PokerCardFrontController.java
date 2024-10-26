@@ -19,11 +19,11 @@ public class PokerCardFrontController implements TemplateController<PokerCard.Fr
 
 	@Override
 	public PokerCard.Front getModel() {
-		return this.modelProperty().getValue();
+		return TemplateController.super.getModel();
 	}
 
 	@Override
 	public void setModel(PokerCard.Front value) {
-		this.modelProperty().setValue(value);
+		TemplateController.super.setModel(value);
 	}
 }

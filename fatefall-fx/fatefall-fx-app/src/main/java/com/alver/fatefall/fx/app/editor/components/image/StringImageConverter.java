@@ -4,12 +4,16 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 import javafx.util.StringConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 
 public class StringImageConverter extends StringConverter<Image> {
+
+	private static final Logger log = LoggerFactory.getLogger(StringImageConverter.class);
 
 	@Override
 	public String toString(Image image) {
@@ -23,22 +27,18 @@ public class StringImageConverter extends StringConverter<Image> {
 			File file = getBasePath().resolve(Path.of(string)).toFile();
 			if (file.exists() && file.isFile()) {
 				image = new Image(file.toPath().toString(), true);
-				image.exceptionProperty().addListener(((observable, oldValue, newValue) -> {
-					newValue.printStackTrace();
-				}));
+				image.exceptionProperty().subscribe(e -> log.error(e.getMessage(), e));
 				return image;
 			}
-		} catch (InvalidPathException ignored) {
+		} catch (InvalidPathException _) {
 			//Ignored
 		}
 		try {
 			image = new Image(string, true);
-			image.exceptionProperty().addListener(((observable, oldValue, newValue) -> {
-				newValue.printStackTrace();
-			}));
+			image.exceptionProperty().subscribe(e -> log.error(e.getMessage(), e));
 			return image;
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage(), e);
 			return null;
 		}
 	}

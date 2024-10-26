@@ -10,6 +10,7 @@ import com.alver.fsfx.util.Converter;
 import com.alver.fsfx.util.StringToJsonConverter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.RuntimeJsonMappingException;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 import javafx.beans.property.*;
@@ -27,7 +28,7 @@ public class PokerCardLoader implements EntityLoader<PokerCard>, ExtensionPoint 
 
 	private static final List<Object> list = new ArrayList<>();
 	private static final ByteBufferToStringConverter BYTES_TO_STRING = new ByteBufferToStringConverter();
-	private static final StringToJsonConverter STRING_TO_JSON  = new StringToJsonConverter();
+	private static final StringToJsonConverter STRING_TO_JSON = new StringToJsonConverter();
 	private static final Converter<ByteBuffer, JsonNode> BYTES_TO_JSON = BYTES_TO_STRING.compound(STRING_TO_JSON);
 	private static final Logger log = LoggerFactory.getLogger(PokerCardLoader.class);
 
@@ -35,7 +36,7 @@ public class PokerCardLoader implements EntityLoader<PokerCard>, ExtensionPoint 
 	public PokerCard load(FileSystemEntry entry) {
 		PokerCard card = new PokerCard();
 
-		ObjectProperty<JsonNode> json = new SimpleObjectProperty<>(card, "json");
+		ObjectProperty<JsonNode> json = new SimpleObjectProperty<>(card, "json", new ObjectNode(new JsonNodeFactory(true)));
 		BYTES_TO_JSON.inverted().bindBidirectional(json, entry.contentProperty());
 
 		Converter<String, Rank> rankConverter = Converter.of(Rank::fromSymbol, Rank::getSymbol);
@@ -56,7 +57,7 @@ public class PokerCardLoader implements EntityLoader<PokerCard>, ExtensionPoint 
 	private void bindPropertyToJson(Property<JsonNode> jsonProperty, Property<String> property) {
 		String propertyName = property.getName();
 		jsonProperty.subscribe(jsonValue -> {
-			String textValue = jsonValue == null ? "" : jsonValue.findPath(propertyName).textValue();
+			String textValue = jsonValue == null ? "{}" : jsonValue.findPath(propertyName).textValue();
 			property.setValue(textValue);
 		});
 		property.addListener((_, _, propertyValue) -> {

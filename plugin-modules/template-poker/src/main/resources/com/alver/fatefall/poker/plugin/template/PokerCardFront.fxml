@@ -4,8 +4,7 @@
 <?import javafx.scene.text.Text?>
 <StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
 		   fx:controller="com.alver.fatefall.poker.plugin.template.PokerCardFrontController"
-		   stylesheets="@PokerCard.css"
-		   styleClass="background">
+		   stylesheets="@PokerCardFront.css">
 
 	<Text text="${controller.model.rank.symbol}"
 		  fill="${controller.model.suit.color}"

@@ -6,7 +6,6 @@ import com.alver.fatefall.fx.core.utils.BackgroundUtil;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.SubScene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Border;
@@ -23,21 +22,15 @@ public class CardFaceView extends SubScene {
 
 		cardFaceProperty().subscribe(cardFace -> {
 			if (cardFace == null) {
-				widthProperty().unbind();
-				heightProperty().unbind();
-				setClip(null);
-				setRoot(buildPlacehlder());
+				setRoot(buildPlaceholder());
 			} else {
-				Parent content = cardFace.getTemplate().build(cardFace);
-				setRoot(content);
+				setRoot(cardFace.getTemplate().build(cardFace));
 			}
 			getRoot().setId(isFrontFace() ? "front" : "back");
 		});
-
-
 	}
 
-	private static StackPane buildPlacehlder() {
+	private static StackPane buildPlaceholder() {
 		StackPane placeholder = new StackPane(new Label("NULL"));
 		placeholder.setBorder(Border.stroke(Color.GRAY));
 		placeholder.setBackground(BackgroundUtil.checkeredBackground());

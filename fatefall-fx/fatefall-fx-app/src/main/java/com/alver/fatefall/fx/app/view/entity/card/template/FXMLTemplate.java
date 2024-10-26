@@ -18,6 +18,12 @@ public class FXMLTemplate extends TemplateFX {
 	private static final Logger log = LoggerFactory.getLogger(FXMLTemplate.class);
 	private final ObjectProperty<URL> fxml = new SimpleObjectProperty<>(this, "fxml");
 
+	public FXMLTemplate() {
+	}
+	public FXMLTemplate(URL fxml) {
+		setFxml(fxml);
+	}
+
 	public ObjectProperty<URL> fxmlProperty() {
 		return this.fxml;
 	}

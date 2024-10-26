@@ -122,12 +122,12 @@ public class ApplicationController implements AppController {
 
 	private void openEntry(FileSystemEntry entry) {
 
-		if (entry.getName().endsWith(".card")){
+		if (entry.getName().endsWith(".card")) {
 //			CardFX<?, ?> card = EntryToCardMapping.map(entry);
 			CardFX<?, ?> card = pluginManager.loadCard(entry);
 			FXMLControllerAndView<CardEditorView, Object> viewAndController = springFX.load(CardEditorView.class);
 			viewAndController.controller().setCard(card);
-			tabPane.addTab(entry.getName(), (Node)viewAndController.view());
+			tabPane.addTab(entry.getName(), (Node) viewAndController.view());
 			return;
 		}
 
@@ -215,10 +215,10 @@ public class ApplicationController implements AppController {
 
 	@FXML
 	public void createCard() {
-		CardFX card = new CardFX(1l);
-		createCard(card);
+		createCard(new CardFX<>());
 	}
-	public void createCard(CardFX card) {
+
+	public void createCard(CardFX<?, ?> card) {
 		FXMLControllerAndView<CardEditorView, Object> viewAndController = springFX.load(CardEditorView.class);
 		viewAndController.controller().setCard(card);
 		Node view = (Node) viewAndController.view();

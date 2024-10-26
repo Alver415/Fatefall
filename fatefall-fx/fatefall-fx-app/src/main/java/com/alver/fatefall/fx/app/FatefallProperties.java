@@ -16,6 +16,8 @@ import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +34,7 @@ import java.util.stream.Stream;
 @Configuration
 public class FatefallProperties {
 
+	private static final Logger log = LoggerFactory.getLogger(FatefallProperties.class);
 	@Value("${title}")
 	protected String title;
 	@Value("${directory.installation}")
@@ -112,7 +115,7 @@ public class FatefallProperties {
 					try {
 						setUserAgentStylesheet(added, Files.readString(Path.of(added)));
 					} catch (IOException e) {
-						System.out.println(e);
+						log.error(e.getMessage(), e);
 					}
 				}
 			}

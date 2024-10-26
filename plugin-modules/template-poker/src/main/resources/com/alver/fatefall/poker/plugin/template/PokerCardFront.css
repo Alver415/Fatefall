@@ -1,3 +1,7 @@
+* {
+	-fx-background-color: white;
+}
+
 Text {
     -fx-font-weight: bold;
 }
@@ -8,8 +12,4 @@ Text {
 
 .suit {
     -fx-font-size: 100;
-}
-
-.background {
-	-fx-background-color: white;
 }

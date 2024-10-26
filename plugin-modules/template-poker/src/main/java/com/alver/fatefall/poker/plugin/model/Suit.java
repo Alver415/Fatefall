@@ -24,7 +24,7 @@ public enum Suit {
         return symbol;
     }
     public static Suit fromSymbol(String symbol) {
-        return switch (symbol){
+        return symbol == null ? null : switch (symbol){
             case "♠": yield SPADE;
             case "♥": yield HEART;
             case "♣": yield CLUB;
