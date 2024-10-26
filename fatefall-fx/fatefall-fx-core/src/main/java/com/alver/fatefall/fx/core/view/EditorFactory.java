@@ -1,5 +1,6 @@
 package com.alver.fatefall.fx.core.view;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.StringProperty;
@@ -17,6 +18,8 @@ public class EditorFactory {
 			return new SelectionEditor<>(name, property, FXCollections.observableArrayList(enums));
 		} else if (String.class.equals(propertyInfo.type())) {
 			return (Editor<T>) new TextEditor(name, (StringProperty) property);
+		} else if (Boolean.class.equals(propertyInfo.type())) {
+			return (Editor<T>) new BooleanEditor(name, (BooleanProperty) property);
 		} else if (Double.class.equals(propertyInfo.type())) {
 			return (Editor<T>) new DoubleEditor(name, (DoubleProperty) property);
 		} else if (Color.class.equals(propertyInfo.type())) {

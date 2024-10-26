@@ -4,7 +4,9 @@ import com.alver.fatefall.fx.app.view.entity.card.template.FXMLTemplate;
 import com.alver.fatefall.fx.app.view.entity.card.template.ImageTemplate;
 import com.alver.fatefall.fx.core.model.CardFX;
 import com.alver.fatefall.fx.core.model.CardFaceFX;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 
@@ -83,5 +85,20 @@ public class PokerCard extends CardFX<PokerCard.Front, PokerCard.Back> {
 			this.imageProperty().set(value);
 		}
 
+		private final BooleanProperty random = new SimpleBooleanProperty(this, "random"){
+			{
+				subscribe(selected -> setImage(new Image("https://picsum.photos/%d/%d"
+						.formatted(getWidth().intValue(), getHeight().intValue()), true)));
+			}
+		};
+		public BooleanProperty randomProperty(){
+		    return this.random;
+		}
+		public Boolean getRandom(){
+		    return this.randomProperty().get();
+		}
+		public void setRandom(Boolean value){
+		    this.randomProperty().set(value);
+		}
 	}
 }
