@@ -9,37 +9,35 @@ import javafx.scene.control.Slider;
 
 public class DoubleEditor extends EditorControl<Double> {
 
-	private final Property<Double> property;
 
-	DoubleEditor(String name, DoubleProperty property) {
+	public DoubleEditor(String name, DoubleProperty property) {
 		this(name, property.asObject());
 	}
 
-	DoubleEditor(String name, Property<Double> property) {
-		super(name);
-		this.property = property;
+	public DoubleEditor(String name, Property<Double> property) {
+		super(name, property);
 	}
 
 	@Override
 	protected Skin<?> createDefaultSkin() {
-		return new DoubleFieldSkin(this);
+		return new DoubleFieldSkin();
 	}
 
 
 	private class DoubleFieldSkin extends SkinBase<DoubleEditor> {
-		protected DoubleFieldSkin(DoubleEditor control) {
-			super(control);
+		protected DoubleFieldSkin() {
+			super(DoubleEditor.this);
 			DoubleField doubleField = new DoubleField();
-			doubleField.valueProperty().asObject().bindBidirectional(property);
+			doubleField.valueProperty().asObject().bindBidirectional(getProperty());
 			getChildren().setAll(doubleField);
 		}
 	}
 
 	private class SliderSkin extends SkinBase<DoubleEditor> {
-		protected SliderSkin(DoubleEditor control) {
-			super(control);
+		protected SliderSkin() {
+			super(DoubleEditor.this);
 			Slider slider = new Slider();
-			slider.valueProperty().asObject().bindBidirectional(property);
+			slider.valueProperty().asObject().bindBidirectional(getProperty());
 			getChildren().setAll(slider);
 		}
 	}

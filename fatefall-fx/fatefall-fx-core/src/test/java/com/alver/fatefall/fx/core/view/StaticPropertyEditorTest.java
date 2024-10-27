@@ -61,7 +61,7 @@ public class StaticPropertyEditorTest extends Application {
 		public StaticPropertyEditor(String name, Property<Example> exampleProperty) {
 			super(name, exampleProperty);
 			Example example = exampleProperty.getValue();
-			ObservableList<Editor<?>> editors = FXCollections.observableArrayList();
+			ObservableList<EditorControl<?>> editors = FXCollections.observableArrayList();
 			editors.add(new TextEditor("Name", example.nameProperty()));
 			editors.add(new TextEditor("Description", example.descriptionProperty()));
 			editors.add(new DoubleEditor("Age", example.ageProperty()));

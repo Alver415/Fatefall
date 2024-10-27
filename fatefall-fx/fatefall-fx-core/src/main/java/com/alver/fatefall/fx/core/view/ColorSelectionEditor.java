@@ -2,16 +2,28 @@ package com.alver.fatefall.fx.core.view;
 
 import javafx.beans.property.Property;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Skin;
+import javafx.scene.control.SkinBase;
 import javafx.scene.paint.Color;
 
-public class ColorSelectionEditor extends BaseEditor<Color> {
+public class ColorSelectionEditor extends EditorControl<Color> {
 
-	private final ColorPicker colorPicker;
+	public ColorSelectionEditor(String name, Property<Color> property) {
+		super(name, property);
+	}
 
-	ColorSelectionEditor(String name, Property<Color> property) {
-		super(name);
-		this.colorPicker = new ColorPicker();
-		colorPicker.valueProperty().bindBidirectional(property);
-		setNode(colorPicker);
+	@Override
+	protected Skin<?> createDefaultSkin() {
+		return new ColorPickerSkin();
+	}
+
+	private class ColorPickerSkin extends SkinBase<ColorSelectionEditor> {
+
+		private ColorPickerSkin() {
+			super(ColorSelectionEditor.this);
+			ColorPicker colorPicker = new ColorPicker();
+			colorPicker.valueProperty().bindBidirectional(getProperty());
+			getChildren().setAll(colorPicker);
+		}
 	}
 }

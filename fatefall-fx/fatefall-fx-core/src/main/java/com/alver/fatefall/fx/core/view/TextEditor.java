@@ -5,11 +5,8 @@ import javafx.scene.control.*;
 
 public class TextEditor extends EditorControl<String> {
 
-	private final Property<String> property;
-
 	TextEditor(String name, Property<String> property) {
-		super(name);
-		this.property = property;
+		super(name, property);
 	}
 
 	@Override
@@ -20,7 +17,7 @@ public class TextEditor extends EditorControl<String> {
 	private class TextInputControlSkin extends SkinBase<TextEditor> {
 		protected TextInputControlSkin(TextEditor control, TextInputControl inputControl) {
 			super(control);
-			inputControl.textProperty().bindBidirectional(property);
+			inputControl.textProperty().bindBidirectional(getProperty());
 			getChildren().setAll(inputControl);
 		}
 	}

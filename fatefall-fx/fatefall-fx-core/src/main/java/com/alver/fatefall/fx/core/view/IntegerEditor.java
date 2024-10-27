@@ -8,15 +8,12 @@ import javafx.scene.control.SkinBase;
 
 public class IntegerEditor extends EditorControl<Integer> {
 
-	private final Property<Integer> property;
-
-	IntegerEditor(String name, IntegerProperty property) {
+	public IntegerEditor(String name, IntegerProperty property) {
 		this(name, property.asObject());
 	}
 
-	IntegerEditor(String name, Property<Integer> property) {
-		super(name);
-		this.property = property;
+	public IntegerEditor(String name, Property<Integer> property) {
+		super(name, property);
 	}
 
 	@Override
@@ -28,7 +25,7 @@ public class IntegerEditor extends EditorControl<Integer> {
 		protected IntegerFieldSkin(IntegerEditor control) {
 			super(control);
 			IntegerField integerField = new IntegerField();
-			integerField.valueProperty().asObject().bindBidirectional(property);
+			integerField.valueProperty().asObject().bindBidirectional(getProperty());
 			getChildren().setAll(integerField);
 		}
 	}

@@ -57,7 +57,7 @@ public class CardEditorView {
 		scope.set(UUID.randomUUID().toString());
 
 		bind(cardProperty(), cardView.cardProperty());
-		bind(cardProperty(), cardEditor.valueProperty());
+		bind(cardProperty(), cardEditor.getProperty());
 
 		bind(selectedProperty(), selectedNodePropertySheet.selectedProperty());
 

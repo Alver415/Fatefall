@@ -1,18 +1,40 @@
 package com.alver.fatefall.fx.core.view;
 
-import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.Property;
+import javafx.scene.control.Skin;
+import javafx.scene.control.SkinBase;
 import javafx.scene.control.ToggleButton;
+import org.controlsfx.control.ToggleSwitch;
 
-public class BooleanEditor extends BaseEditor<String> {
+public class BooleanEditor extends EditorControl<Boolean> {
 
-	private final ToggleButton toggleButton;
-
-	BooleanEditor(String name, BooleanProperty property) {
-		super(name);
-		this.toggleButton = new ToggleButton();
-		toggleButton.textProperty().bind(toggleButton.selectedProperty().map(selected -> name + ": " + selected));
-		toggleButton.selectedProperty().bindBidirectional(property);
-		setNode(toggleButton);
+	public BooleanEditor(String name, Property<Boolean> property) {
+		super(name, property);
 	}
+
+	@Override
+	protected Skin<?> createDefaultSkin() {
+		return new ToggleButtonSkin();
+	}
+
+	private class ToggleButtonSkin extends SkinBase<BooleanEditor> {
+		private ToggleButtonSkin() {
+			super(BooleanEditor.this);
+			ToggleButton toggleButton = new ToggleButton();
+			toggleButton.textProperty().bind(toggleButton.selectedProperty().map(b -> b ? "Enabled" : "Disabled"));
+			toggleButton.selectedProperty().bindBidirectional(getProperty());
+			getChildren().setAll(toggleButton);
+		}
+	}
+	private class ToggleSwitchSkin extends SkinBase<BooleanEditor> {
+		private ToggleSwitchSkin() {
+			super(BooleanEditor.this);
+			ToggleSwitch toggleSwitch = new ToggleSwitch();
+			toggleSwitch.textProperty().bind(toggleSwitch.selectedProperty().map(b -> b ? "Enabled" : "Disabled"));
+			toggleSwitch.selectedProperty().bindBidirectional(getProperty());
+			getChildren().setAll(toggleSwitch);
+		}
+	}
+
 
 }
