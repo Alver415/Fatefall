@@ -13,17 +13,19 @@ public class ImageSelectionEditor extends BaseEditor<Image> {
 		super(name);
 		this.urlTextField = new TextField();
 
-		Converter<String, Image> convert = Converter.of(this::getImage, Image::getUrl);
+		Converter<String, Image> convert = Converter.of(this::toImage, this::fromUrl);
 		convert.bindBidirectional(urlTextField.textProperty(), property);
 		setNode(urlTextField);
 	}
 
-	private Image getImage(String url) {
+	private Image toImage(String url) {
 		try {
 			return new Image(url, true);
 		} catch (Exception e){
 			return null;
 		}
-
+	}
+	private String fromUrl(Image image) {
+		return image == null ? null : image.getUrl();
 	}
 }

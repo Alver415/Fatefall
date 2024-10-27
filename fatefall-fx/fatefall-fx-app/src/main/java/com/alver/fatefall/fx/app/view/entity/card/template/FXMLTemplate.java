@@ -44,6 +44,9 @@ public class FXMLTemplate extends TemplateFX {
 			// FIXME: Temporary hack to recognize classes from plugins.
 			// Without this line, loader fails to find controller classes defined in plugin jars.
 			loader.setClassLoader(cardFace.getClass().getClassLoader());
+			loader.getNamespace().put("card", cardFace.getCard());
+			loader.getNamespace().put("face", cardFace);
+			loader.getNamespace().put("template", this);
 
 			Parent node = loader.load();
 			TemplateController<CardFaceFX<?>> controller = loader.getController();

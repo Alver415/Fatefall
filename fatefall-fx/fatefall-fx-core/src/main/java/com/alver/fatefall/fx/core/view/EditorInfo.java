@@ -16,7 +16,7 @@ public @interface EditorInfo {
 	String DEFAULT_CATEGORY = "";
 	String category() default DEFAULT_CATEGORY;
 
-	int DEFAULT_ORDER = 0;
+	int DEFAULT_ORDER = Integer.MAX_VALUE / 2;
 	int order() default DEFAULT_ORDER;
 
 	boolean DEFAULT_IGNORE = false;

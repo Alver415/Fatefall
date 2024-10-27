@@ -21,10 +21,9 @@ public class MagicCard<F extends CardFaceFX<?>, B extends CardFaceFX<?>> extends
 		setBack((B) new StandardMTGBack());
 	}
 
-
 	private final StringProperty cardName = new SimpleStringProperty(this, "cardName");
 
-	@EditorInfo(displayName = "Card Name", order = -1)
+	@EditorInfo(displayName = "Card Name", order = 1)
 	public StringProperty cardNameProperty() {
 		return this.cardName;
 	}
@@ -37,6 +36,19 @@ public class MagicCard<F extends CardFaceFX<?>, B extends CardFaceFX<?>> extends
 		this.cardNameProperty().set(value);
 	}
 
+	private final StringProperty developer = new SimpleStringProperty(this, "developer");
+
+	@EditorInfo(displayName = "Developer Credit", order = 100)
+	public StringProperty developerProperty(){
+	    return this.developer;
+	}
+	public String getDeveloper(){
+	    return this.developerProperty().get();
+	}
+	public void setDeveloper(String value){
+	    this.developerProperty().set(value);
+	}
+
 	public class Front extends CardFaceFX<FXMLTemplate> {
 		public static final URL FXML =
 				MagicCard.class.getResource("template/MagicCard.fxml");
@@ -47,7 +59,7 @@ public class MagicCard<F extends CardFaceFX<?>, B extends CardFaceFX<?>> extends
 		}
 
 		private final StringProperty name = new SimpleStringProperty(this, "name");
-
+		@EditorInfo(displayName = "Name", order = 3)
 		public StringProperty nameProperty() {
 			return this.name;
 		}
@@ -58,6 +70,28 @@ public class MagicCard<F extends CardFaceFX<?>, B extends CardFaceFX<?>> extends
 
 		public void setName(String value) {
 			this.nameProperty().set(value);
+		}
+		private final StringProperty type = new SimpleStringProperty(this, "type");
+		@EditorInfo(displayName = "Type", order = 3)
+		public StringProperty typeProperty(){
+		    return this.type;
+		}
+		public String getType(){
+		    return this.typeProperty().get();
+		}
+		public void setType(String value){
+		    this.typeProperty().set(value);
+		}
+		private final ObjectProperty<Image> art = new SimpleObjectProperty<>(this, "art");
+		@EditorInfo(displayName = "Artwork", order = 2)
+		public ObjectProperty<Image> artProperty(){
+		    return this.art;
+		}
+		public Image getArt(){
+		    return this.artProperty().get();
+		}
+		public void setArt(Image value){
+		    this.artProperty().set(value);
 		}
 	}
 

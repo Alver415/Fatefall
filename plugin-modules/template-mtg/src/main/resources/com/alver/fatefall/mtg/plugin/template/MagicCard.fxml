@@ -1,64 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Text?>
 <StackPane fx:id="root" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-           fx:controller="com.alver.fatefall.mtg.plugin.template.MagicCardController"
-           stylesheets="@MagicCard.css">
+		   fx:controller="com.alver.fatefall.mtg.plugin.template.MagicCardController"
+		   stylesheets="@MagicCard.css">
 
-    <Group blendMode="SRC_ATOP">
-        <Group blendMode="MULTIPLY">
-            <ImageView image="#{controller.leftBackground}" fitHeight="${controller.height}"
-                       fitWidth="${controller.width}"/>
-            <Pane prefHeight="${controller.height}" prefWidth="${controller.width}"
-                  style="-fx-background-color:linear-gradient(from 0% 0% to 50% 0%, white, transparent);"/>
-        </Group>
+	<Group blendMode="SRC_ATOP">
+		<Group blendMode="MULTIPLY">
+			<ImageView image="#{controller.leftBackground}" fitHeight="${card.height}"
+					   fitWidth="${card.width}"/>
+			<Pane prefHeight="${card.height}" prefWidth="${card.width}"
+				  style="-fx-background-color:linear-gradient(from 0% 0% to 50% 0%, white, transparent);"/>
+		</Group>
 
-        <Group blendMode="MULTIPLY">
-            <ImageView image="${controller.rightBackground}" fitHeight="${controller.height}"
-                       fitWidth="${controller.width}"/>
-            <Pane prefHeight="${controller.height}" prefWidth="${controller.width}"
-                  style="-fx-background-color:linear-gradient(from 50% 0% to 100% 0%, transparent, white);"/>
-        </Group>
-    </Group>
+		<Group blendMode="MULTIPLY">
+			<ImageView image="${controller.rightBackground}" fitHeight="${card.height}"
+					   fitWidth="${card.width}"/>
+			<Pane prefHeight="${card.height}" prefWidth="${card.width}"
+				  style="-fx-background-color:linear-gradient(from 50% 0% to 100% 0%, transparent, white);"/>
+		</Group>
+	</Group>
 
-    <Pane style="-fx-border-color:red">
-        <TextArea id="name" promptText="Card Name" text="#{controller.name}"
-                  maxHeight="20"
-                  layoutY="13"
-                  layoutX="13">
+	<Pane style="-fx-border-color:red">
+		<TextField id="name" promptText="Card Name" text="#{face.name}"
+				   layoutY="13"
+				   layoutX="13"/>
 
-        </TextArea>
-
-
-        <ImageView id="art" image="${controller.art}"
-                   fitHeight="155"
-                   fitWidth="210"
-                   layoutX="20"
-                   layoutY="40"/>
-
-        <TextArea id="developer" promptText="Developer Credit Testing" text="#{controller.developer}"
-                  maxHeight="20"
-                  layoutY="325"
-                  layoutX="10"/>
+		<Text id="name2" text="#{card.name}"
+			  layoutY="50"
+			  layoutX="13"/>
 
 
-        <TextArea id="type" promptText="Type" text="#{controller.type}"
-                  maxHeight="20"
-                  layoutY="192"
-                  layoutX="14"/>
+		<ImageView id="art" image="#{face.art}"
+				   fitHeight="155"
+				   fitWidth="210"
+				   layoutX="20"
+				   layoutY="40"/>
 
-        <TextArea id="text" promptText="Rules Text" text="#{controller.text}"
-                  maxHeight="20"
-                  layoutY="220"
-                  layoutX="14"/>
+		<TextArea id="developer" promptText="Developer Credit Testing" text="#{card.developer}"
+				  maxHeight="20"
+				  layoutY="325"
+				  layoutX="10"/>
 
-        <!--        <TextArea id="colors" promptText="Colors" text="#{controller.colors}"-->
-        <!--                  maxHeight="20"-->
-        <!--                  layoutY="250"-->
-        <!--                  layoutX="6"/>-->
-    </Pane>
+
+		<TextArea id="type" promptText="Type" text="#{face.type}"
+				  maxHeight="20"
+				  layoutY="192"
+				  layoutX="14"/>
+
+		<TextArea id="text" promptText="Rules Text" text="#{face.text}"
+				  maxHeight="20"
+				  layoutY="220"
+				  layoutX="14"/>
+
+		<!--        <TextArea id="colors" promptText="Colors" text="#{controller.colors}"-->
+		<!--                  maxHeight="20"-->
+		<!--                  layoutY="250"-->
+		<!--                  layoutX="6"/>-->
+	</Pane>
 </StackPane>
