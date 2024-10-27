@@ -7,11 +7,18 @@ import com.alver.fatefall.fx.core.model.CardFaceFX;
 import com.alver.fatefall.fx.core.view.EditorInfo;
 import javafx.beans.property.*;
 import javafx.scene.image.Image;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.Objects;
 
 public class MagicCard<F extends CardFaceFX<?>, B extends CardFaceFX<?>> extends CardFX<F, B> {
+
+	private static final Logger log = LoggerFactory.getLogger(MagicCard.class);
 
 	public MagicCard() {
 		setFront((F) new Front());
@@ -82,13 +89,37 @@ public class MagicCard<F extends CardFaceFX<?>, B extends CardFaceFX<?>> extends
 		private final ObjectProperty<Image> art = new SimpleObjectProperty<>(this, "art");
 		@EditorInfo(displayName = "Artwork", order = 2)
 		public ObjectProperty<Image> artProperty(){
-		    return this.art;
+			return this.art;
 		}
 		public Image getArt(){
-		    return this.artProperty().get();
+			return this.artProperty().get();
 		}
 		public void setArt(Image value){
-		    this.artProperty().set(value);
+			this.artProperty().set(value);
+		}
+
+		private final ObjectProperty<File> file = new SimpleObjectProperty<>(this, "file"){
+			{
+				map(this::toFileInputStream).map(Image::new).subscribe(art::set);
+			}
+
+			private FileInputStream toFileInputStream(File value) {
+				try {
+					return new FileInputStream(value);
+				} catch (FileNotFoundException e) {
+					log.error(e.getMessage(), e);
+					return null;
+				}
+			}
+		};
+		public ObjectProperty<File> fileProperty(){
+		    return this.file;
+		}
+		public File getFile(){
+		    return this.fileProperty().get();
+		}
+		public void setFile(File value){
+		    this.fileProperty().set(value);
 		}
 
 		private final IntegerProperty power = new SimpleIntegerProperty(this, "power");

@@ -5,6 +5,8 @@ import javafx.collections.FXCollections;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
+import java.io.File;
+
 public class EditorFactory {
 
 	@SuppressWarnings("unchecked")
@@ -25,6 +27,8 @@ public class EditorFactory {
 			return (EditorControl<T>) new ColorSelectionEditor(name, (Property<Color>) property);
 		} else if (Image.class.equals(propertyInfo.type())) {
 			return (EditorControl<T>) new ImageSelectionEditor(name, (Property<Image>) property);
+		} else if (File.class.equals(propertyInfo.type())) {
+			return (EditorControl<T>) new FileSelectionEditor(name, (Property<File>) property);
 		} else {
 			return new IntrospectingPropertyEditor<>(name, property);
 		}
