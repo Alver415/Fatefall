@@ -17,17 +17,20 @@ import org.slf4j.LoggerFactory;
 public class CardFaceView extends SubScene {
 	private static final Logger log = LoggerFactory.getLogger(CardFaceView.class);
 
+	private final StackPane root = new StackPane();
+
 	public CardFaceView() {
 		super(new Group(), 400, 400);
 
-		cardFaceProperty().subscribe(cardFace -> {
-			if (cardFace == null) {
-				setRoot(buildPlaceholder());
-			} else {
-				setRoot(cardFace.getTemplate().build(cardFace));
-			}
-			getRoot().setId(isFrontFace() ? "front" : "back");
-		});
+		setRoot(root);
+		cardFaceProperty().subscribe(this::rebuild);
+	}
+
+	private void rebuild(CardFaceFX<?> cardFace) {
+		root.getChildren().setAll(cardFace == null ?
+				buildPlaceholder() :
+				cardFace.getTemplate().build(cardFace));
+		getRoot().setId(isFrontFace() ? "front" : "back");
 	}
 
 	private static StackPane buildPlaceholder() {

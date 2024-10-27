@@ -1,4 +1,5 @@
 import com.alver.fatefall.fx.app.view.entity.card.CardEditorView;
+import com.alver.fatefall.fx.core.model.CardFaceFX;
 import com.alver.fatefall.mtg.plugin.MagicCard;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+
+import static com.alver.jfxtra.util.JFXUtils.runFX;
+import static com.alver.jfxtra.util.JFXUtils.runPlatform;
 
 public class TestApplication extends Application {
 
@@ -40,6 +44,20 @@ public class TestApplication extends Application {
 		Node load = loader.load();
 		CardEditorView cardEditorView = loader.getController();
 		cardEditorView.setCard(new MagicCard<>());
+
+		runPlatform(() -> {
+			Thread.sleep(5000);
+			runFX(() -> {
+				MagicCard<MagicCard<?,?>.Front, CardFaceFX<?>> newCard = new MagicCard<>();
+				newCard.setCardName("Test");
+				newCard.setDeveloper("Dev");
+				newCard.getFront().setName("Front Card Name");
+				newCard.getFront().setPower(1);
+				newCard.getFront().setToughness(2);
+				cardEditorView.setCard(newCard);
+			});
+		});
+
 
 		return new BorderPane(load);
 	}

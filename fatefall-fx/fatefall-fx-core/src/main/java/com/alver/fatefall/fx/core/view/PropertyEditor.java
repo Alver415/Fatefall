@@ -11,9 +11,11 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Skin;
 import javafx.scene.control.SkinBase;
 import javafx.scene.layout.*;
+import javafx.util.Subscription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Objects;
 
 public class PropertyEditor<T> extends EditorControl<T> {
@@ -49,11 +51,15 @@ public class PropertyEditor<T> extends EditorControl<T> {
 
 	private class TopLabeledSkin extends SkinBase<PropertyEditor<?>> {
 
+		private Subscription subscription;
 		private TopLabeledSkin() {
 			super(PropertyEditor.this);
+			subscription = editorsProperty().subscribe(this::rebuild);
+		}
 
+		private void rebuild(List<EditorControl<?>> editors) {
 			VBox vbox = new VBox();
-			for (EditorControl<?> editor : getEditors()) {
+			for (EditorControl<?> editor : editors) {
 				Label name = new Label();
 				name.textProperty().bind(editor.nameProperty());
 				vbox.getChildren().add(new VBox(name, editor));
@@ -66,6 +72,11 @@ public class PropertyEditor<T> extends EditorControl<T> {
 			getChildren().setAll(scrollPane);
 		}
 
+		@Override
+		public void dispose() {
+			super.dispose();
+			subscription.unsubscribe();
+		}
 	}
 
 	private class LeftLabeledSkin extends SkinBase<PropertyEditor<?>> {

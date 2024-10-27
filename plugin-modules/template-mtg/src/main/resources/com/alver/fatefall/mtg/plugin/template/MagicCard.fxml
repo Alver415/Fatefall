@@ -49,7 +49,7 @@
 				  layoutY="192"
 				  layoutX="14"/>
 
-		<TextArea id="text" promptText="Rules Text" text="#{face.text}"
+		<TextArea id="text" promptText="Rules Text" text="#{face.rulesText}"
 				  maxHeight="20"
 				  layoutY="220"
 				  layoutX="14"/>

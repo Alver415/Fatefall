@@ -75,17 +75,6 @@ public class MagicCard<F extends CardFaceFX<?>, B extends CardFaceFX<?>> extends
 		public void setName(String value) {
 			this.nameProperty().set(value);
 		}
-		private final StringProperty type = new SimpleStringProperty(this, "type");
-		@EditorInfo(displayName = "Type", order = 3)
-		public StringProperty typeProperty(){
-		    return this.type;
-		}
-		public String getType(){
-		    return this.typeProperty().get();
-		}
-		public void setType(String value){
-		    this.typeProperty().set(value);
-		}
 		private final ObjectProperty<Image> art = new SimpleObjectProperty<>(this, "art");
 		@EditorInfo(displayName = "Artwork", order = 2)
 		public ObjectProperty<Image> artProperty(){
@@ -113,14 +102,36 @@ public class MagicCard<F extends CardFaceFX<?>, B extends CardFaceFX<?>> extends
 			}
 		};
 		public ObjectProperty<File> fileProperty(){
-		    return this.file;
+			return this.file;
 		}
 		public File getFile(){
-		    return this.fileProperty().get();
+			return this.fileProperty().get();
 		}
 		public void setFile(File value){
-		    this.fileProperty().set(value);
+			this.fileProperty().set(value);
 		}
+		private final StringProperty type = new SimpleStringProperty(this, "type");
+		@EditorInfo(displayName = "Type", order = 3)
+		public StringProperty typeProperty(){
+		    return this.type;
+		}
+		public String getType(){
+		    return this.typeProperty().get();
+		}
+		public void setType(String value){
+		    this.typeProperty().set(value);
+		}
+		private final StringProperty rulesText = new SimpleStringProperty(this, "rulesText");
+		public StringProperty rulesTextProperty(){
+		    return this.rulesText;
+		}
+		public String getRulesText(){
+		    return this.rulesTextProperty().get();
+		}
+		public void setRulesText(String value){
+		    this.rulesTextProperty().set(value);
+		}
+
 
 		private final IntegerProperty power = new SimpleIntegerProperty(this, "power");
 
