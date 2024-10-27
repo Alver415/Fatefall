@@ -1,33 +1,46 @@
 package com.alver.fatefall.fx.core.view;
 
-import com.alver.fsfx.util.Converter;
+import com.sun.javafx.scene.control.DoubleField;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Skin;
+import javafx.scene.control.SkinBase;
+import javafx.scene.control.Slider;
 
-import java.util.ArrayList;
-import java.util.List;
+public class DoubleEditor extends EditorControl<Double> {
 
-public class DoubleEditor extends BaseEditor<Double> {
-
-	private final TextField textField;
-
-	static List list = new ArrayList();
+	private final Property<Double> property;
 
 	DoubleEditor(String name, DoubleProperty property) {
+		this(name, property.asObject());
+	}
+
+	DoubleEditor(String name, Property<Double> property) {
 		super(name);
-		this.textField = new TextField();
+		this.property = property;
+	}
 
-		Property<Double> doubleProperty = new SimpleObjectProperty<>();
-		list.add(doubleProperty);
-		Converter<Double, Number> converter = Converter.of(d -> d, n -> (Double) n);
-		converter.bindBidirectional(doubleProperty, property);
+	@Override
+	protected Skin<?> createDefaultSkin() {
+		return new DoubleFieldSkin(this);
+	}
 
-		doubleProperty.setValue(property.get());
-		textField.setText(String.valueOf(doubleProperty.getValue()));
-		Converter.of(String::valueOf, Double::parseDouble).bindBidirectional(doubleProperty, textField.textProperty());
 
-		setNode(textField);
+	private class DoubleFieldSkin extends SkinBase<DoubleEditor> {
+		protected DoubleFieldSkin(DoubleEditor control) {
+			super(control);
+			DoubleField doubleField = new DoubleField();
+			doubleField.valueProperty().asObject().bindBidirectional(property);
+			getChildren().setAll(doubleField);
+		}
+	}
+
+	private class SliderSkin extends SkinBase<DoubleEditor> {
+		protected SliderSkin(DoubleEditor control) {
+			super(control);
+			Slider slider = new Slider();
+			slider.valueProperty().asObject().bindBidirectional(property);
+			getChildren().setAll(slider);
+		}
 	}
 }
