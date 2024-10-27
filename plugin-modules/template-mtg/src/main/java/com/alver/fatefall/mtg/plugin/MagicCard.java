@@ -5,10 +5,7 @@ import com.alver.fatefall.fx.app.view.entity.card.template.ImageTemplate;
 import com.alver.fatefall.fx.core.model.CardFX;
 import com.alver.fatefall.fx.core.model.CardFaceFX;
 import com.alver.fatefall.fx.core.view.EditorInfo;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.scene.image.Image;
 
 import java.net.URL;
@@ -92,6 +89,34 @@ public class MagicCard<F extends CardFaceFX<?>, B extends CardFaceFX<?>> extends
 		}
 		public void setArt(Image value){
 		    this.artProperty().set(value);
+		}
+
+		private final IntegerProperty power = new SimpleIntegerProperty(this, "power");
+
+		public IntegerProperty powerProperty() {
+			return this.power;
+		}
+
+		public Integer getPower() {
+			return this.powerProperty().get();
+		}
+
+		public void setPower(Integer value) {
+			this.powerProperty().set(value);
+		}
+
+		private final IntegerProperty toughness = new SimpleIntegerProperty(this, "toughness");
+
+		public IntegerProperty toughnessProperty() {
+			return this.toughness;
+		}
+
+		public Integer getToughness() {
+			return this.toughnessProperty().get();
+		}
+
+		public void setToughness(Integer value) {
+			this.toughnessProperty().set(value);
 		}
 	}
 

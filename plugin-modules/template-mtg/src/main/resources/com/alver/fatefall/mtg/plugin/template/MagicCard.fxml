@@ -43,11 +43,6 @@
 				   layoutX="20"
 				   layoutY="40"/>
 
-		<TextArea id="developer" promptText="Developer Credit Testing" text="#{card.developer}"
-				  maxHeight="20"
-				  layoutY="325"
-				  layoutX="10"/>
-
 
 		<TextArea id="type" promptText="Type" text="#{face.type}"
 				  maxHeight="20"
@@ -58,6 +53,19 @@
 				  maxHeight="20"
 				  layoutY="220"
 				  layoutX="14"/>
+
+		<TextField id="Stats" promptText="Stats" text="${face.power+'/'+face.toughness}"
+				  maxHeight="20"
+				  layoutY="220"
+				  layoutX="14"/>
+
+
+
+		<TextArea id="developer" promptText="Developer Credit Testing" text="#{card.developer}"
+				  maxHeight="20"
+				  layoutY="325"
+				  layoutX="10"/>
+
 
 		<!--        <TextArea id="colors" promptText="Colors" text="#{controller.colors}"-->
 		<!--                  maxHeight="20"-->
