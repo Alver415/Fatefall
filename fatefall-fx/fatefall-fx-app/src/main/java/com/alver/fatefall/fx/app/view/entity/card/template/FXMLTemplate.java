@@ -2,9 +2,9 @@ package com.alver.fatefall.fx.app.view.entity.card.template;
 
 import com.alver.fatefall.fx.core.model.CardFaceFX;
 import com.alver.fatefall.fx.core.model.TemplateFX;
+import com.alver.springfx.SpringFXLoader;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import org.slf4j.Logger;
@@ -39,7 +39,7 @@ public class FXMLTemplate extends TemplateFX {
 	@Override
 	public Parent build(CardFaceFX<?> cardFace) {
 		try {
-			FXMLLoader loader = new FXMLLoader();
+			SpringFXLoader loader = new SpringFXLoader();
 			loader.setLocation(getFxml());
 			// FIXME: Temporary hack to recognize classes from plugins.
 			// Without this line, loader fails to find controller classes defined in plugin jars.

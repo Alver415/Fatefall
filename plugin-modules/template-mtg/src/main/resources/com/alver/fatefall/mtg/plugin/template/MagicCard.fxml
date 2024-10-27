@@ -26,7 +26,7 @@
     </Group>
 
     <Pane style="-fx-border-color:red">
-        <TextArea id="name" promptText="Card Name" text="#{data.name}"
+        <TextArea id="name" promptText="Card Name" text="#{controller.name}"
                   maxHeight="20"
                   layoutY="13"
                   layoutX="13">
@@ -40,23 +40,23 @@
                    layoutX="20"
                    layoutY="40"/>
 
-        <TextArea id="developer" promptText="Developer Credit Testing" text="#{data.developer}"
+        <TextArea id="developer" promptText="Developer Credit Testing" text="#{controller.developer}"
                   maxHeight="20"
                   layoutY="325"
                   layoutX="10"/>
 
 
-        <TextArea id="type" promptText="Type" text="#{data.type}"
+        <TextArea id="type" promptText="Type" text="#{controller.type}"
                   maxHeight="20"
                   layoutY="192"
                   layoutX="14"/>
 
-        <TextArea id="text" promptText="Rules Text" text="#{data.text}"
+        <TextArea id="text" promptText="Rules Text" text="#{controller.text}"
                   maxHeight="20"
                   layoutY="220"
                   layoutX="14"/>
 
-        <!--        <TextArea id="colors" promptText="Colors" text="#{data.colors}"-->
+        <!--        <TextArea id="colors" promptText="Colors" text="#{controller.colors}"-->
         <!--                  maxHeight="20"-->
         <!--                  layoutY="250"-->
         <!--                  layoutX="6"/>-->

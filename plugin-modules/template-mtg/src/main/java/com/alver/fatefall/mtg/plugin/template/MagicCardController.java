@@ -15,9 +15,8 @@ import java.util.stream.Collectors;
 import static com.alver.fatefall.mtg.plugin.template.ColorIdentity.*;
 
 @FXMLPrototype
-public class MagicCardController implements TemplateController<MagicCard> {
+public class MagicCardController implements TemplateController<MagicCard.Front> {
 
-    protected final StringProperty name = new SimpleStringProperty(this, "name");
     protected final ObjectProperty<ManaCost> manaCost = new SimpleObjectProperty<>(this, "manaCost");
     protected final SetProperty<Color> colors = new SimpleSetProperty<>(this, "colors", FXCollections.observableSet());
 
@@ -32,6 +31,15 @@ public class MagicCardController implements TemplateController<MagicCard> {
 
     @FXML
     protected void initialize() {
+        modelProperty().subscribe(cardFace -> {
+            if (cardFace == null) return;
+            name.bindBidirectional(cardFace.nameProperty());
+            widthProperty().bindBidirectional(cardFace.getCard().widthProperty());
+            heightProperty().bindBidirectional(cardFace.getCard().heightProperty());
+            arcWidthProperty().bindBidirectional(cardFace.getCard().arcWidthProperty());
+            arcHeightProperty().bindBidirectional(cardFace.getCard().arcHeightProperty());
+        });
+        
         initializeColorBindings();
         initializeArtBindings();
     }
@@ -148,12 +156,34 @@ public class MagicCardController implements TemplateController<MagicCard> {
         artProperty().set(image);
     }
 
-    private final ObjectProperty<MagicCard> model = new SimpleObjectProperty<>(this, "model");
+    private final StringProperty name = new SimpleStringProperty(this, "name");
+    public StringProperty nameProperty(){
+        return this.name;
+    }
+    public String getName(){
+        return this.nameProperty().get();
+    }
+    public void setName(String value){
+        this.nameProperty().set(value);
+    }
+
+    private final ObjectProperty<MagicCard.Front> model = new SimpleObjectProperty<>(this, "model");
 
     @Override
-    public Property<MagicCard> modelProperty() {
+    public Property<MagicCard.Front> modelProperty() {
         return model;
     }
+
+    @Override
+    public MagicCard.Front getModel() {
+        return TemplateController.super.getModel();
+    }
+
+    @Override
+    public void setModel(MagicCard.Front value) {
+        TemplateController.super.setModel(value);
+    }
+
     //endregion Properties
 
     //region Context Menu
@@ -177,4 +207,61 @@ public class MagicCardController implements TemplateController<MagicCard> {
 //    }
 
     //endregion Context Menu
+
+
+    private final DoubleProperty width = new SimpleDoubleProperty(this, "width", 250);
+
+    public DoubleProperty widthProperty() {
+        return this.width;
+    }
+
+    public Double getWidth() {
+        return this.widthProperty().get();
+    }
+
+    public void setWidth(Double value) {
+        this.widthProperty().set(value);
+    }
+
+    private final DoubleProperty height = new SimpleDoubleProperty(this, "height", 350);
+
+    public DoubleProperty heightProperty() {
+        return this.height;
+    }
+
+    public Double getHeight() {
+        return this.heightProperty().get();
+    }
+
+    public void setHeight(Double value) {
+        this.heightProperty().set(value);
+    }
+
+    private final DoubleProperty arcWidth = new SimpleDoubleProperty(this, "arcWidth", 20);
+
+    public DoubleProperty arcWidthProperty() {
+        return this.arcWidth;
+    }
+
+    public Double getArcWidth() {
+        return this.arcWidthProperty().get();
+    }
+
+    public void setArcWidth(Double value) {
+        this.arcWidthProperty().set(value);
+    }
+
+    private final DoubleProperty arcHeight = new SimpleDoubleProperty(this, "arcHeight", 20);
+
+    public DoubleProperty arcHeightProperty() {
+        return this.arcHeight;
+    }
+
+    public Double getArcHeight() {
+        return this.arcHeightProperty().get();
+    }
+
+    public void setArcHeight(Double value) {
+        this.arcHeightProperty().set(value);
+    }
 }
