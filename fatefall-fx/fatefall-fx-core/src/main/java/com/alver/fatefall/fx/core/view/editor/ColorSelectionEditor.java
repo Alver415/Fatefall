@@ -8,8 +8,8 @@ import javafx.scene.paint.Color;
 
 public class ColorSelectionEditor extends EditorControl<Color> {
 
-	public ColorSelectionEditor(String name, Property<Color> property) {
-		super(name, property);
+	public ColorSelectionEditor(Property<Color> property) {
+		super(property);
 	}
 
 	@Override

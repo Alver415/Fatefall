@@ -9,8 +9,8 @@ import javafx.scene.image.Image;
 
 public class ImageSelectionEditor extends EditorControl<Image> {
 
-	public ImageSelectionEditor(String name, Property<Image> property) {
-		super(name, property);
+	public ImageSelectionEditor(Property<Image> property) {
+		super(property);
 	}
 
 	@Override

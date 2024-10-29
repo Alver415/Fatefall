@@ -5,8 +5,8 @@ import javafx.scene.control.*;
 
 public class TextEditor extends EditorControl<String> {
 
-	public TextEditor(String name, Property<String> property) {
-		super(name, property);
+	public TextEditor(Property<String> property) {
+		super(property);
 	}
 
 	@Override

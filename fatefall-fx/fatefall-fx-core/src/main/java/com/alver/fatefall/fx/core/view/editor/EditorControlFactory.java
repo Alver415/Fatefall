@@ -11,27 +11,26 @@ public class EditorControlFactory {
 
 	@SuppressWarnings("unchecked")
 	public <T> EditorControl<T> buildEditorControl(PropertyInfo propertyInfo, Property<T> property) {
-		String name = propertyInfo.displayName();
 		EditorControl<T> editor;
 		if (propertyInfo.type().isEnum()) {
 			T[] enums = (T[]) propertyInfo.type().getEnumConstants();
-			editor =  new SelectionEditor<>(name, property, FXCollections.observableArrayList(enums));
+			editor = new SelectionEditor<>(property, FXCollections.observableArrayList(enums));
 		} else if (String.class.equals(propertyInfo.type())) {
-			editor =  (EditorControl<T>) new TextEditor(name, (StringProperty) property);
+			editor = (EditorControl<T>) new TextEditor((StringProperty) property);
 		} else if (Boolean.class.equals(propertyInfo.type())) {
-			editor =  (EditorControl<T>) new BooleanEditor(name, (BooleanProperty) property);
+			editor = (EditorControl<T>) new BooleanEditor((BooleanProperty) property);
 		} else if (Double.class.equals(propertyInfo.type())) {
-			editor =  (EditorControl<T>) new DoubleEditor(name, (DoubleProperty) property);
+			editor = (EditorControl<T>) new DoubleEditor((DoubleProperty) property);
 		} else if (Integer.class.equals(propertyInfo.type())) {
-			editor =  (EditorControl<T>) new IntegerEditor(name, (IntegerProperty) property);
+			editor = (EditorControl<T>) new IntegerEditor((IntegerProperty) property);
 		} else if (Color.class.equals(propertyInfo.type())) {
-			editor =  (EditorControl<T>) new ColorSelectionEditor(name, (Property<Color>) property);
+			editor = (EditorControl<T>) new ColorSelectionEditor((Property<Color>) property);
 		} else if (Image.class.equals(propertyInfo.type())) {
-			editor =  (EditorControl<T>) new ImageSelectionEditor(name, (Property<Image>) property);
+			editor = (EditorControl<T>) new ImageSelectionEditor((Property<Image>) property);
 		} else if (File.class.equals(propertyInfo.type())) {
-			editor =  (EditorControl<T>) new FileSelectionEditor(name, (Property<File>) property);
+			editor = (EditorControl<T>) new FileSelectionEditor((Property<File>) property);
 		} else {
-			editor =  new IntrospectingBeanEditor<>(name, property);
+			editor = new IntrospectingBeanEditor<>(property);
 		}
 		return editor;
 	}

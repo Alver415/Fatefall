@@ -1,7 +1,8 @@
 package com.alver.fatefall.fx.core.view;
 
+import com.alver.fatefall.fx.core.view.editor.Editor;
+import com.alver.fatefall.fx.core.view.editor.EditorControl;
 import com.alver.fatefall.fx.core.view.editor.IntrospectingBeanEditor;
-import com.alver.fatefall.fx.core.view.editor.BeanEditor;
 import javafx.application.Application;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Scene;
@@ -29,7 +30,7 @@ public class IntrospectingPropertyEditorTest extends Application {
 
 		child.descriptionProperty().bindBidirectional(example.descriptionProperty());
 
-		BeanEditor<Object> beanEditor = new IntrospectingBeanEditor<>("Example", new SimpleObjectProperty<>(example));
+		Editor<Example, EditorControl<Example>> beanEditor = new Editor<>("Example", new IntrospectingBeanEditor<>(new SimpleObjectProperty<>(example)));
 
 		Scene scene = new Scene(new VBox(beanEditor));
 		stage.setScene(scene);

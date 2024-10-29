@@ -18,8 +18,8 @@ public class FileSelectionEditor extends EditorControl<File> {
 
 	private static final Logger log = LoggerFactory.getLogger(FileSelectionEditor.class);
 
-	public FileSelectionEditor(String name, Property<File> property) {
-		super(name, property);
+	public FileSelectionEditor(Property<File> property) {
+		super(property);
 	}
 
 	@Override

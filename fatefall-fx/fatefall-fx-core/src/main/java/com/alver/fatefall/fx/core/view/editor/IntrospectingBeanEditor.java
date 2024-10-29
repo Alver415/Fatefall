@@ -21,25 +21,25 @@ public class IntrospectingBeanEditor<T> extends BeanEditor<T> {
 	private static final Logger log = LoggerFactory.getLogger(IntrospectingBeanEditor.class);
 
 	public IntrospectingBeanEditor() {
-		this(null, new SimpleObjectProperty<>());
+		this(new SimpleObjectProperty<>());
 	}
 
-	public IntrospectingBeanEditor(String name, Property<T> property) {
-		this(name, property, new PropertyIntrospector(), new EditorControlFactory());
+	public IntrospectingBeanEditor(Property<T> property) {
+		this(property, new PropertyIntrospector(), new EditorControlFactory());
 	}
 
 	public IntrospectingBeanEditor(
-			String name, Property<T> property, PropertyIntrospector introspector, EditorControlFactory factory) {
-		super(name, property);
+			Property<T> property, PropertyIntrospector introspector, EditorControlFactory factory) {
+		super(property);
 
 		setIntrospector(introspector);
 		setEditorControlFactory(factory);
 
-		ObservableValue<ObservableList<EditorControl<?>>> observable = propertyProperty()
+		ObservableValue<ObservableList<Editor<?,?>>> observable = propertyProperty()
 				.flatMap(Function.identity())
 				.map(this::buildEditorControls)
 				.map(FXCollections::observableArrayList);
-		editorControlsProperty().bind(observable.orElse(FXCollections.observableArrayList()));
+		editorsProperty().bind(observable.orElse(FXCollections.observableArrayList()));
 	}
 
 	private final ObjectProperty<PropertyIntrospector> introspector = new SimpleObjectProperty<>(this, "introspector");
@@ -70,7 +70,7 @@ public class IntrospectingBeanEditor<T> extends BeanEditor<T> {
 		this.editorControlFactoryProperty().set(value);
 	}
 
-	private List<? extends EditorControl<?>> buildEditorControls(Object target) {
+	private List<? extends Editor<?,?>> buildEditorControls(Object target) {
 		return Stream.ofNullable(target)
 				.map(Object::getClass)
 				.map(getIntrospector()::getPropertyInfo)
@@ -79,8 +79,10 @@ public class IntrospectingBeanEditor<T> extends BeanEditor<T> {
 				.map(propertyInfo -> buildEditorControl(target, propertyInfo)).toList();
 	}
 
-	private EditorControl<Object> buildEditorControl(Object target, PropertyInfo propertyInfo) {
-		return getEditorControlFactory().buildEditorControl(propertyInfo, invoke(target, propertyInfo.property()));
+	private Editor<?, ?> buildEditorControl(Object target, PropertyInfo propertyInfo) {
+		EditorControl<Object> control = getEditorControlFactory().buildEditorControl(
+				propertyInfo, invoke(target, propertyInfo.property()));
+		return new Editor<>(propertyInfo.displayName(), control);
 	}
 
 	private static <T> T invoke(Object target, Method method) {

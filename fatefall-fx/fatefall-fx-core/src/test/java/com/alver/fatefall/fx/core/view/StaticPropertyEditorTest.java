@@ -32,7 +32,7 @@ public class StaticPropertyEditorTest extends Application {
 
 		child.descriptionProperty().bindBidirectional(example.descriptionProperty());
 
-		StaticBeanEditor propertyEditor = new StaticBeanEditor("Test", new SimpleObjectProperty<>(example));
+		StaticBeanEditor propertyEditor = new StaticBeanEditor(new SimpleObjectProperty<>(example));
 
 		Scene scene = new Scene(new VBox(propertyEditor));
 		stage.setScene(scene);
@@ -59,21 +59,16 @@ public class StaticPropertyEditorTest extends Application {
 			this.exampleProperty().set(value);
 		}
 
-		public StaticBeanEditor(String name, Property<Example> exampleProperty) {
-			super(name, exampleProperty);
+		public StaticBeanEditor(Property<Example> exampleProperty) {
+			super(exampleProperty);
 			Example example = exampleProperty.getValue();
-			ObservableList<EditorControl<?>> editors = FXCollections.observableArrayList();
-			editors.add(new TextEditor("Name", example.nameProperty()));
-			editors.add(new TextEditor("Description", example.descriptionProperty()));
-			editors.add(new DoubleEditor("Age", example.ageProperty()));
-			editors.add(new ColorSelectionEditor("Color", example.colorProperty()));
-			editors.add(new SelectionEditor<>("Direction", example.directionProperty(),
-					FXCollections.observableArrayList(Example.Direction.values())));
+			ObservableList<Editor<?,?>> editors = FXCollections.observableArrayList();
+			editors.add(new Editor<>("Name", new TextEditor(example.nameProperty())));
 
 			if (example.getChild() != null) {
-				editors.add(new StaticBeanEditor("Child", example.childProperty()));
+				editors.add(new Editor<>("Child", new StaticBeanEditor(example.childProperty())));
 			}
-			setEditorControls(editors);
+			setEditors(editors);
 		}
 	}
 }

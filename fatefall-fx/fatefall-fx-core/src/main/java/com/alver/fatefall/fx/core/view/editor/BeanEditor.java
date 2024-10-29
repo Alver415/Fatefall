@@ -19,25 +19,25 @@ public class BeanEditor<T> extends EditorControl<T> {
 	private static final String STYLE_SHEET = Objects.requireNonNull(
 			BeanEditor.class.getResource("BeanEditor.css")).toExternalForm();
 
-	public BeanEditor(String name, Property<T> property) {
-		super(name, property);
+	public BeanEditor(Property<T> property) {
+		super(property);
 		getStyleClass().add(STYLE_CLASS);
 		getStylesheets().add(STYLE_SHEET);
 	}
 
-	private final ListProperty<EditorControl<?>> editorControls = new SimpleListProperty<>(
-			this, "editorControls", FXCollections.observableArrayList());
+	private final ListProperty<Editor<?, ?>> editors = new SimpleListProperty<>(
+			this, "editors", FXCollections.observableArrayList());
 
-	public ListProperty<EditorControl<?>> editorControlsProperty() {
-		return this.editorControls;
+	public ListProperty<Editor<?, ?>> editorsProperty() {
+		return this.editors;
 	}
 
-	public ObservableList<EditorControl<?>> getEditorControls() {
-		return this.editorControlsProperty().get();
+	public ObservableList<Editor<?, ?>> getEditors() {
+		return this.editorsProperty().get();
 	}
 
-	public void setEditorControls(ObservableList<EditorControl<?>> value) {
-		this.editorControlsProperty().set(value);
+	public void setEditors(ObservableList<Editor<?, ?>> value) {
+		this.editorsProperty().set(value);
 	}
 
 	@Override

@@ -8,12 +8,12 @@ import javafx.scene.control.SkinBase;
 
 public class IntegerEditor extends EditorControl<Integer> {
 
-	public IntegerEditor(String name, IntegerProperty property) {
-		this(name, property.asObject());
+	public IntegerEditor(IntegerProperty property) {
+		this(property.asObject());
 	}
 
-	public IntegerEditor(String name, Property<Integer> property) {
-		super(name, property);
+	public IntegerEditor(Property<Integer> property) {
+		super(property);
 	}
 
 	@Override

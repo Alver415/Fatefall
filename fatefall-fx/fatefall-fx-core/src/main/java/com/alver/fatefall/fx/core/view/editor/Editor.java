@@ -13,6 +13,10 @@ import java.util.Objects;
 
 public class Editor<T, C extends EditorControl<T>> extends Control {
 
+	public Editor(String name, EditorControl<T> control) {
+		setName(name);
+		controlProperty().set(control);
+	}
 	public Editor(Property<String> name, EditorControl<T> control) {
 		nameProperty().bind(name);
 		controlProperty().set(control);

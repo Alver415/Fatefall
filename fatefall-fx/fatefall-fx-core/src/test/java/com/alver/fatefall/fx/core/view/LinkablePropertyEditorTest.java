@@ -29,9 +29,8 @@ public class LinkablePropertyEditorTest extends Application {
 		example.setDescription("Software Developer");
 		example.setChild(child);
 
-		Editor<Example, EditorControl<Example>> editor = new Editor<>(
-				example.nameProperty(), new IntrospectingBeanEditor<>(
-				"Example", new SimpleObjectProperty<>(example)));
+		Editor<Example, EditorControl<Example>> editor = new Editor<>(example.nameProperty(),
+				new IntrospectingBeanEditor<>(new SimpleObjectProperty<>(example)));
 
 		Scene scene = new Scene(editor);
 		stage.setScene(scene);

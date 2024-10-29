@@ -4,7 +4,10 @@ Editor {
 
 .editor {
 	-fx-padding: 4px 4px 4px 16px;
-	-fx-background-color: -fx-outer-border, -fx-inner-border, -fx-base;
+}
+
+.editor:hover {
+	-fx-background-color: -fx-outer-border, -fx-inner-border, derive(-fx-base, -10%);
 	-fx-background-insets: 0, 1, 2;
 }
 

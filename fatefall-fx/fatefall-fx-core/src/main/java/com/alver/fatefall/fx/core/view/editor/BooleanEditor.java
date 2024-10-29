@@ -7,8 +7,8 @@ import org.controlsfx.control.ToggleSwitch;
 
 public class BooleanEditor extends EditorControl<Boolean> {
 
-	public BooleanEditor(String name, Property<Boolean> property) {
-		super(name, property);
+	public BooleanEditor(Property<Boolean> property) {
+		super(property);
 	}
 
 	@Override

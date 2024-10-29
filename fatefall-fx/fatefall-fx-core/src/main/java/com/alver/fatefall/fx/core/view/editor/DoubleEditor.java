@@ -10,12 +10,12 @@ import javafx.scene.control.Slider;
 public class DoubleEditor extends EditorControl<Double> {
 
 
-	public DoubleEditor(String name, DoubleProperty property) {
-		this(name, property.asObject());
+	public DoubleEditor(DoubleProperty property) {
+		this(property.asObject());
 	}
 
-	public DoubleEditor(String name, Property<Double> property) {
-		super(name, property);
+	public DoubleEditor(Property<Double> property) {
+		super(property);
 	}
 
 	@Override

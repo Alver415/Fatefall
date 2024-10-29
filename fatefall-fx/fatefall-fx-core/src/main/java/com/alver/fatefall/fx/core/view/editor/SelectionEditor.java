@@ -10,8 +10,8 @@ public class SelectionEditor<T> extends EditorControl<T> {
 
 	private final ObservableList<T> options;
 
-	public SelectionEditor(String name, Property<T> property, ObservableList<T> options) {
-		super(name, property);
+	public SelectionEditor(Property<T> property, ObservableList<T> options) {
+		super(property);
 		this.options = options;
 	}
 
