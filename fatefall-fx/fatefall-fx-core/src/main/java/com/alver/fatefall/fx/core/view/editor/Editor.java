@@ -13,13 +13,7 @@ import java.util.Objects;
 
 public class Editor<T, C extends EditorControl<T>> extends Control {
 
-	private static final String STYLE_CLASS = "editor";
-	private static final String STYLE_SHEET = Objects.requireNonNull(
-			Editor.class.getResource("Editor.css")).toExternalForm();
-
 	public Editor(Property<String> name, EditorControl<T> control) {
-		getStyleClass().add(STYLE_CLASS);
-		getStylesheets().add(STYLE_SHEET);
 		nameProperty().bind(name);
 		controlProperty().set(control);
 	}
@@ -30,8 +24,16 @@ public class Editor<T, C extends EditorControl<T>> extends Control {
 	}
 
 	public static class EditorSkinBase<T, C extends EditorControl<T>> extends SkinBase<Editor<T, C>> {
+
+		private static final String STYLE_CLASS = "editor";
+		private static final String STYLE_SHEET = Objects.requireNonNull(
+				Editor.class.getResource("Editor.css")).toExternalForm();
+
 		protected EditorSkinBase(Editor<T, C> editor) {
 			super(editor);
+			editor.getStyleClass().add(STYLE_CLASS);
+			editor.getStylesheets().add(STYLE_SHEET);
+
 			Label label = new Label();
 			label.textProperty().bind(editor.nameProperty());
 			HBox hBox = new HBox(editor.getControl());

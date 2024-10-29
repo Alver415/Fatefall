@@ -93,4 +93,15 @@ public class Example {
 	public enum Direction {
 		UP, DOWN, LEFT, RIGHT
 	}
+
+	private final BooleanProperty isAlive = new SimpleBooleanProperty(this, "isAlive");
+	public BooleanProperty isAliveProperty(){
+	    return this.isAlive;
+	}
+	public Boolean getIsAlive(){
+	    return this.isAliveProperty().get();
+	}
+	public void setIsAlive(Boolean value){
+	    this.isAliveProperty().set(value);
+	}
 }
