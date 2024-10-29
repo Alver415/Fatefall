@@ -50,7 +50,7 @@ public class LinkableEditorSkin<T, C extends EditorControl<T>> extends Editor.Ed
 				if (linkable.isLinkedTo()) {
 					return Color.BLUE;
 				} else {
-					return Color.LIGHTGREEN;
+					return Color.LIGHTGRAY;
 				}
 			}
 		}, linkable.isLinkedToProperty(), isLinkStateActive);
@@ -68,12 +68,13 @@ public class LinkableEditorSkin<T, C extends EditorControl<T>> extends Editor.Ed
 				.map("Linked to: %s"::formatted);
 
 		ObservableValue<String> linkedDependenciesText = linkable.dependenciesProperty()
-				.map(l -> l.stream()
+				.map(l -> l.isEmpty() ? null : l.stream()
 						.map(LinkableProperty::getName)
 						.collect(Collectors.joining("\n - ", "\n - ", "")))
 				.map("Linked via path: %s"::formatted);
 
 		ObservableValue<String> linkedByText = linkable.linkedByProperty()
+				.map(l -> l.isEmpty() ? null : l)
 				.map(l -> l.stream().map(LinkableProperty::getName).collect(Collectors.joining(",")))
 				.map("Linked by: [%s]"::formatted);
 

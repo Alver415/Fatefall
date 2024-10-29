@@ -41,7 +41,8 @@ public class LinkableProperty<T> implements Property<T> {
 			bind(other);
 		} catch (Exception e) {
 			log.warn("Failed to link property '%s' to '%s'".formatted(this, other), e);
-			unlink();
+			linkedTo.set(null);
+			other.linkedBy.remove(this);
 		}
 	}
 
@@ -89,7 +90,6 @@ public class LinkableProperty<T> implements Property<T> {
 							});
 						}
 					});
-					list.add(LinkableProperty.this);
 					bind(new SimpleListProperty<>(list));
 				}
 			};
