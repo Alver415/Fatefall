@@ -1,8 +1,7 @@
 package com.alver.fatefall.fx.core.view.linkable;
 
+import com.alver.fatefall.fx.core.view.editor.Editor;
 import com.alver.fatefall.fx.core.view.editor.EditorControl;
-import com.alver.fatefall.fx.core.view.editor.PropertyEditor;
-import com.alver.fatefall.fx.core.view.editor.PropertyEditorSkinBase;
 import javafx.beans.binding.*;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyListProperty;
@@ -10,40 +9,30 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class LinkablePropertyEditorSkin<T> extends PropertyEditorSkinBase<T> {
+public class LinkableEditorSkin<T, C extends EditorControl<T>> extends Editor.EditorSkinBase<T, C> {
 
-	private static final Logger log = LoggerFactory.getLogger(LinkablePropertyEditorSkin.class);
-
+	private static final Insets INSETS = new Insets(2);
 	private static final ObjectProperty<LinkableProperty<?>> selected = new SimpleObjectProperty<>();
 	private static final ObservableValue<Boolean> isLinkStateActive = selected.map(Objects::nonNull).orElse(false);
 
-	public LinkablePropertyEditorSkin(PropertyEditor<T> control) {
-		super(control);
-	}
-
-	private final static Insets INSETS = new Insets(2);
-
-	@Override
-	protected <T> Node buildEditor(EditorControl<T> editor) {
+	public LinkableEditorSkin(Editor<T, C> editor) {
+		super(editor);
 		Label name = new Label();
 		name.textProperty().bind(editor.nameProperty());
 
-		LinkableProperty<T> linkable = LinkableProperty.wrap(editor.getProperty());
+		EditorControl<T> control = editor.getControl();
+		LinkableProperty<T> linkable = LinkableProperty.wrap(control.getProperty());
 
 		ReadOnlyObjectProperty<LinkableProperty<T>> linkedTo = linkable.linkedToProperty();
 		ReadOnlyListProperty<LinkableProperty<T>> linkedBy = linkable.linkedByProperty();
@@ -68,7 +57,7 @@ public class LinkablePropertyEditorSkin<T> extends PropertyEditorSkinBase<T> {
 		ObservableValue<Background> background = color.map(Color::desaturate).map(Background::fill);
 		linkButton.backgroundProperty().bind(background);
 
-		editor.disableProperty().bind(linkable.isLinkedToProperty());
+		control.disableProperty().bind(linkable.isLinkedToProperty());
 
 		BooleanBinding disabled = Bindings.createBooleanBinding(() -> linkable == selected.get(), selected);
 		linkButton.disableProperty().bind(disabled);
@@ -79,7 +68,9 @@ public class LinkablePropertyEditorSkin<T> extends PropertyEditorSkinBase<T> {
 				.map("Linked to: %s"::formatted);
 
 		ObservableValue<String> linkedDependenciesText = linkable.dependenciesProperty()
-				.map(l -> l.stream().map(LinkableProperty::getName).collect(Collectors.joining("\n - ", "\n - ", "")))
+				.map(l -> l.stream()
+						.map(LinkableProperty::getName)
+						.collect(Collectors.joining("\n - ", "\n - ", "")))
 				.map("Linked via path: %s"::formatted);
 
 		ObservableValue<String> linkedByText = linkable.linkedByProperty()
@@ -100,7 +91,7 @@ public class LinkablePropertyEditorSkin<T> extends PropertyEditorSkinBase<T> {
 		linkButton.setTooltip(tooltip);
 
 		linkButton.setOnAction(a -> {
-			LinkableProperty source = LinkablePropertyEditorSkin.selected.get();
+			LinkableProperty source = selected.get();
 			LinkableProperty target = linkable;
 			Boolean isLinking = isLinkStateActive.getValue();
 			if (!isLinking) {
@@ -134,31 +125,9 @@ public class LinkablePropertyEditorSkin<T> extends PropertyEditorSkinBase<T> {
 		borderPane.setLeft(name);
 		borderPane.setRight(buttons);
 
-		HBox hBox = new HBox(editor);
-		HBox.setHgrow(editor, Priority.ALWAYS);
-		return new VBox(borderPane, hBox);
+		HBox hBox = new HBox(control);
+		HBox.setHgrow(control, Priority.ALWAYS);
+		VBox vBox = new VBox(borderPane, hBox);
+		getChildren().setAll(vBox);
 	}
-
-	public static class LinkButton<T> extends Button {
-
-		private final LinkableProperty<T> linkableProperty;
-
-		public LinkButton(LinkableProperty<T> linkableProperty) {
-			this.linkableProperty = linkableProperty;
-		}
-
-	}
-
-
-	public static class LinkBidirectionalButton<T> extends ToggleButton {
-
-		private final LinkableProperty<T> linkable;
-
-		public LinkBidirectionalButton(LinkableProperty<T> linkable) {
-			this.linkable = linkable;
-			selectedProperty();
-		}
-
-	}
-
 }

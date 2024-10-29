@@ -32,7 +32,7 @@ public class StaticPropertyEditorTest extends Application {
 
 		child.descriptionProperty().bindBidirectional(example.descriptionProperty());
 
-		StaticPropertyEditor propertyEditor = new StaticPropertyEditor("Test", new SimpleObjectProperty<>(example));
+		StaticBeanEditor propertyEditor = new StaticBeanEditor("Test", new SimpleObjectProperty<>(example));
 
 		Scene scene = new Scene(new VBox(propertyEditor));
 		stage.setScene(scene);
@@ -43,7 +43,7 @@ public class StaticPropertyEditorTest extends Application {
 
 	}
 
-	public static class StaticPropertyEditor extends PropertyEditor<Example> {
+	public static class StaticBeanEditor extends BeanEditor<Example> {
 
 		private final ObjectProperty<Example> example = new SimpleObjectProperty<>(this, "example");
 
@@ -59,7 +59,7 @@ public class StaticPropertyEditorTest extends Application {
 			this.exampleProperty().set(value);
 		}
 
-		public StaticPropertyEditor(String name, Property<Example> exampleProperty) {
+		public StaticBeanEditor(String name, Property<Example> exampleProperty) {
 			super(name, exampleProperty);
 			Example example = exampleProperty.getValue();
 			ObservableList<EditorControl<?>> editors = FXCollections.observableArrayList();
@@ -71,9 +71,9 @@ public class StaticPropertyEditorTest extends Application {
 					FXCollections.observableArrayList(Example.Direction.values())));
 
 			if (example.getChild() != null) {
-				editors.add(new StaticPropertyEditor("Child", example.childProperty()));
+				editors.add(new StaticBeanEditor("Child", example.childProperty()));
 			}
-			setEditors(editors);
+			setEditorControls(editors);
 		}
 	}
 }

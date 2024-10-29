@@ -1,0 +1,13 @@
+Editor {
+	-fx-skin: "com.alver.fatefall.fx.core.view.linkable.LinkableEditorSkin";
+}
+
+.editor {
+	-fx-padding: 4px 4px 4px 16px;
+	-fx-background-color: -fx-outer-border, -fx-inner-border, -fx-base;
+	-fx-background-insets: 0, 1, 2;
+}
+
+Label {
+	-fx-font-weight: bold;
+}

@@ -3,7 +3,7 @@ package com.alver.fatefall.fx.app.view.entity.card;
 import com.alver.fatefall.fx.app.editor.file.XMLEditor;
 import com.alver.fatefall.fx.core.model.CardFX;
 import com.alver.fatefall.fx.core.utils.SelectionBinding;
-import com.alver.fatefall.fx.core.view.editor.IntrospectingPropertyEditor;
+import com.alver.fatefall.fx.core.view.editor.IntrospectingBeanEditor;
 import com.alver.fxmlsaver.FXMLSaver;
 import com.alver.springfx.annotations.FXMLPrototype;
 import javafx.beans.property.ObjectProperty;
@@ -41,7 +41,7 @@ public class CardEditorView {
 	private CardView cardView;
 
 	@FXML
-	private IntrospectingPropertyEditor<CardFX<?, ?>> cardEditor;
+	private IntrospectingBeanEditor<CardFX<?, ?>> cardEditor;
 
 	@FXML
 	private XMLEditor fxmlEditor;

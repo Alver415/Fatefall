@@ -16,30 +16,30 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-public class IntrospectingPropertyEditor<T> extends PropertyEditor<T> {
+public class IntrospectingBeanEditor<T> extends BeanEditor<T> {
 
-	private static final Logger log = LoggerFactory.getLogger(IntrospectingPropertyEditor.class);
+	private static final Logger log = LoggerFactory.getLogger(IntrospectingBeanEditor.class);
 
-	public IntrospectingPropertyEditor() {
+	public IntrospectingBeanEditor() {
 		this(null, new SimpleObjectProperty<>());
 	}
 
-	public IntrospectingPropertyEditor(String name, Property<T> property) {
-		this(name, property, new PropertyIntrospector(), new EditorFactory());
+	public IntrospectingBeanEditor(String name, Property<T> property) {
+		this(name, property, new PropertyIntrospector(), new EditorControlFactory());
 	}
 
-	public IntrospectingPropertyEditor(
-			String name, Property<T> property, PropertyIntrospector introspector, EditorFactory factory) {
+	public IntrospectingBeanEditor(
+			String name, Property<T> property, PropertyIntrospector introspector, EditorControlFactory factory) {
 		super(name, property);
 
 		setIntrospector(introspector);
-		setEditorFactory(factory);
+		setEditorControlFactory(factory);
 
 		ObservableValue<ObservableList<EditorControl<?>>> observable = propertyProperty()
 				.flatMap(Function.identity())
-				.map(this::buildEditors)
+				.map(this::buildEditorControls)
 				.map(FXCollections::observableArrayList);
-		editorsProperty().bind(observable.orElse(FXCollections.observableArrayList()));
+		editorControlsProperty().bind(observable.orElse(FXCollections.observableArrayList()));
 	}
 
 	private final ObjectProperty<PropertyIntrospector> introspector = new SimpleObjectProperty<>(this, "introspector");
@@ -56,37 +56,31 @@ public class IntrospectingPropertyEditor<T> extends PropertyEditor<T> {
 		this.introspectorProperty().set(value);
 	}
 
-	private final ObjectProperty<EditorFactory> editorFactory = new SimpleObjectProperty<>(this, "editorFactory");
+	private final ObjectProperty<EditorControlFactory> editorControlFactory = new SimpleObjectProperty<>(this, "editorControlFactory");
 
-	public ObjectProperty<EditorFactory> editorFactoryProperty() {
-		return this.editorFactory;
+	public ObjectProperty<EditorControlFactory> editorControlFactoryProperty() {
+		return this.editorControlFactory;
 	}
 
-	public EditorFactory getEditorFactory() {
-		return this.editorFactoryProperty().get();
+	public EditorControlFactory getEditorControlFactory() {
+		return this.editorControlFactoryProperty().get();
 	}
 
-	public void setEditorFactory(EditorFactory value) {
-		this.editorFactoryProperty().set(value);
+	public void setEditorControlFactory(EditorControlFactory value) {
+		this.editorControlFactoryProperty().set(value);
 	}
 
-
-	@Override
-	public ObservableList<EditorControl<?>> getEditors() {
-		return super.getEditors();
-	}
-
-	private List<? extends EditorControl<?>> buildEditors(Object target) {
+	private List<? extends EditorControl<?>> buildEditorControls(Object target) {
 		return Stream.ofNullable(target)
 				.map(Object::getClass)
 				.map(getIntrospector()::getPropertyInfo)
 				.flatMap(Collection::stream)
 				.sorted(Comparator.comparingInt(PropertyInfo::order).thenComparing(PropertyInfo::displayName))
-				.map(propertyInfo -> buildEditor(target, propertyInfo)).toList();
+				.map(propertyInfo -> buildEditorControl(target, propertyInfo)).toList();
 	}
 
-	private EditorControl<Object> buildEditor(Object target, PropertyInfo propertyInfo) {
-		return getEditorFactory().buildEditor(propertyInfo, invoke(target, propertyInfo.property()));
+	private EditorControl<Object> buildEditorControl(Object target, PropertyInfo propertyInfo) {
+		return getEditorControlFactory().buildEditorControl(propertyInfo, invoke(target, propertyInfo.property()));
 	}
 
 	private static <T> T invoke(Object target, Method method) {

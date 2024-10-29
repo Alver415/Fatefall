@@ -1,14 +1,13 @@
 package com.alver.fatefall.fx.core.view;
 
-import com.alver.fatefall.fx.core.view.editor.IntrospectingPropertyEditor;
-import com.alver.fatefall.fx.core.view.editor.PropertyEditor;
-import com.alver.fatefall.fx.core.view.linkable.LinkablePropertyEditorSkin;
+import com.alver.fatefall.fx.core.view.editor.Editor;
+import com.alver.fatefall.fx.core.view.editor.EditorControl;
+import com.alver.fatefall.fx.core.view.editor.IntrospectingBeanEditor;
 import javafx.application.Application;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class LinkablePropertyEditorTest extends Application {
@@ -30,12 +29,11 @@ public class LinkablePropertyEditorTest extends Application {
 		example.setDescription("Software Developer");
 		example.setChild(child);
 
-		PropertyEditor<Object> propertyEditor = new IntrospectingPropertyEditor<>(
-				"Example", new SimpleObjectProperty<>(example));
+		Editor<Example, EditorControl<Example>> editor = new Editor<>(
+				example.nameProperty(), new IntrospectingBeanEditor<>(
+				"Example", new SimpleObjectProperty<>(example)));
 
-		propertyEditor.setSkin(new LinkablePropertyEditorSkin<>(propertyEditor));
-
-		Scene scene = new Scene(new VBox(propertyEditor));
+		Scene scene = new Scene(editor);
 		stage.setScene(scene);
 		stage.setWidth(1600);
 		stage.setHeight(900);

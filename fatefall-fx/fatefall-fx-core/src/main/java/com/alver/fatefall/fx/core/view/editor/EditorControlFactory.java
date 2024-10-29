@@ -7,10 +7,10 @@ import javafx.scene.paint.Color;
 
 import java.io.File;
 
-public class EditorFactory {
+public class EditorControlFactory {
 
 	@SuppressWarnings("unchecked")
-	public <T> EditorControl<T> buildEditor(PropertyInfo propertyInfo, Property<T> property) {
+	public <T> EditorControl<T> buildEditorControl(PropertyInfo propertyInfo, Property<T> property) {
 		String name = propertyInfo.displayName();
 		EditorControl<T> editor;
 		if (propertyInfo.type().isEnum()) {
@@ -31,7 +31,7 @@ public class EditorFactory {
 		} else if (File.class.equals(propertyInfo.type())) {
 			editor =  (EditorControl<T>) new FileSelectionEditor(name, (Property<File>) property);
 		} else {
-			editor =  new IntrospectingPropertyEditor<>(name, property);
+			editor =  new IntrospectingBeanEditor<>(name, property);
 		}
 		return editor;
 	}

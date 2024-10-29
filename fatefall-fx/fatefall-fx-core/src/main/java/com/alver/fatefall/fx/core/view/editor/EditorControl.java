@@ -3,10 +3,17 @@ package com.alver.fatefall.fx.core.view.editor;
 import javafx.beans.property.*;
 import javafx.scene.control.Control;
 
+import java.util.Objects;
+
 public abstract class EditorControl<T> extends Control {
 
+	private static final String STYLE_CLASS = "editor-control";
+	private static final String STYLE_SHEET = Objects.requireNonNull(
+			Editor.class.getResource("EditorControl.css")).toExternalForm();
+
 	private EditorControl(Property<T> property) {
-		getStyleClass().add("editor");
+		getStyleClass().add(STYLE_CLASS);
+		getStylesheets().add(STYLE_SHEET);
 		setProperty(property);
 	}
 

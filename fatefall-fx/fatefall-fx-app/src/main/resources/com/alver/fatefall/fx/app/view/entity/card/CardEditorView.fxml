@@ -3,7 +3,7 @@
 <?import com.alver.fatefall.fx.app.editor.file.JavaEditor?>
 <?import com.alver.fatefall.fx.app.editor.file.XMLEditor?>
 <?import com.alver.fatefall.fx.app.view.entity.card.*?>
-<?import com.alver.fatefall.fx.core.view.editor.IntrospectingPropertyEditor?>
+<?import com.alver.fatefall.fx.core.view.editor.IntrospectingBeanEditor?>
 <?import com.panemu.tiwulfx.control.dock.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.TreeItemPropertyValueFactory?>
@@ -15,7 +15,7 @@
 		   dividerPositions="0.25, 0.75">
 	<DetachableTabPane scope="${controller.scope}" closeIfEmpty="true">
 		<DetachableTab text="Card Editor">
-			<IntrospectingPropertyEditor fx:id="cardEditor"/>
+			<IntrospectingBeanEditor fx:id="cardEditor"/>
 		</DetachableTab>
 
 	</DetachableTabPane>
