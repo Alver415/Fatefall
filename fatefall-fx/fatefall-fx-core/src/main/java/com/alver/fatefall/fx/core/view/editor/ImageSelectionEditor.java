@@ -1,4 +1,4 @@
-package com.alver.fatefall.fx.core.view;
+package com.alver.fatefall.fx.core.view.editor;
 
 import com.alver.fsfx.util.Converter;
 import javafx.beans.property.Property;

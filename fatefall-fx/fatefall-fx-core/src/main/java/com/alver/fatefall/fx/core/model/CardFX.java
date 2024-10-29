@@ -1,7 +1,7 @@
 package com.alver.fatefall.fx.core.model;
 
 import com.alver.fatefall.core.entity.Card;
-import com.alver.fatefall.fx.core.view.EditorInfo;
+import com.alver.fatefall.fx.core.view.editor.EditorInfo;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;

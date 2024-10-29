@@ -2,7 +2,7 @@ package com.alver.fatefall.fx.core.model;
 
 import com.alver.fatefall.core.entity.Entity;
 import com.alver.fatefall.fx.core.utils.TreeProperty;
-import com.alver.fatefall.fx.core.view.EditorInfo;
+import com.alver.fatefall.fx.core.view.editor.EditorInfo;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 

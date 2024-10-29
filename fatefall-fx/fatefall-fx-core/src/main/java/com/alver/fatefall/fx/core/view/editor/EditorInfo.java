@@ -1,4 +1,4 @@
-package com.alver.fatefall.fx.core.view;
+package com.alver.fatefall.fx.core.view.editor;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

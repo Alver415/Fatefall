@@ -1,11 +1,11 @@
-package com.alver.fatefall.fx.core.view;
+package com.alver.fatefall.fx.core.view.editor;
 
 import javafx.beans.property.Property;
 import javafx.scene.control.*;
 
 public class TextEditor extends EditorControl<String> {
 
-	TextEditor(String name, Property<String> property) {
+	public TextEditor(String name, Property<String> property) {
 		super(name, property);
 	}
 

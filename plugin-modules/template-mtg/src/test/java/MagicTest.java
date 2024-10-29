@@ -16,13 +16,13 @@ import java.io.IOException;
 import static com.alver.jfxtra.util.JFXUtils.runFX;
 import static com.alver.jfxtra.util.JFXUtils.runPlatform;
 
-public class TestApplication extends Application {
+public class MagicTest extends Application {
 
-	private static final Logger log = LoggerFactory.getLogger(TestApplication.class);
+	private static final Logger log = LoggerFactory.getLogger(MagicTest.class);
 
 	public static class Launcher {
 		public static void main(String... args) {
-			Application.launch(TestApplication.class, args);
+			Application.launch(MagicTest.class, args);
 		}
 	}
 

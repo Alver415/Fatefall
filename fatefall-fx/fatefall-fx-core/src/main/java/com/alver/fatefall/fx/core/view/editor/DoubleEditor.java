@@ -1,4 +1,4 @@
-package com.alver.fatefall.fx.core.view;
+package com.alver.fatefall.fx.core.view.editor;
 
 import com.sun.javafx.scene.control.DoubleField;
 import javafx.beans.property.DoubleProperty;

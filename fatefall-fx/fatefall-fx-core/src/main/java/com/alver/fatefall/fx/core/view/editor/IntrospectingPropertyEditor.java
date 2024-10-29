@@ -1,8 +1,9 @@
-package com.alver.fatefall.fx.core.view;
+package com.alver.fatefall.fx.core.view.editor;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class IntrospectingPropertyEditor<T> extends PropertyEditor<T> {
@@ -27,18 +29,17 @@ public class IntrospectingPropertyEditor<T> extends PropertyEditor<T> {
 	}
 
 	public IntrospectingPropertyEditor(
-			String name,
-			Property<T> property,
-			PropertyIntrospector introspector,
-			EditorFactory factory) {
+			String name, Property<T> property, PropertyIntrospector introspector, EditorFactory factory) {
 		super(name, property);
+
 		setIntrospector(introspector);
 		setEditorFactory(factory);
 
-		propertyProperty().subscribe((prop) -> {
-			if (prop == null) setEditors(FXCollections.observableArrayList());
-			else prop.subscribe(value -> setEditors(FXCollections.observableArrayList(buildEditors(value))));
-		});
+		ObservableValue<ObservableList<EditorControl<?>>> observable = propertyProperty()
+				.flatMap(Function.identity())
+				.map(this::buildEditors)
+				.map(FXCollections::observableArrayList);
+		editorsProperty().bind(observable.orElse(FXCollections.observableArrayList()));
 	}
 
 	private final ObjectProperty<PropertyIntrospector> introspector = new SimpleObjectProperty<>(this, "introspector");
@@ -75,22 +76,26 @@ public class IntrospectingPropertyEditor<T> extends PropertyEditor<T> {
 		return super.getEditors();
 	}
 
-	public List<? extends EditorControl<?>> buildEditors(Object target) {
+	private List<? extends EditorControl<?>> buildEditors(Object target) {
 		return Stream.ofNullable(target)
 				.map(Object::getClass)
 				.map(getIntrospector()::getPropertyInfo)
 				.flatMap(Collection::stream)
-				.sorted(Comparator.comparingInt(PropertyInfo::order))
-				.map(propertyInfo -> {
-					Method propertyMethod = propertyInfo.property();
-					try {
-						Property<?> property = (Property<?>) propertyMethod.invoke(target);
-						return getEditorFactory().buildEditor(propertyInfo, property);
-					} catch (Exception e) {
-						log.error(e.getMessage(), e);
-						return getEditorFactory().buildEditor(propertyInfo, null);
-					}
-				})
-				.toList();
+				.sorted(Comparator.comparingInt(PropertyInfo::order).thenComparing(PropertyInfo::displayName))
+				.map(propertyInfo -> buildEditor(target, propertyInfo)).toList();
+	}
+
+	private EditorControl<Object> buildEditor(Object target, PropertyInfo propertyInfo) {
+		return getEditorFactory().buildEditor(propertyInfo, invoke(target, propertyInfo.property()));
+	}
+
+	private static <T> T invoke(Object target, Method method) {
+		try {
+			//noinspection unchecked
+			return (T) method.invoke(target);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return null;
+		}
 	}
 }

@@ -1,5 +1,6 @@
 package com.alver.fatefall.fx.core.view;
 
+import com.alver.fatefall.fx.core.view.editor.EditorInfo;
 import javafx.beans.property.*;
 import javafx.scene.paint.Color;
 

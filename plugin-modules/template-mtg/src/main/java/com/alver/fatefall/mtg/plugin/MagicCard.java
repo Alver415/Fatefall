@@ -4,7 +4,7 @@ import com.alver.fatefall.fx.app.view.entity.card.template.FXMLTemplate;
 import com.alver.fatefall.fx.app.view.entity.card.template.ImageTemplate;
 import com.alver.fatefall.fx.core.model.CardFX;
 import com.alver.fatefall.fx.core.model.CardFaceFX;
-import com.alver.fatefall.fx.core.view.EditorInfo;
+import com.alver.fatefall.fx.core.view.editor.EditorInfo;
 import javafx.beans.property.*;
 import javafx.scene.image.Image;
 import org.slf4j.Logger;

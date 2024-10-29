@@ -1,4 +1,4 @@
-package com.alver.fatefall.fx.core.view;
+package com.alver.fatefall.fx.core.view.editor;
 
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -12,25 +12,27 @@ public class EditorFactory {
 	@SuppressWarnings("unchecked")
 	public <T> EditorControl<T> buildEditor(PropertyInfo propertyInfo, Property<T> property) {
 		String name = propertyInfo.displayName();
+		EditorControl<T> editor;
 		if (propertyInfo.type().isEnum()) {
 			T[] enums = (T[]) propertyInfo.type().getEnumConstants();
-			return new SelectionEditor<>(name, property, FXCollections.observableArrayList(enums));
+			editor =  new SelectionEditor<>(name, property, FXCollections.observableArrayList(enums));
 		} else if (String.class.equals(propertyInfo.type())) {
-			return (EditorControl<T>) new TextEditor(name, (StringProperty) property);
+			editor =  (EditorControl<T>) new TextEditor(name, (StringProperty) property);
 		} else if (Boolean.class.equals(propertyInfo.type())) {
-			return (EditorControl<T>) new BooleanEditor(name, (BooleanProperty) property);
+			editor =  (EditorControl<T>) new BooleanEditor(name, (BooleanProperty) property);
 		} else if (Double.class.equals(propertyInfo.type())) {
-			return (EditorControl<T>) new DoubleEditor(name, (DoubleProperty) property);
+			editor =  (EditorControl<T>) new DoubleEditor(name, (DoubleProperty) property);
 		} else if (Integer.class.equals(propertyInfo.type())) {
-			return (EditorControl<T>) new IntegerEditor(name, (IntegerProperty) property);
+			editor =  (EditorControl<T>) new IntegerEditor(name, (IntegerProperty) property);
 		} else if (Color.class.equals(propertyInfo.type())) {
-			return (EditorControl<T>) new ColorSelectionEditor(name, (Property<Color>) property);
+			editor =  (EditorControl<T>) new ColorSelectionEditor(name, (Property<Color>) property);
 		} else if (Image.class.equals(propertyInfo.type())) {
-			return (EditorControl<T>) new ImageSelectionEditor(name, (Property<Image>) property);
+			editor =  (EditorControl<T>) new ImageSelectionEditor(name, (Property<Image>) property);
 		} else if (File.class.equals(propertyInfo.type())) {
-			return (EditorControl<T>) new FileSelectionEditor(name, (Property<File>) property);
+			editor =  (EditorControl<T>) new FileSelectionEditor(name, (Property<File>) property);
 		} else {
-			return new IntrospectingPropertyEditor<>(name, property);
+			editor =  new IntrospectingPropertyEditor<>(name, property);
 		}
+		return editor;
 	}
 }

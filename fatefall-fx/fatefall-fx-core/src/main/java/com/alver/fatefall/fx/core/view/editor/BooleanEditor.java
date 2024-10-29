@@ -1,4 +1,4 @@
-package com.alver.fatefall.fx.core.view;
+package com.alver.fatefall.fx.core.view.editor;
 
 import javafx.beans.property.Property;
 import javafx.scene.control.Skin;

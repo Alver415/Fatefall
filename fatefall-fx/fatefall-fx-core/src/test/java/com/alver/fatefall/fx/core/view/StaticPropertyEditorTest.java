@@ -1,5 +1,6 @@
 package com.alver.fatefall.fx.core.view;
 
+import com.alver.fatefall.fx.core.view.editor.*;
 import javafx.application.Application;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.Property;

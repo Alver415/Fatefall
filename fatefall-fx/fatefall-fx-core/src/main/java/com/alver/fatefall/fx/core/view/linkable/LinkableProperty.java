@@ -1,4 +1,4 @@
-package com.alver.fatefall.fx.core.view;
+package com.alver.fatefall.fx.core.view.linkable;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.*;
@@ -73,23 +73,6 @@ public class LinkableProperty<T> implements Property<T> {
 	}
 
 
-	private final ReadOnlyObjectWrapper<LinkableProperty<T>> lastLinkedTo =
-			new ReadOnlyObjectWrapper<>(this, "lastLinkedTo") {
-				{
-					bind(linkedTo.flatMap(LinkableProperty::lastLinkedToProperty)
-							.orElse(LinkableProperty.this));
-				}
-			};
-
-	public ReadOnlyObjectProperty<LinkableProperty<T>> lastLinkedToProperty() {
-		return this.lastLinkedTo.getReadOnlyProperty();
-	}
-
-	public LinkableProperty<T> getLastLinkedTo() {
-		return this.lastLinkedToProperty().get();
-	}
-
-
 	private final ReadOnlyListWrapper<LinkableProperty<T>> dependencies =
 			new ReadOnlyListWrapper<>(this, "dependencies") {
 				{
@@ -108,19 +91,6 @@ public class LinkableProperty<T> implements Property<T> {
 					});
 					list.add(LinkableProperty.this);
 					bind(new SimpleListProperty<>(list));
-
-//					ObservableList<LinkableProperty<T>> baseCase = FXCollections.observableArrayList();
-//					baseCase.add(LinkableProperty.this);
-//
-//					bind(linkedTo.map(linked -> {
-//						ObservableList<LinkableProperty<T>> l = FXCollections.observableArrayList();
-//						linked.dependenciesProperty().addListener((InvalidationListener) invalidation -> {
-//							l.clear();
-//							l.add(LinkableProperty.this);
-//							l.addAll(linked.dependenciesProperty().get());
-//						});
-//						return l;
-//					}).orElse(baseCase));
 				}
 			};
 
@@ -132,16 +102,20 @@ public class LinkableProperty<T> implements Property<T> {
 		return this.dependenciesProperty().get();
 	}
 
-	public ObservableList<LinkableProperty<T>> getDependencyList() {
-		if (getLinkedTo() == null) {
-			ObservableList<LinkableProperty<T>> list = FXCollections.observableArrayList();
-			list.add(this);
-			return list;
-		} else {
-			ObservableList<LinkableProperty<T>> list = getLinkedTo().getDependencyList();
-			list.add(this);
-			return list;
-		}
+
+	private final ReadOnlyObjectWrapper<LinkableProperty<T>> lastLinkedTo =
+			new ReadOnlyObjectWrapper<>(this, "lastLinkedTo") {
+				{
+					bind(dependenciesProperty().map(list -> list.isEmpty() ? null : list.getLast()));
+				}
+			};
+
+	public ReadOnlyObjectProperty<LinkableProperty<T>> lastLinkedToProperty() {
+		return this.lastLinkedTo.getReadOnlyProperty();
+	}
+
+	public LinkableProperty<T> getLastLinkedTo() {
+		return this.lastLinkedToProperty().get();
 	}
 
 
@@ -250,7 +224,7 @@ public class LinkableProperty<T> implements Property<T> {
 	}
 	//endregion Delegated Methods
 
-	static <T> LinkableProperty<T> wrap(Property<T> property) {
+	public static <T> LinkableProperty<T> wrap(Property<T> property) {
 		return new LinkableProperty<>(property);
 	}
 }

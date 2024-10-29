@@ -14,11 +14,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.nio.file.Path;
 
-public class TestApplication extends Application {
+public class PokerCardTest extends Application {
 
 	public static class Launcher {
 		public static void main(String... args) {
-			Application.launch(TestApplication.class, args);
+			Application.launch(PokerCardTest.class, args);
 		}
 	}
 

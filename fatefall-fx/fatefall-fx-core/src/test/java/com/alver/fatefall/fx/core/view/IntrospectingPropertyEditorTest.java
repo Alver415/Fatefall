@@ -1,5 +1,7 @@
 package com.alver.fatefall.fx.core.view;
 
+import com.alver.fatefall.fx.core.view.editor.IntrospectingPropertyEditor;
+import com.alver.fatefall.fx.core.view.editor.PropertyEditor;
 import javafx.application.Application;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Scene;
@@ -31,10 +33,8 @@ public class IntrospectingPropertyEditorTest extends Application {
 
 		Scene scene = new Scene(new VBox(propertyEditor));
 		stage.setScene(scene);
-		scene.getStylesheets().add("com/alver/fatefall/fx/core/view/PropertyEditor.css");
 
 		stage.centerOnScreen();
 		stage.show();
-
 	}
 }

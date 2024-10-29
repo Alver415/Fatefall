@@ -1,4 +1,4 @@
-package com.alver.fatefall.fx.core.view;
+package com.alver.fatefall.fx.core.view.editor;
 
 import javafx.beans.property.Property;
 import javafx.collections.ObservableList;
@@ -10,7 +10,7 @@ public class SelectionEditor<T> extends EditorControl<T> {
 
 	private final ObservableList<T> options;
 
-	SelectionEditor(String name, Property<T> property, ObservableList<T> options) {
+	public SelectionEditor(String name, Property<T> property, ObservableList<T> options) {
 		super(name, property);
 		this.options = options;
 	}
