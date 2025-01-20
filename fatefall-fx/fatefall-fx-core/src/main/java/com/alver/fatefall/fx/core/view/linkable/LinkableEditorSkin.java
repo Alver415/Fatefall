@@ -55,7 +55,14 @@ public class LinkableEditorSkin<T, C extends EditorControl<T>> extends Editor.Ed
 			}
 		}, linkable.isLinkedToProperty(), isLinkStateActive);
 		ObservableValue<Background> background = color.map(Color::desaturate).map(Background::fill);
-		linkButton.backgroundProperty().bind(background);
+		linkButton.styleProperty().bind(color.map(c -> {
+			return String.format("-fx-base: rgba(%d, %d, %d, %.2f);",
+					(int) (c.getRed() * 255),
+					(int) (c.getGreen() * 255),
+					(int) (c.getBlue() * 255),
+					c.getOpacity());
+		}));
+//		linkButton.backgroundProperty().bind(background);
 
 		control.disableProperty().bind(linkable.isLinkedToProperty());
 

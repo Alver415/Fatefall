@@ -20,7 +20,7 @@ public class SplashPreloader extends Preloader {
         FXMLLoader loader = new FXMLLoader(FXML);
         stage = loader.load();
 
-        Screen screen = Screen.getScreens().get(Screen.getScreens().size() - 1);
+        Screen screen = Screen.getScreens().getLast();
         stage.setX(screen.getBounds().getMinX());
         stage.setY(screen.getBounds().getMinY());
         stage.centerOnScreen();

@@ -3,8 +3,6 @@ package com.alver.fatefall.fx.app.component.settings;
 
 import com.alver.fatefall.fx.app.FatefallProperties;
 import com.alver.fatefall.fx.core.interfaces.AppPreferenceCategoryProvider;
-import com.alver.fatefall.fx.core.utils.StageManager;
-import com.alver.springfx.SpringFX;
 import com.alver.springfx.annotations.FXMLComponent;
 import com.dlsc.preferencesfx.PreferencesFx;
 import com.dlsc.preferencesfx.model.Category;
@@ -21,20 +19,15 @@ import java.util.List;
 public class PreferencesController {
 
     protected final FatefallProperties properties;
-    protected final SpringFX springFX;
-    protected final StageManager stageManager;
     protected final List<AppPreferenceCategoryProvider> categoryProviders;
     protected final ObjectProperty<Image> iconProperty;
+
     @Autowired
     public PreferencesController(
             FatefallProperties properties,
-            SpringFX springFX,
-            StageManager stageManager,
             List<AppPreferenceCategoryProvider> categoryProviders,
             ObjectProperty<Image> iconProperty) {
         this.properties = properties;
-        this.springFX = springFX;
-        this.stageManager = stageManager;
         this.categoryProviders = categoryProviders;
         this.iconProperty = iconProperty;
     }

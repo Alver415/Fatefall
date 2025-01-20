@@ -273,17 +273,13 @@ public class FatefallProperties {
 	@Bean
 	public ObservableList<LocaleOption> getLocaleOptions() {
 //		return FXCollections.observableList(Arrays.asList(Locale.getAvailableLocales()));
-
-		return FXCollections.observableList(List.of(
-				LocaleOption.ENGLISH,
-				LocaleOption.SPANISH,
-				LocaleOption.FRENCH));
+		return FXCollections.observableList(List.of(LocaleOption.values()));
 	}
 
 	public enum LocaleOption {
 		ENGLISH(Locale.ENGLISH),
 		FRENCH(Locale.FRENCH),
-		SPANISH(new Locale("es", "ES"));
+		SPANISH(Locale.of("es", "ES"));
 
 		private final Locale locale;
 		private final String displayName;

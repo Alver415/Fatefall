@@ -6,12 +6,12 @@ import com.alver.fatefall.fx.app.view.entity.card.skin.flippable.FlippableSkin;
 import com.alver.fatefall.fx.app.view.entity.card.skin.stacked.StackedSkin;
 import com.alver.fatefall.fx.core.model.CardFX;
 import com.alver.fatefall.fx.core.utils.ResourceUtil;
-import com.alver.fatefall.fx.core.utils.SimpleClip;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.net.URL;
@@ -60,7 +60,13 @@ public class CardView extends Control {
 			ObservableValue<Number> arcHeight) {
 		front.widthProperty().bind(width);
 		front.heightProperty().bind(height);
-		front.setClip(new SimpleClip(width, height, arcWidth, arcHeight));
+
+		Rectangle rectangle = new Rectangle();
+		rectangle.widthProperty().bind(width);
+		rectangle.heightProperty().bind(height);
+		rectangle.arcWidthProperty().bind(arcWidth);
+		rectangle.arcHeightProperty().bind(arcHeight);
+		front.setClip(rectangle);
 	}
 
 	public Skin<CardView> buildCardViewSkin(String skinName) {

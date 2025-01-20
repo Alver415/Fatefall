@@ -33,7 +33,7 @@ public class Editor<T, C extends EditorControl<T>> extends Control {
 		private static final String STYLE_SHEET = Objects.requireNonNull(
 				Editor.class.getResource("Editor.css")).toExternalForm();
 
-		protected EditorSkinBase(Editor<T, C> editor) {
+		public EditorSkinBase(Editor<T, C> editor) {
 			super(editor);
 			editor.getStyleClass().add(STYLE_CLASS);
 			editor.getStylesheets().add(STYLE_SHEET);

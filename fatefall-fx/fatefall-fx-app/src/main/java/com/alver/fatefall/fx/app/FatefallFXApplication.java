@@ -4,13 +4,14 @@ import com.alver.fatefall.fx.app.component.mainstage.ApplicationController;
 import com.alver.fatefall.fx.core.preloader.PreloaderBeanPostProcessor;
 import com.alver.fatefall.fx.core.utils.StageManager;
 import com.alver.springfx.SpringFX;
+import com.alver.springfx.SpringFXApplication;
 import com.tangorabox.componentinspector.fx.FXComponentInspectorHandler;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -24,14 +25,14 @@ import static org.pf4j.AbstractPluginManager.PLUGINS_DIR_PROPERTY_NAME;
 import static org.pf4j.RuntimeMode.DEPLOYMENT;
 import static org.pf4j.RuntimeMode.DEVELOPMENT;
 
-public class FatefallFXApplication extends Application {
+public class FatefallFXApplication extends SpringFXApplication {
 
 	private ConfigurableApplicationContext applicationContext;
 	private SpringFX springFX;
 	private StageManager stageManager;
 
 	@Override
-	public void init() {
+	public ApplicationContext initApplicationContext() {
 		PreloaderBeanPostProcessor preloaderBeanPostProcessor = new PreloaderBeanPostProcessor();
 		notifyPreloader(preloaderBeanPostProcessor);
 
@@ -62,6 +63,7 @@ public class FatefallFXApplication extends Application {
 				.run();
 		springFX = applicationContext.getBean(SpringFX.class);
 		stageManager = applicationContext.getBean(StageManager.class);
+		return applicationContext;
 	}
 
 	@Override
